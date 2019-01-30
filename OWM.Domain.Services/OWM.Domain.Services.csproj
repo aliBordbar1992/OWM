@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OWM.Domain.Entities\OWM.Domain.Entities.csproj" />
+    <ProjectReference Include="..\OWM.Domain.Repository\OWM.Domain.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
