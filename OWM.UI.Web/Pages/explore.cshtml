@@ -1,0 +1,100 @@
+﻿@page
+@model OWM.UI.Web.Pages.exploreModel
+@{
+    Layout = "Shared/_Layout";
+}
+
+<link href="~/css/explore.css" rel="stylesheet" />
+<div class="container">
+    <div class="list-group w-75 m-auto">
+        <input class="searchbox list-group-item" placeholder="Search Teams"/>
+        <div class="list-group-item bg-gray pl-5 pr-4 pt-2 pb-2">
+            <div class="row mb-4">
+                <div class="col" style="line-height: 37px;">
+                    <label class="text-dark">Filters</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-3" style="line-height: 37px;">Team Members</div>
+                <div class="col-6">
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-success active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Acending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Decending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> Off
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-3" style="line-height: 37px;">Miles Pledged</div>
+                <div class="col-6">
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-success active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Acending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Decending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="options" id="option3" autocomplete="off"> Off
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3" style="line-height: 37px;">Occupation</div>
+                <div class="col-6">
+                    <select class="form-control">
+                        <option>46</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3" id="teamsearchresult">
+    <div class="mb-3">
+        <div class="list-group w-75 m-auto">
+            <div class="list-group-item bg-darksuccess text-white">
+                <div class="row">
+                    <div class="col text-center border-right">
+                        <p>Members</p>
+                        <h4>12</h4>
+                    </div>
+                    <div class="col text-center border-right">
+                        <p>Miles Pledged</p>
+                        <h4>12</h4>
+                    </div>
+                    <div class="col text-center">
+                        <p>Miles Completed</p>
+                        <h4>12</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group-item position-relative" style="height: 120px;">
+                <div class="row">
+                    <div class="col-8" style="height: 90px;">
+                        <h5 class="card-title text-darcsuccess">Team Name</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    </div>
+                    <div class="col-3 text-center">
+                        <button class="fa fa-plus-circle text-darcsuccess" title="join team"></button>
+                    </div>
+                </div>
+                <i>Created on : 15/Feb/2018</i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('.searchbox').focus();
+    })
+</script>

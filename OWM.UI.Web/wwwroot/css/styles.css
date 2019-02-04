@@ -255,7 +255,7 @@ div, header, footer, section { position: relative }
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-a:not(.btn) {
+a:not(.owmbtn) {
     -webkit-transition: opacity 0.2s ease, color 0.2s ease, opacity 0.2s ease;
     -moz-transition: opacity 0.2s ease, color 0.2s ease, opacity 0.2s ease;
     -ms-transition: opacity 0.2s ease, color 0.2s ease, opacity 0.2s ease;
@@ -271,7 +271,7 @@ a:not(.btn) {
     transition: opacity 0.3s ease, width 0.3s ease;
 }
 
-.btn:before {
+.owmbtn:before {
     -webkit-transition: transform 0.2s ease;
     -moz-transition: transform 0.2s ease;
     -ms-transition: transform 0.2s ease;
@@ -321,7 +321,7 @@ a:not(.btn) {
 
 /* buttons */
 
-.btn {
+.owmbtn {
     display: inline-block;
     height: 40px;
     line-height: 40px;
@@ -336,48 +336,52 @@ a:not(.btn) {
     z-index: 10;
 }
 
-.btn:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #71BB44;
-    border-radius: 20px;
-    z-index: -1;
-    -webkit-transform: translateX(-100%);
-    -moz-transform: translateX(-100%);
-    -ms-transform: translateX(-100%);
-    -o-transform: translateX(-100%);
-    transform: translateX(-100%);
-}
+    .owmbtn:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #71BB44;
+        border-radius: 20px;
+        z-index: -1;
+        -webkit-transform: translateX(-100%);
+        -moz-transform: translateX(-100%);
+        -ms-transform: translateX(-100%);
+        -o-transform: translateX(-100%);
+        transform: translateX(-100%);
+    }
 
-.btn:hover:before {
-    -webkit-transform: translateX(0);
-    -moz-transform: translateX(0);
-    -ms-transform: translateX(0);
-    -o-transform: translateX(0);
-    transform: translateX(0);
-}
+    .owmbtn:hover:before {
+        -webkit-transform: translateX(0);
+        -moz-transform: translateX(0);
+        -ms-transform: translateX(0);
+        -o-transform: translateX(0);
+        transform: translateX(0);
+    }
 
-.btn:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-radius: 20px;
-    background: #FB9F00;
-    z-index: -2;
-}
+    .owmbtn:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-radius: 20px;
+        background: #FB9F00;
+        z-index: -2;
+    }
 
-.btn-green:after { background: #71BB44 }
+.owmbtn-green:after {
+    background: #71BB44
+}
 
 .form:after { background: #2F843D }
 
-.btn-green:before, .btn-dark-green:before { background: #FB9F00; }
+.owmbtn-green:before, .owmbtn-dark-green:before {
+    background: #FB9F00;
+}
 
 /* profile image */
 
@@ -434,12 +438,14 @@ a:not(.btn) {
     list-style: disc
 }
 
-.std-content a:not(.btn) {
+.std-content a:not(.owmbtn) {
     font-weight: 700;
     color: #368340
 }
 
-.std-content a:not(.btn):hover { text-decoration: underline }
+    .std-content a:not(.owmbtn):hover {
+        text-decoration: underline
+    }
 
 @media only screen and (max-width: 550px) {
     .std-content h1,
@@ -1498,3 +1504,37 @@ body {
         background: url('../img/partners-x.png') no-repeat scroll center/100% 100%;
     }
 }
+
+
+.searchbox {
+    border-color: #28a745 !important;
+    display: block;
+    padding: .375rem .75rem;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    padding: .5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0
+}
+    .searchbox::-webkit-input-placeholder {
+        color: #6c757d;
+        opacity: 1
+    }
+
+    .searchbox::-moz-placeholder {
+        color: #6c757d;
+        opacity: 1
+    }
+
+    .searchbox:-ms-input-placeholder {
+        color: #6c757d;
+        opacity: 1
+    }
+
+    .searchbox::-ms-input-placeholder {
+        color: #6c757d;
+        opacity: 1
+    }
