@@ -608,7 +608,7 @@ a:not(.btn) {
 /* body */
 
 body {
-    background: #FFF url("../images/bg-body.svg") right top no-repeat;
+    background: #FFF url("../img/bg-body.svg") right top no-repeat;
     color: #535353;
     font-family: 'Open Sans', sans-serif;
     font-size: 20px;
@@ -1412,17 +1412,17 @@ body {
     top: 0;
     bottom: 0;
     width: 1px;
-    background: url('../images/partners-y.png') no-repeat scroll center/100% 100%;
+    background: url('../img/partners-y.png') no-repeat scroll center/100% 100%;
 }
 
-    #partners .partner-grid li:nth-last-child(n + 5):nth-child(4n - 3):after {
-        content: '';
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: url('../images/partners-x.png') no-repeat scroll center/100% 100%;
-    }
+#partners .partner-grid li:nth-last-child(n + 5):nth-child(4n - 3):after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: url('../img/partners-x.png') no-repeat scroll center/100% 100%;
+}
 
 #partners .partner-grid span, #partners .partner-grid a {
     position: relative;
@@ -1458,17 +1458,17 @@ body {
 
     #partners .partner-grid li:nth-last-child(n + 5):nth-child(4n - 3):after { background: none; }
 
-        #partners .partner-grid li:nth-last-child(n + 4):nth-child(3n - 2):after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: auto;
-            bottom: auto;
-            height: 1px;
-            width: auto;
-            background: url('../images/partners-x.png') no-repeat scroll center/100% 100%;
-        }
+    #partners .partner-grid li:nth-last-child(n + 4):nth-child(3n - 2):after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: auto;
+        height: 1px;
+        width: auto;
+        background: url('../img/partners-x.png') no-repeat scroll center/100% 100%;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -1486,15 +1486,15 @@ body {
 
     #partners .partner-grid li:nth-last-child(n + 4):nth-child(3n - 2):after { background: none; }
 
-        #partners .partner-grid li:nth-last-child(n + 3):nth-child(2n - 1):after {
-            content: '';
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: auto;
-            bottom: auto;
-            height: 1px;
-            width: auto;
-            background: url('../images/partners-x.png') no-repeat scroll center/100% 100%;
-        }
+    #partners .partner-grid li:nth-last-child(n + 3):nth-child(2n - 1):after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: auto;
+        bottom: auto;
+        height: 1px;
+        width: auto;
+        background: url('../img/partners-x.png') no-repeat scroll center/100% 100%;
+    }
 }
