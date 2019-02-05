@@ -5,9 +5,9 @@ using URF.Core.Services;
 
 namespace OWM.Domain.Services
 {
-    public class UserService : Service<User>, IUserService
+    public class CityService : Service<City>, ICityService
     {
-        public UserService(ITrackableRepository<User> repository) : base(repository)
+        public CityService(ITrackableRepository<City> repository) : base(repository)
         {
         }
     }
