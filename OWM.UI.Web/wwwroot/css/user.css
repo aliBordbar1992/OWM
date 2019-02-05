@@ -14,8 +14,9 @@
     width: 50px;
     height: auto;
 }
-/*div[id="menu"] ul li:hover {
-    background-color: #ececec;
+
+.card > .list-group:first-child .list-group-item {
+     border-top-left-radius: 0!important; 
+     border-top-right-radius: 0!important;
     cursor: pointer;
-    font-weight: 600;
-}*/
+}
