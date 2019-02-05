@@ -20,3 +20,15 @@
      border-top-right-radius: 0!important;
     cursor: pointer;
 }
+#tbluserteams tr th:first-child {
+    text-align: left !important;
+}
+#tbluserteams tr th {
+    text-align: center!important;
+}
+#tbluserteams tr td:first-child {
+    text-align: left !important;
+}
+#tbluserteams tr td{
+    text-align: center !important;
+}
