@@ -1,96 +1,210 @@
 ﻿@page
-@model IndexModel
+@model OWM.UI.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "OneWorldMarathon";
+    Layout = "Shared/_Layout";
 }
-
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
+<section id="splash" class="anim">
+    <div class="logo" style="transition-delay: 0s, 0s;">
+        <img alt="One World Marathon" src="img/logo-one-world-marathon.svg"><span class="logo-strap">
+            <img alt="One World Marathon" src="img/logo-one-world-marathon-strap.svg"> one world, one future together
+        </span>
+    </div>
+    <div class="strap" style="transition-delay: 0.2s, 0.2s;">
+        <p class="wrap-std">The inaugural OWM global marathon 12-15th April 2019 – join us, run a little, care a lot</p>
+    </div>
+    <div class="stats anim">
+        <!----><ul class="clearfix wrap-std">
+            <li class="stat stat-1">
+                <h2>Participants</h2>
+                <p>13</p>
+            </li>
+            <li class="stat stat-2">
+                <h2>Countries</h2>
+                <p>3</p>
+            </li>
+            <li class="stat stat-3">
+                <h2>Miles pledged</h2>
+                <p>125</p>
+            </li>
+        </ul>
+        <div class="pledge wrap-std">
+            <a class="owmbtn owmbtn-dark-green go-to-pledge" href="#pledge">Pledge to run</a><br>
         </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
+        <div class="arrow">
+            <a class="go-to-pledge" href="#pledge">
+                <img alt="Pledge" src="img/arrow-down.svg">
+            </a>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
-
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core Razor Pages</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
+</section>
+<section class="wrap-std content">
+    <div class="std-content">
+        <div class="block">
+            <h2>What is the One World Marathon?</h2>
+            <p>One World Strong Foundation embodies the core principles of connection and co-operation, supporting the belief that people around the world should work together toward common goals.</p>
+            <p>To reinforce that message, we’ve proposed a marathon, where teams of participants from around the world will combine their efforts to achieve a total of 26.2 miles (or 42.195km) over a four-day event. Participants apply and sign-up for a distance they will contribute on the event dates.</p>
+        </div>
+        <div class="block">
+            <h2>Who can participate?</h2>
+            <p>All are welcome, but we especially encourage young people to participate through their schools, colleges and universities, to reinforce the value of making connections, showing curiosity toward other cultures and collaborating toward common goals.</p>
+            <p>The event is open to all abilities, assisted or unassisted, mobility impaired, teams or individual participants. We aim to have someone from every country in the world participate.</p>
+        </div>
+        <div class="block">
+            <h2>What’s your ultimate aim from the event?</h2>
+            <p>One World Marathon's main objective is to connect people across borders and diverse backgrounds.&nbsp; We encourage teams that represent multiple continents, countries, and cultures. We hope to&nbsp;inspire people to see the benefits of working together as a global community and encourage others to develop similar&nbsp;projects.</p>
+            <p>In the long term, we aim to implement a strong, unified, virtual platform, whose message of connectivity and openness contradicts the basic premises of racism, bigotry, violent extremist and terrorist rhetoric.&nbsp;Furthermore, we endeavor to promote a healthy and active lifestyle, global interconnectivity and resiliency for individuals and communities impacted by trauma.</p>
+            <p>The implementation of a strong, unified virtual platform, whose message of connectivity and openness contradicts the basic premises of violent extremist and terrorist rhetoric. The promotion of a healthy and active lifestyle, global interconnectivity and resiliency for individuals and communities impacted by trauma.</p>
+            <p>One World Marathon’s aim is to inspire people to see the benefits of working together as a global community, and encourage others to develop similar projects.</p>
+        </div>
+        <div class="block">
+            <h2>When is it happening?</h2>
+            <p>Between April 12th - April 15th</p>
+            <p>The One World Marathon will start on April 12th with the RunJordan Dead Sea Ultra Marathon at 6am and it will end when the Boston Marathon’s final participant, and our Global Race Director Dave McGillivray crosses the finish line – approximately midnight EST on April 15th.</p>
+        </div>
+    </div>
+</section>
+<section id="countdown">
+    <div class="wrap-std">
+        <p>
+            <span class="days">100</span><span class="date">days until the event<br> 12th – 15th April 2019</span>
+        </p>
+    </div>
+</section>
+<section class="wrap-std content">
+    <div class="std-content">
+        <div class="block">
+            <h2>How can I participate</h2>
+            <p>It’s up to you!</p>
+            <p>Simply fill in the form below to enter. How you achieve your distance is up to you!</p>
+            <p>All participants will be part of a team.&nbsp;The minimum number needed to create a team is 2 participants, there is no maximum number. If your team goes over the 26.2 miles that is OK!</p>
+            <p>Your distance can be achieved by any type of movement that you are capable of: walk, run, roll over the course of the 4-day event. Participants may be assisted or unassisted. If an individual is assisted, both participants may count their distances and register as separate teammates. A participant may also join multiple teams and contribute separate distances to each team.</p>
+        </div>
+    </div>
+</section>
+<section class="wrap-std" id="pledge">
+    <div class="box">
+        <div class="form std-form">
+            <!---->
+            <div class="std-content">
+                <h2>Apply and pledge</h2>
+            </div>
+            <!---->
+            <div class="std-content">
+                <p>There’s two ways to sign up, one is to sign in using Google or Facebook, which means the form below will be filled in automatically, or you can do it the old fashioned way, and just type your details in by hand.</p>
+            </div>
+            <div class="buttons clearfix">
+                <a class="btn-oauth btn-oauth-google" href="">Sign in using Google</a>
+            </div>
+            <div class="std-content">
+                <p class="use-email">...or sign in with an email below</p>
+            </div><!---->
+            <form novalidate="" class="ng-untouched ng-pristine ng-valid">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input autocomplete="email" class="text text-medium ng-untouched ng-pristine ng-valid" formcontrolname="email" type="email"><!---->
+                </div>
+                <button class="owmbtn" type="submit">Sign In With Email</button>
+            </form>
+            <div class="std-content">
+                <p>
+                    By signing up you are agreeing to our <a href="/terms">terms &amp; conditions</a> and <a href="/privacy">privacy policy</a>.
+                </p>
+            </div><!----><!---->
+        </div>
+    </div>
+</section>
+<section class="wrap-std content">
+    <div class="std-content">
+        <div class="block">
+            <h2>How can I follow the progress of the event?</h2>
+            <p>The OWM website and social media platforms will be tracking progress and participation globally.</p>
+            <p>We encourage participants to share their stories of preparing for the event, and how they overcome challenges along the way. In the lead-up to OWM weekend, our social media channels will feature stories of teamwork, bonding, resilience and the one-on-one connections the teams form pursuing mutual goals.</p>
+        </div>
+    </div>
+    <div class="std-content">
+        <div class="block">
+            <h2>What will happen after the event?</h2>
+            <p>In the years to come, we aim to build a curriculum with the focus of cultural immersion, global citizenship and resiliency culminating in an annual One World Marathon each Spring, and to expand involvement by increasing the number of education networks and participants on a diverse global scale.</p>
+        </div>
+    </div>
+</section>
+<section class="wrap-std" id="donate">
+    <div class="box">
+        <div class="std-content donate-content">
+            <p>Individuals and organizations are invited to make donations to our organization via PayPal.</p><a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact" target="_blank">Donate</a>
+        </div>
+    </div>
+</section>
+<section class="wrap-std" id="partners">
+    <div class="std-content">
+        <div class="block">
+            <h2>One world partners</h2>
+            <p>A massive thanks goes out to all our partners that are contributing to the cause</p>
+        </div>
+    </div>
+    <div class="partner-grid">
+        <ul class="clearfix">
+            <li>
+                <a href="https://www.airbnb.co.uk" target="_blank">
+                    <img alt="AirBNB" src="img/logo-abnb.png" width="48">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.vibetickets.co.uk/" target="_blank">
+                    <img alt="Vibe" src="img/logo-vibe.png" width="71">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.hotfootdesign.co.uk/" target="_blank">
+                    <img alt="Hotfoot" src="img/logo-hotfoot.png" width="85">
+                </a>
+            </li>
+            <li>
+                <a href="https://sourcepulp.consulting/" target="_blank">
+                    <img alt="Sourcepulp" src="img/logo-sourcepulp.png" width="134">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.lg.com/" target="_blank">
+                    <img alt="LG" src="img/logo-lg.png" width="155">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.robinzahler.com/" target="_blank">
+                    <img alt="Robin Zahler" src="img/logo-rz.png" width="164">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.cranford.hounslow.sch.uk/" target="_blank">
+                    <img alt="Cranford Community College" src="img/logo-cranford.png" width="140">
+                </a>
+            </li>
+            <li>
+                <span>
+                    <img alt="Mens Sana" src="img/logo-mens-sana.png" width="82">
+                </span>
+            </li>
+            <li>
+                <a href="https://www.morganlewis.com/" target="_blank">
+                    <img alt="Morgan Lewis" src="img/logo-morgan-lewis.png" width="107">
+                </a>
+            </li>
+            <li>
+                <a href="https://wolfonmoon.com/" target="_blank">
+                    <img alt="Wolf on the Moon" src="img/logo-wolf-on-the-moon.png" width="68">
+                </a>
+            </li>
+            <li>
+                <a href="https://edventurepartners.com/" target="_blank">
+                    <img alt="EdVenture Partners" src="img/logo-evp.png" width="66">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.runjordan.com/" target="_blank">
+                    <img alt="Run Jordan" src="img/logo-run-jordan.png" width="90">
+                </a>
+            </li>
         </ul>
     </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?linkid=852130">Working with Razor Pages.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure App Service</a></li>
-        </ul>
-    </div>
-</div>
+</section>
