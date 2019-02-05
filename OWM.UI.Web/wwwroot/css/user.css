@@ -1,0 +1,21 @@
+﻿.user-image {
+    width: 100%;
+    border-radius: 100%!important;
+    border: 1px solid #ececec;
+}
+.list-group-item a {
+    font-size: 11pt;
+}
+.card .list-group .list-group-item {
+    font-size: 10pt;
+    text-align: center;
+}
+.media img {
+    width: 50px;
+    height: auto;
+}
+/*div[id="menu"] ul li:hover {
+    background-color: #ececec;
+    cursor: pointer;
+    font-weight: 600;
+}*/

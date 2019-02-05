@@ -1,5 +1,7 @@
 /* reset */
-html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
+html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form,
+label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, menu, nav, section, time, mark, audio, video, details, summary {
     margin: 0;
     padding: 0;
     border: 0;
@@ -118,12 +120,12 @@ pre, code, kbd, samp { font-family: monospace, sans-serif }
 .clickable, label, input[type=button], input[type=submit], input[type=file], button { cursor: pointer }
 
 button, input, select, textarea {
-    margin: 0;
+    /*margin: 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
     -o-appearance: none;
-    appearance: none;
+    appearance: none;*/
 }
 
 button {
@@ -1538,3 +1540,16 @@ body {
         color: #6c757d;
         opacity: 1
     }
+
+.bg-gray {
+    background-color: #e4e4e4 !important
+}
+.bg-darksuccess {
+    background-color: #368141 !important
+}
+.text-darcsuccess {
+    color: #368141 !important
+}
+.column h4 {
+    font-size: 15pt;
+}

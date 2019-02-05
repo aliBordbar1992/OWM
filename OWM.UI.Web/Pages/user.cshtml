@@ -1,0 +1,56 @@
+﻿@page
+@model OWM.UI.Web.Pages.userModel
+@{
+    Layout = "Shared/_Layout";
+}
+<link href="~/css/user.css" rel="stylesheet" />
+<div class="container">
+    <div class="w-100 m-auto">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="list-group mb-2">
+                    <div class="list-group-item text-center bg-light">
+                        <div class="d-block mb-2">
+                            <img class="user-image" src="http://square-vn.com/app/dscms/assets/images/person-4.jpg?v=1495618120" />
+                        </div>
+                        <a href="#" class="border-bottom mb-2">Edit profile picture</a>
+                        <h4 class="font-weight-bold mb-1">JOHN SMITH</h4>
+                        <h6 class="mb-0 font-weight-bold">Teacher</h6>
+                    </div>
+                </div>
+                <div class="card mb-2 pl-3 pr-3" id="menu">
+                    <div class="list-group list-group-flush nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <div class="list-group-item active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">My Teams</div>
+                        <div class="list-group-item" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">News Feed</div>
+                        <div class="list-group-item" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</div>
+                        <div class="list-group-item" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Search Teams</div>
+                        <div class="list-group-item">Create a Team</div>
+                        <div class="list-group-item" >Help</div>
+                    </div>
+                </div>
+                <div class="card pt-3 p-2 bg-success text-white text-center">
+                    <p class="mb-1">Team Joined</p>
+                    <h1 class="mb-0">2</h1>
+                    <hr class="bg-white"/>
+                    <p class="mb-1">Miles Pledged</p>
+                    <h1 class="mb-0">12</h1>
+                    <hr class="bg-white"/>
+                    <p class="mb-1">Miles Completed</p>
+                    <h1 class="mb-0">3.4</h1>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...</div>
+                            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

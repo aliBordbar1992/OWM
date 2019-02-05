@@ -1,6 +1,10 @@
-﻿.bg-darksuccess div h4 {
+﻿.bg-darksuccess div p {
+    margin-bottom: 5px !important;
+}
+.bg-darksuccess div h4 {
     font-size: 25pt;
     font-weight: 600;
+    margin-bottom: 0!important;
 }
 .card-title {
     font-size: 20pt!important;
@@ -10,7 +14,7 @@
     font-size: 40pt;
     font-weight: 600;
     background-color: transparent;
-    line-height: 90px;
+    line-height: 95px;
 }
 .fa-plus-circle:hover {
     color: #42b653 !important
