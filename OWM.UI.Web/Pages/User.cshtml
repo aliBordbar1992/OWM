@@ -1,0 +1,27 @@
+﻿@page
+@model OWM.UI.Web.Pages.UserModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>User</title>
+</head>
+<body>
+    <form method="post">
+        <div>
+            username: <input asp-for="MyUser.Username" />
+            pass: <input asp-for="MyUser.Password" />
+            fName: <input asp-for="MyUser.FirstName" />
+            lName: <input asp-for="MyUser.SurName" />
+        </div>
+        <input type="submit" />
+
+    </form>
+</body>
+</html>
