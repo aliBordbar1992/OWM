@@ -1,22 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OWM.Application.Services.AppConfigs;
 using OWM.Data;
-using OWM.Domain.Entities;
-using OWM.Domain.Services;
-using URF.Core.Abstractions;
-using URF.Core.Abstractions.Trackable;
-using URF.Core.EF;
-using URF.Core.EF.Trackable;
 
 namespace OWM.UI.Web
 {
@@ -44,9 +33,7 @@ namespace OWM.UI.Web
             var connectionString = Configuration.GetConnectionString(nameof(OwmContext));
             services.AddDbContext<OwmContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, OwmContext>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<ITrackableRepository<User>, TrackableRepository<User>>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddApplicationConfigs();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

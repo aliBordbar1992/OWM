@@ -13,10 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OWM.Application.Services\OWM.Application.Services.csproj" />
     <ProjectReference Include="..\OWM.Data\OWM.Data.csproj" />
-    <ProjectReference Include="..\OWM.Domain.Entities\OWM.Domain.Entities.csproj" />
-    <ProjectReference Include="..\OWM.Domain.Repository\OWM.Domain.Repository.csproj" />
-    <ProjectReference Include="..\OWM.Domain.Services\OWM.Domain.Services.csproj" />
   </ItemGroup>
 
 </Project>

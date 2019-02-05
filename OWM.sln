@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWM.Domain.Services", "OWM.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWM.UI.Web", "OWM.UI.Web\OWM.UI.Web.csproj", "{ACAFDF1A-CABA-4837-8A1C-EE09CDEC2321}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OWM.Data", "OWM.Data\OWM.Data.csproj", "{7AEDF8CE-FC9B-4027-BE80-F8A71EAEE278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWM.Data", "OWM.Data\OWM.Data.csproj", "{7AEDF8CE-FC9B-4027-BE80-F8A71EAEE278}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OWM.Application.Services", "OWM.Application.Services\OWM.Application.Services.csproj", "{4A2BC544-D700-4555-AB28-A8E7E0BD4C45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{7AEDF8CE-FC9B-4027-BE80-F8A71EAEE278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AEDF8CE-FC9B-4027-BE80-F8A71EAEE278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AEDF8CE-FC9B-4027-BE80-F8A71EAEE278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A2BC544-D700-4555-AB28-A8E7E0BD4C45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A2BC544-D700-4555-AB28-A8E7E0BD4C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A2BC544-D700-4555-AB28-A8E7E0BD4C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A2BC544-D700-4555-AB28-A8E7E0BD4C45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
