@@ -18,6 +18,7 @@ namespace OWM.Data.Extensions
                 {
                     case EntityState.Added:
                         baseAudit.Created = now;
+                        baseAudit.Modified = now;
                         break;
                     case EntityState.Modified:
                         baseAudit.Modified = now;
