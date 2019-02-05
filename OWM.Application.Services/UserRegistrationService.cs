@@ -56,7 +56,7 @@ namespace OWM.Application.Services
             _userServices.Insert(newUser);
             _unitOfWork.SaveChangesAsync();
 
-            UserRegistered?.Invoke(this, new UserRegisteredArgs(newUser));
+            OnUserRegistered(new UserRegisteredArgs(newUser));
         }
 
         private Country GetCountry(string countryName)
@@ -95,6 +95,11 @@ namespace OWM.Application.Services
         private Occupation GetOccupation(int occupationId)
         {
             return _occupationService.FindAsync(occupationId).Result;
+        }
+
+        protected virtual void OnUserRegistered(UserRegisteredArgs e)
+        {
+            UserRegistered?.Invoke(this, e);
         }
     }
 
