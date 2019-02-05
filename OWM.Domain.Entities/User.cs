@@ -1,18 +1,20 @@
-﻿namespace OWM.Domain.Entities
+﻿using System;
+using OWM.Domain.Entities.Enums;
+
+namespace OWM.Domain.Entities
 {
     public class User : BaseAuditClass
     {
-        public string FirstName { get; private set; }
-        public string SurName { get; private set; }
-        public string Username { get; private set; }
-        public string Password { get; private set; }
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public Occupation Occupation { get; set; }
+        public Country Country { get; set; }
+        public City City { get; set; }
+        public Ethnicity Ethnicity { get; set; }
+        public GenderEnum Gender { get; set; }
 
-        public User(string firstName, string surName, string username, string password)
-        {
-            FirstName = firstName;
-            SurName = surName;
-            Username = username;
-            Password = password;
-        }
     }
 }
