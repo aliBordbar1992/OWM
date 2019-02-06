@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OWM.Data;
 
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    partial class OwmContextModelSnapshot : ModelSnapshot
+    [Migration("20190206185120_UserRelatedEntites")]
+    partial class UserRelatedEntites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,8 +28,6 @@ namespace OWM.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CountryId");
-
-                    b.Property<int>("CustomCityId");
 
                     b.Property<string>("Name");
 
@@ -91,6 +91,8 @@ namespace OWM.Data.Migrations
 
                     b.Property<DateTime>("DateOfBirth");
 
+                    b.Property<string>("Email");
+
                     b.Property<int?>("EthnicityId");
 
                     b.Property<int>("Gender");
@@ -100,6 +102,8 @@ namespace OWM.Data.Migrations
                     b.Property<string>("Name");
 
                     b.Property<int?>("OccupationId");
+
+                    b.Property<string>("Phone");
 
                     b.Property<string>("Surname");
 
@@ -114,35 +118,6 @@ namespace OWM.Data.Migrations
                     b.HasIndex("OccupationId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Created");
-
-                    b.Property<string>("Email");
-
-                    b.Property<DateTime>("Modified");
-
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<int?>("UserId");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Identities");
                 });
 
             modelBuilder.Entity("OWM.Domain.Entities.City", b =>
@@ -169,13 +144,6 @@ namespace OWM.Data.Migrations
                     b.HasOne("OWM.Domain.Entities.Occupation", "Occupation")
                         .WithMany()
                         .HasForeignKey("OccupationId");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
-                {
-                    b.HasOne("OWM.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
