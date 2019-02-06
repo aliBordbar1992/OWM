@@ -1,0 +1,44 @@
+﻿@page
+@model OWM.UI.Web.Pages.userpages.TeamManagementModel
+@{
+    Layout = "Shared/UserLayout";
+}
+
+<h3 class="d-flex justify-content-center mb-4">Team Managment</h3>
+<div class="row mb-5">
+    <div class="col-md-6 text-center">
+        <button type="button" class="btn btn-lg btn-success w-75 pt-3 pb-3">
+            <span class="fa fa-plus"></span> CREATE NEW TEAM
+        </button>
+    </div>
+    <div class="col-md-6 text-center">
+        <button class="btn btn-lg btn-success w-75 pt-3 pb-3">JOIN A TEAM</button>
+    </div>
+</div>
+<table class="table" id="tbluserteams">
+    <tr>
+        <th >Team name</th>
+        <th >Miles pledged</th>
+        <th >Miles Completed</th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>John's Team</td>
+        <td class="text-center">
+            <span class="col">team</span>
+            <span class="col">me</span>
+        </td>
+        <td></td>
+        <td>
+            <button type="button" class="btn btn-sm btn-success">Edit</button>
+        </td>
+    </tr>
+    <tr>
+        <td>London Foundation</td>
+        <td></td>
+        <td></td>
+        <td>
+            <button type="button" class="btn btn-sm btn-success">Edit</button>
+        </td>
+    </tr>
+</table>
