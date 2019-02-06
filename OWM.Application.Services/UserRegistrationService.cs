@@ -5,13 +5,16 @@ using OWM.Domain.Entities;
 using OWM.Domain.Entities.Enums;
 using OWM.Domain.Services.Interfaces;
 using System;
+using System.Linq;
+using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
 {
     public class UserRegistrationService : IUserRegistrationService
     {
-        private readonly IUserService _userServices;
+        private readonly IUserService _userService;
+        private readonly IUserIdentityService _userIdentityService;
         private readonly ICountryService _countryService;
         private readonly ICityService _cityService;
         private readonly IEthnicityService _ethnicityService;
@@ -22,11 +25,13 @@ namespace OWM.Application.Services
 
         public UserRegistrationService(IServiceProvider serviceProvider)
         {
-            _userServices = serviceProvider.GetRequiredService<IUserService>();
             _countryService = serviceProvider.GetRequiredService<ICountryService>();
             _cityService = serviceProvider.GetRequiredService<ICityService>();
             _ethnicityService = serviceProvider.GetRequiredService<IEthnicityService>();
             _occupationService = serviceProvider.GetRequiredService<IOccupationService>();
+            _userService = serviceProvider.GetRequiredService<IUserService>();
+            _userIdentityService = serviceProvider.GetRequiredService<IUserIdentityService>();
+
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
@@ -46,45 +51,49 @@ namespace OWM.Application.Services
 
             newUser.DateOfBirth = userRegistrationDto.DateOfBirth;
 
-            newUser.Email = userRegistrationDto.Email;
             newUser.Name = userRegistrationDto.Name;
-            newUser.Phone = userRegistrationDto.Phone;
             newUser.Surname = userRegistrationDto.Surname;
 
             newUser.Gender = (GenderEnum)userRegistrationDto.Gender;
 
-            _userServices.Insert(newUser);
+            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Password,
+                userRegistrationDto.Email, newUser, userRegistrationDto.Phone);
+
+            _userIdentityService.Insert(newIdentity);
+            _userService.Insert(newUser);
             _unitOfWork.SaveChangesAsync();
 
-            OnUserRegistered(new UserRegisteredArgs(newUser));
+            OnUserRegistered(new UserRegisteredArgs(newIdentity));
         }
 
         private Country GetCountry(string countryName)
         {
             if (CountryExistsInDb(countryName))
-                return _countryService.FindAsync(countryName).Result;
+                return _countryService.Queryable().First(x => x.Name.Equals(countryName));
 
             var newCountry = new Country { Name = countryName };
+            _countryService.Insert(newCountry);
 
             return newCountry;
         }
         private bool CountryExistsInDb(string countryName)
         {
-            return _countryService.ExistsAsync(countryName).Result;
+            return _countryService.Queryable().Any(x => x.Name.Equals(countryName));
         }
 
         private City GetCity(Country country, string cityName, int cityId)
         {
             if (CityExistsInDb(cityId))
-                return _cityService.FindAsync(cityId).Result;
+                return _cityService.Queryable().First(x => x.CustomCityId == cityId);
 
-            var newCity = new City {Id = cityId, Country = country, Name = cityName };
+            var newCity = new City {CustomCityId = cityId, Country = country, Name = cityName };
+            _cityService.Insert(newCity);
 
             return newCity;
         }
         private bool CityExistsInDb(int cityId)
         {
-            return _cityService.ExistsAsync(cityId).Result;
+            return _cityService.Queryable().Any(x => x.CustomCityId == cityId);
         }
 
         private Ethnicity GetEthnicity(int ethnicityId)
@@ -105,9 +114,9 @@ namespace OWM.Application.Services
 
     public class UserRegisteredArgs : EventArgs
     {
-        public User User { get; set; }
+        public UserIdentity User { get; set; }
 
-        public UserRegisteredArgs(User user)
+        public UserRegisteredArgs(UserIdentity user)
         {
             User = user;
         }

@@ -13,9 +13,12 @@ namespace OWM.Application.Services.Dtos
         public string Surname { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
         public string CountryName { get; set; }
         public string CityName { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime DateOfBirth => DateTime.ParseExact(Birthday, "yyyy/MM/dd", null);
+
+        public string Birthday { get; set; }
     }
 }
