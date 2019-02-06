@@ -9,9 +9,27 @@ namespace OWM.UI.Web.Pages
 {
     public class RegisterModel : PageModel
     {
+        private readonly IUserRegistrationService _userRegistrationService;
+        public RegisterModel(IUserRegistrationService userRegistrationService)
+        {
+             _userRegistrationService = userRegistrationService;
+        }
         public void OnGet()
         {
             
+        }
+        
+        [BindProperty]
+        public UserRegistrationDto registrationData { get; set; }
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            _userRegistrationService.Register(registrationData);
+            return RedirectToPage("/Index");
         }
     }
 }
