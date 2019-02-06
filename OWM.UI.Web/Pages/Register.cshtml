@@ -8,7 +8,16 @@
 <div asp-validation-summary="All"></div>
 <form method="POST">
     <div>Name: <input asp-for="registrationData.Name" /></div>
-    <div>Family: <input asp-for="registrationData.Surname" /></div>
+    <div>Surname: <input asp-for="registrationData.Surname" /></div>
     <div>Email: <input asp-for="registrationData.Email" /></div>
+    <div>Phone: <input asp-for="registrationData.Phone" /></div>
+    <div>Password: <input asp-for="registrationData.Password" /></div>
+    <div>CityName: <input asp-for="registrationData.CityName" /></div>
+    <div>CountryName: <input asp-for="registrationData.CountryName" /></div>
+    <div>Birthday: <input asp-for="registrationData.Birthday" /></div>
+    <div>OccupationId: <input asp-for="registrationData.OccupationId" /></div>
+    <div>CityId: <input asp-for="registrationData.CityId" /></div>
+    <div>EthnicityId: <input asp-for="registrationData.EthnicityId" /></div>
+    <div>Gender: <input asp-for="registrationData.Gender" /></div>
     <input type="submit" />
 </form>
