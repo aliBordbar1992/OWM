@@ -5,19 +5,75 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 
-<div asp-validation-summary="All"></div>
-<form method="POST">
-    <div>Name: <input asp-for="registrationData.Name" /></div>
-    <div>Surname: <input asp-for="registrationData.Surname" /></div>
-    <div>Email: <input asp-for="registrationData.Email" /></div>
-    <div>Phone: <input asp-for="registrationData.Phone" /></div>
-    <div>Password: <input asp-for="registrationData.Password" /></div>
-    <div>CityName: <input asp-for="registrationData.CityName" /></div>
-    <div>CountryName: <input asp-for="registrationData.CountryName" /></div>
-    <div>Birthday: <input asp-for="registrationData.Birthday" /></div>
-    <div>OccupationId: <input asp-for="registrationData.OccupationId" /></div>
-    <div>CityId: <input asp-for="registrationData.CityId" /></div>
-    <div>EthnicityId: <input asp-for="registrationData.EthnicityId" /></div>
-    <div>Gender: <input asp-for="registrationData.Gender" /></div>
-    <input type="submit" />
-</form>
+<link href="~/css/register.css" rel="stylesheet" />
+<div class="container text-left">
+    <form class="box w-50" method="post">
+        <h2 class="greenheader">Register</h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <input class="form-control" required placeholder="First Name" name="firstname" asp-for="registrationData.Name"/>
+            </div>
+            <div class="col-sm-6">
+                <input class="form-control" required placeholder="Last Name" asp-for="registrationData.Surname"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input class="form-control" required placeholder="Email address" asp-for="registrationData.Email"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input class="form-control" required placeholder="Contact number" asp-for="registrationData.Phone">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-6">
+                <select class="chosen-select" data-placeholder="Occupation" asp-for="registrationData.OccupationId">
+                    <option>Web Developer</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <select data-placeholder="Choose a country..." class="chosen-select" asp-for="registrationData.CountryName">
+                    <option value="0">Iran</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-6">
+                <select required class="chosen-select" data-placeholder="Gender" asp-for="registrationData.Gender">
+                    <option value=""></option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <select data-placeholder="Ethnicity" class="chosen-select" asp-for="registrationData.EthnicityId">
+                    <option value="0">American</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input class="form-control" required placeholder="Password" asp-for="registrationData.Password"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input class="form-control" required placeholder="Repeat password" asp-for="registrationData.Password"/>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-6">
+                <input class="form-control" type="date" asp-for="registrationData.DateOfBirth"/>
+            </div>
+            <div class="col-sm-6 p-2">
+                <a class="text-info" href="#">Why do i need to provide my <br>date of birth?</a>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register"/>
+    </form>
+</div>
+<script>
+    $(".chosen-select").chosen({width: "100%"}); 
+</script>

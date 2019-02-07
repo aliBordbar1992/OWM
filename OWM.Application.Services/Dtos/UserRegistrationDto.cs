@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OWM.Application.Services.Dtos
 {
@@ -8,7 +10,6 @@ namespace OWM.Application.Services.Dtos
         public int CityId { get; set; }
         public int EthnicityId { get; set; }
         public int Gender { get; set; }
-
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Phone { get; set; }
