@@ -19,7 +19,7 @@
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input class="form-control" required placeholder="Email address" asp-for="registrationData.Email"/>
+                <input class="form-control" type="email" required placeholder="Email address" asp-for="registrationData.Email"/>
             </div>
         </div>
         <div class="row mt-3">
@@ -28,13 +28,23 @@
             </div>
         </div>
         <div class="row mt-3">
-            <div class="col-sm-6">
+            <div class="col-sm-12">
                 <select class="chosen-select" data-placeholder="Occupation" asp-for="registrationData.OccupationId">
+                    <option></option>
                     <option>Web Developer</option>
                 </select>
             </div>
+        </div>
+        <div class="row mt-3">
             <div class="col-sm-6">
-                <select data-placeholder="Choose a country..." class="chosen-select" asp-for="registrationData.CountryName">
+                <select class="chosen-select" data-placeholder="City" asp-for="registrationData.CityId">
+                    <option></option>
+                    <option>Dallas</option>
+                </select>
+            </div>
+            <div class="col-sm-6">
+                <select data-placeholder="country" class="chosen-select" asp-for="registrationData.CountryName">
+                    <option></option>
                     <option value="0">Iran</option>
                 </select>
             </div>
@@ -49,6 +59,7 @@
             </div>
             <div class="col-sm-6">
                 <select data-placeholder="Ethnicity" class="chosen-select" asp-for="registrationData.EthnicityId">
+                    <option></option>
                     <option value="0">American</option>
                 </select>
             </div>
