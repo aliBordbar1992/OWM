@@ -33,7 +33,7 @@
     function GetCountry(e) {
         jQuery.getJSON("http://gd.geobytes.com/GetCityDetails?callback=?&fqcn=" + e.innerText,
             function (data) {
-                $('input[name=country]').val(data.geobytescountry);
+                $('input[placeholder=Country]').val(data.geobytescountry);
                 $('input[name=cityid]').val(data.geobytescityid);
             }
         );
@@ -41,7 +41,7 @@
 
     $('.fa-times').click(function () {
         $('input[placeholder=City]').val('');
-        $('input[name=country]').val('');
+        $('input[placeholder=Country]').val('');
         $('input[placeholder=City]').prop('disabled', false);
         $('input[name=cityid]').val('');
     });

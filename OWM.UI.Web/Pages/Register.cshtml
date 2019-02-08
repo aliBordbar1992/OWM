@@ -2,7 +2,7 @@
 @model OWM.UI.Web.Pages.RegisterModel
 @{
     Layout = "Shared/_Layout";
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 <link href="~/css/register.css" rel="stylesheet" />
 <div class="container text-left">
@@ -40,14 +40,13 @@
         </div>
         <div class="row mt-3">
             <div class="col-sm-6 position-relative">
-                <input class="form-control" type="text" placeholder="City" asp-for="registrationData.CityName"/>
+                <input class="form-control" type="text" placeholder="City" asp-for="registrationData.CityName" />
                 <span class="fa fa-times position-absolute" title="clear field"></span>
-                <ul class="position-absolute" name="cityfilter">
-                </ul>
-                <input type="hidden" name="cityid" asp-for="registrationData.CityId"/>
+                <ul class="position-absolute" name="cityfilter"></ul>
+                <input type="hidden" name="cityid" asp-for="registrationData.CityId" />
             </div>
             <div class="col-sm-6">
-                <input class="form-control" type="text" name="country" asp-for="registrationData.CountryName" disabled placeholder="Country"/>
+                <input class="form-control" type="text" asp-for="registrationData.CountryName" disabled placeholder="Country" />
             </div>
         </div>
         <div class="row mt-3">
@@ -79,13 +78,13 @@
         </div>
         <div class="row mt-3">
             <div class="col-sm-6">
-                <input class="form-control" type="date" asp-for="registrationData.Birthday"/>
+                <input class="form-control" type="date" asp-for="registrationData.Birthday" />
             </div>
             <div class="col-sm-6 p-2">
                 <a class="text-info" href="#">Why do i need to provide my <br>date of birth?</a>
             </div>
         </div>
-        <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register"/>
+        <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register" />
     </form>
 </div>
 <script src="~/js/Register.js"></script>
