@@ -9,7 +9,7 @@ namespace OWM.Application.Services.Dtos
         [Range(1, int.MaxValue, ErrorMessage = "Occupation is Required")]
         public int OccupationId { get; set; }
 
-        [Required(ErrorMessage = "City is Required")]
+        [Range(1, int.MaxValue, ErrorMessage = "City is Required")]
         public int CityId { get; set; }
 
         [Required(ErrorMessage = "Ethnicity is Required")]

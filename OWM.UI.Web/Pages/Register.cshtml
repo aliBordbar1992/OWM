@@ -10,79 +10,79 @@
         <h2 class="greenheader">Register</h2>
         <div class="row">
             <div class="col-sm-6">
-                <input required class="form-control" placeholder="First Name" asp-for="registrationData.Name" />
-                <span asp-validation-for="registrationData.Name" class="text-danger small"></span>
+                <input required class="form-control" placeholder="First Name" asp-for="RegistrationData.Name" />
+                <span asp-validation-for="RegistrationData.Name" class="text-danger small"></span>
             </div>
             <div class="col-sm-6">
-                <input required class="form-control" placeholder="Last Name" asp-for="registrationData.Surname" />
-                <span asp-validation-for="registrationData.Surname" class="text-danger small"></span>
+                <input required class="form-control" placeholder="Last Name" asp-for="RegistrationData.Surname" />
+                <span asp-validation-for="RegistrationData.Surname" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input required class="form-control" type="email" placeholder="Email address" asp-for="registrationData.Email" />
-                <span asp-validation-for="registrationData.Email" class="text-danger small"></span>
+                <input required class="form-control" type="email" placeholder="Email address" asp-for="RegistrationData.Email" />
+                <span asp-validation-for="RegistrationData.Email" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input required class="form-control" placeholder="Contact number" asp-for="registrationData.Phone">
-                <span asp-validation-for="registrationData.Phone" class="text-danger small"></span>
+                <input required class="form-control" placeholder="Contact number" asp-for="RegistrationData.Phone">
+                <span asp-validation-for="RegistrationData.Phone" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <select class="chosen-select" asp-items="Model.OccupationOptions" data-placeholder="Occupation" asp-for="registrationData.OccupationId">
+                <select class="chosen-select" asp-items="Model.OccupationOptions" data-placeholder="Occupation" asp-for="RegistrationData.OccupationId">
                     <option></option>
                 </select>
-                <span class="text-danger small" asp-validation-for="registrationData.OccupationId"></span>
+                <span class="text-danger small" asp-validation-for="RegistrationData.OccupationId"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-6 position-relative">
-                <input class="form-control" type="text" placeholder="City" asp-for="registrationData.CityName" autocomplete="off"/>
+                <input class="form-control" type="text" placeholder="City" asp-for="RegistrationData.CityName" autocomplete="off"/>
                 <span class="fa fa-times position-absolute" title="clear field"></span>
                 <ul class="position-absolute" name="cityfilter"></ul>
-                <input type="hidden" asp-for="registrationData.CityId" />
-                <span class="text-danger small" asp-validation-for="registrationData.CityId" ></span>
+                <input type="hidden" asp-for="RegistrationData.CityId" />
+                <span class="text-danger small" asp-validation-for="RegistrationData.CityName" ></span>
             </div>
             <div class="col-sm-6">
-                <input class="form-control" type="text" asp-for="registrationData.CountryName" placeholder="Country" readonly/>
-                <span class="text-danger small" asp-validation-for="registrationData.CountryName"></span>
+                <input class="form-control" type="text" asp-for="RegistrationData.CountryName" placeholder="Country" readonly/>
+                <span class="text-danger small" asp-validation-for="RegistrationData.CountryName"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-6">
-                <select class="chosen-select" data-placeholder="Gender" asp-for="registrationData.Gender">
+                <select class="chosen-select" data-placeholder="Gender" asp-for="RegistrationData.Gender">
                     <option value=""></option>
                     <option value="1">Male</option>
                     <option value="0">Female</option>
                 </select>
-                <span class="text-danger small" asp-validation-for="registrationData.Gender"></span>
+                <span class="text-danger small" asp-validation-for="RegistrationData.Gender"></span>
             </div>
             <div class="col-sm-6">
-                <select  data-placeholder="Ethnicity" asp-items="Model.EthnicityOptions" class="chosen-select" asp-for="registrationData.EthnicityId">
+                <select  data-placeholder="Ethnicity" asp-items="Model.EthnicityOptions" class="chosen-select" asp-for="RegistrationData.EthnicityId">
                     <option value=""></option>
                 </select>
-                <span class="text-danger small" asp-validation-for="registrationData.EthnicityId"></span>
+                <span class="text-danger small" asp-validation-for="RegistrationData.EthnicityId"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input required class="form-control" placeholder="Password" asp-for="registrationData.Password" />
-                <span asp-validation-for="registrationData.Password" class="text-danger small"></span>
+                <input required class="form-control" placeholder="Password" asp-for="RegistrationData.Password" />
+                <span asp-validation-for="RegistrationData.Password" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input required class="form-control"  placeholder="Confirm password" asp-for="registrationData.ConfirmPassword" />
-                <span asp-validation-for="registrationData.ConfirmPassword" class="text-danger small"></span>
+                <input required class="form-control"  placeholder="Confirm password" asp-for="RegistrationData.ConfirmPassword" />
+                <span asp-validation-for="RegistrationData.ConfirmPassword" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-sm-6">
-                <input required class="form-control" type="date" asp-for="registrationData.Birthday"/>
-                <span class="text-danger small" asp-validation-for="registrationData.Birthday"></span>
+                <input required class="form-control" type="date" asp-for="RegistrationData.Birthday"/>
+                <span class="text-danger small" asp-validation-for="RegistrationData.Birthday"></span>
             </div>
             <div class="col-sm-6 p-2">
                 <a class="text-info" href="#">Why do i need to provide my <br>date of birth?</a>

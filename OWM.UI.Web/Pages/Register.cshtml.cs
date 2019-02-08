@@ -29,7 +29,7 @@ namespace OWM.UI.Web.Pages
         }
         
         [BindProperty]
-        public UserRegistrationDto registrationData { get; set; }
+        public UserRegistrationDto RegistrationData { get; set; }
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -38,31 +38,23 @@ namespace OWM.UI.Web.Pages
                 return Page();
             }
             FillDropdowns();
-            _userRegistrationService.Register(registrationData);
+            _userRegistrationService.Register(RegistrationData);
             return RedirectToPage("/Register");
         }
 
         public void FillDropdowns()
         {
-            var ethlist = _userRegistrationService.GetEthnicities().ToList();
-            var occList = _userRegistrationService.GetOccupations().ToList();
-            foreach (var eth in ethlist.Result)
+            EthnicityOptions = _userRegistrationService.GetEthnicities().Select(x => new SelectListItem
             {
-                EthnicityOptions.Add(new SelectListItem()
-                {
-                    Value = eth.Id.ToString(),
-                    Text = eth.Name.ToString()
-                });
-            }
+                Text = x.Name,
+                Value = x.Id + ""
+            }).ToList().Result;
 
-            foreach (var occ in occList.Result)
+            OccupationOptions = _userRegistrationService.GetOccupations().Select(x => new SelectListItem
             {
-                OccupationOptions.Add(new SelectListItem()
-                {
-                    Text = occ.Name.ToString(),
-                    Value = occ.Id.ToString()
-                });
-            }
+                Text = x.Name,
+                Value = x.Id + ""
+            }).ToList().Result;
         }
     }
 }
