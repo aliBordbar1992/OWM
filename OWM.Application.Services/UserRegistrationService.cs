@@ -5,6 +5,7 @@ using OWM.Domain.Entities;
 using OWM.Domain.Entities.Enums;
 using OWM.Domain.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
@@ -109,6 +110,16 @@ namespace OWM.Application.Services
         protected virtual void OnUserRegistered(UserRegisteredArgs e)
         {
             UserRegistered?.Invoke(this, e);
+        }
+
+        public IAsyncEnumerable<Ethnicity> GetEthnicities()
+        {
+            return _ethnicityService.Queryable().ToAsyncEnumerable();
+        }
+
+        public IAsyncEnumerable<Occupation> GetOccupations()
+        {
+            return _occupationService.Queryable().ToAsyncEnumerable();
         }
     }
 
