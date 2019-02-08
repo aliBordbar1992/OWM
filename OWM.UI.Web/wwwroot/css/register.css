@@ -1,3 +1,37 @@
 ﻿.box a {
     font-size: 10pt;
 }
+ul[name="cityfilter"] {
+    z-index: 999;
+    width: 89%;
+}
+ul[name="cityfilter"] li:hover {
+    background-color: cornflowerblue;
+    color: white;
+    cursor: pointer;
+}
+ul[name="cityfilter"] li:first-child {
+    border-right: 1px solid darkgray;
+    border-left: 1px solid darkgray;
+    border-top: none;
+    border-bottom: none;
+}
+ul[name="cityfilter"] li {
+    background-color: aliceblue;
+    padding: 2px 3px;
+    font-size: 11pt;
+    border-right: 1px solid darkgray;
+    border-left: 1px solid darkgray;
+}
+ul[name="cityfilter"] li:last-child {
+    border-right: 1px solid darkgray;
+    border-left: 1px solid darkgray;
+    border-top: none;
+    border-bottom: 1px solid darkgray;
+}
+.fa-times {
+    top: 13px;
+    right: 25px;
+    font-size: 10pt;
+    cursor: pointer;
+}
