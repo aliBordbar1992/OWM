@@ -17,5 +17,4 @@
     <ProjectReference Include="..\OWM.Application.Services\OWM.Application.Services.csproj" />
     <ProjectReference Include="..\OWM.Data\OWM.Data.csproj" />
   </ItemGroup>
-
 </Project>
