@@ -81,14 +81,14 @@
         <div class="col-md-4">
             <div class="text-center">
                 <img src="http://square-vn.com/app/dscms/assets/images/person-4.jpg?v=1495618120" class="user-image w-50" alt="avatar">
-                <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#exampleModal">Change profile picture</button>
+                <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>
         </div>
     </div>
 </div>
 
 <script src="~/js/uploads.js"></script>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="UserProfilePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -97,7 +97,7 @@
             <div class="modal-body text-center">
                 <div class="list-group-item mb-2">
                     <form id="imageform">
-                        <input type="file" onchange="DetectFile($(this),'controls')" />
+                        <input type="file" id="upfile" onchange="DetectFile($(this),'controls')" />
                     </form>
                 </div>
                 <div id="controls" style="display: none;">

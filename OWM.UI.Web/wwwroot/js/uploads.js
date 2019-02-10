@@ -180,24 +180,16 @@ function UploadFile(e) {
     /// <summary>
     /// 
     /// </summary>
-    var formData = new FormData($('#' + e)[0]);
+    var formData = new FormData($('#' + e.form)[0]);
     var blob = dataURLtoBlob(canvas.toDataURL('image/jpeg'));
     formData.append("img", blob);
     $.ajax({
-        url: "/user/profileimage",
+        url: e.url,
         type: "POST",
         data: formData,
         contentType: false,
         cache: false,
         processData: false,
-        success: function (e) {
-            switch (e.status) {
-            case "error":
-                RedAlert('n', e.message);
-            case "success":
-                GreenAlert('n', e.message);
-            default:
-            }
-        }
+        success: e.func
     });   
 }

@@ -15,10 +15,10 @@ namespace OWM.UI.Web.Controllers
     [Route("api/[Controller]")]
     public class FileUpload : Controller
     {
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IHostingEnvironment _hostingEnvironment;
         public FileUpload(IHostingEnvironment environment)
         {
-            hostingEnvironment = environment;
+            _hostingEnvironment = environment;
         }
         [HttpPost("/user/profileimage")]
         public JsonResult Upload()
