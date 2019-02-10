@@ -9,6 +9,7 @@ namespace OWM.Domain.Entities
         public string PhoneNumber { get; set; }
         public byte[] PasswordHash { get; private set; }
         public byte[] PasswordSalt { get; private set; }
+        public bool EmailVerified { get; set; }
         public User User { get; private set; }
 
         private UserIdentity() { }
@@ -24,6 +25,7 @@ namespace OWM.Domain.Entities
                 PasswordSalt = passwordSalt,
                 Email = email,
                 PhoneNumber = phoneNumber,
+                EmailVerified = false,
                 User = user
             };
 
