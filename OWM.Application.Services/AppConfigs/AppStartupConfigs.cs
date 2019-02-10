@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services;
@@ -25,14 +22,17 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITrackableRepository<Occupation>, TrackableRepository<Occupation>>();
             services.AddScoped<ITrackableRepository<User>, TrackableRepository<User>>();
             services.AddScoped<ITrackableRepository<UserIdentity>, TrackableRepository<UserIdentity>>();
+            services.AddScoped<ITrackableRepository<EmailVerification>, TrackableRepository<EmailVerification>>();
 
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IEthnicityService, EthnicityService>();
             services.AddScoped<IOccupationService, OccupationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmailVerificationService, EmailVerificationService>();
             services.AddScoped<IUserIdentityService, UserIdentityService>();
 
+            services.AddScoped<IUserVerificationService, UserVerificationService>();
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();
         }
     }

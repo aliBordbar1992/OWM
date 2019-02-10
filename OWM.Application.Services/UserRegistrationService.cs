@@ -7,6 +7,7 @@ using OWM.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
@@ -15,6 +16,7 @@ namespace OWM.Application.Services
     public class UserRegistrationService : IUserRegistrationService
     {
         private readonly IUserService _userService;
+        
         private readonly IUserIdentityService _userIdentityService;
         private readonly ICountryService _countryService;
         private readonly ICityService _cityService;
@@ -36,7 +38,7 @@ namespace OWM.Application.Services
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
-        public void Register(UserRegistrationDto userRegistrationDto)
+        public async Task Register(UserRegistrationDto userRegistrationDto)
         {
             var newUser = new User();
             var country = GetCountry(userRegistrationDto.CountryName);
@@ -62,10 +64,12 @@ namespace OWM.Application.Services
 
             _userIdentityService.Insert(newIdentity);
             _userService.Insert(newUser);
-            _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
 
             OnUserRegistered(new UserRegisteredArgs(newIdentity));
         }
+
+        
 
         private Country GetCountry(string countryName)
         {
@@ -125,7 +129,7 @@ namespace OWM.Application.Services
 
     public class UserRegisteredArgs : EventArgs
     {
-        public UserIdentity User { get; set; }
+        public UserIdentity User { get; }
 
         public UserRegisteredArgs(UserIdentity user)
         {
