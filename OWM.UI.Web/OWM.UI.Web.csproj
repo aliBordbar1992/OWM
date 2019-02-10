@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot\emailTemplate\verification-template.html" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.jQuery.Unobtrusive.Validation" Version="3.2.11" />
@@ -21,16 +17,9 @@
     <ProjectReference Include="..\OWM.Application.Services\OWM.Application.Services.csproj" />
     <ProjectReference Include="..\OWM.Data\OWM.Data.csproj" />
   </ItemGroup>
-<<<<<<< HEAD
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <Folder Include="wwwroot\user_images\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\emailTemplate\verification-template.html" />
-  </ItemGroup>
-
-=======
->>>>>>> 66ed1e24255d4046c6648d0d1e65a8fead6ce1f8
 </Project>

@@ -180,21 +180,24 @@ function UploadFile(e) {
     /// <summary>
     /// 
     /// </summary>
-    var formData = new FormData($('#' + e.form)[0]);
-    var blob = dataURLtoBlob(canvas.toDataURL('image/png'));
+    var formData = new FormData($('#' + e)[0]);
+    var blob = dataURLtoBlob(canvas.toDataURL('image/jpeg'));
     formData.append("img", blob);
-    formData.append("path", e.path);
-    formData.append("userid", e.userId);
     $.ajax({
-        url: "UploadFiles.ashx",
+        url: "/user/profileimage",
         type: "POST",
         data: formData,
         contentType: false,
         cache: false,
         processData: false,
-        success: e.func ,
-        error: function() {
-            RedAlert('n' , 'error on file uploading');
+        success: function (e) {
+            switch (e.status) {
+            case "error":
+                RedAlert('n', e.message);
+            case "success":
+                GreenAlert('n', e.message);
+            default:
+            }
         }
     });   
 }
