@@ -1553,3 +1553,29 @@ body {
 .column h4 {
     font-size: 15pt;
 }
+.loading-sm {
+    width: 15px;
+    height: auto;
+    margin-bottom: 2px;
+    display: none;
+}
+.loading-md {
+    width: 25px;
+    height: auto;
+    margin-bottom: 2px;
+    display: none;
+}
+.loading-md-exp {
+    width: 25px;
+    height: auto;
+    margin-bottom: 2px;
+    position: absolute;
+    top: 13px;
+    right: 12px;
+    display: none;
+}
+.notifyjs-container {
+    font-family: sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+}

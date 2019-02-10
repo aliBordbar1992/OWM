@@ -1,0 +1,37 @@
+﻿@page
+@model OWM.UI.Web.Pages.VerificationModel
+@{
+    Layout = "Shared/_Layout";
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
+
+
+<div class="container">
+    <div class="alert alert-success d-block">Your Account Successfully Created. Please Checkout Your Email To Complete The Action.</div>
+    <div class="w-50 m-auto text-center">
+        <button class="btn-lg btn-success" id="send">
+            <img src="img/loading.gif" id="loading" class="loading-md" style="display: none;"/>
+            Send Verification Email Again
+        </button>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        var btnSend = $('#send');
+        var loading = $('#loading');
+
+        btnSend.on('click',
+            function() {
+                AjaxPost({
+                    url: "/eth/all",
+                    param: {str: "omid"},
+                    func:testit
+                });
+
+                function testit(e) {
+                    ElementGreenalert('send','bottom middle', 'Not Found');
+                }
+            });
+    });
+</script>
