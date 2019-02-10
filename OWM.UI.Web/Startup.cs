@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.AppConfigs;
 using OWM.Data;
+using OWM.Domain.Entities;
 
 namespace OWM.UI.Web
 {
