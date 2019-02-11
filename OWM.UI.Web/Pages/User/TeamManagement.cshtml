@@ -4,15 +4,15 @@
     Layout = "Shared/UserLayout";
 }
 
-<h3 class="d-flex justify-content-center mb-4">Team Managment</h3>
+<h3 class="d-flex justify-content-center mb-4 alert alert-info">TEAM MANAGMENT</h3>
 <div class="row mb-5">
     <div class="col-md-6 text-center">
-        <button type="button" class="btn btn-lg btn-success w-75 pt-3 pb-3">
+        <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/CreateTeam">
             <span class="fa fa-plus"></span> CREATE NEW TEAM
-        </button>
+        </a>
     </div>
     <div class="col-md-6 text-center">
-        <button class="btn btn-lg btn-success w-75 pt-3 pb-3">JOIN A TEAM</button>
+        <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/SearchTeams">JOIN A TEAM</a>
     </div>
 </div>
 <table class="table" id="tbluserteams">
