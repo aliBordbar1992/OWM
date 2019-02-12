@@ -2,4 +2,66 @@
 @model OWM.UI.Web.Pages.User.CreateTeamModel
 @{
     Layout = "Shared/UserLayout";
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 }
+
+<style>
+    .row span {
+        font-size: 11pt !important;
+    }
+</style>
+<h2>Create A Team</h2>
+<hr/>
+<div id="inputarea">
+    <div class="row">
+        <div class="col-md-6">
+            <span for="teamname">Team Name</span>
+            <input required class="form-control" type="text" id="teamname" />
+        </div>
+        <div class="col-md-6">
+            <span for="milesdpledge">Miles Pledge</span>
+            <input required class="form-control" type="text" id="milesdpledge" />
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <span>Occupations</span>
+            <select required class="chosen-select" data-placeholder="" multiple asp-items="Model.OccupationOptions">
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <span>Age Range</span>
+            <select required class="chosen-select" data-pladeholder="">
+                <option value=""></option>
+                <option value="1">Below 14</option>
+                <option value="2">15 - 17</option>
+                <option value="3">Adult</option>
+            </select>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <span>Descreption</span>
+            <textarea required rows="3" class="form-control" style="resize: none;"></textarea>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-success" id="createteam">Create Team</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        $('.chosen-select').chosen({ width: "100%" });
+        $('#createteam').on('click',
+            function() {
+                Checkinputs('inputarea');
+                ElementRedalert('createteam', 'right center', 'Please Fill out Fields');
+            });
+    });
+</script>

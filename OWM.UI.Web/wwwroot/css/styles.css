@@ -1574,8 +1574,8 @@ body {
     right: 12px;
     display: none;
 }
-.notifyjs-container {
-    font-family: sans-serif;
-    font-size: 10pt;
-    font-weight: normal;
+.notifyjs-container, .notifyjs-wrapper, .notifyjs-hidable *{
+    font-family: inherit;
+    font-size: 11pt;
+    font-weight: 500;
 }

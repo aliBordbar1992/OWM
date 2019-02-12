@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Rest;
 
 namespace OWM.UI.Web.Pages
@@ -12,6 +13,7 @@ namespace OWM.UI.Web.Pages
     {
         public void OnGet()
         {
+            
         }
     }
 }

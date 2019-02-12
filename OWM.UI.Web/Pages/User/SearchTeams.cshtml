@@ -2,4 +2,152 @@
 @model OWM.UI.Web.Pages.User.SearchTeamsModel
 @{
     Layout = "Shared/UserLayout";
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
+
+<style>
+    .col-md-4 {
+        font-size: 12pt;
+    }
+    #searchteams {
+        font-size: 13pt;
+    }
+    .bg-darksuccess div p {
+        margin-bottom: 5px !important;
+    }
+    .bg-darksuccess div h4 {
+        font-size: 25pt;
+        font-weight: 600;
+        margin-bottom: 0!important;
+    }
+    .card-title {
+        font-size: 20pt!important;
+        font-weight: 600;
+    }
+    .fa-plus-circle {
+        font-size: 40pt;
+        font-weight: 600;
+        background-color: transparent;
+        line-height: 95px;
+        outline: none!important;
+    }
+    .fa-plus-circle:hover {
+        color: #42b653 !important
+    }
+    #teamsearchresult i {
+        font-size: 10pt;
+        position: absolute;
+        right: 15px;
+        bottom: 5px;
+        font-weight: 400;
+        opacity: 0.8;
+    }
+</style>
+<h2>Join A Team</h2>
+<hr/>
+<div class="pl-4 pr-4">
+    <div class="list-group w-100 m-auto">
+        <div class="searchbox list-group-item mb-1 p-1 pl-2">
+            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;"/>
+            <img src="~/img/loading.gif" class="loading-md-exp"/>
+        </div>
+        <div class="list-group-item bg-gray pl-5 pr-4 pt-2 pb-2">
+            <div class="row mb-4">
+                <div class="col-md-4" style="line-height: 37px;">Team Members</div>
+                <div class="col-md-8 text-left">
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-success active">
+                            <input type="radio" name="teammembers" id="option1" autocomplete="off" checked> Acending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="teammembers" id="option2" autocomplete="off"> Decending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="teammembers" id="option3" autocomplete="off"> Off
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-4" style="line-height: 37px;">Miles Pledged</div>
+                <div class="col-md-8 text-left">
+                    <div class="btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-outline-success active">
+                            <input type="radio" name="milespledged" id="option4" autocomplete="off" checked> Acending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="milespledged" id="option5" autocomplete="off"> Decending
+                        </label>
+                        <label class="btn btn-outline-success">
+                            <input type="radio" name="milespledged" id="option6" autocomplete="off"> Off
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="line-height: 37px;">Occupation</div>
+                <div class="col-md-8 text-left">
+                    <select class="chosen-select" data-placeholder="" asp-items="Model.OccupationOptions">
+                        <option></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container mt-3" id="teamsearchresult">
+</div>
+
+<script>
+    $(function () {
+        $('.chosen-select').chosen({ width: "100%" });
+        $('#searchteams').focus();
+        var loading = $('.loading-md-exp');
+        var teamSerachResult = $('#teamsearchresult');
+
+        $('input[name=teammembers]').on('change', function () {
+            FilterTeams();
+        });
+
+        $('input[name=milespledged]').on('change', function () {
+            FilterTeams();
+        });
+
+        $('.chosen-select').on('change', function () {
+            FilterTeams();
+        });
+
+        var typingTimer;
+        var doneTypingInterval = 1000;
+        var $input = $('#searchteams');
+        $input.on('keyup', function () {
+            loading.show();
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(FilterTeams, doneTypingInterval);
+        });
+        $input.on('keydown', function () {
+            clearTimeout(FilterTeams);
+        });
+
+        function FilterTeams() {
+            loading.show();
+            teamSerachResult.empty();
+            if ($input.val() === '') {
+                teamSerachResult.empty();
+                loading.hide();
+                return;
+            }
+            for (var i = 0; i < 3; i++) {
+                var searchResult = $('<div class="mb-3 pl-2 pr-2"><div class="list-group w-100 m-auto"><div class="list-group-item bg-darksuccess text-white"> ' +
+                    '<div class="row"><div class="col-md-4 text-center border-right"><p>Members</p><h4>12</h4></div> ' +
+                    '<div class="col-md-4 text-center border-right"><p>Miles Pledged</p><h4>12</h4></div><div class="col-md-4 text-center">' +
+                    '<p>Miles Completed</p><h4>12</h4></div></div></div><div class="list-group-item position-relative text-left" style="min-height: 130px;">' +
+                    '<div class="row"><div class="col-md-8" style="min-height: 95px;"><h5 class="card-title text-darcsuccess">Team Name</h5>' +
+                    '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>' +
+                    '</div><div class="col-md-4 text-center" style="min-height: 95px;"><button class="fa fa-plus-circle text-darcsuccess" title="join team"> ' +
+                    '</button></div></div><i>Created on : February 5, 2019</i></div></div></div>').hide().appendTo(teamSerachResult).show('slow');
+            }
+            loading.hide();
+        }
+    });
+</script>

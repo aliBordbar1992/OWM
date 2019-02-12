@@ -1,8 +1,13 @@
 ﻿$(function () {
-    var i;
-    $(".chosen-select").chosen({
-        width: "100%"
-    }), $("#RegistrationData_CityName").on("keyup keydown", function () {
+    var loading = $('.loading-sm');
+    $('.chosen-select').chosen({ width: "100%" });
+    $('#savechanges').on('click',
+        function () {
+            if (Checkinputs('inputarea')) {
+                ElementRedalert('savechanges', 'right center', 'please fill out fields');
+            }
+        });
+    $("#RegistrationData_CityName").on("keydown keyup", function () {
         $(this).val() === '' || $(this).val().length < 4 ? $("ul[name=cityfilter]").empty() :
             jQuery.getJSON("http://gd.geobytes.com/AutoCompleteCity?callback=?&sort=size&q=" + $("#RegistrationData_CityName").val(), function (t) {
                 var i = [];
@@ -17,5 +22,32 @@
         })
     }), $(".fa-times").click(function () {
         $("#RegistrationData_CityName").val(""), $("#RegistrationData_CountryName").val(""), $("#RegistrationData_CityName").prop("readonly", !1), $("#RegistrationData_CityId").val("")
-    })
-});
+        })
+    $('#UploadUserImage').on('click',
+        function () {
+            if ($('#upfile').val() == "") {
+                RedAlert('n', 'Please Select a File');
+                return;
+            }
+            loading.show();
+            UploadFile({
+                form: 'imageform',
+                url: "/user/profileimage",
+                func: profilePictureUploadResult
+            });
+        });
+
+    function profilePictureUploadResult(e) {
+        switch (e.status) {
+        case "error":
+                RedAlert('n', e.message);
+                loading.hide();
+        case "success":
+            GreenAlert('n', e.message);
+            $('#upfile').val('');
+            $('#views').empty();
+            loading.hide();
+        default:
+        }
+    }
+})
