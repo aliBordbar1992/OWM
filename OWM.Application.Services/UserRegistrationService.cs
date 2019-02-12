@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
@@ -8,16 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
 {
     public class UserRegistrationService : IUserRegistrationService
     {
+        private readonly UserManager<UserIdentity> _userManager;
         private readonly IUserService _userService;
-        
-        private readonly IUserIdentityService _userIdentityService;
+
         private readonly ICountryService _countryService;
         private readonly ICityService _cityService;
         private readonly IEthnicityService _ethnicityService;
@@ -25,15 +25,16 @@ namespace OWM.Application.Services
         private readonly IUnitOfWork _unitOfWork;
 
         public event EventHandler<UserRegisteredArgs> UserRegistered;
+        public event EventHandler<RegistrationFailedArgs> RegisterFailed;
 
-        public UserRegistrationService(IServiceProvider serviceProvider)
+        public UserRegistrationService(IServiceProvider serviceProvider, UserManager<UserIdentity> userManager)
         {
+            _userManager = userManager;
             _countryService = serviceProvider.GetRequiredService<ICountryService>();
             _cityService = serviceProvider.GetRequiredService<ICityService>();
             _ethnicityService = serviceProvider.GetRequiredService<IEthnicityService>();
             _occupationService = serviceProvider.GetRequiredService<IOccupationService>();
             _userService = serviceProvider.GetRequiredService<IUserService>();
-            _userIdentityService = serviceProvider.GetRequiredService<IUserIdentityService>();
 
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
@@ -41,11 +42,12 @@ namespace OWM.Application.Services
         public async Task Register(UserRegistrationDto userRegistrationDto)
         {
             var newUser = new User();
-            var country = GetCountry(userRegistrationDto.CountryName);
-            var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId);
-            var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId);
-            var occupation = GetOccupation(userRegistrationDto.OccupationId);
 
+            var country = GetCountry(userRegistrationDto.CountryName);
+            var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
+
+            var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+            var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
 
             newUser.Country = country;
             newUser.City = city;
@@ -56,20 +58,24 @@ namespace OWM.Application.Services
 
             newUser.Name = userRegistrationDto.Name;
             newUser.Surname = userRegistrationDto.Surname;
+            newUser.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
 
-            newUser.Gender = (GenderEnum)userRegistrationDto.Gender;
+            //_userService.Insert(newUser);
+            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, newUser, userRegistrationDto.Phone);
+            var result = await _userManager.CreateAsync(newIdentity, userRegistrationDto.Password);
+            if (result.Succeeded)
+            {
+                //await _unitOfWork.SaveChangesAsync();
+                OnUserRegistered(new UserRegisteredArgs(newIdentity, newUser));
+            }
+            else
+            {
+                OnRegistrationFailed(new RegistrationFailedArgs(result.Errors));
+            }
 
-            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Password,
-                userRegistrationDto.Email, newUser, userRegistrationDto.Phone);
-
-            _userIdentityService.Insert(newIdentity);
-            _userService.Insert(newUser);
-            await _unitOfWork.SaveChangesAsync();
-
-            OnUserRegistered(new UserRegisteredArgs(newIdentity));
         }
 
-        
+
 
         private Country GetCountry(string countryName)
         {
@@ -77,7 +83,7 @@ namespace OWM.Application.Services
                 return _countryService.Queryable().First(x => x.Name.Equals(countryName));
 
             var newCountry = new Country { Name = countryName };
-            _countryService.Insert(newCountry);
+            //_countryService.Insert(newCountry);
 
             return newCountry;
         }
@@ -91,8 +97,8 @@ namespace OWM.Application.Services
             if (CityExistsInDb(cityId))
                 return _cityService.Queryable().First(x => x.CustomCityId == cityId);
 
-            var newCity = new City {CustomCityId = cityId, Country = country, Name = cityName };
-            _cityService.Insert(newCity);
+            var newCity = new City { CustomCityId = cityId, Country = country, Name = cityName };
+            //_cityService.Insert(newCity);
 
             return newCity;
         }
@@ -115,6 +121,10 @@ namespace OWM.Application.Services
         {
             UserRegistered?.Invoke(this, e);
         }
+        protected virtual void OnRegistrationFailed(RegistrationFailedArgs e)
+        {
+            RegisterFailed?.Invoke(this, e);
+        }
 
         public IAsyncEnumerable<Ethnicity> GetEthnicities()
         {
@@ -129,11 +139,22 @@ namespace OWM.Application.Services
 
     public class UserRegisteredArgs : EventArgs
     {
-        public UserIdentity User { get; }
+        public User User { get; }
+        public UserIdentity Identity { get; }
 
-        public UserRegisteredArgs(UserIdentity user)
+        public UserRegisteredArgs(UserIdentity identity, User user)
         {
             User = user;
+            Identity = identity;
+        }
+    }
+    public class RegistrationFailedArgs : EventArgs
+    {
+        public IEnumerable<IdentityError> ResultErrors { get; }
+
+        public RegistrationFailedArgs(IEnumerable<IdentityError> resultErrors)
+        {
+            ResultErrors = resultErrors;
         }
     }
 }

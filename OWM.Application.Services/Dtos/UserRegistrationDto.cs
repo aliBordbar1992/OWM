@@ -6,17 +6,17 @@ namespace OWM.Application.Services.Dtos
 {
     public class UserRegistrationDto
     {
-        [Range(1, int.MaxValue, ErrorMessage = "Occupation is Required")]
-        public int OccupationId { get; set; }
+        [Required(ErrorMessage = "Occupation is Required")]
+        public int? OccupationId { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "City is Required")]
-        public int CityId { get; set; }
+        [Required(ErrorMessage = "City is Required")]
+        public int? CityId { get; set; }
 
         [Required(ErrorMessage = "Ethnicity is Required")]
-        public int EthnicityId { get; set; }
+        public int? EthnicityId { get; set; }
 
         [Required(ErrorMessage = "Gender is Required")]
-        public int Gender { get; set; }
+        public int? Gender { get; set; }
 
         [Required(ErrorMessage = "Name is Required")]
         public string Name { get; set; }
@@ -34,14 +34,12 @@ namespace OWM.Application.Services.Dtos
         public string Email { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Password is required")]
-        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Confirm Password is required")]
-        [StringLength(255, ErrorMessage = "Must be between 5 and 255 characters", MinimumLength = 5)]
         [DataType(DataType.Password)]
-        [Compare("Password")]
+        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Country is required")]

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,6 +14,8 @@ using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Email;
 using OWM.Application.Services.Interfaces;
+using OWM.Domain.Entities;
+using OWM.UI.Web.Areas.Identity.Data;
 
 namespace OWM.UI.Web.Pages
 {
@@ -19,11 +24,19 @@ namespace OWM.UI.Web.Pages
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IUserVerificationService _userVerificationService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<UserIdentity> _signInManager;
+        private readonly IEmailSender _emailSender;
         public List<SelectListItem> EthnicityOptions;
         public List<SelectListItem> OccupationOptions;
-        public RegisterModel(IServiceProvider serviceProvider)
+        public RegisterModel(IServiceProvider serviceProvider, UserManager<UserIdentity> userManager,
+            SignInManager<UserIdentity> signInManager,
+            IEmailSender emailSender)
         {
             _serviceProvider = serviceProvider;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _emailSender = emailSender;
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
             _userVerificationService = serviceProvider.GetRequiredService<IUserVerificationService>();
              EthnicityOptions = new List<SelectListItem>();
@@ -36,18 +49,27 @@ namespace OWM.UI.Web.Pages
         
         [BindProperty]
         public UserRegistrationDto RegistrationData { get; set; }
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                FillDropdowns();
-                return Page();
-            }
-            FillDropdowns();
-            _userRegistrationService.UserRegistered += SendVerificationEmail;
 
-            await _userRegistrationService.Register(RegistrationData);
-            return RedirectToPage("/Verify");
+        private bool _succeeded;
+
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        {
+            returnUrl = returnUrl ?? Url.Content("~/");
+            FillDropdowns();
+
+            if (ModelState.IsValid)
+            {
+                _succeeded = true;
+
+                _userRegistrationService.UserRegistered += SendVerificationEmail;
+                _userRegistrationService.UserRegistered += LoginUser;
+                _userRegistrationService.RegisterFailed += RegisterFailed;
+
+                await _userRegistrationService.Register(RegistrationData);
+                if (_succeeded) return LocalRedirect(returnUrl);
+            }
+
+            return Page();
         }
 
         public void FillDropdowns()
@@ -65,16 +87,30 @@ namespace OWM.UI.Web.Pages
             }).ToList().Result;
         }
 
+        public void LoginUser(object sender, UserRegisteredArgs e)
+        {
+            _signInManager.SignInAsync(e.Identity, isPersistent: false);
+        }
         public void SendVerificationEmail(object sender, UserRegisteredArgs e)
         {
-            if (!e.User.EmailVerified)
-            {
-                var hostingEnv = _serviceProvider.GetRequiredService<IHostingEnvironment>();
-                var verification = _userVerificationService.CreateEmailVerificationCode(e.User.Id).Result;
+            var code = _userManager.GenerateEmailConfirmationTokenAsync(e.Identity).Result;
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { userId = e.User.Id, code = code },
+                protocol: Request.Scheme);
 
-                string link = TemplateHelper.GetVerifyLink(verification.VerificatonCode.ToString());
-                VerificationEmailSender emailSender = new VerificationEmailSender(hostingEnv, e.User.User.Name, e.User.Email, link);
-                emailSender.Send();
+            var hostingEnv = _serviceProvider.GetRequiredService<IHostingEnvironment>();
+
+            VerificationEmailSender emailSender = new VerificationEmailSender(hostingEnv, e.User.Name, e.Identity.Email, HtmlEncoder.Default.Encode(callbackUrl));
+            emailSender.Send();
+        }
+        public void RegisterFailed(object sender, RegistrationFailedArgs e)
+        {
+            _succeeded = false;
+            foreach (var error in e.ResultErrors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
             }
         }
     }
