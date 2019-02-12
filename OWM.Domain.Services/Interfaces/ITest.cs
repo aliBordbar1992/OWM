@@ -3,8 +3,7 @@ using URF.Core.Abstractions.Services;
 
 namespace OWM.Domain.Services.Interfaces
 {
-    public interface IUserIdentityService : IService<UserIdentity>
+    public interface ITestEntityService : IService<TestEntity>
     {
-        
     }
 }

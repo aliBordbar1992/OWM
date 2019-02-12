@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OWM.Data;
 
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    partial class OwmContextModelSnapshot : ModelSnapshot
+    [Migration("20190212100858_identityCreated")]
+    partial class identityCreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,19 +94,6 @@ namespace OWM.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Occupations");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.TestEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestEntities");
                 });
 
             modelBuilder.Entity("OWM.Domain.Entities.User", b =>
@@ -216,7 +205,7 @@ namespace OWM.Data.Migrations
 
             modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
                 {
-                    b.HasOne("OWM.Domain.Entities.TestEntity", "User")
+                    b.HasOne("OWM.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
                 });

@@ -5,9 +5,9 @@ using URF.Core.Services;
 
 namespace OWM.Domain.Services
 {
-    public class UserIdentityService : Service<UserIdentity>, IUserIdentityService
+    public class TestEntityService : Service<TestEntity>, ITestEntityService
     {
-        public UserIdentityService(ITrackableRepository<UserIdentity> repository) : base(repository)
+        public TestEntityService(ITrackableRepository<TestEntity> repository) : base(repository)
         {
         }
     }

@@ -21,6 +21,7 @@ namespace OWM.Data
         public virtual DbSet<Occupation> Occupations { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserIdentity> Identities { get; set; }
+        public virtual DbSet<TestEntity> TestEntities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,7 +34,7 @@ namespace OWM.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserConfig());
-            modelBuilder.ApplyConfiguration(new UserIdentityConfig());
+            //modelBuilder.ApplyConfiguration(new UserIdentityConfig());
 
             base.OnModelCreating(modelBuilder);
         }
