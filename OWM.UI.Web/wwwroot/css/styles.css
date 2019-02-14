@@ -6,7 +6,7 @@ label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, 
     padding: 0;
     border: 0;
     font-size: 100%;
-    vertical-align: baseline;
+    vertical-align: middle;
     background: transparent
 }
 
