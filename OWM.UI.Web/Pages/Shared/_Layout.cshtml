@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using OWM.UI.Web.Controllers
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -32,6 +33,15 @@
                 <div class="donate">
                     <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
                 </div><ul class="desktop-menu">
+                    @{
+                        var userData = CheckUserLogin.GetUserData();
+                        if (userData != null)
+                        {
+                            <li>
+                                <a href="/User/NewsFeed">Welcome @userData.Name</a>
+                            </li>
+                        }
+                    }
                     <li>
                         <a href="/index">Home</a>
                     </li>
