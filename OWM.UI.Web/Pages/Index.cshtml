@@ -1,8 +1,12 @@
 ﻿@page
+@using OWM.UI.Web.Controllers
 @model OWM.UI.Web.Pages.IndexModel
 @{
     ViewData["Title"] = "OneWorldMarathon";
     Layout = "Shared/_Layout";
+}
+@{
+    var statisticData = StatisticData.GetStatisticData();
 }
 <section id="splash" class="anim">
     <div class="logo" style="transition-delay: 0s, 0s;">
@@ -17,15 +21,15 @@
         <!----><ul class="clearfix wrap-std">
             <li class="stat stat-1">
                 <h2>Participants</h2>
-                <p>13</p>
+                <p>@statisticData?.Participants</p>
             </li>
             <li class="stat stat-2">
                 <h2>Countries</h2>
-                <p>3</p>
+                <p>@statisticData?.Countries</p>
             </li>
             <li class="stat stat-3">
                 <h2>Miles pledged</h2>
-                <p>125</p>
+                <p>@statisticData?.MilesPledged</p>
             </li>
         </ul>
         <div class="pledge wrap-std">
