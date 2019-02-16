@@ -1,9 +1,16 @@
 ﻿@page
+@using OWM.UI.Web.Controllers
 @model OWM.UI.Web.Pages.userpages.TeamManagementModel
 @{
     Layout = "Shared/UserLayout";
 }
-
+@{
+    var teamData = TeamManagment.GeTeams();
+}
+<style>
+    table tr td{ background-color: white;vertical-align: middle;}
+    table tr th{ background-color: white;vertical-align: middle;}
+</style>
 <h2>Team Managment</h2>
 <hr/>
 <div class="row mb-5">
@@ -16,30 +23,38 @@
         <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/SearchTeams">JOIN A TEAM</a>
     </div>
 </div>
-<table class="table" id="tbluserteams">
+<table class="table table-bordered" id="tbluserteams">
     <tr>
         <th >Team name</th>
         <th >Miles pledged</th>
         <th >Miles Completed</th>
         <th></th>
     </tr>
-    <tr>
-        <td>John's Team</td>
-        <td class="text-center">
-            <span class="col">team</span>
-            <span class="col">me</span>
-        </td>
-        <td></td>
-        <td>
-            <button type="button" class="btn btn-sm btn-success">Edit</button>
-        </td>
-    </tr>
-    <tr>
-        <td>London Foundation</td>
-        <td></td>
-        <td></td>
-        <td>
-            <button type="button" class="btn btn-sm btn-success">Edit</button>
-        </td>
-    </tr>
+    @foreach (var team in teamData)
+    {
+        <tr>
+            <td>@team.TeamName </td>
+            <td class="text-center">
+                <span class="col">
+                    <span class="fa fa-user"></span> @team.MilesPledgedMe
+                </span>
+                <span class="col">
+                    <span class="fa fa-users"></span> @team.MilesPledgedTeam
+                </span>
+            </td>
+
+            <td class="text-center">
+                <span class="col">
+                    <span class="fa fa-user"></span> @team.MilesCompletedMe
+                </span>
+                <span class="col">
+                    <span class="fa fa-users"></span> @team.MilesCompletedTeam
+                </span>
+            </td>
+
+            <td>
+                <button type="button" class="btn btn-sm btn-success" team-id="@team.TeamId"><span class="fa fa-edit"></span></button>
+            </td>
+        </tr>
+    }
 </table>

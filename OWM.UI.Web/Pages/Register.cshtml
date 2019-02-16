@@ -4,7 +4,9 @@
     Layout = "Shared/_Layout";
     @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
-<link href="~/css/register.css" rel="stylesheet" />
+    <link href="~/css/register.css" rel="stylesheet" />
+    <script src="~/js/selectize.js"></script>
+    <script src="~/js/index.js"></script>
 <div class="container text-left">
     <form class="box w-50" method="post">
         <h2 class="greenheader">Register</h2>
@@ -65,6 +67,11 @@
                     <option value=""></option>
                 </select>
                 <span class="text-danger small" asp-validation-for="RegistrationData.EthnicityId"></span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-12">
+                <input type="text" id="interests" class="demo-default" value="">
             </div>
         </div>
         <div class="row mt-3">

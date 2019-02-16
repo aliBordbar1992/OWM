@@ -1,0 +1,36 @@
+﻿  .col-md-4 {
+      font-size: 12pt;
+  }
+  #searchteams {
+      font-size: 13pt;
+  }
+  .bg-darksuccess div p {
+      margin-bottom: 5px !important;
+  }
+  .bg-darksuccess div h4 {
+      font-size: 25pt;
+      font-weight: 600;
+      margin-bottom: 0!important;
+  }
+  .card-title {
+      font-size: 20pt!important;
+      font-weight: 600;
+  }
+  .fa-plus-circle {
+      font-size: 40pt;
+      font-weight: 600;
+      background-color: transparent;
+      line-height: 95px;
+      outline: none!important;
+  }
+  .fa-plus-circle:hover {
+      color: #42b653 !important
+  }
+  #teamsearchresult i {
+      font-size: 10pt;
+      position: absolute;
+      right: 15px;
+      bottom: 5px;
+      font-weight: 400;
+      opacity: 0.8;
+  }

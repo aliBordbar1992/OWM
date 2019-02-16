@@ -1,13 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Mvc.RazorPages
+@using Microsoft.AspNetCore.Rewrite.Internal.UrlActions
 @using OWM.UI.Web.Controllers
-  @{
-  @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers 
-  }
+@{
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <environment include="Development">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -30,184 +31,200 @@
     </environment>
 </head>
 <body>
-<div class="wrap mm-page mm-slideout" id="mm-1" style="">
-    <header id="header" class="anim" style="margin-bottom: 100px;">
-        <div class="wrap-logo">
-            <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
-        </div><nav class="">
-            <div class="donate">
-                <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
-            </div><ul class="desktop-menu">
-                <li>
-                    <a href="/index">Home</a>
-                </li>
-                <li>
-                    <a href="/login">Login</a>
-                </li>
-                <li>
-                    <a href="/Register">Register</a>
-                </li>
-                <li>
-                    <a href="/Explore">Explore</a>
-                </li>
-                <li>
-                    <a href="#">Help us</a>
-                </li>
-                <li>
-                    <a href="#">Gallery</a>
-                </li>
-                <li>
-                    <a href="#">Contact us</a>
-                </li>
-            </ul>
-            <div class="mobile-open">
-                <span class="mobile-icon"></span>
-            </div>
-        </nav>
-    </header>
-    <div>
-        <div class="container">
-            <div class="w-100 m-auto">
-                <div class="row">
-                    <div class="col-md-3 p-0">
-                        <div class="list-group mb-2">
-                            <div class="list-group-item text-center bg-light">
-                                <div class="d-block mb-2">
-                                    <img class="user-image" src="http://square-vn.com/app/dscms/assets/images/person-4.jpg?v=1495618120" />
-                                </div>
-                                <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
-                                <h4 class="font-weight-bold mb-1">JOHN SMITH</h4>
-                                <h6 class="mb-0 font-weight-bold">Teacher</h6>
-                            </div>
-                        </div>
-                        <div class="card mb-2 p-2" id="menu">
-                            <div class="list-group list-group-flush">
-                                <a class="list-group-item" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-                                <a class="list-group-item" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                                <a class="list-group-item" asp-area="" asp-page="/User/Messages">Messages</a>
-                                <a class="list-group-item" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-                                <a class="list-group-item" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-                                <a class="list-group-item" asp-area="" asp-page="/User/Help">Help</a>
-                                <a class="list-group-item">Logout</a>
-                            </div>
-                        </div>
-                        <div class="card mb-2 pt-3 p-2 bg-success text-white text-center">
-                            <p class="mb-1">Team Joined</p>
-                            <h1 class="mb-0">2</h1>
-                            <hr class="bg-white" />
-                            <p class="mb-1">Miles Pledged</p>
-                            <h1 class="mb-0">12</h1>
-                            <hr class="bg-white" />
-                            <p class="mb-1">Miles Completed</p>
-                            <h1 class="mb-0">3.4</h1>
-                        </div>
-                    </div>
-                    <div class="col-md-9 p-0 pl-2 pr-2">
-                        <div class="card">
-                            <div class="card-body bg-light">
-                                @RenderBody()
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <footer id="footer">
-        <div class="wrap-std">
-            <ul class="social clearfix">
-                <li>
-                    <a href="#">
-                        <img alt="Facebook" src="/img/icon-facebook.svg">
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img alt="Twitter" src="/img/icon-twitter.svg">
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <img alt="Instagram" src="/img/icon-instagram.svg">
-                    </a>
-                </li>
-            </ul>
-            <hr class="bg-white" />
-            <div class="columns clearfix">
-                <div class="column column-1">
-                    <h4>
-                        <a href="#">About</a>
-                    </h4>
-                    <ul>
-                        <li>
-                            <a href="#">Mission</a>
-                        </li>
-                        <li>
-                            <a href="#">Our story</a>
-                        </li>
-                        <li>
-                            <a href="#">Board</a>
-                        </li>
-                        <li>
-                            <a href="#">What we do</a>
-                        </li>
-                        <li>
-                            <a href="#">How we do it</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="column column-2">
-                    <h4>
-                        <a href="#">Impact</a>
-                    </h4><ul>
-                        <li>
-                            <a href="#">In the US</a>
-                        </li>
-                        <li>
-                            <a href="#">Abroad</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="column column-3">
-                    <h4>
+    <div class="wrap mm-page mm-slideout" id="mm-1" style="">
+        <header id="header" class="anim" style="margin-bottom: 100px;">
+            <div class="wrap-logo">
+                <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
+            </div><nav class="">
+                <div class="donate">
+                    <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
+                </div><ul class="desktop-menu">
+                    @{
+                        var userData = CheckUserLogin.GetUserData();
+                        if (userData != null)
+                        {
+                            <li>
+                                <a href="/User/NewsFeed">Welcome @userData.Name</a>
+                            </li>
+                            <li>
+                                <a href="/index">Home</a>
+                            </li>
+                            <li>
+                                <a href="/Register">Register</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="/index">Home</a>
+                            </li>
+                            <li>
+                                <a href="/login">Login</a>
+                            </li>
+                            <li>
+                                <a href="/Register">Register</a>
+                            </li>
+                        }
+                    }
+                    <li>
+                        <a href="/Explore">Explore</a>
+                    </li>
+                    <li>
                         <a href="#">Help us</a>
-                    </h4>
-                </div>
-                <div class="column column-4">
-                    <h4>
+                    </li>
+                    <li>
                         <a href="#">Gallery</a>
-                    </h4>
-                </div>
-                <div class="column column-5">
-                    <h4>
+                    </li>
+                    <li>
                         <a href="#">Contact us</a>
-                    </h4>
+                    </li>
+                </ul>
+                <div class="mobile-open">
+                    <span class="mobile-icon"></span>
+                </div>
+            </nav>
+        </header>
+        <div>
+            <div class="container">
+                <div class="w-100 m-auto">
+                    <div class="row">
+                        <div class="col-md-3 p-0">
+                            <div class="list-group mb-2">
+                                <div class="list-group-item text-center bg-light">
+                                    <div class="d-block mb-2">
+                                        <img class="user-image" src="@userData?.UserImage" />
+                                    </div>
+                                    <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
+                                    <h4 class="font-weight-bold mb-1">@userData?.Name @userData?.Surname</h4>
+                                    <h6 class="mb-0 font-weight-bold">@userData?.Occupation</h6>
+                                </div>
+                            </div>
+                            <div class="card mb-2 p-2" id="menu">
+                                <div class="list-group list-group-flush">
+                                    <a class="list-group-item" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
+                                    <a class="list-group-item" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
+                                    <a class="list-group-item" asp-area="" asp-page="/User/Messages">Messages</a>
+                                    <a class="list-group-item" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
+                                    <a class="list-group-item" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+                                    <a class="list-group-item" asp-area="" asp-page="/User/Help">Help</a>
+                                    <a class="list-group-item" href="/index">Logout</a>
+                                </div>
+                            </div>
+                            <div class="card mb-2 pt-3 p-2 bg-success text-white text-center">
+                                <p class="mb-1">Team Joined</p>
+                                <h1 class="mb-0">@userData?.TeamJoined</h1>
+                                <hr class="bg-white" />
+                                <p class="mb-1">Miles Pledged</p>
+                                <h1 class="mb-0">@userData?.MilesPledged</h1>
+                                <hr class="bg-white" />
+                                <p class="mb-1">Miles Completed</p>
+                                <h1 class="mb-0">@userData?.MilesCompleted</h1>
+                            </div>
+                        </div>
+                        <div class="col-md-9 p-0 pl-2 pr-2">
+                            <div class="card">
+                                <div class="card-body bg-light">
+                                    @RenderBody()
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <hr class="bg-white" />
-            <div class="copyright"> © 2019 - One World Strong Foundation </div>
         </div>
-    </footer>
-</div>
-
-<div id="mm-blocker" class="mm-slideout"></div>
-<section class="mm-slideout" id="ticker">
-    <div class="ticker-inner">
-        <!---->
-        <div class="ticker">
-            <!---->
-            <div class="ticker-item">Maggie from Harleysville, US just pledged 5.03 miles</div>
-            <div class="ticker-item">Suzanne from Harleysville, US just pledged 10 miles</div>
-            <div class="ticker-item">Kevin from Harleysville, US just pledged 13.01 miles</div>
-            <div class="ticker-item">Gabrielle from Harleysville, US just pledged 5.01 miles</div>
-            <div class="ticker-item">Madison from Harleysville, US just pledged 13.1 miles</div>
-            <div class="ticker-item">nic from Philadelphia, US just pledged 20.13 miles</div>
-            <div class="ticker-item">Tom-James from Lancaster, GB just pledged 10.69 miles</div>
-            <div class="ticker-item">Jonny from Manchester, GB just pledged 0.99 miles</div>
-            <div class="ticker-item">Alan from London, GB just pledged 1.24 miles</div>
-            <div class="ticker-item">Will from United Kingdom just pledged 3.11 miles</div>
-        </div>
+        <footer id="footer">
+            <div class="wrap-std">
+                <ul class="social clearfix">
+                    <li>
+                        <a href="#">
+                            <img alt="Facebook" src="/img/icon-facebook.svg">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="Twitter" src="/img/icon-twitter.svg">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="Instagram" src="/img/icon-instagram.svg">
+                        </a>
+                    </li>
+                </ul>
+                <hr class="bg-white" />
+                <div class="columns clearfix">
+                    <div class="column column-1">
+                        <h4>
+                            <a href="#">About</a>
+                        </h4>
+                        <ul>
+                            <li>
+                                <a href="#">Mission</a>
+                            </li>
+                            <li>
+                                <a href="#">Our story</a>
+                            </li>
+                            <li>
+                                <a href="#">Board</a>
+                            </li>
+                            <li>
+                                <a href="#">What we do</a>
+                            </li>
+                            <li>
+                                <a href="#">How we do it</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column column-2">
+                        <h4>
+                            <a href="#">Impact</a>
+                        </h4><ul>
+                            <li>
+                                <a href="#">In the US</a>
+                            </li>
+                            <li>
+                                <a href="#">Abroad</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column column-3">
+                        <h4>
+                            <a href="#">Help us</a>
+                        </h4>
+                    </div>
+                    <div class="column column-4">
+                        <h4>
+                            <a href="#">Gallery</a>
+                        </h4>
+                    </div>
+                    <div class="column column-5">
+                        <h4>
+                            <a href="#">Contact us</a>
+                        </h4>
+                    </div>
+                </div>
+                <hr class="bg-white" />
+                <div class="copyright"> © 2019 - One World Strong Foundation </div>
+            </div>
+        </footer>
     </div>
-</section>
+
+    <div id="mm-blocker" class="mm-slideout"></div>
+   @{
+    var tickerData = IndexUserTicker.GetTickerData();
+    if (tickerData?.Length > 0)
+    {
+        <section class="mm-slideout" id="ticker">
+            <div class="ticker-inner">
+                <div class="ticker">
+                    @foreach (var tick in tickerData)
+                    {
+                        <div class="ticker-item">@tick</div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+}
 </body>
 </html>

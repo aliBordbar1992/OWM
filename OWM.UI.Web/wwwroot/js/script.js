@@ -40,7 +40,13 @@ function GreenAlert(t, e) {
 }
 
 function ClearFields(t) {
-    $("#" + t).find("input:text").val(""), $("#" + t).find("textarea").val(""), $("#" + t).find("select").prop("selectedIndex", 0)
+    $('#'+ t).children('input:text, textarea').each(function () {
+        var baseColor = $(this).css('color');
+        $(this).animate({ color: $(this).css('background-color') }, function () {
+            $(this).val('');
+            $(this).css('color', baseColor);
+        });
+    }); $("#" + t).find("select").prop("selectedIndex", 0)
 }
 
 function checkPastDate(t) {
