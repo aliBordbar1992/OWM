@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OWM.Data.Configurations;
 using OWM.Data.Extensions;
@@ -21,7 +22,8 @@ namespace OWM.Data
         public virtual DbSet<Occupation> Occupations { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserIdentity> Identities { get; set; }
-        public virtual DbSet<TestEntity> TestEntities { get; set; }
+        public DbSet<IdentityUserClaim<string>> IdentityUserClaim { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,6 +35,7 @@ namespace OWM.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<IdentityUserClaim<string>>().HasKey(p => new { p.Id });
             modelBuilder.ApplyConfiguration(new UserConfig());
             //modelBuilder.ApplyConfiguration(new UserIdentityConfig());
 

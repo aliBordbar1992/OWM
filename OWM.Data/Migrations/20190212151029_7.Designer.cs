@@ -10,8 +10,8 @@ using OWM.Data;
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    [Migration("20190212115728_testIdentity")]
-    partial class testIdentity
+    [Migration("20190212151029_7")]
+    partial class _7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -96,19 +96,6 @@ namespace OWM.Data.Migrations
                     b.ToTable("Occupations");
                 });
 
-            modelBuilder.Entity("OWM.Domain.Entities.TestEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestEntities");
-                });
-
             modelBuilder.Entity("OWM.Domain.Entities.User", b =>
                 {
                     b.Property<int>("Id")
@@ -127,6 +114,8 @@ namespace OWM.Data.Migrations
 
                     b.Property<int>("Gender");
 
+                    b.Property<string>("IdentityId");
+
                     b.Property<DateTime>("Modified");
 
                     b.Property<string>("Name");
@@ -142,6 +131,8 @@ namespace OWM.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("EthnicityId");
+
+                    b.HasIndex("IdentityId");
 
                     b.HasIndex("OccupationId");
 
@@ -179,13 +170,9 @@ namespace OWM.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int?>("UserId");
-
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Identities");
                 });
@@ -211,16 +198,13 @@ namespace OWM.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EthnicityId");
 
+                    b.HasOne("OWM.Domain.Entities.UserIdentity", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId");
+
                     b.HasOne("OWM.Domain.Entities.Occupation", "Occupation")
                         .WithMany()
                         .HasForeignKey("OccupationId");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
-                {
-                    b.HasOne("OWM.Domain.Entities.TestEntity", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

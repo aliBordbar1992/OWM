@@ -3,10 +3,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OWM.Data.Migrations
 {
-    public partial class identityCreated : Migration
+    public partial class _7 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "IdentityId",
+                table: "Users",
+                nullable: true);
+
             migrationBuilder.CreateTable(
                 name: "Identities",
                 columns: table => new
@@ -25,30 +30,43 @@ namespace OWM.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    UserId = table.Column<int>(nullable: true)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Identities", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Identities_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Identities_UserId",
-                table: "Identities",
-                column: "UserId");
+                name: "IX_Users_IdentityId",
+                table: "Users",
+                column: "IdentityId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Users_Identities_IdentityId",
+                table: "Users",
+                column: "IdentityId",
+                principalTable: "Identities",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Users_Identities_IdentityId",
+                table: "Users");
+
             migrationBuilder.DropTable(
                 name: "Identities");
+
+            migrationBuilder.DropIndex(
+                name: "IX_Users_IdentityId",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "IdentityId",
+                table: "Users");
         }
     }
 }

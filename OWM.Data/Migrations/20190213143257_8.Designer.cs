@@ -10,8 +10,8 @@ using OWM.Data;
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    [Migration("20190212100858_identityCreated")]
-    partial class identityCreated
+    [Migration("20190213143257_8")]
+    partial class _8
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,23 @@ namespace OWM.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUserClaim");
+                });
 
             modelBuilder.Entity("OWM.Domain.Entities.City", b =>
                 {
@@ -114,6 +131,8 @@ namespace OWM.Data.Migrations
 
                     b.Property<int>("Gender");
 
+                    b.Property<string>("IdentityId");
+
                     b.Property<DateTime>("Modified");
 
                     b.Property<string>("Name");
@@ -129,6 +148,8 @@ namespace OWM.Data.Migrations
                     b.HasIndex("CountryId");
 
                     b.HasIndex("EthnicityId");
+
+                    b.HasIndex("IdentityId");
 
                     b.HasIndex("OccupationId");
 
@@ -166,13 +187,9 @@ namespace OWM.Data.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int?>("UserId");
-
                     b.Property<string>("UserName");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Identities");
                 });
@@ -198,16 +215,13 @@ namespace OWM.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EthnicityId");
 
+                    b.HasOne("OWM.Domain.Entities.UserIdentity", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId");
+
                     b.HasOne("OWM.Domain.Entities.Occupation", "Occupation")
                         .WithMany()
                         .HasForeignKey("OccupationId");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
-                {
-                    b.HasOne("OWM.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
