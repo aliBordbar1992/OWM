@@ -13,6 +13,6 @@ namespace OWM.Domain.Entities
         public virtual City City { get; set; }
         public virtual Ethnicity Ethnicity { get; set; }
         public GenderEnum Gender { get; set; }
-        //public UserIdentity Identity { get; set; }
+        public UserIdentity Identity { get; set; }
     }
 }

@@ -5,8 +5,7 @@ namespace OWM.Domain.Entities
 {
     public class UserIdentity : IdentityUser
     {
-        public virtual User User { get; private set; }
-        public static UserIdentity CreateIdentity(string username, string email, User newUser, string phoneNumber = "")
+        public static UserIdentity CreateIdentity(string username, string email, string phoneNumber = "")
         {
             var newUserIdentity = new UserIdentity
             {
@@ -14,8 +13,7 @@ namespace OWM.Domain.Entities
                 Email = email,
                 EmailConfirmed = false,
                 PhoneNumber = phoneNumber,
-                PhoneNumberConfirmed = false,
-                User = newUser
+                PhoneNumberConfirmed = false
             };
 
             return newUserIdentity;
