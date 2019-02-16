@@ -19,7 +19,8 @@ namespace OWM.UI.Web.Controllers
                     MilesPledgedMe = 2 + i,
                     MilesPledgedTeam = 5 + i,
                     MilesCompletedMe = 6 + i,
-                    MilesCompletedTeam = 10 + i
+                    MilesCompletedTeam = 10 + i,
+                    TeamId = Guid.NewGuid().ToString().Replace("-","")
                 });
             }
             return teamList;
@@ -31,7 +32,7 @@ namespace OWM.UI.Web.Controllers
             public int MilesPledgedTeam { get; set; }
             public int MilesCompletedMe { get; set; }
             public int MilesCompletedTeam { get; set; }
-            
+            public string TeamId { get; set; }
         }
     }
 }

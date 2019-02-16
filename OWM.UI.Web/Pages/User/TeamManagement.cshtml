@@ -23,7 +23,7 @@
         <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/SearchTeams">JOIN A TEAM</a>
     </div>
 </div>
-<table class="table" id="tbluserteams">
+<table class="table table-bordered" id="tbluserteams">
     <tr>
         <th >Team name</th>
         <th >Miles pledged</th>
@@ -53,7 +53,7 @@
             </td>
 
             <td>
-                <button type="button" class="btn btn-sm btn-success">Edit</button>
+                <button type="button" class="btn btn-sm btn-success" team-id="@team.TeamId"><span class="fa fa-edit"></span></button>
             </td>
         </tr>
     }
