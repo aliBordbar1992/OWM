@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <Compile Remove="Areas\Identity\IdentityHostingStartup.cs" />
+    <Compile Remove="Areas\Identity\Pages\Account\Login.cshtml.cs" />
     <Compile Remove="Areas\Identity\Pages\Account\Register.cshtml.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\Login.cshtml" />
     <Content Remove="Areas\Identity\Pages\Account\Register.cshtml" />
   </ItemGroup>
 

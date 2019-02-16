@@ -3,32 +3,44 @@
 @{
     Layout = "Shared/_Layout";
 }
-
-<div class="container">
-    <div class="box d-inline-block m-auto">
-        <div class="row">
-            <div class="col">
-                <h2 class="greenheader">Login to your account</h2>
-                <div class="form-group">
-                    <p for="Username">Username</p>
-                    <input class="text text-medium" type="text" id="Username" />
-                </div>
-                <div class="form-group">
-                    <p for="Password">Password</p>
-                    <input class="text text-medium" type="text" id="Password" />
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn-lg btn-success">Login</button>
+<form method="post">
+    <div class="container">
+        <div class="box d-inline-block m-auto">
+            <div class="row">
+                <div class="col">
+                    <h2 class="greenheader">Login to your account</h2>
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <div class="col">
-                        <a href="#" class="text-primary" style="line-height: 46px;">Forgot password?</a>
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label asp-for="Input.RememberMe">
+                                <input asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-default">Log in</button>
+                    </div>
+                    <div class="form-group">
+                        <p>
+                            <a asp-page="./ForgotPassword">Forgot your password?</a>
+                        </p>
+                        <p>
+                            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-
-</script>
+</form>

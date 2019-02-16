@@ -1,36 +1,61 @@
 ﻿@page
+
 @model OWM.UI.Web.Pages.VerificationModel
 @{
     Layout = "Shared/_Layout";
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 
+@{
+    if (Model.DirectVisit)
+    {
+        <div class="container">
+            <div class="alert alert-success d-block">@Model.Message</div>
+            @if (Model.SuccessfullyVerified)
+            {
+                <div class="w-50 m-auto text-center">
+                    <a href="@Url.Page("./User/EditProfile")">View profile</a>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="container">
+            <div class="alert alert-success d-block">@Model.Message</div>
+            <div class="w-50 m-auto text-center">
 
-<div class="container">
-    <div class="alert alert-success d-block">Your Account Successfully Created. Please Checkout Your Email To Complete The Action.</div>
-    <div class="w-50 m-auto text-center">
-        <button class="btn-lg btn-success" id="send">
-            <img src="img/loading.gif" id="loading" class="loading-md" style="display: none;"/>
-            Send Verification Email Again
-        </button>
-    </div>
-</div>
+                @if (Model.SuccessfullyVerified)
+                {
+                    <a href="@Url.Page("./User/EditProfile")">View profile</a>
+                }
+                else if (!Model.UserNotFound)
+                {
+                    <form class="box w-50" method="post">
+                        <input type="submit" class="btn-lg btn-success" id="send" value="Send verification email again" />
+                    </form>
+                }
+            </div>
+        </div>
+    }
+}
 
 <script>
-    $(function() {
+    $(function () {
         var btnSend = $('#send');
         var loading = $('#loading');
 
         btnSend.on('click',
-            function() {
+            function () {
                 AjaxPost({
                     url: "/eth/all",
-                    param: {str: "omid"},
-                    func:testit
+                    param: { str: "omid" },
+                    func: testit
                 });
 
                 function testit(e) {
-                    ElementGreenalert('send','bottom middle', 'Not Found');
+                    al
+                    ElementGreenert('send', 'bottom middle', 'Not Found');
                 }
             });
     });
