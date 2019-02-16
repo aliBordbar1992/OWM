@@ -22,7 +22,6 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITrackableRepository<Occupation>, TrackableRepository<Occupation>>();
             services.AddScoped<ITrackableRepository<User>, TrackableRepository<User>>();
             services.AddScoped<ITrackableRepository<EmailVerification>, TrackableRepository<EmailVerification>>();
-            services.AddScoped<ITrackableRepository<TestEntity>, TrackableRepository<TestEntity>>();
 
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICountryService, CountryService>();
@@ -30,7 +29,6 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<IOccupationService, OccupationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailVerificationService, EmailVerificationService>();
-            services.AddScoped<ITestEntityService, TestEntityService>();
 
             services.AddScoped<IUserVerificationService, UserVerificationService>();
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
@@ -41,40 +42,60 @@ namespace OWM.Application.Services
 
         public async Task Register(UserRegistrationDto userRegistrationDto)
         {
-            var newUser = new User();
-
-            var country = GetCountry(userRegistrationDto.CountryName);
-            var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
-
-            var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
-            var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
-
-            newUser.Country = country;
-            newUser.City = city;
-            newUser.Occupation = occupation;
-            newUser.Ethnicity = ethnicity;
-
-            newUser.DateOfBirth = userRegistrationDto.DateOfBirth;
-
-            newUser.Name = userRegistrationDto.Name;
-            newUser.Surname = userRegistrationDto.Surname;
-            newUser.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
-
-            //_userService.Insert(newUser);
-            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, newUser, userRegistrationDto.Phone);
+            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.Phone);
             var result = await _userManager.CreateAsync(newIdentity, userRegistrationDto.Password);
             if (result.Succeeded)
             {
-                //await _unitOfWork.SaveChangesAsync();
-                OnUserRegistered(new UserRegisteredArgs(newIdentity, newUser));
+                var newUser = new User();
+
+                var country = GetCountry(userRegistrationDto.CountryName);
+                var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
+
+                var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+                var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+
+                newUser.Identity = newIdentity;
+                newUser.Country = country;
+                newUser.City = city;
+                newUser.Occupation = occupation;
+                newUser.Ethnicity = ethnicity;
+
+                newUser.DateOfBirth = userRegistrationDto.DateOfBirth;
+
+                newUser.Name = userRegistrationDto.Name;
+                newUser.Surname = userRegistrationDto.Surname;
+                newUser.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+
+                _userService.Insert(newUser);
+
+                try
+                {
+                    await _unitOfWork.SaveChangesAsync();
+                    OnUserRegistered(new UserRegisteredArgs(newIdentity, newUser));
+                }
+                catch (Exception e)
+                {
+                    if (newUser.TrackingState == TrackingState.Added)
+                    {
+                        newUser.TrackingState = TrackingState.Deleted;
+                        await _unitOfWork.SaveChangesAsync();
+                    }
+
+                    await _userManager.DeleteAsync(newIdentity);
+
+                    var error = new IdentityError
+                    {
+                        Code = "UserSave",
+                        Description = "Unable to register. Try again."
+                    };
+                    OnRegistrationFailed(new RegistrationFailedArgs(new List<IdentityError> { error }));
+                }
             }
             else
             {
                 OnRegistrationFailed(new RegistrationFailedArgs(result.Errors));
             }
-
         }
-
 
 
         private Country GetCountry(string countryName)
@@ -83,14 +104,11 @@ namespace OWM.Application.Services
                 return _countryService.Queryable().First(x => x.Name.Equals(countryName));
 
             var newCountry = new Country { Name = countryName };
-            //_countryService.Insert(newCountry);
+            _countryService.Insert(newCountry);
 
             return newCountry;
         }
-        private bool CountryExistsInDb(string countryName)
-        {
-            return _countryService.Queryable().Any(x => x.Name.Equals(countryName));
-        }
+        private bool CountryExistsInDb(string countryName) => _countryService.Queryable().Any(x => x.Name.Equals(countryName));
 
         private City GetCity(Country country, string cityName, int cityId)
         {
@@ -98,43 +116,20 @@ namespace OWM.Application.Services
                 return _cityService.Queryable().First(x => x.CustomCityId == cityId);
 
             var newCity = new City { CustomCityId = cityId, Country = country, Name = cityName };
-            //_cityService.Insert(newCity);
+            _cityService.Insert(newCity);
 
             return newCity;
         }
-        private bool CityExistsInDb(int cityId)
-        {
-            return _cityService.Queryable().Any(x => x.CustomCityId == cityId);
-        }
+        private bool CityExistsInDb(int cityId) => _cityService.Queryable().Any(x => x.CustomCityId == cityId);
 
-        private Ethnicity GetEthnicity(int ethnicityId)
-        {
-            return _ethnicityService.FindAsync(ethnicityId).Result;
-        }
 
-        private Occupation GetOccupation(int occupationId)
-        {
-            return _occupationService.FindAsync(occupationId).Result;
-        }
+        private Ethnicity GetEthnicity(int ethnicityId) => _ethnicityService.FindAsync(ethnicityId).Result;
+        private Occupation GetOccupation(int occupationId) => _occupationService.FindAsync(occupationId).Result;
 
-        protected virtual void OnUserRegistered(UserRegisteredArgs e)
-        {
-            UserRegistered?.Invoke(this, e);
-        }
-        protected virtual void OnRegistrationFailed(RegistrationFailedArgs e)
-        {
-            RegisterFailed?.Invoke(this, e);
-        }
-
-        public IAsyncEnumerable<Ethnicity> GetEthnicities()
-        {
-            return _ethnicityService.Queryable().ToAsyncEnumerable();
-        }
-
-        public IAsyncEnumerable<Occupation> GetOccupations()
-        {
-            return _occupationService.Queryable().ToAsyncEnumerable();
-        }
+        protected virtual void OnUserRegistered(UserRegisteredArgs e) => UserRegistered?.Invoke(this, e);
+        protected virtual void OnRegistrationFailed(RegistrationFailedArgs e) => RegisterFailed?.Invoke(this, e);
+        public IAsyncEnumerable<Ethnicity> GetEthnicities() => _ethnicityService.Queryable().ToAsyncEnumerable();
+        public IAsyncEnumerable<Occupation> GetOccupations() => _occupationService.Queryable().ToAsyncEnumerable();
     }
 
     public class UserRegisteredArgs : EventArgs
