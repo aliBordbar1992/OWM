@@ -67,8 +67,7 @@ namespace OWM.UI.Web.Pages
 
         private async Task<bool> IsEmailConfirmed()
         {
-            string identityName = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(identityName);
+            var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null) return false;
 
             return await _userManager.IsEmailConfirmedAsync(user);
