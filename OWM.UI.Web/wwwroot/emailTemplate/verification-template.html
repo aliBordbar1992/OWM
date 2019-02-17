@@ -1,86 +1,69 @@
-<style>
-    body {
-        background: #FFF url("https://www.oneworldmarathon.org/assets/img/bg-body.svg") right top no-repeat;
-        background-size: 350px;
-        background-color: #f3f3f3;
-        padding: 0;
-        margin: 0;
-        width: 100%;
-    }
-
-    p {
-        color: #f3f3f3;
-        font-family: 'Raleway';
-    }
-
-    button {
-        background: #2f833d;
-        color: #f3f3f3;
-        border: none;
-        font-family: 'Raleway';
-        font-size: 20px;
-        padding: 15px 20px;
-    }
-    div {
-        font-family: 'Raleway';
-    }
-    button:hover {
-        background: #0e6c1d;
-        cursor: pointer;
-        outline: none;
-    }
-    i {
-        margin: 0 15px;
-        font-size: 20pt;
-        color: #f3f3f3;
-        cursor: pointer;
-    }
-</style>
-<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+        #body {
+            text-align: center;
+            background: url('http://up.vbiran.ir/uploads/2181615503823304997_bg-body.png') right top no-repeat;
+            background-size: 350px;
+            background-color: #ffffff;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            font-family: inherit;
+        }
+        #twitter, #facebook, #instagram {
+            margin: 0 15px;
+            font-size: 20pt;
+            color: #f3f3f3;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    </style>
+</head>
 <body>
-    <div style="text-align: center;">
+    <div style="" id="body">
         <div style="display: block;">
-            <img style="margin: 5px 0 10px 5px; display: block;" src="https://www.oneworldmarathon.org/assets/img/logo-one-world-strong-2.svg" />
-            <img src="https://www.oneworldmarathon.org/assets/img/logo-one-world-marathon.svg" style="opacity: 0.7;" />
+            <img style="margin: 5px 0 10px 5px; display: block;" src="http://up.vbiran.ir/uploads/16432155038237736606_logo-one-world-strong-2.png" />
+            <img src="http://up.vbiran.ir/uploads/21933155038237713575_logo-one-world-marathon.png" style="opacity: 0.7;" />
             <div style="margin: 20px 0;">
-                <img src="https://www.oneworldmarathon.org/assets/img/logo-one-world-marathon-strap.svg" />
-                <span style="font-size: 18pt;">  one world, one future together</span>
+                <img src="http://up.vbiran.ir/uploads/15896155038237739080_logo-one-world-marathon-strap.png" />
+                <span style="font-size: 18pt;font-family: inherit;">  one world, one future together</span>
             </div>
         </div>
         <div style="background-color: #71ba44; padding: 20px;">
             <div style="width: 50%; margin: auto; text-align: left;">
-                <p>Dear <UserFullName/></p>
-                <MessageP1/>
-                <MessageP2/>
+                <p style="font-family: inherit;color: #f3f3f3;font-size:15pt;">Dear <UserFullName/></p>
+                <p style="font-family: inherit;color: #f3f3f3;font-size:15pt;"><MessageP1/></p>
+                <p style="font-family: inherit;color: #f3f3f3;font-size:15pt;"><MessageP2/></p>
                 <br />
                 <MessageLink1/>
             </div>
         </div>
         <div style="background-color: #234257; padding: 20px;">
             <div style="width: 50%; margin: auto;">
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-twitter"></i>
-                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-instagram" id="instagram"></i>
+                <i class="fab fa-twitter" id="twitter"></i>
+                <i class="fab fa-facebook-f" id="facebook"></i>
             </div>
             <hr style="width: 50%; margin: auto; margin-bottom: 20px; margin-top: 20px;" />
             <div style="width: 50%; margin: auto; color: #f3f3f3;">
-                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt; text-align: left;">
+                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt; text-align: left;font-family: inherit;">
                     About
-                    <p style="font-weight: 200; font-size: 12pt;">Mission</p>
-                    <p style="font-weight: 200; font-size: 12pt;">Our Story</p>
-                    <p style="font-weight: 200; font-size: 12pt;">What we do</p>
-                    <p style="font-weight: 200; font-size: 12pt;">How we do it</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">Mission</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">Our Story</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">What we do</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">How we do it</p>
                 </div>
-                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;">
+                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;font-family: inherit;">
                     Impact
-                    <p style="font-weight: 200; font-size: 12pt;">In the US</p>
-                    <p style="font-weight: 200; font-size: 12pt;">Abroad</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">In the US</p>
+                    <p style="font-weight: 200; font-size: 12pt;font-family: inherit;color: #f3f3f3;">Abroad</p>
                 </div>
-                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;">
+                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;font-family: inherit;">
                     Help us
                 </div>
-                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;">
+                <div style="width: 23%; display: inline-block; font-weight: 800; font-size: 15pt;text-align: left; vertical-align: top;font-family: inherit;">
                     Contact us
                 </div>
             </div>
@@ -88,3 +71,4 @@
         </div>
     </div>
 </body>
+</html>

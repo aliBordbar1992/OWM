@@ -29,7 +29,7 @@ namespace OWM.Application.Services
         private void Config()
         {
             _message = new MimeMessage();
-            _message.From.Add(new MailboxAddress("A. bordbar", "ali.bordbar.1992@gmail.com"));
+            _message.From.Add(new MailboxAddress("OneWorldMarathon", "owm.assistance@gmail.com"));
             _message.To.Add(new MailboxAddress(_name, _emailAddress));
             _message.Subject = "Email verification";
 
@@ -46,7 +46,7 @@ namespace OWM.Application.Services
                 client.Connect("smtp.gmail.com", 587, false);
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("ali.bordbar.1992@gmail.com", "s2a0u1r1on");
+                client.Authenticate("owm.assistance@gmail.com", "Owm@2019");
 
                 client.Send(_message);
                 client.Disconnect(true);

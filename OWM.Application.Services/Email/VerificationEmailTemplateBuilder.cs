@@ -5,7 +5,9 @@
         private string _fullName;
         private string _msg1 = @"Your registration has been completed.";
         private string _msg2 = @"To verify your account, click on the button below";
-        private string _link = @"<a href='vrLnk' style='color: #ffffff; text-decoration: none;'>Verify</a>";
+        private string _link = "<a style=\"font-family: inherit;background: #2f833d;color:" +
+                               "#f3f3f3;border: none;font-size: 20px;padding: 15px 20px;" +
+                               "outline: none;cursor: pointer;text-decoration:none;margin-bottom:10px;\" href='vrLnk'>Verify</a>";
         private string _verificationLink;
 
         public VerificationEmailTemplateBuilder(string fullName, string verificationLink)
