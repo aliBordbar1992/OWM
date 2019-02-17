@@ -1,11 +1,16 @@
 ﻿$(function () {
-  var i;
-  $('#interests').selectize({
-      placeholder: 'Interests',
+    var i;
+    $('#interests').selectize({
+        placeholder: 'Interests',
         persist: false,
         createOnBlur: true,
         create: true
     });
+    $('#ValidationSummary').on('click',
+        'li',
+        function() {
+            $(this).fadeOut();
+        });
     $(".chosen-select").chosen({
         width: "100%"
     }), $("#RegistrationData_CityName").on("keyup keydown", function () {
@@ -23,5 +28,5 @@
         })
     }), $(".fa-times").click(function () {
         $("#RegistrationData_CityName").val(""), $("#RegistrationData_CountryName").val(""), $("#RegistrationData_CityName").prop("readonly", !1), $("#RegistrationData_CityId").val("")
-      })
+    })
 });

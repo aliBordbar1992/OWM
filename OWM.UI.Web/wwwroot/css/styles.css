@@ -1579,3 +1579,20 @@ body {
     font-size: 11pt;
     font-weight: 500;
 }
+#ValidationSummary ul{
+    margin-bottom: 10px;   
+}
+#ValidationSummary ul li:last-child {
+    margin-bottom: 0!important;
+}
+#ValidationSummary ul li {
+    font-size: 11pt;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-family: inherit;
+    padding: 10px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    cursor: pointer;
+}
