@@ -13,39 +13,64 @@
           integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/css/dashboard.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Open Sans'!important;
+        }
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        input[type="checkbox"] {
+            vertical-align: middle;
+            margin-bottom: 1px;
+        }
+    </style>
 </head>
 <body class="bg-light">
 <div class="container">
-    <div class="w-75 m-auto" style="margin-top: 150px!important;">
+    <div class="w-75 m-auto" style="margin-top: 130px!important;">
         <div class="card w-50 m-auto">
             <article class="card-body">
                 <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
-                <hr>
-                <p class="text-success text-center">
-                    @*Some message goes here*@
-                </p>
-                <form>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-user"></i> </span>
-                            </div>
-                            <input name="" class="form-control" placeholder="Email or login" type="email">
-                        </div>
+                <hr class="mb-2">
+                <form class="form-signin">
+                    <img class="d-block m-auto" src="/img/logo-one-world-strong-2.svg" alt="" width="170" >
+                    <input type="email" id="inputEmail" class="form-control mt-4" placeholder="Email address" required autofocus>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <div class="checkbox mb-1">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
                     </div>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                            </div>
-                            <input class="form-control" placeholder="******" type="password">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block"> Login </button>
-                    </div>
-                    <p class="text-center"><a href="#" class="btn">Forgot password?</a>
-                    </p>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <p class="mt-5 mb-1 text-muted">&copy; 2019 - One World Strong Foundation</p>
                 </form>
             </article>
         </div>

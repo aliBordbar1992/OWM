@@ -11,6 +11,7 @@
         function() {
             $(this).fadeOut();
         });
+    setTimeout(function () { $('#ValidationSummary ul li').fadeOut(700) }, 5000);
     $(".chosen-select").chosen({
         width: "100%"
     }), $("#RegistrationData_CityName").on("keyup keydown", function () {
