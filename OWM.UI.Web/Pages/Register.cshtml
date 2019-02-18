@@ -72,7 +72,8 @@
         </div>
         <div class="row mt-3">
             <div class="col-sm-12">
-                <input type="text" id="interests" class="demo-default" value="">
+                <input required type="text" id="interests" class="demo-default" value="" asp-for="RegistrationData.Interest">
+                <span asp-validation-for="RegistrationData.Interest" class="text-danger small"></span>
             </div>
         </div>
         <div class="row mt-3">

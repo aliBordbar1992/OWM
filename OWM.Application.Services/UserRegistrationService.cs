@@ -23,6 +23,7 @@ namespace OWM.Application.Services
         private readonly ICityService _cityService;
         private readonly IEthnicityService _ethnicityService;
         private readonly IOccupationService _occupationService;
+        private readonly IInterestService _interestService;
         private readonly IUnitOfWork _unitOfWork;
 
         public event EventHandler<UserRegisteredArgs> UserRegistered;
@@ -36,6 +37,7 @@ namespace OWM.Application.Services
             _ethnicityService = serviceProvider.GetRequiredService<IEthnicityService>();
             _occupationService = serviceProvider.GetRequiredService<IOccupationService>();
             _userService = serviceProvider.GetRequiredService<IUserService>();
+            _interestService = serviceProvider.GetRequiredService<IInterestService>();
 
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
@@ -53,12 +55,14 @@ namespace OWM.Application.Services
 
                 var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
                 var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+                var interests = GetInterests(userRegistrationDto.Interests);
 
                 newUser.Identity = newIdentity;
                 newUser.Country = country;
                 newUser.City = city;
                 newUser.Occupation = occupation;
                 newUser.Ethnicity = ethnicity;
+                newUser.Interests = interests;
 
                 newUser.DateOfBirth = userRegistrationDto.DateOfBirth;
 
@@ -75,13 +79,13 @@ namespace OWM.Application.Services
                 }
                 catch (Exception e)
                 {
-                    if (newUser.TrackingState == TrackingState.Added)
+                    if (_userService.ExistsAsync(newUser.Id).Result)
                     {
-                        newUser.TrackingState = TrackingState.Deleted;
+                        _userService.Delete(newUser);
                         await _unitOfWork.SaveChangesAsync();
+                        await _userManager.DeleteAsync(newIdentity);
                     }
 
-                    await _userManager.DeleteAsync(newIdentity);
 
                     var error = new IdentityError
                     {
@@ -122,6 +126,15 @@ namespace OWM.Application.Services
         }
         private bool CityExistsInDb(int cityId) => _cityService.Queryable().Any(x => x.CustomCityId == cityId);
 
+        private List<Interest> GetInterests(List<Interest> interests)
+        {
+            foreach (var interest in interests)
+            {
+                _interestService.Insert(interest);
+            }
+
+            return interests;
+        }
 
         private Ethnicity GetEthnicity(int ethnicityId) => _ethnicityService.FindAsync(ethnicityId).Result;
         private Occupation GetOccupation(int occupationId) => _occupationService.FindAsync(occupationId).Result;

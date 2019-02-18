@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using OWM.Domain.Entities;
 
 namespace OWM.Application.Services.Dtos
 {
@@ -47,6 +50,11 @@ namespace OWM.Application.Services.Dtos
 
         [Required(ErrorMessage = "City is Required")]
         public string CityName { get; set; }
+
+        [Required(ErrorMessage = "Enter at least one interest")]
+        public string Interest { get; set; }
+
+        public List<Interest> Interests => Interest.Split(',').Select(x => new Interest{ Name = x }).ToList();
 
         [Required(AllowEmptyStrings = false,ErrorMessage = "Birthday is required")]
         public DateTime DateOfBirth => DateTime.ParseExact(Birthday, "yyyy-MM-dd", null);

@@ -18,11 +18,11 @@ namespace OWM.Data
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Ethnicity> Ethnicities { get; set; }
-        public virtual DbSet<EmailVerification> EmailVerifications { get; set; }
         public virtual DbSet<Occupation> Occupations { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserIdentity> Identities { get; set; }
-        public DbSet<IdentityUserClaim<string>> IdentityUserClaim { get; set; }
+        public virtual DbSet<IdentityUserClaim<string>> IdentityUserClaim { get; set; }
+        public virtual DbSet<Interest> Interests { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

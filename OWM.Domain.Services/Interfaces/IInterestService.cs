@@ -3,7 +3,7 @@ using URF.Core.Abstractions.Services;
 
 namespace OWM.Domain.Services.Interfaces
 {
-    public interface IEmailVerificationService : IService<EmailVerification>
+    public interface IInterestService : IService<Interest>
     {
     }
 }

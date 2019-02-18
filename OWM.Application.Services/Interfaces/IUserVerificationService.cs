@@ -5,6 +5,5 @@ namespace OWM.Application.Services.Interfaces
 {
     public interface IUserVerificationService
     {
-        Task<EmailVerification> CreateEmailVerificationCode(int userIdentityId);
     }
 }

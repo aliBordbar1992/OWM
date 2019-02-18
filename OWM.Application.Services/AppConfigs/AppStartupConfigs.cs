@@ -21,14 +21,14 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITrackableRepository<Ethnicity>, TrackableRepository<Ethnicity>>();
             services.AddScoped<ITrackableRepository<Occupation>, TrackableRepository<Occupation>>();
             services.AddScoped<ITrackableRepository<User>, TrackableRepository<User>>();
-            services.AddScoped<ITrackableRepository<EmailVerification>, TrackableRepository<EmailVerification>>();
+            services.AddScoped<ITrackableRepository<Interest>, TrackableRepository<Interest>>();
 
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IEthnicityService, EthnicityService>();
             services.AddScoped<IOccupationService, OccupationService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+            services.AddScoped<IInterestService, InterestService>();
 
             services.AddScoped<IUserVerificationService, UserVerificationService>();
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();
