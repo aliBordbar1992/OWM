@@ -13,8 +13,8 @@
             <div class="alert alert-success d-block">@Model.Message</div>
             @if (Model.SuccessfullyVerified)
             {
-                <div class="w-50 m-auto text-center">
-                    <a href="@Url.Page("./User/EditProfile")">View profile</a>
+                <div class="w-50 m-auto text-center mt-2">
+                    <a href="@Url.Page("./User/EditProfile")" class="btn-lg btn-success">View profile</a>
                 </div>
             }
         </div>
@@ -23,11 +23,11 @@
     {
         <div class="container">
             <div class="alert alert-success d-block">@Model.Message</div>
-            <div class="w-50 m-auto text-center">
+            <div class="w-50 m-auto text-center mt-2">
 
                 @if (Model.SuccessfullyVerified)
                 {
-                    <a href="@Url.Page("./User/EditProfile")">View profile</a>
+                    <a class="btn-lg btn-success" href="@Url.Page("./User/EditProfile")">View profile</a>
                 }
                 else if (!Model.UserNotFound)
                 {

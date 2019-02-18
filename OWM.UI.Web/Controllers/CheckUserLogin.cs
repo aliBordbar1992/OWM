@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OWM.Application.Services.Dtos;
+using OWM.Domain.Entities;
 
 namespace OWM.UI.Web.Controllers
 {

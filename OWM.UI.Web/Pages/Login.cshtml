@@ -3,51 +3,52 @@
 @{
     Layout = "Shared/_Layout";
 }
-<form method="post">
-    <div class="container">
-        <div class="box d-inline-block m-auto">
-            <div class="row">
-                <div class="col">
-                    <h2 class="greenheader">Login to your account</h2>
-                    <div asp-validation-summary="All" id="ValidationSummary"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" />
-                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+
+<style>
+    input[type="checkbox"] {
+        margin-bottom: 2px;
+    }
+</style>
+<div class="container">
+    <div class="box" style="width: 40%;">
+        <h2 class="greenheader">Login</h2>
+        <hr>
+        <div asp-validation-summary="All" id="ValidationSummary"></div>
+        <form method="post">
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" />
-                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="Input.RememberMe">
-                                <input asp-for="Input.RememberMe"/>
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success">Log in</button>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <a class="text-info small" asp-page="./ForgotPassword">Forgot your password?</a>
-                        </div>
-                        <div class="col">
-                            <a class="text-info small" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                        </div>
-                    </div>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Email Address" required>
                 </div>
             </div>
-        </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" type="password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label asp-for="Input.RememberMe" class="mb-0 font-weight-bold">
+                        <input asp-for="Input.RememberMe" />
+                        @Html.DisplayNameFor(m => m.Input.RememberMe)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-block"> Login  </button>
+            </div>
+            <a class="text-primary x-small d-block font-weight-bold" asp-page="./ForgotPassword">Forgot your password?</a>
+            <span class="x-small font-weight-bold">Don't have an account? </span>
+            <a class="text-primary x-small font-weight-bold" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign up</a>
+        </form>
     </div>
-</form>
+</div>
+
 <script>
-    $('#ValidationSummary').on('click',
-        'li',
-        function () {
-            $(this).fadeOut();
-        });
+    $(function() {$('#ValidationSummary').on('click', 'li', function() { $(this).fadeOut(); });setTimeout(function () { $('#ValidationSummary ul li').fadeOut(700)},3000);});
 </script>
