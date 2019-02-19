@@ -9,7 +9,7 @@ namespace OWM.UI.Web.ViewComponents
     {
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var model = new TopMenuDto {IsSignedIn = true, Name = "Gholi"};
+            var model = new TopMenuDto {IsSignedIn = false, Name = "Gholi"};
             return View(model);
         }
     }

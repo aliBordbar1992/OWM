@@ -1,8 +1,7 @@
 ﻿@page
-@using OWM.UI.Web.Controllers
 @model OWM.UI.Web.Pages.User.EditProfileModel
 @{
-    Layout = "Shared/UserLayout";
+    Layout = "/User/Shared/UserLayout";
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
@@ -13,7 +12,7 @@
     <hr>
     <div class="row mt-2">
         <div class="col-md-8" id="inputarea">
-            @*alertArea*@
+            <div asp-validation-summary="All" id="ValidationSummary"></div>
             <div class="row">
                 <div class="col-sm-6">
                     <span>First Name</span>
@@ -81,7 +80,8 @@
         </div>
         <div class="col-md-4">
             <div class="text-center">
-                <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar">
+                @{var src = Model.UserInformationDto.UserImage == "" ? "/img/img_Plaaceholder.jpg" : Model.UserInformationDto.UserImage;}
+                <img src="@src" class="user-image w-50" alt="avatar">
                 <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>
         </div>

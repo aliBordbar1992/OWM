@@ -76,3 +76,12 @@ function AjaxPost(t) {
         }
     })
 }
+
+$(function() {
+    setTimeout(function () { $('#ValidationSummary ul li').fadeOut(700) }, 5000);    
+    $('#ValidationSummary').on('click',
+        'li',
+        function () {
+            $(this).fadeOut();
+        });
+})
