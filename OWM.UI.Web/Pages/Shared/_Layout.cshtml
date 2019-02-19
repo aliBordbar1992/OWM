@@ -33,47 +33,8 @@
         </div><nav class="">
             <div class="donate">
                 <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
-            </div><ul class="desktop-menu">
-                @{
-                    var userData = CheckUserLogin.GetUserData();
-                    if (userData != null)
-                    {
-                        <li>
-                            <a href="/User/NewsFeed">Welcome @userData.Name</a>
-                        </li>
-                        <li>
-                            <a href="/index">Home</a>
-                        </li>
-                        <li>
-                            <a href="/Register">Register</a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="/index">Home</a>
-                        </li>
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
-                        <li>
-                            <a href="/Register">Register</a>
-                        </li>
-                    }
-                }
-                <li>
-                    <a href="/Explore">Explore</a>
-                </li>
-                <li>
-                    <a href="#">Help us</a>
-                </li>
-                <li>
-                    <a href="#">Gallery</a>
-                </li>
-                <li>
-                    <a href="#">Contact us</a>
-                </li>
-            </ul>
+            </div>
+            @await  Component.InvokeAsync("TopMenu")
             <div class="mobile-open">
                 <span class="mobile-icon"></span>
             </div>

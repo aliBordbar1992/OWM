@@ -5,9 +5,6 @@
     Layout = "Shared/UserLayout";
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
-@{
-    var userData = CheckUserLogin.GetUserData();
-}
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
 <script src="~/js/jquery.Jcrop.min.js"></script>
 <link href="~/css/EditProfile.css" rel="stylesheet" />
@@ -20,36 +17,36 @@
             <div class="row">
                 <div class="col-sm-6">
                     <span>First Name</span>
-                    <input required class="form-control" value="@userData.Name"/>
+                    <input required class="form-control" value="@Model.UserInformationDto.Name"/>
                 </div>
                 <div class="col-sm-6">
                     <span>Last Name</span>
-                    <input required class="form-control" value="@userData.Surname"/>
+                    <input required class="form-control" value="@Model.UserInformationDto.Surname"/>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-sm-12">
                     <span>Email address</span>
-                    <input required class="form-control" type="email" value="@userData.Email"/>
+                    <input required class="form-control" type="email" value="@Model.UserInformationDto.Email"/>
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-sm-12">
                     <span>Contact number</span>
-                    <input required class="form-control" value="@userData.Phone">
+                    <input required class="form-control" value="@Model.UserInformationDto.Phone">
                 </div>
             </div>
             <div class="row mt-3">
                 <div class="col-sm-6 position-relative">
                     <span>City</span>
-                    <input required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@userData.CityName"/>
+                    <input required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName"/>
                     <span class="fa fa-times position-absolute" title="clear field"></span>
                     <ul class="position-absolute" name="cityfilter"></ul>
                     <input type="hidden" id="RegistrationData_CityId"/>
                 </div>
                 <div class="col-sm-6">
                     <span>Country</span>
-                    <input required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@userData.CountryName"/>
+                    <input required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName"/>
                 </div>
             </div>
             <div class="row mt-3">
@@ -84,7 +81,7 @@
         </div>
         <div class="col-md-4">
             <div class="text-center">
-                <img src="@userData.UserImage" class="user-image w-50" alt="avatar">
+                <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar">
                 <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>
         </div>

@@ -1,0 +1,33 @@
+﻿@model Dtos.TopMenuDto
+<ul class="desktop-menu">
+    @{
+
+        <li>
+            <a href="/index">Home</a>
+        </li>
+        if (Model.IsSignedIn)
+        {
+            <li>
+                <a href="/User/NewsFeed">Welcome @Model.Name</a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a href="/login">Login</a>
+            </li>
+        }
+    }
+    <li>
+        <a href="/Explore">Explore</a>
+    </li>
+    <li>
+        <a href="#">Help us</a>
+    </li>
+    <li>
+        <a href="#">Gallery</a>
+    </li>
+    <li>
+        <a href="#">Contact us</a>
+    </li>
+</ul>

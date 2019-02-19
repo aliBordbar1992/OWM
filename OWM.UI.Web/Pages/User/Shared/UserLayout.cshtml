@@ -1,9 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.RazorPages
 @using Microsoft.AspNetCore.Rewrite.Internal.UrlActions
 @using OWM.UI.Web.Controllers
-@{
-    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,47 +36,9 @@
             </div><nav class="">
                 <div class="donate">
                     <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
-                </div><ul class="desktop-menu">
-                    @{
-                        var userData = CheckUserLogin.GetUserData();
-                        if (userData != null)
-                        {
-                            <li>
-                                <a href="/User/NewsFeed">Welcome @userData.Name</a>
-                            </li>
-                            <li>
-                                <a href="/index">Home</a>
-                            </li>
-                            <li>
-                                <a href="/Register">Register</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a href="/index">Home</a>
-                            </li>
-                            <li>
-                                <a href="/login">Login</a>
-                            </li>
-                            <li>
-                                <a href="/Register">Register</a>
-                            </li>
-                        }
-                    }
-                    <li>
-                        <a href="/Explore">Explore</a>
-                    </li>
-                    <li>
-                        <a href="#">Help us</a>
-                    </li>
-                    <li>
-                        <a href="#">Gallery</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact us</a>
-                    </li>
-                </ul>
+                </div>
+                @await Component.InvokeAsync("TopMenu")
+
                 <div class="mobile-open">
                     <span class="mobile-icon"></span>
                 </div>
@@ -88,39 +48,7 @@
             <div class="container">
                 <div class="w-100 m-auto">
                     <div class="row">
-                        <div class="col-md-3 p-0">
-                            <div class="list-group mb-2">
-                                <div class="list-group-item text-center bg-light">
-                                    <div class="d-block mb-2">
-                                        <img class="user-image" src="@userData?.UserImage" />
-                                    </div>
-                                    <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
-                                    <h4 class="font-weight-bold mb-1">@userData?.Name @userData?.Surname</h4>
-                                    <h6 class="mb-0 font-weight-bold">@userData?.Occupation</h6>
-                                </div>
-                            </div>
-                            <div class="card mb-2 p-2" id="menu">
-                                <div class="list-group list-group-flush">
-                                    <a class="list-group-item" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-                                    <a class="list-group-item" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                                    <a class="list-group-item" asp-area="" asp-page="/User/Messages">Messages</a>
-                                    <a class="list-group-item" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-                                    <a class="list-group-item" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-                                    <a class="list-group-item" asp-area="" asp-page="/User/Help">Help</a>
-                                    <a class="list-group-item" href="/index">Logout</a>
-                                </div>
-                            </div>
-                            <div class="card mb-2 pt-3 p-2 bg-success text-white text-center">
-                                <p class="mb-1">Team Joined</p>
-                                <h1 class="mb-0">@userData?.TeamJoined</h1>
-                                <hr class="bg-white" />
-                                <p class="mb-1">Miles Pledged</p>
-                                <h1 class="mb-0">@userData?.MilesPledged</h1>
-                                <hr class="bg-white" />
-                                <p class="mb-1">Miles Completed</p>
-                                <h1 class="mb-0">@userData?.MilesCompleted</h1>
-                            </div>
-                        </div>
+                        @await Component.InvokeAsync("UserPanelInformation")
                         <div class="col-md-9 p-0 pl-2 pr-2">
                             <div class="card">
                                 <div class="card-body bg-light">
@@ -210,21 +138,21 @@
     </div>
 
     <div id="mm-blocker" class="mm-slideout"></div>
-   @{
-    var tickerData = IndexUserTicker.GetTickerData();
-    if (tickerData?.Length > 0)
-    {
-        <section class="mm-slideout" id="ticker">
-            <div class="ticker-inner">
-                <div class="ticker">
-                    @foreach (var tick in tickerData)
-                    {
-                        <div class="ticker-item">@tick</div>
-                    }
+    @{
+        var tickerData = IndexUserTicker.GetTickerData();
+        if (tickerData?.Length > 0)
+        {
+            <section class="mm-slideout" id="ticker">
+                <div class="ticker-inner">
+                    <div class="ticker">
+                        @foreach (var tick in tickerData)
+                        {
+                            <div class="ticker-item">@tick</div>
+                        }
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        }
     }
-}
 </body>
 </html>

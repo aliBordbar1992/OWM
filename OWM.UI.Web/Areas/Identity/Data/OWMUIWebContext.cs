@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OWM.UI.Web.Areas.Identity.Data;
 
-namespace OWM.UI.Web.Models
+namespace OWM.UI.Web.Areas.Identity.Data
 {
     public class OWMUIWebContext : IdentityDbContext<OWMUIWebUser>
     {

@@ -6,8 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
+using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.UI.Web.Controllers;
+using OWM.UI.Web.Dtos;
 
 namespace OWM.UI.Web.Pages.User
 {
@@ -15,6 +17,9 @@ namespace OWM.UI.Web.Pages.User
     {
         private readonly IUserRegistrationService _userRegistrationService;
         public List<SelectListItem> EthnicityOptions;
+
+        [BindProperty] public UserInformationDto UserInformationDto { get; set; }
+
         public EditProfileModel(IServiceProvider serviceProvider)
         {
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
