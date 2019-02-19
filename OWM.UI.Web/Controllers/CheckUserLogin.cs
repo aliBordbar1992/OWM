@@ -39,7 +39,7 @@ namespace OWM.UI.Web.Controllers
 
         public static bool IsAuthenticated()
         {
-            return false;
+            return true;
         }
         
         public class UserData:UserRegistrationDto

@@ -84,7 +84,10 @@
         </div>
         <div class="col-md-4">
             <div class="text-center">
-                <img src="@userData.UserImage" class="user-image w-50" alt="avatar">
+                @{
+                    var src = userData?.UserImage ?? "/img/img_Plaaceholder.jpg";
+                }
+                <img src="@src" class="user-image w-50" alt="avatar">
                 <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>
         </div>
