@@ -3,7 +3,8 @@
     <div class="list-group mb-2">
         <div class="list-group-item text-center bg-light">
             <div class="d-block mb-2">
-                <img class="user-image" src="@Model.UserImage" />
+                @{var src = Model.UserImage == "" ? "/img/img_Plaaceholder.jpg" : Model.UserImage;}
+                <img class="user-image" src="@src" />
             </div>
             <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
             <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
