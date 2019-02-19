@@ -1,5 +1,6 @@
 ﻿.user-image {
-    width: 60%;
+    max-width: 120px;
+    max-height: 120px;
     border-radius: 100%!important;
     border: 1px solid #ececec;
 }
