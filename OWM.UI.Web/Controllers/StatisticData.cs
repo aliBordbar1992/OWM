@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace OWM.UI.Web.Controllers
+﻿namespace OWM.UI.Web.Controllers
 {
     public class StatisticData
     {

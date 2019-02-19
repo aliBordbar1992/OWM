@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
+using System;
+using System.Linq;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web.Pages
 {
@@ -68,7 +68,7 @@ namespace OWM.UI.Web.Pages
                 ? "Error confirming email"
                 : "Your has been successfully verified.";
 
-            
+
             return Page();
         }
 

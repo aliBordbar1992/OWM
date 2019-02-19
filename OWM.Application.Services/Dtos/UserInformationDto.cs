@@ -1,6 +1,4 @@
-﻿using OWM.Application.Services.Dtos;
-
-namespace OWM.UI.Web.Dtos
+﻿namespace OWM.Application.Services.Dtos
 {
     public class UserInformationDto : UserRegistrationDto
     {

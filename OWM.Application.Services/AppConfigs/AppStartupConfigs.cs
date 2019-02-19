@@ -31,6 +31,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<IInterestService, InterestService>();
 
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();
+            services.AddScoped<IUserInformationService, UserInformationService>();
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace OWM.UI.Web.Dtos
+﻿namespace OWM.UI.Web.Dtos
 {
     public class TopMenuDto
     {

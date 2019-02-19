@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using OWM.UI.Web.Areas.Identity.Data
-@inject SignInManager<OWMUIWebUser> SignInManager
+﻿@inject SignInManager<OWMUIWebUser> SignInManager
 @inject UserManager<OWMUIWebUser> UserManager
 
 @if (SignInManager.IsSignedIn(User))

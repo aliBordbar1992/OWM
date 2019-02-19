@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
-using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
-using OWM.UI.Web.Controllers;
-using OWM.UI.Web.Dtos;
+using OWM.Application.Services.Dtos;
 
 namespace OWM.UI.Web.Pages.User
 {
