@@ -1,0 +1,82 @@
+﻿@page
+@model OWM.UI.Web.Pages.Admin.MessagesModel
+@{
+    Layout = "Shared/_AdminLayout";
+}
+
+<div class="row">
+    <div class="col">
+        <form class="card">
+            <h5 class="card-header info-color white-text text-center py-4">
+                <strong>Send Message</strong>
+            </h5>
+            <div class="card-body px-lg-5 bg-light">
+                <div class="row">
+                    <div class="col">
+                        <select class="chosen-select" data-placeholder="All Age Ranges">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <select class="chosen-select" data-placeholder="All Countries">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <select class="chosen-select" data-placeholder="All Occupations">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <div class="mt-3">
+                    <select class="chosen-select" data-placeholder="All Ethnicities">
+                        <option value=""></option>
+                    </select>
+                </div>
+                <button class="btn btn-info btn-block my-4" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+    <div class="col">
+        <form class="card">
+            <h5 class="card-header info-color white-text text-center py-4">
+                <strong>Incoming Messages</strong>
+            </h5>
+            <div class="card-body px-lg-5 bg-light">
+                <ul class="list-unstyled">
+                    <li class="d-flex justify-content-between mb-4">
+                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-start mr-2 z-depth-1">
+                        <div class="chat-body white p-3 ml-2 z-depth-1">
+                            <div class="header">
+                                <strong>Brad Pitt</strong>
+                                <small class="pull-right text-muted"><i class="far fa-clock"></i> 12 mins ago</small>
+                            </div>
+                            <hr class="w-100">
+                            <p class="mb-0">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="d-flex justify-content-between mb-4">
+                        <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-6.jpg" alt="avatar" class="avatar rounded-circle d-flex align-self-start mr-2 z-depth-1">
+                        <div class="chat-body white p-3 ml-2 z-depth-1">
+                            <div class="header">
+                                <strong>Brad Pitt</strong>
+                                <small class="pull-right text-muted"><i class="far fa-clock"></i> 12 mins ago</small>
+                            </div>
+                            <hr class="w-100">
+                            <p class="mb-0">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                                labore et dolore magna aliqua.
+                            </p>
+                        </div>
+                    </li>
+              </ul>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $('.chosen-select').chosen({ width: "100%" });
+</script>

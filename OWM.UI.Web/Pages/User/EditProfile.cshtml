@@ -1,7 +1,7 @@
 ﻿@page
 @model OWM.UI.Web.Pages.User.EditProfileModel
 @{
-    Layout = "/User/Shared/UserLayout";
+    Layout = "Shared/UserLayout";
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
@@ -59,7 +59,7 @@
                 </div>
                 <div class="col-sm-6">
                     <span>Ethnicity</span>
-                    <select required data-placeholder="" asp-items="Model.EthnicityOptions" class="chosen-select">
+                    <select required data-placeholder="" asp-items="@Model.EthnicityOptions" class="chosen-select">
                         <option value=""></option>
                     </select>
                 </div>
@@ -80,7 +80,7 @@
         </div>
         <div class="col-md-4">
             <div class="text-center">
-                @{var src = Model.UserInformationDto.UserImage == "" ? "/img/img_Plaaceholder.jpg" : Model.UserInformationDto.UserImage;}
+                @{var src = string.IsNullOrEmpty(Model.UserInformationDto.UserImage) ? "/img/img_Plaaceholder.jpg" : Model.UserInformationDto.UserImage;}
                 <img src="@src" class="user-image w-50" alt="avatar">
                 <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>

@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800');
 body {
   font-size: .875rem;
   background: #FFF url("../img/bg-body.svg") right top no-repeat;
+    font-family: "Open Sans";
 }
 
 .feather {
