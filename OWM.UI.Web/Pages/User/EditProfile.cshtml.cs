@@ -36,8 +36,7 @@ namespace OWM.UI.Web.Pages.User
             if (_signInManager.IsSignedIn((ClaimsPrincipal)User))
             {
                 string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
-                var info = _userInformation.GetUserInformation(identityId);
-                UserInformationDto = info;
+                UserInformationDto = _userInformation.GetUserInformation(identityId);
             }
             else throw new UserNotFoundException();
 
