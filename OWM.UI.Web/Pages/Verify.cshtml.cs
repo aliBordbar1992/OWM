@@ -19,11 +19,12 @@ namespace OWM.UI.Web.Pages
         private readonly IServiceProvider _serviceProvider;
         private readonly UserManager<UserIdentity> _userManager;
         private readonly SignInManager<UserIdentity> _signInManager;
-
         private readonly IUserService _userService;
+        private bool _notRegistered;
+        private UserIdentity _userIdentity;
 
         public bool DirectVisit;
-        public bool SuccessfullyVerified;
+        public bool emailAlreadyConfirmed;
         public bool UserNotFound;
         public string Message;
 
@@ -39,17 +40,21 @@ namespace OWM.UI.Web.Pages
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            DirectVisit = false;
+           DirectVisit = false;
             if (userId == null || code == null)
             {
                 DirectVisit = true;
-                if (!_signInManager.IsSignedIn(User)) return RedirectToPage("/Login");
 
-                SuccessfullyVerified = IsEmailConfirmed(User.Identity.Name).Result;
-                if (SuccessfullyVerified)
+                emailAlreadyConfirmed = IsEmailConfirmed(userId).Result;
+                if (emailAlreadyConfirmed)
+                {
+                    await _signInManager.SignInAsync(_userIdentity, true);
                     RedirectToPage("/User/NewsFeed");
-                Message = "Your account is not verified. Please check your email to verify your account.";
+                }
 
+                if (_notRegistered) return LocalRedirect("/Index");
+
+                Message = "Your account is not verified. Please check your email to verify your account.";
                 return Page();
             }
 
@@ -63,11 +68,10 @@ namespace OWM.UI.Web.Pages
             UserNotFound = false;
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            SuccessfullyVerified = result.Succeeded;
-            Message = !SuccessfullyVerified
+            emailAlreadyConfirmed = result.Succeeded;
+            Message = !emailAlreadyConfirmed
                 ? "Error confirming email"
-                : "Your has been successfully verified.";
-
+                : "Your account has been successfully verified.";
 
             return Page();
         }
@@ -103,12 +107,17 @@ namespace OWM.UI.Web.Pages
             emailSender.Send();
         }
 
-        private async Task<bool> IsEmailConfirmed(string identityName)
+        private async Task<bool> IsEmailConfirmed(string id)
         {
-            var user = await _userManager.FindByNameAsync(identityName);
-            if (user == null) return false;
+            _userIdentity = await _userManager.FindByIdAsync(id);
+            if (_userIdentity == null)
+            {
+                _notRegistered = true;
+                return false;
+            }
 
-            return await _userManager.IsEmailConfirmedAsync(user);
+            _notRegistered = false;
+            return await _userManager.IsEmailConfirmedAsync(_userIdentity);
         }
     }
 }

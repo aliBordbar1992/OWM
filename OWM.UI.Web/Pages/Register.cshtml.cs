@@ -22,6 +22,9 @@ namespace OWM.UI.Web.Pages
         private readonly IServiceProvider _serviceProvider;
         private readonly UserManager<UserIdentity> _userManager;
         private readonly SignInManager<UserIdentity> _signInManager;
+
+        private string _uId;
+
         public List<SelectListItem> EthnicityOptions;
         public List<SelectListItem> OccupationOptions;
         public RegisterModel(IServiceProvider serviceProvider, UserManager<UserIdentity> userManager,
@@ -54,11 +57,12 @@ namespace OWM.UI.Web.Pages
                 _succeeded = true;
 
                 _userRegistrationService.UserRegistered += SendVerificationEmail;
-                _userRegistrationService.UserRegistered += LoginUser;
+                _userRegistrationService.UserRegistered += SetUserId;
+
                 _userRegistrationService.RegisterFailed += RegisterFailed;
 
                 await _userRegistrationService.Register(RegistrationData);
-                if (_succeeded) return LocalRedirect(returnUrl);
+                if (_succeeded) return LocalRedirect(returnUrl + $"?userid={_uId}");
             }
 
             return Page();
@@ -79,6 +83,10 @@ namespace OWM.UI.Web.Pages
             }).ToList().Result;
         }
 
+        public void SetUserId(object sender, UserRegisteredArgs e)
+        {
+            _uId = e.Identity.Id;
+        }
         public void LoginUser(object sender, UserRegisteredArgs e)
         {
             _signInManager.SignInAsync(e.Identity, isPersistent: false);
