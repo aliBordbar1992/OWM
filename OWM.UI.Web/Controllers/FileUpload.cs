@@ -15,21 +15,14 @@ namespace OWM.UI.Web.Controllers
         public JsonResult Upload()
         {
             var file = Request.Form.Files[0];
-            if (file.ContentType != "image/jpeg")
-            {
-                return Json(new { status = "error", message = "File Type Error" });
-            }
-            if (file.Length > 300000)
-            {
-                return Json(new { status = "error", message = "File Size Error" });
-            }
+            return file.ContentType != "image/jpeg" ? Json(new { status = "error", message = "File Type Error" }) : Json(file.Length > 300000 
+                ? new { status = "error", message = "File Size Error" } : new { status = "success", message = "Succesfully Uploaded" });
 
             // Uncomment Below Code after user authentication was ok
 
             //var uploads = Path.Combine(hostingEnvironment.WebRootPath, "user_images");
             //var filePath = Path.Combine(uploads, Guid.NewGuid().ToString().Replace("-","") + ".jpg");
             //file.CopyTo(new FileStream(filePath, FileMode.Create));
-            return Json(new { status = "success", message = "Succesfully Uploaded" });
         }
     }
 }

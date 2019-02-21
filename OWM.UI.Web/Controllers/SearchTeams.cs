@@ -11,10 +11,6 @@ namespace OWM.UI.Web.Controllers
         [HttpGet("/Teams/SearchTeams")]
         public JsonResult Get()
         {
-            if (!CheckUserLogin.IsAuthenticated())
-            {
-                return null;
-            }
             var searchedTeamlist = new List<Teams> {new Teams()
             {
                 TeamName = "London Foundation",

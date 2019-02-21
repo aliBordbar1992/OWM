@@ -13,6 +13,7 @@ namespace OWM.UI.Web.Controllers
         [Required(ErrorMessage = "Ethnicity is Required")]
         public int? EthnicityId { get; set; }
 
+
         [Required(AllowEmptyStrings = false)]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]

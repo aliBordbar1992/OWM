@@ -7,7 +7,6 @@ namespace OWM.UI.Web.Controllers
     {
         public static List<MyTeams> GeTeams()
         {
-            if (!CheckUserLogin.IsAuthenticated()) return null;
             var teamList = new List<MyTeams>();
             for (int i = 0; i < 3; i++)
             {
