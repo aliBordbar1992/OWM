@@ -11,21 +11,20 @@ using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.Interfaces;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Exceptions;
-using OWM.Domain.Entities;
 
 namespace OWM.UI.Web.Pages.User
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class EditProfileModel : PageModel
     {
         private readonly IUserRegistrationService _userRegistrationService;
         public List<SelectListItem> EthnicityOptions;
-        private readonly SignInManager<UserIdentity> _signInManager;
+        private readonly SignInManager<Domain.Entities.User> _signInManager;
         private readonly IUserInformationService _userInformation;
 
         [BindProperty] public UserInformationDto UserInformationDto { get; set; }
 
-        public EditProfileModel(IServiceProvider serviceProvider, SignInManager<UserIdentity> signInManager,
+        public EditProfileModel(IServiceProvider serviceProvider, SignInManager<Domain.Entities.User> signInManager,
             IUserInformationService userInformation)
         {
             _signInManager = signInManager;

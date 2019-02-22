@@ -1,11 +1,14 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OWM.Application.Services;
 using OWM.Application.Services.AppConfigs;
 using OWM.Data;
 using OWM.Domain.Entities;
@@ -31,15 +34,16 @@ namespace OWM.UI.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc();
-
             var connectionString = Configuration.GetConnectionString(nameof(OwmContext));
             services.AddDbContext<OwmContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, OwmContext>();
             services.AddApplicationConfigs();
 
-            services.AddDefaultIdentity<UserIdentity>()
-                    .AddEntityFrameworkStores<OwmContext>();
+            services.AddIdentity<User, Role>()
+                .AddUserStore<UserStore<User, Role, OwmContext, string, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>>()
+                .AddRoleStore<RoleStore<Role, OwmContext, string, UserRole, RoleClaim>>()
+                .AddDefaultTokenProviders();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings.
@@ -63,16 +67,17 @@ namespace OWM.UI.Web
             services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
+                options.LoginPath = "/Login";
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-
-                options.LoginPath = "/Login";
                 options.SlidingExpiration = true;
             });
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider services)
         {
             if (env.IsDevelopment())
             {
@@ -89,6 +94,21 @@ namespace OWM.UI.Web
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+
+            CreateUserRoles(services).Wait();
+        }
+
+        private async Task CreateUserRoles(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<Role>>();
+
+            IdentityResult roleResult;
+
+            var adminCheck = await roleManager.RoleExistsAsync(ApplicationRoles.Admin);
+            if (!adminCheck) roleResult = await roleManager.CreateAsync(new Role(ApplicationRoles.Admin));
+
+            var userCheck = await roleManager.RoleExistsAsync(ApplicationRoles.User);
+            if (!userCheck) roleResult = await roleManager.CreateAsync(new Role(ApplicationRoles.User));
         }
     }
 }

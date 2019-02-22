@@ -16,7 +16,8 @@ namespace OWM.Application.Services
 {
     public class UserRegistrationService : IUserRegistrationService
     {
-        private readonly UserManager<UserIdentity> _userManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IUserService _userService;
 
         private readonly ICountryService _countryService;
@@ -29,9 +30,10 @@ namespace OWM.Application.Services
         public event EventHandler<UserRegisteredArgs> UserRegistered;
         public event EventHandler<RegistrationFailedArgs> RegisterFailed;
 
-        public UserRegistrationService(IServiceProvider serviceProvider, UserManager<UserIdentity> userManager)
+        public UserRegistrationService(IServiceProvider serviceProvider, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _countryService = serviceProvider.GetRequiredService<ICountryService>();
             _cityService = serviceProvider.GetRequiredService<ICityService>();
             _ethnicityService = serviceProvider.GetRequiredService<IEthnicityService>();
@@ -44,11 +46,13 @@ namespace OWM.Application.Services
 
         public async Task Register(UserRegistrationDto userRegistrationDto)
         {
-            var newIdentity = UserIdentity.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.Phone);
-            var result = await _userManager.CreateAsync(newIdentity, userRegistrationDto.Password);
-            if (result.Succeeded)
+            var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.Phone);
+            var identityResult = await _userManager.CreateAsync(user, userRegistrationDto.Password);
+            if (identityResult.Succeeded)
             {
-                var newUser = new User();
+                await _userManager.AddToRoleAsync(user, ApplicationRoles.User);
+
+                var profile = new Profile();
 
                 var country = GetCountry(userRegistrationDto.CountryName);
                 var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
@@ -57,33 +61,33 @@ namespace OWM.Application.Services
                 var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
                 var interests = GetInterests(userRegistrationDto.Interests);
 
-                newUser.Identity = newIdentity;
-                newUser.Country = country;
-                newUser.City = city;
-                newUser.Occupation = occupation;
-                newUser.Ethnicity = ethnicity;
-                newUser.Interests = interests;
+                profile.Identity = user;
+                profile.Country = country;
+                profile.City = city;
+                profile.Occupation = occupation;
+                profile.Ethnicity = ethnicity;
+                profile.Interests = interests;
 
-                newUser.DateOfBirth = userRegistrationDto.DateOfBirth;
+                profile.DateOfBirth = userRegistrationDto.DateOfBirth;
 
-                newUser.Name = userRegistrationDto.Name;
-                newUser.Surname = userRegistrationDto.Surname;
-                newUser.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+                profile.Name = userRegistrationDto.Name;
+                profile.Surname = userRegistrationDto.Surname;
+                profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
 
-                _userService.Insert(newUser);
+                _userService.Insert(profile);
 
                 try
                 {
                     await _unitOfWork.SaveChangesAsync();
-                    OnUserRegistered(new UserRegisteredArgs(newIdentity, newUser));
+                    OnUserRegistered(new UserRegisteredArgs(user, profile));
                 }
                 catch (Exception e)
                 {
-                    if (_userService.ExistsAsync(newUser.Id).Result)
+                    if (_userService.ExistsAsync(profile.Id).Result)
                     {
-                        _userService.Delete(newUser);
+                        _userService.Delete(profile);
                         await _unitOfWork.SaveChangesAsync();
-                        await _userManager.DeleteAsync(newIdentity);
+                        await _userManager.DeleteAsync(user);
                     }
 
 
@@ -97,7 +101,7 @@ namespace OWM.Application.Services
             }
             else
             {
-                OnRegistrationFailed(new RegistrationFailedArgs(result.Errors));
+                OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
             }
         }
 
@@ -147,10 +151,10 @@ namespace OWM.Application.Services
 
     public class UserRegisteredArgs : EventArgs
     {
-        public User User { get; }
-        public UserIdentity Identity { get; }
+        public Profile User { get; }
+        public User Identity { get; }
 
-        public UserRegisteredArgs(UserIdentity identity, User user)
+        public UserRegisteredArgs(User identity, Profile user)
         {
             User = user;
             Identity = identity;

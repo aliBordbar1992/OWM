@@ -11,10 +11,10 @@ namespace OWM.UI.Web.ViewComponents
 {
     public class UserPanelInformationViewComponent : ViewComponent
     {
-        private readonly SignInManager<UserIdentity> _signInManager;
+        private readonly SignInManager<User> _signInManager;
         private readonly IUserInformationService _userInformation;
 
-        public UserPanelInformationViewComponent(SignInManager<UserIdentity> signInManager, IUserInformationService userInformation)
+        public UserPanelInformationViewComponent(SignInManager<User> signInManager, IUserInformationService userInformation)
         {
             _signInManager = signInManager;
             _userInformation = userInformation;

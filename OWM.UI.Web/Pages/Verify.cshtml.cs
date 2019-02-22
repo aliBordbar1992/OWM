@@ -17,19 +17,19 @@ namespace OWM.UI.Web.Pages
     public class VerificationModel : PageModel
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly UserManager<UserIdentity> _userManager;
-        private readonly SignInManager<UserIdentity> _signInManager;
+        private readonly UserManager<Domain.Entities.User> _userManager;
+        private readonly SignInManager<Domain.Entities.User> _signInManager;
         private readonly IUserService _userService;
         private bool _notRegistered;
-        private UserIdentity _userIdentity;
+        private Domain.Entities.User _user;
 
         public bool DirectVisit;
         public bool emailAlreadyConfirmed;
         public bool UserNotFound;
         public string Message;
 
-        public VerificationModel(IServiceProvider serviceProvider, UserManager<UserIdentity> userManager,
-            SignInManager<UserIdentity> signInManager)
+        public VerificationModel(IServiceProvider serviceProvider, UserManager<Domain.Entities.User> userManager,
+            SignInManager<Domain.Entities.User> signInManager)
         {
             _serviceProvider = serviceProvider;
             _userManager = userManager;
@@ -48,7 +48,7 @@ namespace OWM.UI.Web.Pages
                 emailAlreadyConfirmed = IsEmailConfirmed(userId).Result;
                 if (emailAlreadyConfirmed)
                 {
-                    await _signInManager.SignInAsync(_userIdentity, true);
+                    await _signInManager.SignInAsync(_user, true);
                     RedirectToPage("/User/NewsFeed");
                 }
 
@@ -92,7 +92,7 @@ namespace OWM.UI.Web.Pages
             return LocalRedirect("/Verify");
         }
 
-        private void SendVerificationEmail(UserIdentity identity, string name)
+        private void SendVerificationEmail(Domain.Entities.User identity, string name)
         {
             var code = _userManager.GenerateEmailConfirmationTokenAsync(identity).Result;
             var callbackUrl = Url.Page(
@@ -109,15 +109,15 @@ namespace OWM.UI.Web.Pages
 
         private async Task<bool> IsEmailConfirmed(string id)
         {
-            _userIdentity = await _userManager.FindByIdAsync(id);
-            if (_userIdentity == null)
+            _user = await _userManager.FindByIdAsync(id);
+            if (_user == null)
             {
                 _notRegistered = true;
                 return false;
             }
 
             _notRegistered = false;
-            return await _userManager.IsEmailConfirmedAsync(_userIdentity);
+            return await _userManager.IsEmailConfirmedAsync(_user);
         }
     }
 }

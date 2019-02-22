@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using OWM.Domain.Entities.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace OWM.Domain.Entities
 {
-    public class User : BaseAuditClass
+    public class User : IdentityUser
     {
-        public User()
+        public static User CreateIdentity(string username, string email, string phoneNumber = "")
         {
-            Interests = new List<Interest>();
+            var newUser = new User
+            {
+                UserName = username,
+                Email = email,
+                EmailConfirmed = false,
+                PhoneNumber = phoneNumber,
+                PhoneNumberConfirmed = false
+            };
+
+            return newUser;
         }
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public string ProfileImageUrl { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public GenderEnum Gender { get; set; }
-        public virtual Occupation Occupation { get; set; }
-        public virtual Country Country { get; set; }
-        public virtual City City { get; set; }
-        public virtual Ethnicity Ethnicity { get; set; }
-        public virtual UserIdentity Identity { get; set; }
-        public virtual ICollection<Interest> Interests { get; set; }
     }
 }

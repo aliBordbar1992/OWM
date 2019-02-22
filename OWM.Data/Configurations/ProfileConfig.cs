@@ -6,14 +6,13 @@ using OWM.Domain.Entities.Enums;
 
 namespace OWM.Data.Configurations
 {
-    public class UserConfig : IEntityTypeConfiguration<User>
+    public class ProfileConfig : IEntityTypeConfiguration<Profile>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<Profile> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Gender)
                 .HasConversion(new EnumToNumberConverter<GenderEnum, int>());
-
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
@@ -12,11 +12,10 @@ using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
-using OWM.Domain.Entities;
 
 namespace OWM.UI.Web.Pages
 {
-    public class RegisterModel : PageModel
+    public class RegisterTestModel : PageModel
     {
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IServiceProvider _serviceProvider;
@@ -27,23 +26,20 @@ namespace OWM.UI.Web.Pages
 
         public List<SelectListItem> EthnicityOptions;
         public List<SelectListItem> OccupationOptions;
-        public RegisterModel(IServiceProvider serviceProvider, UserManager<Domain.Entities.User> userManager,
+        public RegisterTestModel(IServiceProvider serviceProvider, UserManager<Domain.Entities.User> userManager,
             SignInManager<Domain.Entities.User> signInManager)
         {
             _serviceProvider = serviceProvider;
             _userManager = userManager;
             _signInManager = signInManager;
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
-             EthnicityOptions = new List<SelectListItem>();
-             OccupationOptions = new List<SelectListItem>();
+            EthnicityOptions = new List<SelectListItem>();
+            OccupationOptions = new List<SelectListItem>();
         }
         public void OnGet()
         {
-           FillDropdowns();
+            FillDropdowns();
         }
-        
-        [BindProperty]
-        public UserRegistrationDto RegistrationData { get; set; }
 
         private bool _succeeded;
 
@@ -61,7 +57,7 @@ namespace OWM.UI.Web.Pages
 
                 _userRegistrationService.RegisterFailed += RegisterFailed;
 
-                await _userRegistrationService.Register(RegistrationData);
+                await _userRegistrationService.Register(TestData());
                 if (_succeeded) return LocalRedirect(returnUrl + $"?userid={_uId}");
             }
 
@@ -112,6 +108,27 @@ namespace OWM.UI.Web.Pages
             {
                 ModelState.AddModelError(string.Empty, error.Description);
             }
+        }
+
+        public UserRegistrationDto TestData()
+        {
+            return new  UserRegistrationDto
+            {
+                Interest = "test,test2",
+                Birthday = "2019-02-02",
+                CityId = 4066,
+                CityName = "Tehran, TH, Iran",
+                ConfirmPassword = "Mo$tashar2",
+                CountryName = "Iran",
+                Email = "witch_king2011@yahoo.com",
+                EthnicityId = 1,
+                Gender = 1,
+                Name = "ali",
+                OccupationId = 1,
+                Password = "Mo$tashar2",
+                Phone = "09372346281",
+                Surname = "Bordbar"
+            };
         }
     }
 }

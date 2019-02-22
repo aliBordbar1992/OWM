@@ -15,13 +15,20 @@ namespace OWM.Data
         {
         }
 
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserClaim> UserClaims { get; set; }
+        public virtual DbSet<UserLogin> UserLogins { get; set; }
+        public virtual DbSet<UserToken> UserTokens { get; set; }
+
+        public virtual DbSet<Role> Roles { get; set; }
+        public virtual DbSet<RoleClaim> RoleClaims { get; set; }
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+
+        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Country> Countries { get; set; }
         public virtual DbSet<Ethnicity> Ethnicities { get; set; }
         public virtual DbSet<Occupation> Occupations { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<UserIdentity> Identities { get; set; }
-        public virtual DbSet<IdentityUserClaim<string>> IdentityUserClaim { get; set; }
         public virtual DbSet<Interest> Interests { get; set; }
 
 
@@ -35,9 +42,13 @@ namespace OWM.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<IdentityUserClaim<string>>().HasKey(p => new { p.Id });
-            modelBuilder.ApplyConfiguration(new UserConfig());
-            //modelBuilder.ApplyConfiguration(new UserIdentityConfig());
+            modelBuilder.Entity<UserClaim>().HasKey(p => new { p.Id });
+            modelBuilder.Entity<UserLogin>().HasKey(p => new { p.LoginProvider, p.ProviderKey });
+            modelBuilder.Entity<UserToken>().HasKey(p => new { p.UserId, p.LoginProvider, p.Name });
+            modelBuilder.Entity<RoleClaim>().HasKey(p => new { p.Id });
+
+            modelBuilder.ApplyConfiguration(new UserRoleConfig());
+            modelBuilder.ApplyConfiguration(new ProfileConfig());
 
             base.OnModelCreating(modelBuilder);
         }

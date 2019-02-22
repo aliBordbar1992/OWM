@@ -14,7 +14,7 @@ namespace OWM.Application.Services
     public class UserInformationService : IUserInformationService
     {
         private readonly IUserService _userService;
-        private User _user;
+        private Profile _user;
 
         public UserInformationService(IUserService userService)
         {

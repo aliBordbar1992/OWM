@@ -20,7 +20,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITrackableRepository<Country>, TrackableRepository<Country>>();
             services.AddScoped<ITrackableRepository<Ethnicity>, TrackableRepository<Ethnicity>>();
             services.AddScoped<ITrackableRepository<Occupation>, TrackableRepository<Occupation>>();
-            services.AddScoped<ITrackableRepository<User>, TrackableRepository<User>>();
+            services.AddScoped<ITrackableRepository<Profile>, TrackableRepository<Profile>>();
             services.AddScoped<ITrackableRepository<Interest>, TrackableRepository<Interest>>();
 
             services.AddScoped<ICityService, CityService>();

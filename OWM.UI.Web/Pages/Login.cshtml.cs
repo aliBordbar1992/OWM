@@ -12,8 +12,8 @@ namespace OWM.UI.Web.Pages
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly SignInManager<UserIdentity> _signInManager;
-        private readonly UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<Domain.Entities.User> _signInManager;
+        private readonly UserManager<Domain.Entities.User> _userManager;
         private string _uId;
         private bool _notRegistered;
 
@@ -25,7 +25,7 @@ namespace OWM.UI.Web.Pages
 
         public string ReturnUrl { get; set; }
 
-        public LoginModel(SignInManager<UserIdentity> signInManager, UserManager<UserIdentity> userManager)
+        public LoginModel(SignInManager<Domain.Entities.User> signInManager, UserManager<Domain.Entities.User> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;

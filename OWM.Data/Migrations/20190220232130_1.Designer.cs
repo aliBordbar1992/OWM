@@ -10,8 +10,8 @@ using OWM.Data;
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    [Migration("20190210104850_verificationAdded")]
-    partial class verificationAdded
+    [Migration("20190220232130_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,23 @@ namespace OWM.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaims");
+                });
 
             modelBuilder.Entity("OWM.Domain.Entities.City", b =>
                 {
@@ -53,23 +70,6 @@ namespace OWM.Data.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("OWM.Domain.Entities.EmailVerification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("Expired");
-
-                    b.Property<int>("UserIdentityId");
-
-                    b.Property<Guid>("VerificatonCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EmailVerifications");
-                });
-
             modelBuilder.Entity("OWM.Domain.Entities.Ethnicity", b =>
                 {
                     b.Property<int>("Id")
@@ -81,6 +81,23 @@ namespace OWM.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ethnicities");
+                });
+
+            modelBuilder.Entity("OWM.Domain.Entities.Interest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("ProfileId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("Interests");
                 });
 
             modelBuilder.Entity("OWM.Domain.Entities.Occupation", b =>
@@ -96,7 +113,7 @@ namespace OWM.Data.Migrations
                     b.ToTable("Occupations");
                 });
 
-            modelBuilder.Entity("OWM.Domain.Entities.User", b =>
+            modelBuilder.Entity("OWM.Domain.Entities.Profile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -114,11 +131,15 @@ namespace OWM.Data.Migrations
 
                     b.Property<int>("Gender");
 
+                    b.Property<string>("IdentityId");
+
                     b.Property<DateTime>("Modified");
 
                     b.Property<string>("Name");
 
                     b.Property<int?>("OccupationId");
+
+                    b.Property<string>("ProfileImageUrl");
 
                     b.Property<string>("Surname");
 
@@ -130,40 +151,65 @@ namespace OWM.Data.Migrations
 
                     b.HasIndex("EthnicityId");
 
+                    b.HasIndex("IdentityId");
+
                     b.HasIndex("OccupationId");
 
-                    b.ToTable("Users");
+                    b.ToTable("Profiles");
                 });
 
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
+            modelBuilder.Entity("OWM.Domain.Entities.Role", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Created");
+                    b.Property<string>("ConcurrencyStamp");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Name");
 
-                    b.Property<bool>("EmailVerified");
-
-                    b.Property<DateTime>("Modified");
-
-                    b.Property<byte[]>("PasswordHash");
-
-                    b.Property<byte[]>("PasswordSalt");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<int?>("UserId");
-
-                    b.Property<string>("Username");
+                    b.Property<string>("NormalizedName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.ToTable("Roles");
+                });
 
-                    b.ToTable("Identities");
+            modelBuilder.Entity("OWM.Domain.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp");
+
+                    b.Property<string>("Email");
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail");
+
+                    b.Property<string>("NormalizedUserName");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("OWM.Domain.Entities.City", b =>
@@ -173,7 +219,14 @@ namespace OWM.Data.Migrations
                         .HasForeignKey("CountryId");
                 });
 
-            modelBuilder.Entity("OWM.Domain.Entities.User", b =>
+            modelBuilder.Entity("OWM.Domain.Entities.Interest", b =>
+                {
+                    b.HasOne("OWM.Domain.Entities.Profile")
+                        .WithMany("Interests")
+                        .HasForeignKey("ProfileId");
+                });
+
+            modelBuilder.Entity("OWM.Domain.Entities.Profile", b =>
                 {
                     b.HasOne("OWM.Domain.Entities.City", "City")
                         .WithMany()
@@ -187,16 +240,13 @@ namespace OWM.Data.Migrations
                         .WithMany()
                         .HasForeignKey("EthnicityId");
 
+                    b.HasOne("OWM.Domain.Entities.User", "Identity")
+                        .WithMany()
+                        .HasForeignKey("IdentityId");
+
                     b.HasOne("OWM.Domain.Entities.Occupation", "Occupation")
                         .WithMany()
                         .HasForeignKey("OccupationId");
-                });
-
-            modelBuilder.Entity("OWM.Domain.Entities.UserIdentity", b =>
-                {
-                    b.HasOne("OWM.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
