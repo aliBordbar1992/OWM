@@ -84,7 +84,7 @@ namespace OWM.Application.Services
                 MilesCompleted = "MilesCompleted",
                 MilesPledged = "MilesPledged",
                 TeamJoined = "TeamJoined",
-                UserImage = _user.ProfileImageUrl,
+                UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl) ? "/img/img_Plaaceholder.jpg" : _user.ProfileImageUrl,
             };
         }
         public string GetUserFirstName(string identityId)

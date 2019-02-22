@@ -68,7 +68,7 @@ namespace OWM.Application.Services
                 profile.Ethnicity = ethnicity;
                 profile.Interests = interests;
 
-                profile.DateOfBirth = userRegistrationDto.DateOfBirth;
+                profile.DateOfBirth = userRegistrationDto.DateOfBirth.Value;
 
                 profile.Name = userRegistrationDto.Name;
                 profile.Surname = userRegistrationDto.Surname;
@@ -145,8 +145,6 @@ namespace OWM.Application.Services
 
         protected virtual void OnUserRegistered(UserRegisteredArgs e) => UserRegistered?.Invoke(this, e);
         protected virtual void OnRegistrationFailed(RegistrationFailedArgs e) => RegisterFailed?.Invoke(this, e);
-        public IAsyncEnumerable<Ethnicity> GetEthnicities() => _ethnicityService.Queryable().ToAsyncEnumerable();
-        public IAsyncEnumerable<Occupation> GetOccupations() => _occupationService.Queryable().ToAsyncEnumerable();
     }
 
     public class UserRegisteredArgs : EventArgs

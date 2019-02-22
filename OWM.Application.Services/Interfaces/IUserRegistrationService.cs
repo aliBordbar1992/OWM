@@ -11,9 +11,6 @@ namespace OWM.Application.Services.Interfaces
         event EventHandler<UserRegisteredArgs> UserRegistered;
         event EventHandler<RegistrationFailedArgs> RegisterFailed;
 
-
         Task Register(UserRegistrationDto userRegistrationDto);
-        IAsyncEnumerable<Ethnicity> GetEthnicities();
-        IAsyncEnumerable<Occupation> GetOccupations();
     }
 }

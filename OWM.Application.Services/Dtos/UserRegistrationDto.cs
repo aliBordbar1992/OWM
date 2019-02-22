@@ -54,10 +54,12 @@ namespace OWM.Application.Services.Dtos
         [Required(ErrorMessage = "Enter at least one interest")]
         public string Interest { get; set; }
 
-        public List<Interest> Interests => Interest.Split(',').Select(x => new Interest{ Name = x }).ToList();
+        public List<Interest> Interests => string.IsNullOrEmpty(Interest)
+            ? new List<Interest>()
+            : Interest.Split(',').Select(x => new Interest {Name = x}).ToList();
 
         [Required(AllowEmptyStrings = false,ErrorMessage = "Birthday is required")]
-        public DateTime DateOfBirth => DateTime.ParseExact(Birthday, "yyyy-MM-dd", null);
+        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?) null : DateTime.ParseExact(Birthday, "yyyy-MM-dd", null);
 
         [Required(ErrorMessage = "Birthday is required")]
         public string Birthday { get; set; }
