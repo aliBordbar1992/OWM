@@ -65,27 +65,13 @@
                         </select>
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <button type="submit" asp-page-handler="ResetPassword" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
-                </div>
-                @*<div class="row mt-3">
-                        <div class="col-sm-12">
-                            <span>Password</span>
-                            <input required class="form-control"/>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-sm-12">
-                            <span>Confirm password</span>
-                            <input required class="form-control"/>
-                        </div>
-                    </div>*@
-                <button class="btn btn-success mt-3" id="savechanges" onclick="window.location.reload();">Save Changes</button>
+                <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>
             </div>
             <div class="col-md-4">
                 <div class="text-center">
                     <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar">
-                    <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
+                    <button type="button" class="btn-sm btn-success mt-3 w-100" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
+                    <button type="submit" asp-page-handler="ResetPassword" class="btn-sm btn-success mt-3 w-100" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
                 </div>
             </div>
         </div>
