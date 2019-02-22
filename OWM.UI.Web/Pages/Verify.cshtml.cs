@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using OWM.Application.Services.Email;
 
 namespace OWM.UI.Web.Pages
 {
@@ -103,7 +104,7 @@ namespace OWM.UI.Web.Pages
             string encodedUrl = HtmlEncoder.Default.Encode(callbackUrl);
             var hostingEnv = _serviceProvider.GetRequiredService<IHostingEnvironment>();
 
-            VerificationEmailSender emailSender = new VerificationEmailSender(hostingEnv, name, identity.Email, encodedUrl);
+            VerifyEmailEmailSender emailSender = new VerifyEmailEmailSender(hostingEnv, name, identity.Email, encodedUrl);
             emailSender.Send();
         }
 

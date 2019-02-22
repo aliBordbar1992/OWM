@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,41 +12,47 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.Email;
 using OWM.Application.Services.Interfaces;
-using OWM.Domain.Entities;
 
 namespace OWM.UI.Web.Pages
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly IUserRegistrationService _userRegistrationService;
         private readonly IServiceProvider _serviceProvider;
         private readonly UserManager<Domain.Entities.User> _userManager;
         private readonly SignInManager<Domain.Entities.User> _signInManager;
-
+        private readonly IUserRegistrationService _userRegistrationService;
+        private readonly IEthnicityInformationService _ethnicityInformation;
+        private readonly IOccupationInformationService _ocpInformation;
         private string _uId;
+        private bool _succeeded;
 
+        [BindProperty] public UserRegistrationDto RegistrationData { get; set; }
         public List<SelectListItem> EthnicityOptions;
         public List<SelectListItem> OccupationOptions;
-        public RegisterModel(IServiceProvider serviceProvider, UserManager<Domain.Entities.User> userManager,
-            SignInManager<Domain.Entities.User> signInManager)
+
+        public RegisterModel(IServiceProvider serviceProvider
+            , UserManager<Domain.Entities.User> userManager
+            , SignInManager<Domain.Entities.User> signInManager)
         {
             _serviceProvider = serviceProvider;
             _userManager = userManager;
             _signInManager = signInManager;
+
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
+            _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
+            _ocpInformation = serviceProvider.GetRequiredService<IOccupationInformationService>();
+
              EthnicityOptions = new List<SelectListItem>();
              OccupationOptions = new List<SelectListItem>();
         }
+
         public void OnGet()
         {
            FillDropdowns();
         }
-        
-        [BindProperty]
-        public UserRegistrationDto RegistrationData { get; set; }
-
-        private bool _succeeded;
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -70,13 +77,13 @@ namespace OWM.UI.Web.Pages
 
         public void FillDropdowns()
         {
-            EthnicityOptions = _userRegistrationService.GetEthnicities().Select(x => new SelectListItem
+            EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""
             }).ToList().Result;
 
-            OccupationOptions = _userRegistrationService.GetOccupations().Select(x => new SelectListItem
+            OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""
@@ -102,7 +109,7 @@ namespace OWM.UI.Web.Pages
             string encodedUrl = HtmlEncoder.Default.Encode(callbackUrl);
             var hostingEnv = _serviceProvider.GetRequiredService<IHostingEnvironment>();
 
-            VerificationEmailSender emailSender = new VerificationEmailSender(hostingEnv, e.User.Name, e.Identity.Email, encodedUrl);
+            VerifyEmailEmailSender emailSender = new VerifyEmailEmailSender(hostingEnv, e.User.Name, e.Identity.Email, encodedUrl);
             emailSender.Send();
         }
         public void RegisterFailed(object sender, RegistrationFailedArgs e)

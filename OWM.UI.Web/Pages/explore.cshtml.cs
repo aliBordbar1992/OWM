@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using OWM.Application.Services;
 using OWM.Application.Services.Interfaces;
 
 namespace OWM.UI.Web.Pages
 {
     public class exploreModel : PageModel
     {
-        private readonly IUserRegistrationService _userRegistrationService;
+        private readonly IOccupationInformationService _ocpInformation;
         public List<SelectListItem> OccupationOptions;
 
-        public exploreModel(IUserRegistrationService userRegistrationService)
+        public exploreModel(IOccupationInformationService ocpInformation)
         {
-            _userRegistrationService = userRegistrationService;
+            _ocpInformation = ocpInformation;
             OccupationOptions = new List<SelectListItem>();
         }
 
@@ -23,7 +24,7 @@ namespace OWM.UI.Web.Pages
         }
         public void FillOccupationDropdown()
         {
-            OccupationOptions = _userRegistrationService.GetOccupations().Select(x => new SelectListItem
+            OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""

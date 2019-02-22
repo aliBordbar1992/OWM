@@ -1,92 +1,96 @@
-﻿@page
+﻿@page "{handler?}/{email?}"
 @model OWM.UI.Web.Pages.User.EditProfileModel
 @{
     Layout = "Shared/UserLayout";
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
 <script src="~/js/jquery.Jcrop.min.js"></script>
 <link href="~/css/EditProfile.css" rel="stylesheet" />
-<div>
-    <h2>Edit Profile</h2>
-    <hr>
-    <div class="row mt-2">
-        <div class="col-md-8" id="inputarea">
-            <div asp-validation-summary="All" id="ValidationSummary"></div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <span>First Name</span>
-                    <input required class="form-control" value="@Model.UserInformationDto.Name"/>
+<form method="post">
+    <div>
+        <h2>Edit Profile</h2>
+        <hr>
+        <div class="row mt-2">
+            <div class="col-md-8" id="inputarea">
+                <div asp-validation-summary="All" id="ValidationSummary"></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span>First Name</span>
+                        <input required class="form-control" value="@Model.UserInformationDto.Name" />
+                    </div>
+                    <div class="col-sm-6">
+                        <span>Last Name</span>
+                        <input required class="form-control" value="@Model.UserInformationDto.Surname" />
+                    </div>
                 </div>
-                <div class="col-sm-6">
-                    <span>Last Name</span>
-                    <input required class="form-control" value="@Model.UserInformationDto.Surname"/>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <span>Email address</span>
+                        <input required class="form-control" type="email" value="@Model.UserInformationDto.Email" />
+                    </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <span>Contact number</span>
+                        <input required class="form-control" value="@Model.UserInformationDto.Phone">
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-6 position-relative">
+                        <span>City</span>
+                        <input required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName" />
+                        <span class="fa fa-times position-absolute" title="clear field"></span>
+                        <ul class="position-absolute" name="cityfilter"></ul>
+                        <input type="hidden" id="RegistrationData_CityId" />
+                    </div>
+                    <div class="col-sm-6">
+                        <span>Country</span>
+                        <input required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName" />
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-6">
+                        <span>Gender</span>
+                        <select asp-for="UserInformationDto.Gender" required class="chosen-select" data-placeholder="">
+                            <option value=""></option>
+                            <option value="1">Male</option>
+                            <option value="0">Female</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6">
+                        <span>Ethnicity</span>
+                        <select asp-for="UserInformationDto.EthnicityId" asp-items="@Model.EthnicityOptions" required data-placeholder="" class="chosen-select">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <button type="submit" asp-page-handler="ResetPassword" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
+                </div>
+                @*<div class="row mt-3">
+                        <div class="col-sm-12">
+                            <span>Password</span>
+                            <input required class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-sm-12">
+                            <span>Confirm password</span>
+                            <input required class="form-control"/>
+                        </div>
+                    </div>*@
+                <button class="btn btn-success mt-3" id="savechanges" onclick="window.location.reload();">Save Changes</button>
             </div>
-            <div class="row mt-3">
-                <div class="col-sm-12">
-                    <span>Email address</span>
-                    <input required class="form-control" type="email" value="@Model.UserInformationDto.Email"/>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar">
+                    <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
                 </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-12">
-                    <span>Contact number</span>
-                    <input required class="form-control" value="@Model.UserInformationDto.Phone">
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-6 position-relative">
-                    <span>City</span>
-                    <input required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName"/>
-                    <span class="fa fa-times position-absolute" title="clear field"></span>
-                    <ul class="position-absolute" name="cityfilter"></ul>
-                    <input type="hidden" id="RegistrationData_CityId"/>
-                </div>
-                <div class="col-sm-6">
-                    <span>Country</span>
-                    <input required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName"/>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-6">
-                    <span>Gender</span>
-                    <select required class="chosen-select" data-placeholder="">
-                        <option value=""></option>
-                        <option value="1">Male</option>
-                        <option value="0">Female</option>
-                    </select>
-                </div>
-                <div class="col-sm-6">
-                    <span>Ethnicity</span>
-                    <select required data-placeholder="" asp-items="@Model.EthnicityOptions" class="chosen-select">
-                        <option value=""></option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-12">
-                    <span>Password</span>
-                    <input required class="form-control"/>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-sm-12">
-                    <span>Confirm password</span>
-                    <input required class="form-control"/>
-                </div>
-            </div>
-            <button class="btn btn-success mt-3" id="savechanges" onclick="window.location.reload();">Save Changes</button>
-        </div>
-        <div class="col-md-4">
-            <div class="text-center">
-                @{var src = string.IsNullOrEmpty(Model.UserInformationDto.UserImage) ? "/img/img_Plaaceholder.jpg" : Model.UserInformationDto.UserImage;}
-                <img src="@src" class="user-image w-50" alt="avatar">
-                <button class="btn-sm btn-success mt-3" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
             </div>
         </div>
     </div>
-</div>
+</form>
 
 <script src="~/js/uploads.js"></script>
 <div class="modal fade" id="UserProfilePictureModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -97,7 +101,7 @@
             </div>
             <div class="modal-body text-center">
                 <div class="list-group-item mb-2">
-                    <form id="imageform">
+                    <form id="imageform" method="post">
                         <input type="file" id="upfile" onchange="DetectFile($(this),'controls')" />
                     </form>
                 </div>
@@ -117,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="UploadUserImage">
-                    <img src="~/img/loading.gif" class="loading-sm" style="display: none;"/> Upload image
+                    <img src="~/img/loading.gif" class="loading-sm" style="display: none;" /> Upload image
                 </button>
             </div>
         </div>
