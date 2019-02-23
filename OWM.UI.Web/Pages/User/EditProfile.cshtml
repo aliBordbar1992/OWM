@@ -17,42 +17,36 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <span>First Name</span>
-                        <input required class="form-control" value="@Model.UserInformationDto.Name" />
+                        <input asp-for="Input.Name" required class="form-control" value="@Model.UserInformationDto.Name" />
                     </div>
                     <div class="col-sm-6">
                         <span>Last Name</span>
-                        <input required class="form-control" value="@Model.UserInformationDto.Surname" />
-                    </div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-sm-12">
-                        <span>Email address</span>
-                        <input required class="form-control" type="email" value="@Model.UserInformationDto.Email" />
+                        <input asp-for="Input.Surname" required class="form-control" value="@Model.UserInformationDto.Surname" />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-12">
                         <span>Contact number</span>
-                        <input required class="form-control" value="@Model.UserInformationDto.Phone">
+                        <input asp-for="Input.Phone" required class="form-control" value="@Model.UserInformationDto.Phone">
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6 position-relative">
                         <span>City</span>
-                        <input required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName" />
+                        <input asp-for="Input.CityName" required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName" />
                         <span class="fa fa-times position-absolute" title="clear field"></span>
                         <ul class="position-absolute" name="cityfilter"></ul>
-                        <input type="hidden" id="RegistrationData_CityId" />
+                        <input asp-for="Input.CityId" type="hidden" id="RegistrationData_CityId" value="@Model.UserInformationDto.CityId" />
                     </div>
                     <div class="col-sm-6">
                         <span>Country</span>
-                        <input required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName" />
+                        <input asp-for="Input.CountryName" required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName" />
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-6">
                         <span>Gender</span>
-                        <select asp-for="UserInformationDto.Gender" required class="chosen-select" data-placeholder="">
+                        <select asp-for="Input.Gender" required class="chosen-select" data-placeholder="">
                             <option value=""></option>
                             <option value="1">Male</option>
                             <option value="0">Female</option>
@@ -60,22 +54,33 @@
                     </div>
                     <div class="col-sm-6">
                         <span>Ethnicity</span>
-                        <select asp-for="UserInformationDto.EthnicityId" asp-items="@Model.EthnicityOptions" required data-placeholder="" class="chosen-select">
+                        <select asp-for="Input.EthnicityId" asp-items="@Model.EthnicityOptions" required data-placeholder="" class="chosen-select">
                             <option value=""></option>
                         </select>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <input required type="text" id="interests" class="demo-default" value="@Model.UserInformationDto.Interest" asp-for="Input.Interest">
+                        <span asp-validation-for="Input.Interest" class="text-danger small"></span>
                     </div>
                 </div>
                 <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>
             </div>
             <div class="col-md-4">
                 <div class="text-center">
-                    <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar">
+                    <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar" id="imgProfile">
+                    <input type="hidden" asp-for="Input.UserImage" id="imgProfileAddress" />
                     <button type="button" class="btn-sm btn-success mt-3 w-100" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
                     <button type="submit" asp-page-handler="ResetPassword" class="btn-sm btn-success mt-3 w-100" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
                 </div>
             </div>
         </div>
     </div>
+    @if (TempData[EditProfileModel.MessageKey] is string message)
+    {
+        <p>@message</p>
+    }
 </form>
 
 <script src="~/js/uploads.js"></script>

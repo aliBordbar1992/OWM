@@ -113,6 +113,9 @@ namespace OWM.UI.Web.Pages.User
         }
         private UserRegistrationDto MapToDto(InputModel input)
         {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            UserInformationDto = _userInformation.GetUserInformation(identityId);
+
             return new UserRegistrationDto
             {
                 Email = UserInformationDto.Email,
@@ -124,16 +127,31 @@ namespace OWM.UI.Web.Pages.User
                 Gender = input.Gender,
                 Name = input.Name,
                 Surname = input.Surname,
-                Phone = input.Phone
+                Phone = input.Phone,
+                ProfileImageAddress = input.UserImage
             };
         }
 
         public void UpdateSuccess(object sender, UserUpdatedArgs e)
         {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            UserInformationDto = _userInformation.GetUserInformation(identityId);
+            EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id + ""
+            }).ToList().Result;
+
             TempData[MessageKey] = "Update success!";
         }
         public void UpdateFailed(object sender, UpdateFailedArgs e)
         {
+            EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id + ""
+            }).ToList().Result;
+
             _succeeded = false;
             ModelState.AddModelError(string.Empty, e.Exception.Message);
         }

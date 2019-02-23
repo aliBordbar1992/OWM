@@ -68,7 +68,7 @@ namespace OWM.Application.Services
             return new UserInformationDto
             {
                 Ethnicity = _user.Ethnicity.Name,
-                Interest = string.Join(",", _user.Interests.ToList()),
+                Interest = string.Join(",", _user.Interests.Select(x => x.Name).ToList()),
                 Email = _user.Identity.Email,
                 Occupation = _user.Occupation.Name,
                 Name = _user.Name,

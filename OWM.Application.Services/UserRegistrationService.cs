@@ -132,6 +132,11 @@ namespace OWM.Application.Services
                 profile.Name = userRegistrationDto.Name;
                 profile.Surname = userRegistrationDto.Surname;
                 profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+                profile.ProfileImageUrl =
+                    profile.ProfileImageUrl == userRegistrationDto.ProfileImageAddress ||
+                    string.IsNullOrEmpty(userRegistrationDto.ProfileImageAddress)
+                        ? profile.ProfileImageUrl
+                        : userRegistrationDto.ProfileImageAddress;
                 user.PhoneNumber = userRegistrationDto.Phone;
 
                 await _unitOfWork.SaveChangesAsync();
@@ -139,7 +144,7 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                OnUpdateFailed(new UpdateFailedArgs(e.Message));
+                OnUpdateFailed(new UpdateFailedArgs(e));
                 throw;
             }
         }

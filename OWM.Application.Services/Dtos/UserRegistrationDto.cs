@@ -63,5 +63,7 @@ namespace OWM.Application.Services.Dtos
 
         [Required(ErrorMessage = "Birthday is required")]
         public string Birthday { get; set; }
+
+        public string ProfileImageAddress { get; set; }
     }
 }
