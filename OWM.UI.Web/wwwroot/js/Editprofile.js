@@ -22,7 +22,7 @@
         })
     }), $(".fa-times").click(function () {
         $("#RegistrationData_CityName").val(""), $("#RegistrationData_CountryName").val(""), $("#RegistrationData_CityName").prop("readonly", !1), $("#RegistrationData_CityId").val("")
-        })
+    })
     $('#UploadUserImage').on('click',
         function () {
             if ($('#upfile').val() == "") {
@@ -39,15 +39,28 @@
 
     function profilePictureUploadResult(e) {
         switch (e.status) {
-        case "error":
-                RedAlert('n', e.message);
-                loading.hide();
-        case "success":
-            GreenAlert('n', e.message);
-            $('#upfile').val('');
-            $('#views').empty();
-            loading.hide();
-        default:
+            case "error":
+                {
+                    RedAlert('n', e.message);
+                    loading.hide();
+                    break;
+                }
+            case "success":
+                {
+                    GreenAlert('n', e.message);
+                    $('#upfile').val('');
+                    $('#views').empty();
+                    loading.hide();
+                    $("#imgProfile").prop("src", e.picAddress);
+                    $("#imgProfileAddress").val(e.picAddress);
+                    break;
+                }
+            default:
+                {
+                    RedAlert('n', "Unknown error.");
+                    loading.hide();
+                    break;
+                }
         }
     }
 })

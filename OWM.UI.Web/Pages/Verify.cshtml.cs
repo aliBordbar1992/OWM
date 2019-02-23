@@ -20,7 +20,7 @@ namespace OWM.UI.Web.Pages
         private readonly IServiceProvider _serviceProvider;
         private readonly UserManager<Domain.Entities.User> _userManager;
         private readonly SignInManager<Domain.Entities.User> _signInManager;
-        private readonly IUserService _userService;
+        private readonly IProfileService _userService;
         private bool _notRegistered;
         private Domain.Entities.User _user;
 
@@ -36,7 +36,7 @@ namespace OWM.UI.Web.Pages
             _userManager = userManager;
             _signInManager = signInManager;
 
-            _userService = serviceProvider.GetRequiredService<IUserService>();
+            _userService = serviceProvider.GetRequiredService<IProfileService>();
         }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)

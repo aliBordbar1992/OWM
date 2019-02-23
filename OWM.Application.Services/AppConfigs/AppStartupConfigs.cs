@@ -27,7 +27,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IEthnicityService, EthnicityService>();
             services.AddScoped<IOccupationService, OccupationService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProfileService, UserService>();
             services.AddScoped<IInterestService, InterestService>();
 
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();

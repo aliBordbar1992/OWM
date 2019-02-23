@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.Exceptions;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
@@ -18,7 +19,7 @@ namespace OWM.Application.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        private readonly IUserService _userService;
+        private readonly IProfileService _profileService;
 
         private readonly ICountryService _countryService;
         private readonly ICityService _cityService;
@@ -29,6 +30,8 @@ namespace OWM.Application.Services
 
         public event EventHandler<UserRegisteredArgs> UserRegistered;
         public event EventHandler<RegistrationFailedArgs> RegisterFailed;
+        public event EventHandler<UserUpdatedArgs> UserUpdated;
+        public event EventHandler<UpdateFailedArgs> UpdateFailed;
 
         public UserRegistrationService(IServiceProvider serviceProvider, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
@@ -38,7 +41,7 @@ namespace OWM.Application.Services
             _cityService = serviceProvider.GetRequiredService<ICityService>();
             _ethnicityService = serviceProvider.GetRequiredService<IEthnicityService>();
             _occupationService = serviceProvider.GetRequiredService<IOccupationService>();
-            _userService = serviceProvider.GetRequiredService<IUserService>();
+            _profileService = serviceProvider.GetRequiredService<IProfileService>();
             _interestService = serviceProvider.GetRequiredService<IInterestService>();
 
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
@@ -74,7 +77,7 @@ namespace OWM.Application.Services
                 profile.Surname = userRegistrationDto.Surname;
                 profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
 
-                _userService.Insert(profile);
+                _profileService.Insert(profile);
 
                 try
                 {
@@ -83,9 +86,9 @@ namespace OWM.Application.Services
                 }
                 catch (Exception e)
                 {
-                    if (_userService.ExistsAsync(profile.Id).Result)
+                    if (_profileService.ExistsAsync(profile.Id).Result)
                     {
-                        _userService.Delete(profile);
+                        _profileService.Delete(profile);
                         await _unitOfWork.SaveChangesAsync();
                         await _userManager.DeleteAsync(user);
                     }
@@ -105,6 +108,41 @@ namespace OWM.Application.Services
             }
         }
 
+        public async Task Update(UserRegistrationDto userRegistrationDto)
+        {
+            try
+            {
+                var user = await _userManager.FindByEmailAsync(userRegistrationDto.Email);
+                if (user == null) throw new UserNotFoundException();
+
+                var profile = _profileService.Queryable().Single(x => x.Identity.Id == user.Id);
+
+                if (profile.Country.Name != userRegistrationDto.CountryName)
+                    profile.Country = GetCountry(userRegistrationDto.CountryName);
+
+                if (profile.City.Id != userRegistrationDto.CityId.Value)
+                    profile.City = GetCity(profile.Country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
+
+                if (profile.Ethnicity.Id != userRegistrationDto.EthnicityId)
+                    profile.Ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+
+                RemoveInterests(profile.Interests.ToList());
+                profile.Interests = GetInterests(userRegistrationDto.Interests);
+
+                profile.Name = userRegistrationDto.Name;
+                profile.Surname = userRegistrationDto.Surname;
+                profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+                user.PhoneNumber = userRegistrationDto.Phone;
+
+                await _unitOfWork.SaveChangesAsync();
+                OnUserUpdated(new UserUpdatedArgs(user, profile));
+            }
+            catch (Exception e)
+            {
+                OnUpdateFailed(new UpdateFailedArgs(e.Message));
+                throw;
+            }
+        }
 
         private Country GetCountry(string countryName)
         {
@@ -139,12 +177,43 @@ namespace OWM.Application.Services
 
             return interests;
         }
+        private void RemoveInterests(List<Interest> interests)
+        {
+            foreach (var interest in interests)
+            {
+                _interestService.Delete(interest);
+            }
+        }
 
         private Ethnicity GetEthnicity(int ethnicityId) => _ethnicityService.FindAsync(ethnicityId).Result;
         private Occupation GetOccupation(int occupationId) => _occupationService.FindAsync(occupationId).Result;
 
         protected virtual void OnUserRegistered(UserRegisteredArgs e) => UserRegistered?.Invoke(this, e);
         protected virtual void OnRegistrationFailed(RegistrationFailedArgs e) => RegisterFailed?.Invoke(this, e);
+
+        protected virtual void OnUserUpdated(UserUpdatedArgs e) => UserUpdated?.Invoke(this, e);
+        protected virtual void OnUpdateFailed(UpdateFailedArgs e) => UpdateFailed?.Invoke(this, e);
+    }
+
+    public class UserUpdatedArgs : EventArgs
+    {
+        public Profile User { get; }
+        public User Identity { get; }
+
+        public UserUpdatedArgs(User identity, Profile user)
+        {
+            User = user;
+            Identity = identity;
+        }
+    }
+    public class UpdateFailedArgs : EventArgs
+    {
+        public Exception Exception { get; }
+
+        public UpdateFailedArgs(Exception exception)
+        {
+            Exception = exception;
+        }
     }
 
     public class UserRegisteredArgs : EventArgs

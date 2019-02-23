@@ -11,6 +11,10 @@ namespace OWM.Application.Services.Interfaces
         event EventHandler<UserRegisteredArgs> UserRegistered;
         event EventHandler<RegistrationFailedArgs> RegisterFailed;
 
+        event EventHandler<UserUpdatedArgs> UserUpdated;
+        event EventHandler<UpdateFailedArgs> UpdateFailed;
+
         Task Register(UserRegistrationDto userRegistrationDto);
+        Task Update(UserRegistrationDto userRegistrationDto);
     }
 }

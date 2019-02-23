@@ -177,9 +177,6 @@ $(function() {
 });
 
 function UploadFile(e) {
-    /// <summary>
-    /// 
-    /// </summary>
     var formData = new FormData($('#' + e.form)[0]);
     var blob = dataURLtoBlob(canvas.toDataURL('image/jpeg'));
     formData.append("img", blob);

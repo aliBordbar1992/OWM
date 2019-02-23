@@ -13,10 +13,10 @@ namespace OWM.Application.Services
 {
     public class UserInformationService : IUserInformationService
     {
-        private readonly IUserService _userService;
+        private readonly IProfileService _userService;
         private Profile _user;
 
-        public UserInformationService(IUserService userService)
+        public UserInformationService(IProfileService userService)
         {
             _userService = userService;
         }
