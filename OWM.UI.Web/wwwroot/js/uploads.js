@@ -3,7 +3,7 @@
     var fileType = file["type"];
     var validImageTypes = ["image/jpeg"];
     if ($.inArray(fileType, validImageTypes) < 0) {
-        RedAlert('n','only jpg file format accepted');
+        RedAlert('n','only jpg format accept');
         ele[0] = [];
     } else {
         var fileSize = ele[0].files[0].size;

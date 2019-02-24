@@ -1,11 +1,16 @@
 ﻿$(function () {
+  setTimeout(function () { $('#alertsuccess').fadeOut(700) }, 5000);    
+    $('#interests').selectize({
+        placeholder: 'Interests',
+        persist: false,
+        createOnBlur: true,
+        create: true
+    });
     var loading = $('.loading-sm');
     $('.chosen-select').chosen({ width: "100%" });
     $('#savechanges').on('click',
         function () {
-            if (Checkinputs('inputarea')) {
-                ElementRedalert('savechanges', 'right center', 'please fill out fields');
-            }
+            Checkinputs('inputarea');
         });
     $("#RegistrationData_CityName").on("keydown keyup", function () {
         $(this).val() === '' || $(this).val().length < 4 ? $("ul[name=cityfilter]").empty() :
@@ -26,7 +31,7 @@
     $('#UploadUserImage').on('click',
         function () {
             if ($('#upfile').val() == "") {
-                RedAlert('n', 'Please Select a File');
+                RedAlert('n', 'Please select a file');
                 return;
             }
             loading.show();

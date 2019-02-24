@@ -29,4 +29,8 @@
     <ProjectReference Include="..\OWM.Data\OWM.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\user_images\" />
+  </ItemGroup>
+
 </Project>

@@ -4,9 +4,13 @@
     Layout = "Shared/UserLayout";
     @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
-<link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
-<script src="~/js/jquery.Jcrop.min.js"></script>
-<link href="~/css/EditProfile.css" rel="stylesheet" />
+
+    <script src="~/js/selectize.js"></script>
+    <script src="~/js/index.js"></script>
+    <link href="~/css/jquery.Jcrop.min.css" rel="stylesheet" />
+    <script src="~/js/jquery.Jcrop.min.js"></script>
+    <link href="~/css/EditProfile.css" rel="stylesheet" />
+
 <form method="post">
     <div>
         <h2>Edit Profile</h2>
@@ -61,8 +65,8 @@
                 </div>
                 <div class="row mt-3">
                     <div class="col-sm-12">
+                        <span>Interests</span>
                         <input required type="text" id="interests" class="demo-default" value="@Model.UserInformationDto.Interest" asp-for="Input.Interest">
-                        <span asp-validation-for="Input.Interest" class="text-danger small"></span>
                     </div>
                 </div>
                 <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>
@@ -79,7 +83,7 @@
     </div>
     @if (TempData[EditProfileModel.MessageKey] is string message)
     {
-        <p>@message</p>
+        <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
     }
 </form>
 
