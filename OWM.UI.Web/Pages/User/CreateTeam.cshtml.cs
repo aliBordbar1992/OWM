@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using ExpressiveAnnotations.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,6 +9,11 @@ using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Application.Services.Utils;
 using OWM.Domain.Entities.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web.Pages.User
 {
@@ -36,18 +37,20 @@ namespace OWM.UI.Web.Pages.User
             [Required(ErrorMessage = "Pledged miles should not be empty.")]
             public int? MilesPledged { get; set; }
 
-            [AssertThat("OccupationFilter == true", 
+            public int[] OccupationId => Array.ConvertAll(SelectedOccupations.Split(',').ToArray(), int.Parse);
+
+            [AssertThat("OccupationFilter == true",
                 ErrorMessage = "You can select occupations if you check 'Only some occupations can join this team' box")]
-            public int? OccupationId { get; set; }
+            public string SelectedOccupations { get; set; }
             public bool OccupationFilter { get; set; }
 
             [Required(ErrorMessage = "Provide a short description for your team")]
             public string Description { get; set; }
         }
 
-        
+
         public CreateTeamModel(SignInManager<Domain.Entities.User> signInManager
-            , IUserInformationService userInformation 
+            , IUserInformationService userInformation
             , ITeamsManager teamManager
             , IOccupationInformationService ocpInformationService)
         {
@@ -76,7 +79,7 @@ namespace OWM.UI.Web.Pages.User
             if (ModelState.IsValid)
             {
                 var createTeamDto = MapToDto(Input);
-                _teamManager.CreateTeam(null);
+                _teamManager.CreateTeam(createTeamDto);
             }
 
             return Page();
@@ -86,7 +89,7 @@ namespace OWM.UI.Web.Pages.User
         private CreateTeamDto MapToDto(InputModel input)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            var userInfo = _userInformation.GetUserInformation(identityId);
+            var userInfo = _userInformation.GetUserProfile(identityId);
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
 
             return new CreateTeamDto
@@ -94,7 +97,7 @@ namespace OWM.UI.Web.Pages.User
                 Name = input.TeamName,
                 OccupationFilter = input.OccupationFilter,
                 Description = input.Description,
-                
+
             };
         }
     }

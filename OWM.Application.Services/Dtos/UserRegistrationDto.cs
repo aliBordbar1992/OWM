@@ -59,7 +59,7 @@ namespace OWM.Application.Services.Dtos
             : Interest.Split(',').Select(x => new Interest {Name = x}).ToList();
 
         [Required(AllowEmptyStrings = false,ErrorMessage = "Birthday is required")]
-        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?) null : DateTime.ParseExact(Birthday, "yyyy-MM-dd", null);
+        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?) null : DateTime.ParseExact(Birthday, Utils.Constants.DateFormat, null);
 
         [Required(ErrorMessage = "Birthday is required")]
         public string Birthday { get; set; }

@@ -86,7 +86,7 @@ namespace OWM.UI.Web.Pages.User
         public void OnGet()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserInformation(identityId);
+            UserInformationDto = _userInformation.GetUserProfile(identityId);
             if (Input == null) Input = new InputModel();
             Input.Gender = UserInformationDto.Gender;
             Input.EthnicityId = UserInformationDto.EthnicityId;
@@ -114,7 +114,7 @@ namespace OWM.UI.Web.Pages.User
         private UserRegistrationDto MapToDto(InputModel input)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserInformation(identityId);
+            UserInformationDto = _userInformation.GetUserProfile(identityId);
 
             return new UserRegistrationDto
             {
@@ -135,7 +135,7 @@ namespace OWM.UI.Web.Pages.User
         public void UpdateSuccess(object sender, UserUpdatedArgs e)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserInformation(identityId);
+            UserInformationDto = _userInformation.GetUserProfile(identityId);
             EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
                 Text = x.Name,

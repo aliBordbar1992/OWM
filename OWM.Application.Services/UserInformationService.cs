@@ -62,7 +62,7 @@ namespace OWM.Application.Services
             }
         }
 
-        public UserInformationDto GetUserInformation(string identityId)
+        public UserInformationDto GetUserProfile(string identityId)
         {
             SetLocalUser(identityId, true);
             return new UserInformationDto
@@ -75,7 +75,7 @@ namespace OWM.Application.Services
                 CityName = _user.City.Name,
                 Phone = _user.Identity.PhoneNumber,
                 Gender = (int)_user.Gender,
-                Birthday = _user.DateOfBirth.ToString("MM/dd/yyyy"),
+                Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
                 CityId = _user.City.Id,
                 CountryName = _user.Country.Name,
                 OccupationId = _user.Occupation.Id,
@@ -123,7 +123,7 @@ namespace OWM.Application.Services
             return _user.Interests.ToList();
         }
 
-        public UserInformationDto GetUserInformation(int userId)
+        public UserInformationDto GetUserProfile(int userId)
         {
             SetLocalUser(userId, true);
             return new UserInformationDto

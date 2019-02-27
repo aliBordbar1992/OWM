@@ -25,7 +25,7 @@ namespace OWM.UI.Web.ViewComponents
             if (_signInManager.IsSignedIn((ClaimsPrincipal)User))
             {
                 string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
-                var info = _userInformation.GetUserInformation(identityId);
+                var info = _userInformation.GetUserProfile(identityId);
                 return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
             }
             else 
