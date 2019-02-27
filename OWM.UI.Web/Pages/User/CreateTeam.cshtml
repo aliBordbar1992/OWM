@@ -60,7 +60,11 @@
         var occ = [];
         $('.chosen-select').chosen({ width: "100%" })
             .on('change', function (evt, params) {
-                occ.push(params.selected);
+                if (params.deselected) {
+                    occ.splice($.inArray(params.deselected, occ), 1);
+                } else {
+                    occ.push(params.selected);   
+                }
                 $('#selectedOcc').val(occ.join(','));
             });
     });
