@@ -22,7 +22,7 @@ namespace OWM.UI.Web.Pages.User
     {
         private readonly SignInManager<Domain.Entities.User> _signInManager;
         private readonly IUserInformationService _userInformation;
-        private readonly ITeamsManager _teamManager;
+        private readonly ITeamsManagerService _teamManager;
         private readonly IOccupationInformationService _ocpInformationService;
         public List<SelectListItem> OccupationOptions;
         [BindProperty] public InputModel Input { get; set; }
@@ -35,9 +35,9 @@ namespace OWM.UI.Web.Pages.User
             public string TeamName { get; set; }
 
             [Required(ErrorMessage = "Pledged miles should not be empty.")]
-            public int? MilesPledged { get; set; }
+            public float? MilesPledged { get; set; }
 
-            public int[] OccupationId => Array.ConvertAll(SelectedOccupations.Split(',').ToArray(), int.Parse);
+            public int[] OccupationIds => Array.ConvertAll(SelectedOccupations.Split(',').ToArray(), int.Parse);
 
             [AssertThat("OccupationFilter == true",
                 ErrorMessage = "You can select occupations if you check 'Only some occupations can join this team' box")]
@@ -51,7 +51,7 @@ namespace OWM.UI.Web.Pages.User
 
         public CreateTeamModel(SignInManager<Domain.Entities.User> signInManager
             , IUserInformationService userInformation
-            , ITeamsManager teamManager
+            , ITeamsManagerService teamManager
             , IOccupationInformationService ocpInformationService)
         {
             _signInManager = signInManager;
@@ -79,17 +79,19 @@ namespace OWM.UI.Web.Pages.User
             if (ModelState.IsValid)
             {
                 var createTeamDto = MapToDto(Input);
-                _teamManager.CreateTeam(createTeamDto);
+
+
+
+                await _teamManager.CreateTeam(createTeamDto);
             }
 
             return Page();
         }
 
-
         private CreateTeamDto MapToDto(InputModel input)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            var userInfo = _userInformation.GetUserProfile(identityId);
+            var userInfo = _userInformation.GetUserProfileInformation(identityId);
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
 
             return new CreateTeamDto
@@ -97,8 +99,16 @@ namespace OWM.UI.Web.Pages.User
                 Name = input.TeamName,
                 OccupationFilter = input.OccupationFilter,
                 Description = input.Description,
-
+                OccupationIds = input.OccupationIds
             };
+        }
+
+        public void PledgeMilesToCreatedTeam(object sender, TeamCreatedArgs args)
+        {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            int profileId = _userInformation.GetUserProfileId(identityId);
+
+            _teamManager.PledgeMiles(args.Team.Id, profileId, Input.MilesPledged.Value);
         }
     }
 }

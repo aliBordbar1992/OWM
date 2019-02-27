@@ -8,7 +8,7 @@ namespace OWM.Domain.Entities
         {
             CompletedMiles = new List<CompletedMiles>();
         }
-        public int Miles { get; set; }
+        public float Miles { get; set; }
         public virtual Profile Profile { get; set; }
         public virtual Team Team { get; set; }
         public ICollection<CompletedMiles> CompletedMiles { get; set; }

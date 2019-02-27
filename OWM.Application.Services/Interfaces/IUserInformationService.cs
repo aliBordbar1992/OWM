@@ -7,8 +7,8 @@ namespace OWM.Application.Services.Interfaces
 {
     public interface IUserInformationService
     {
-
-        UserInformationDto GetUserProfile(string identityId);
+        UserInformationDto GetUserProfileInformation(string identityId);
+        int GetUserProfileId(string identityId);
         string GetUserFirstName(string identityId);
         string GetUserSurname(string identityId);
         City GetUserCity(string identityId);
@@ -17,7 +17,8 @@ namespace OWM.Application.Services.Interfaces
         string GetUserEthnicity(string identityId);
         List<Interest> GetUserInterests(string identityId);
 
-        UserInformationDto GetUserProfile(int userId);
+        UserInformationDto GetUserProfileInformation(int userId);
+        int GetUserProfileId(int userId);
         string GetUserFirstName(int userId);
         string GetUserSurnam(int userId);
         City GetUserCity(int userId);

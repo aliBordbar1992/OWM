@@ -62,7 +62,7 @@ namespace OWM.Application.Services
             }
         }
 
-        public UserInformationDto GetUserProfile(string identityId)
+        public UserInformationDto GetUserProfileInformation(string identityId)
         {
             SetLocalUser(identityId, true);
             return new UserInformationDto
@@ -86,6 +86,11 @@ namespace OWM.Application.Services
                 TeamJoined = "TeamJoined",
                 UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl) ? "/img/img_Plaaceholder.jpg" : _user.ProfileImageUrl,
             };
+        }
+        public int GetUserProfileId(string identityId)
+        {
+            SetLocalUser(identityId);
+            return _user.Id;
         }
         public string GetUserFirstName(string identityId)
         {
@@ -123,7 +128,7 @@ namespace OWM.Application.Services
             return _user.Interests.ToList();
         }
 
-        public UserInformationDto GetUserProfile(int userId)
+        public UserInformationDto GetUserProfileInformation(int userId)
         {
             SetLocalUser(userId, true);
             return new UserInformationDto
@@ -147,6 +152,11 @@ namespace OWM.Application.Services
                 TeamJoined = "TeamJoined",
                 UserImage = _user.ProfileImageUrl,
             };
+        }
+        public int GetUserProfileId(int userId)
+        {
+            SetLocalUser(userId);
+            return _user.Id;
         }
         public string GetUserFirstName(int userId)
         {
