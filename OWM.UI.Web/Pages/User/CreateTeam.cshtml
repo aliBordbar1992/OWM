@@ -12,8 +12,8 @@
     }
 </style>
 <h2>Create a team</h2>
-<h3>Based on your date of birth, only members @Model.AgeRange could join this team.</h3>
 <hr />
+<div class="alert alert-warning small">Based on your date of birth, only members @Model.AgeRange could join this team.</div>
 <form method="post">
     <div asp-validation-summary="All" id="ValidationSummary"></div>
     <div id="inputarea">
@@ -29,16 +29,16 @@
         </div>
         <div class="row mt-3">
             <div class="col-md-12">
-                <div class="checkbox">
+                <div class="checkbox mb-1">
                     <span>
                         <input asp-for="Input.OccupationFilter" type="checkbox" onchange="occupationlist(this);" class="align-middle">
                         Only same occupations as mine can join this team
                     </span>
                 </div>
-                <div style="display: none;" id="OccupationList">
-                    <label>You can add additional occupations, to be able to join your team</label>
-                    <select asp-for="Input.OccupationIds" required class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions"></select>
-                    <input type="hidden" asp-for="Input.SelectedOccupations" value="1,2,3" />
+                <div style="display: none;" id="OccupationList" class="card p-2 bg-light">
+                    <span class="text-primary mb-1">You can add additional occupations, to be able to join your team</span>
+                    <select asp-for="Input.OccupationId" class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions"></select>
+                    <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value=""/>
                 </div>
             </div>
         </div>
@@ -57,15 +57,11 @@
 </form>
 <script>
     $(function () {
+        var occ = [];
         $('.chosen-select').chosen({ width: "100%" })
             .on('change', function (evt, params) {
-                console.log(evt);
-                console.log(params.selected);
-            });
-        $('#createteam').on('click',
-            function () {
-                Checkinputs('inputarea');
-                ElementRedalert('createteam', 'right center', 'Please Fill out Fields');
+                occ.push(params.selected);
+                $('#selectedOcc').val(occ.join(','));
             });
     });
     function occupationlist(e) {
