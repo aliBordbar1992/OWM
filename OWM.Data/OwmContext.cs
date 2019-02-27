@@ -31,6 +31,12 @@ namespace OWM.Data
         public virtual DbSet<Occupation> Occupations { get; set; }
         public virtual DbSet<Interest> Interests { get; set; }
 
+        public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<MilesPledged> MilesPledged { get; set; }
+        public virtual DbSet<CompletedMiles> CompletedMiles { get; set; }
+
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,6 +55,7 @@ namespace OWM.Data
 
             modelBuilder.ApplyConfiguration(new UserRoleConfig());
             modelBuilder.ApplyConfiguration(new ProfileConfig());
+            modelBuilder.ApplyConfiguration(new TeamConfig());
 
             base.OnModelCreating(modelBuilder);
         }

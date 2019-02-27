@@ -21,5 +21,6 @@ namespace OWM.Domain.Entities
         public virtual Ethnicity Ethnicity { get; set; }
         public virtual User Identity { get; set; }
         public virtual ICollection<Interest> Interests { get; set; }
+        public virtual ICollection<MilesPledged> MilesPledged { get; set; }
     }
 }

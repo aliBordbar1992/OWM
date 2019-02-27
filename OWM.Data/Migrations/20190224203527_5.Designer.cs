@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OWM.Data;
 
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    partial class OwmContextModelSnapshot : ModelSnapshot
+    [Migration("20190224203527_5")]
+    partial class _5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,7 +363,7 @@ namespace OWM.Data.Migrations
             modelBuilder.Entity("OWM.Domain.Entities.MilesPledged", b =>
                 {
                     b.HasOne("OWM.Domain.Entities.Profile", "Profile")
-                        .WithMany("MilesPledged")
+                        .WithMany()
                         .HasForeignKey("ProfileId");
 
                     b.HasOne("OWM.Domain.Entities.Team", "Team")
