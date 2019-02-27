@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
 
@@ -15,5 +17,9 @@ namespace OWM.Application.Services
         }
 
         public IAsyncEnumerable<Occupation> GetOccupations() => _occupationService.Queryable().ToAsyncEnumerable();
+        public async Task<bool> AssertOccupationExists(int occupationId)
+        {
+            return await _occupationService.ExistsAsync(occupationId);
+        }
     }
 }

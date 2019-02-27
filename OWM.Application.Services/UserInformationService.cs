@@ -13,12 +13,12 @@ namespace OWM.Application.Services
 {
     public class UserInformationService : IUserInformationService
     {
-        private readonly IProfileService _userService;
+        private readonly IProfileService _profileService;
         private Profile _user;
 
         public UserInformationService(IProfileService userService)
         {
-            _userService = userService;
+            _profileService = userService;
         }
 
         private void SetLocalUser(string identityId, bool includeRelations = false)
@@ -26,7 +26,7 @@ namespace OWM.Application.Services
             try
             {
                 if (includeRelations)
-                    _user = _userService.Queryable()
+                    _user = _profileService.Queryable()
                         .Include(x => x.City.Country)
                         .Include(x => x.Ethnicity)
                         .Include(x => x.Occupation)
@@ -34,7 +34,7 @@ namespace OWM.Application.Services
                         .Include(x => x.Interests)
                         .Single(x => x.Identity.Id == identityId);
                 else
-                    _user = _userService.Queryable().Single(x => x.Identity.Id == identityId);
+                    _user = _profileService.Queryable().Single(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
             {
@@ -46,7 +46,7 @@ namespace OWM.Application.Services
             try
             {
                 if (includeRelations)
-                    _user = _userService.Queryable()
+                    _user = _profileService.Queryable()
                         .Include(x => x.City.Country)
                         .Include(x => x.Ethnicity)
                         .Include(x => x.Occupation)
@@ -54,7 +54,7 @@ namespace OWM.Application.Services
                         .Include(x => x.Interests)
                         .Single(x => x.Id == userId);
                 else
-                    _user = _userService.FindAsync(userId).Result;
+                    _user = _profileService.FindAsync(userId).Result;
             }
             catch (Exception)
             {
@@ -104,7 +104,7 @@ namespace OWM.Application.Services
         }
         public City GetUserCity(string identityId)
         {
-            SetLocalUser(identityId);
+            SetLocalUser(identityId, true);
             return _user.City;
         }
         public DateTime GetUserDateOfBirth(string identityId)
@@ -112,19 +112,19 @@ namespace OWM.Application.Services
             SetLocalUser(identityId);
             return _user.DateOfBirth;
         }
-        public string GetUserOccupation(string identityId)
+        public Occupation GetUserOccupation(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.Occupation.Name;
+            SetLocalUser(identityId, true);
+            return _user.Occupation;
         }
-        public string GetUserEthnicity(string identityId)
+        public Ethnicity GetUserEthnicity(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.Ethnicity.Name;
+            SetLocalUser(identityId, true);
+            return _user.Ethnicity;
         }
         public List<Interest> GetUserInterests(string identityId)
         {
-            SetLocalUser(identityId);
+            SetLocalUser(identityId, true);
             return _user.Interests.ToList();
         }
 
@@ -170,7 +170,7 @@ namespace OWM.Application.Services
         }
         public City GetUserCity(int userId)
         {
-            SetLocalUser(userId);
+            SetLocalUser(userId, true);
             return _user.City;
         }
         public DateTime GetUserDateOfBirth(int userId)
@@ -178,19 +178,19 @@ namespace OWM.Application.Services
             SetLocalUser(userId);
             return _user.DateOfBirth;
         }
-        public string GetUserOccupation(int userId)
+        public Occupation GetUserOccupation(int userId)
         {
-            SetLocalUser(userId);
-            return _user.Occupation.Name;
+            SetLocalUser(userId, true);
+            return _user.Occupation;
         }
-        public string GetUserEthnicity(int userId)
+        public Ethnicity GetUserEthnicity(int userId)
         {
-            SetLocalUser(userId);
-            return _user.Ethnicity.Name;
+            SetLocalUser(userId, true);
+            return _user.Ethnicity;
         }
         public List<Interest> GetUserInterests(int userId)
         {
-            SetLocalUser(userId);
+            SetLocalUser(userId, true);
             return _user.Interests.ToList();
         }
     }

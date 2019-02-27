@@ -13,8 +13,8 @@ namespace OWM.Application.Services.Interfaces
         string GetUserSurname(string identityId);
         City GetUserCity(string identityId);
         DateTime GetUserDateOfBirth(string identityId);
-        string GetUserOccupation(string identityId);
-        string GetUserEthnicity(string identityId);
+        Occupation GetUserOccupation(string identityId);
+        Ethnicity GetUserEthnicity(string identityId);
         List<Interest> GetUserInterests(string identityId);
 
         UserInformationDto GetUserProfileInformation(int userId);
@@ -23,8 +23,8 @@ namespace OWM.Application.Services.Interfaces
         string GetUserSurnam(int userId);
         City GetUserCity(int userId);
         DateTime GetUserDateOfBirth(int userId);
-        string GetUserOccupation(int userId);
-        string GetUserEthnicity(int userId);
+        Occupation GetUserOccupation(int userId);
+        Ethnicity GetUserEthnicity(int userId);
         List<Interest> GetUserInterests(int userId);
     }
 }

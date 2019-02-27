@@ -1,4 +1,5 @@
-﻿using OWM.Application.Services.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
@@ -34,19 +35,34 @@ namespace OWM.Application.Services
 
         public async Task CreateTeam(CreateTeamDto teamDto)
         {
-            Team t = new Team()
-            {
-                Name = teamDto.Name,
-                ShortDescription = teamDto.Description,
-                OccupationFilter = teamDto.OccupationFilter,
-                AgeRange = teamDto.Range,
-                IsClosed = false
-            };
-
-            _teamService.Insert(t);
             try
             {
+                Team t = new Team
+                {
+                    Name = teamDto.Name,
+                    ShortDescription = teamDto.Description,
+                    OccupationFilter = teamDto.OccupationFilter,
+                    AgeRange = teamDto.Range,
+                    Identity = Guid.NewGuid(),
+                    IsClosed = false,
+                    TrackingState = TrackingState.Added
+                };
+
+                if (teamDto.OccupationFilter)
+                {
+                    foreach (var ocpId in teamDto.OccupationIds)
+                    {
+                        t.AllowedOccupations.Add(new TeamOccupations
+                        {
+                            Team = t,
+                            OccupationId = ocpId,
+                            TrackingState = TrackingState.Added
+                        });
+                    }
+                }
+                _teamService.ApplyChanges(t);
                 await _unitOfWork.SaveChangesAsync();
+
                 OnTeamCreated(new TeamCreatedArgs(t));
             }
             catch (Exception e)

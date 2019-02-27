@@ -1,3 +1,4 @@
+using System;
 using ExpressiveAnnotations.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,6 @@ using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Application.Services.Utils;
 using OWM.Domain.Entities.Enums;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -37,7 +37,7 @@ namespace OWM.UI.Web.Pages.User
             [Required(ErrorMessage = "Pledged miles should not be empty.")]
             public float? MilesPledged { get; set; }
 
-            public int[] OccupationIds => Array.ConvertAll(SelectedOccupations.Split(',').ToArray(), int.Parse);
+            public int[] OccupationIds { get; set; }
 
             [AssertThat("OccupationFilter == true",
                 ErrorMessage = "You can select occupations if you check 'Only some occupations can join this team' box")]
@@ -63,11 +63,13 @@ namespace OWM.UI.Web.Pages.User
 
         public void OnGet()
         {
-            FillOccupationDropdown();
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            var ocp = _userInformation.GetUserOccupation(identityId);
+            FillOccupationDropdown(ocp.Id);
         }
-        public void FillOccupationDropdown()
+        public void FillOccupationDropdown(int ocpId)
         {
-            OccupationOptions = _ocpInformationService.GetOccupations().Select(x => new SelectListItem
+            OccupationOptions = _ocpInformationService.GetOccupations().Where(x => x.Id != ocpId).Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""
@@ -78,9 +80,27 @@ namespace OWM.UI.Web.Pages.User
         {
             if (ModelState.IsValid)
             {
+                if (Input.OccupationFilter)
+                {
+                    string identityId = _signInManager.UserManager.GetUserId(User);
+                    var ocp = _userInformation.GetUserOccupation(identityId);
+
+                    Input.SelectedOccupations = string.IsNullOrEmpty(Input.SelectedOccupations)
+                        ? Input.SelectedOccupations = $"{ocp.Id}"
+                        : Input.SelectedOccupations += $",{ocp.Id}";
+
+                    Input.OccupationIds = Array.ConvertAll(Input.SelectedOccupations.Split(',').ToArray(), int.Parse);
+                    foreach (var ocpId in Input.OccupationIds)
+                    {
+                        if (!await _ocpInformationService.AssertOccupationExists(ocpId))
+                        {
+                            ModelState.AddModelError(string.Empty, $"Occupation with id {ocpId} not found. Refine your selection.");
+                            return Page();
+                        }
+                    }
+                }
+
                 var createTeamDto = MapToDto(Input);
-
-
 
                 await _teamManager.CreateTeam(createTeamDto);
             }
@@ -99,7 +119,8 @@ namespace OWM.UI.Web.Pages.User
                 Name = input.TeamName,
                 OccupationFilter = input.OccupationFilter,
                 Description = input.Description,
-                OccupationIds = input.OccupationIds
+                OccupationIds = input.OccupationIds,
+                Range = aR
             };
         }
 

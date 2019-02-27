@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OWM.Data;
 
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    partial class OwmContextModelSnapshot : ModelSnapshot
+    [Migration("20190227205553_8")]
+    partial class _8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -227,8 +229,6 @@ namespace OWM.Data.Migrations
                     b.Property<int>("AgeRange");
 
                     b.Property<DateTime>("Created");
-
-                    b.Property<Guid>("Identity");
 
                     b.Property<bool>("IsClosed");
 
