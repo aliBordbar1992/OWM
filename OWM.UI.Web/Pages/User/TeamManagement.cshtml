@@ -8,19 +8,22 @@
     var teamData = TeamManagment.GeTeams();
 }
 <style>
-    table tr td{ background-color: white;vertical-align: middle;}
+    table tr td{ background-color: white;vertical-align: middle;padding: 3px 5px!important;font-size: 12pt;vertical-align: middle!important;}
     table tr th{ background-color: white;vertical-align: middle;}
+    .fa{ margin-bottom: 4px;margin-right: 5px;}
 </style>
 <h2>Team Managment</h2>
 <hr/>
-<div class="row mb-5">
-    <div class="col-md-6 text-center">
-        <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/CreateTeam">
-            <span class="fa fa-plus"></span> CREATE NEW TEAM
+<div class="row mb-3">
+    <div class="col-md-6 text-left">
+        <div class="alert alert-warning small">Create a team and send invite link to your friends.</div>
+        <a class="btn btn-primary" href="~/User/CreateTeam">
+            <span class="fa fa-plus"></span> Create new team
         </a>
     </div>
-    <div class="col-md-6 text-center">
-        <a class="btn btn-lg btn-success w-75 pt-3 pb-3" href="~/User/SearchTeams">JOIN A TEAM</a>
+    <div class="col-md-6 text-left">
+        <div class="alert alert-warning small text-left">Or you can search team and join them.<br>&nbsp;</div>
+        <a class="btn btn-success" href="~/User/SearchTeams">Join a team</a>
     </div>
 </div>
 <table class="table table-bordered" id="tbluserteams">
@@ -35,25 +38,25 @@
         <tr>
             <td>@team.TeamName </td>
             <td class="text-center">
-                <span class="col">
-                    <span class="fa fa-user"></span> @team.MilesPledgedMe
+                <span class="col border-right text-darcsuccess">
+                    <span class="fa fa-user text-info"></span> @team.MilesPledgedMe
                 </span>
-                <span class="col">
-                    <span class="fa fa-users"></span> @team.MilesPledgedTeam
+                <span class="col text-darcsuccess">
+                    <span class="fa fa-users text-darcsuccess"></span> @team.MilesPledgedTeam
                 </span>
             </td>
 
             <td class="text-center">
-                <span class="col">
-                    <span class="fa fa-user"></span> @team.MilesCompletedMe
+                <span class="col border-right text-darcsuccess">
+                    <span class="fa fa-user text-info"></span> @team.MilesCompletedMe
                 </span>
-                <span class="col">
-                    <span class="fa fa-users"></span> @team.MilesCompletedTeam
+                <span class="col text-darcsuccess">
+                    <span class="fa fa-users text-darcsuccess"></span> @team.MilesCompletedTeam
                 </span>
             </td>
 
             <td>
-                <button type="button" class="btn btn-sm btn-success" team-id="@team.TeamId"><span class="fa fa-edit"></span></button>
+                <a href="#" class="fa fa-edit text-info" team-id="@team.TeamId"></a>
             </td>
         </tr>
     }
