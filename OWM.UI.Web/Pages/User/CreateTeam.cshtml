@@ -37,7 +37,7 @@
                 </div>
                 <div style="display: none;" id="OccupationList">
                     <label>You can add additional occupations, to be able to join your team</label>
-                    <select asp-for="Input.OccupationId" required class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions"></select>
+                    <select asp-for="Input.OccupationIds" required class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions"></select>
                     <input type="hidden" asp-for="Input.SelectedOccupations" value="1,2,3" />
                 </div>
             </div>

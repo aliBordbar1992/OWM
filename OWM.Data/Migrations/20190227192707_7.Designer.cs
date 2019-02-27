@@ -10,8 +10,8 @@ using OWM.Data;
 namespace OWM.Data.Migrations
 {
     [DbContext(typeof(OwmContext))]
-    [Migration("20190224213039_6")]
-    partial class _6
+    [Migration("20190227192707_7")]
+    partial class _7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -112,7 +112,7 @@ namespace OWM.Data.Migrations
 
                     b.Property<DateTime>("Created");
 
-                    b.Property<int>("Miles");
+                    b.Property<float>("Miles");
 
                     b.Property<DateTime>("Modified");
 
@@ -229,6 +229,8 @@ namespace OWM.Data.Migrations
                     b.Property<int>("AgeRange");
 
                     b.Property<DateTime>("Created");
+
+                    b.Property<bool>("IsClosed");
 
                     b.Property<DateTime>("Modified");
 

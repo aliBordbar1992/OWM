@@ -8,6 +8,7 @@ namespace OWM.Domain.Entities
         public string Name { get; set; }
         public string ShortDescription { get; set; }
         public bool OccupationFilter { get; set; }
+        public bool IsClosed { get; set; }
         public AgeRange AgeRange { get; set; }
         public ICollection<MilesPledged> PledgedMiles { get; set; }
     }
