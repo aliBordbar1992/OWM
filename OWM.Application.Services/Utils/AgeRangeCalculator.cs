@@ -23,5 +23,20 @@ namespace OWM.Application.Services.Utils
 
             return years;
         }
+
+        public static string GetAgeRangeCaption(AgeRange ageRange)
+        {
+            switch (ageRange)
+            {
+                case AgeRange._15To17:
+                    return "between 15 to 17 years old";
+                case AgeRange._17Plus:
+                    return "above 17 years old";
+                case AgeRange._Below14:
+                    return "below 14 years old";
+            }
+
+            throw new ArgumentException("Age range is undefined.");
+        }
     }
 }

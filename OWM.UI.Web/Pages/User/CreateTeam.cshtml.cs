@@ -1,15 +1,15 @@
-using System;
 using ExpressiveAnnotations.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Application.Services.Utils;
-using OWM.Domain.Entities.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,20 +24,26 @@ namespace OWM.UI.Web.Pages.User
         private readonly IUserInformationService _userInformation;
         private readonly ITeamsManagerService _teamManager;
         private readonly IOccupationInformationService _ocpInformationService;
+        public string AgeRange { get; set; }
         public List<SelectListItem> OccupationOptions;
         [BindProperty] public InputModel Input { get; set; }
-        public List<SelectListItem> AgeRanges => Application.Services.Extensions.SelectList.Of<AgeRange>().ToList();
-        public string AgeRange { get; set; }
+        public const string MessageKey = nameof(MessageKey);
+
 
         public class InputModel
         {
+            public InputModel()
+            {
+                Occupations = new List<SelectedOccupation>();
+            }
             [Required(ErrorMessage = "Team name is required.")]
             public string TeamName { get; set; }
 
-            [Required(ErrorMessage = "Pledged miles should not be empty.")]
-            public float? MilesPledged { get; set; }
+            //[Required(ErrorMessage = "Pledged miles should not be empty.")]
+            [AssertThat("MilesPledged > 0", ErrorMessage = "Miles pledged must be greater than 0.")]
+            public float MilesPledged { get; set; }
 
-            public int[] OccupationIds { get; set; }
+            public List<SelectedOccupation> Occupations { get; set; }
 
             [AssertThat("OccupationFilter == true",
                 ErrorMessage = "You can select occupations if you check 'Only some occupations can join this team' box")]
@@ -47,7 +53,20 @@ namespace OWM.UI.Web.Pages.User
             [Required(ErrorMessage = "Provide a short description for your team")]
             public string Description { get; set; }
         }
+        public class SelectedOccupation
+        {
+            public SelectedOccupation()
+            {
+            }
+            public SelectedOccupation(string name, int value)
+            {
+                this.name = name;
+                this.value = value;
+            }
 
+            public string name { get; set; }
+            public int value { get; set; }
+        }
 
         public CreateTeamModel(SignInManager<Domain.Entities.User> signInManager
             , IUserInformationService userInformation
@@ -61,11 +80,15 @@ namespace OWM.UI.Web.Pages.User
             OccupationOptions = new List<SelectListItem>();
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            var ocp = _userInformation.GetUserOccupation(identityId);
+            var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
+            var ocp = await _userInformation.GetUserOccupationAsync(identityId);
             FillOccupationDropdown(ocp.Id);
+
+            var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
+            AgeRange = AgeRangeCalculator.GetAgeRangeCaption(aR);
         }
         public void FillOccupationDropdown(int ocpId)
         {
@@ -76,42 +99,52 @@ namespace OWM.UI.Web.Pages.User
             }).ToList().Result;
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task OnPostAsync()
         {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            var userOcp = await _userInformation.GetUserOccupationAsync(identityId);
+            FillOccupationDropdown(userOcp.Id);
+            var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
+            var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
+            AgeRange = AgeRangeCalculator.GetAgeRangeCaption(aR);
+
             if (ModelState.IsValid)
             {
+                
                 if (Input.OccupationFilter)
                 {
-                    string identityId = _signInManager.UserManager.GetUserId(User);
-                    var ocp = _userInformation.GetUserOccupation(identityId);
-
-                    Input.SelectedOccupations = string.IsNullOrEmpty(Input.SelectedOccupations)
-                        ? Input.SelectedOccupations = $"{ocp.Id}"
-                        : Input.SelectedOccupations += $",{ocp.Id}";
-
-                    Input.OccupationIds = Array.ConvertAll(Input.SelectedOccupations.Split(',').ToArray(), int.Parse);
-                    foreach (var ocpId in Input.OccupationIds)
+                    
+                    if (!string.IsNullOrEmpty(Input.SelectedOccupations))
                     {
-                        if (!await _ocpInformationService.AssertOccupationExists(ocpId))
+                        Input.Occupations =
+                            JsonConvert.DeserializeObject<List<SelectedOccupation>>(Input.SelectedOccupations);
+                    }
+
+                    Input.Occupations.Add(new SelectedOccupation(userOcp.Name, userOcp.Id));
+
+                    foreach (var ocp in Input.Occupations)
+                    {
+                        if (!await _ocpInformationService.AssertOccupationExists(ocp.value))
                         {
-                            ModelState.AddModelError(string.Empty, $"Occupation with id {ocpId} not found. Refine your selection.");
-                            return Page();
+                            ModelState.AddModelError(string.Empty, $"Occupation {ocp.name} not found. Refine your selection.");
+                            return;
                         }
                     }
                 }
 
-                var createTeamDto = MapToDto(Input);
+                var createTeamDto = await MapToDto(Input);
+
+                _teamManager.TeamCreated += PledgeMilesToCreatedTeam;
+                _teamManager.CreationFailed += CreateTeamFailed;
 
                 await _teamManager.CreateTeam(createTeamDto);
             }
-
-            return Page();
         }
 
-        private CreateTeamDto MapToDto(InputModel input)
+        private async Task<CreateTeamDto> MapToDto(InputModel input)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            var userInfo = _userInformation.GetUserProfileInformation(identityId);
+            var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
 
             return new CreateTeamDto
@@ -119,7 +152,7 @@ namespace OWM.UI.Web.Pages.User
                 Name = input.TeamName,
                 OccupationFilter = input.OccupationFilter,
                 Description = input.Description,
-                OccupationIds = input.OccupationIds,
+                OccupationIds = input.Occupations.Select(x => x.value).ToArray(),
                 Range = aR
             };
         }
@@ -127,9 +160,21 @@ namespace OWM.UI.Web.Pages.User
         public void PledgeMilesToCreatedTeam(object sender, TeamCreatedArgs args)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            int profileId = _userInformation.GetUserProfileId(identityId);
+            int profileId = _userInformation.GetUserProfileIdAsync(identityId).Result;
 
-            _teamManager.PledgeMiles(args.Team.Id, profileId, Input.MilesPledged.Value);
+            _teamManager.MilesPledged += MilesPledgedSuccessfully;
+            _teamManager.FailedToPledgeMiles += CreateTeamFailed;
+
+            _teamManager.PledgeMiles(new PledgeMilesDto(args.Team.Id, profileId, Input.MilesPledged)).Wait();
+        }
+        public void MilesPledgedSuccessfully(object sender, MilesPledgedArgs args)
+        {
+            TempData[MessageKey] = "Team created successfully!";
+        }
+
+        public void CreateTeamFailed(object sender, Exception e)
+        {
+            ModelState.AddModelError(string.Empty, e.Message);
         }
     }
 }

@@ -83,10 +83,10 @@ namespace OWM.UI.Web.Pages.User
             _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserProfileInformation(identityId);
+            UserInformationDto = await _userInformation.GetUserProfileInformationAsync(identityId);
             if (Input == null) Input = new InputModel();
             Input.Gender = UserInformationDto.Gender;
             Input.EthnicityId = UserInformationDto.EthnicityId;
@@ -103,7 +103,7 @@ namespace OWM.UI.Web.Pages.User
             if (ModelState.IsValid)
             {
                 _succeeded = true;
-                var updData = MapToDto(Input);
+                var updData = await MapToDto(Input);
 
                 _userRegistrationService.UserUpdated += UpdateSuccess;
                 _userRegistrationService.UpdateFailed += UpdateFailed;
@@ -111,10 +111,10 @@ namespace OWM.UI.Web.Pages.User
                 await _userRegistrationService.Update(updData);
             }
         }
-        private UserRegistrationDto MapToDto(InputModel input)
+        private async Task<UserRegistrationDto> MapToDto(InputModel input)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserProfileInformation(identityId);
+            UserInformationDto = await _userInformation.GetUserProfileInformationAsync(identityId);
 
             return new UserRegistrationDto
             {
@@ -135,7 +135,7 @@ namespace OWM.UI.Web.Pages.User
         public void UpdateSuccess(object sender, UserUpdatedArgs e)
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserProfileInformation(identityId);
+            UserInformationDto = _userInformation.GetUserProfileInformationAsync(identityId).Result;
             EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
                 Text = x.Name,

@@ -9,14 +9,14 @@ namespace OWM.Application.Services.Interfaces
     public interface ITeamsManagerService
     {
         event EventHandler<TeamCreatedArgs> TeamCreated;
-        event EventHandler<TeamCreationFailedArgs> CreationFaild;
+        event EventHandler<Exception> CreationFailed;
 
         event EventHandler<MilesPledgedArgs> MilesPledged;
         event EventHandler<MilesPledgedArgs> PledgedMilesUpdated;
-        event EventHandler<FailedToPledgeMilesdArgs> FailedToPledgeMiles;
+        event EventHandler<Exception> FailedToPledgeMiles;
 
-        Task CreateTeam(CreateTeamDto teamDto);
-        Task PledgeMiles(int teamId, int profileId, float miles);
+        Task CreateTeam(CreateTeamDto dto);
+        Task PledgeMiles(PledgeMilesDto dto);
         Task IncreasePledgedMilesBy(int pledgedMileId, float miles);
         void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles);
         IEnumerable<CompletedMiles> CompletedMiles(Profile profile, Team team = null);

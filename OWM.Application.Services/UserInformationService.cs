@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using OWM.Application.Services.Exceptions;
 
 namespace OWM.Application.Services
 {
@@ -21,40 +21,40 @@ namespace OWM.Application.Services
             _profileService = userService;
         }
 
-        private void SetLocalUser(string identityId, bool includeRelations = false)
+        private async Task SetLocalUser(string identityId, bool includeRelations = false)
         {
             try
             {
                 if (includeRelations)
-                    _user = _profileService.Queryable()
+                    _user = await _profileService.Queryable()
                         .Include(x => x.City.Country)
                         .Include(x => x.Ethnicity)
                         .Include(x => x.Occupation)
                         .Include(x => x.Identity)
                         .Include(x => x.Interests)
-                        .Single(x => x.Identity.Id == identityId);
+                        .SingleAsync(x => x.Identity.Id == identityId);
                 else
-                    _user = _profileService.Queryable().Single(x => x.Identity.Id == identityId);
+                    _user = await _profileService.Queryable().SingleAsync(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
             {
-                throw new ArgumentNullException($"No user found for {identityId}");
+                throw new UserNotFoundException($"No user found for {identityId}");
             }
         }
-        private void SetLocalUser(int userId, bool includeRelations = false)
+        private async Task SetLocalUser(int userId, bool includeRelations = false)
         {
             try
             {
                 if (includeRelations)
-                    _user = _profileService.Queryable()
+                    _user = await _profileService.Queryable()
                         .Include(x => x.City.Country)
                         .Include(x => x.Ethnicity)
                         .Include(x => x.Occupation)
                         .Include(x => x.Identity)
                         .Include(x => x.Interests)
-                        .Single(x => x.Id == userId);
+                        .SingleAsync(x => x.Id == userId);
                 else
-                    _user = _profileService.FindAsync(userId).Result;
+                    _user = await _profileService.FindAsync(userId);
             }
             catch (Exception)
             {
@@ -62,136 +62,194 @@ namespace OWM.Application.Services
             }
         }
 
-        public UserInformationDto GetUserProfileInformation(string identityId)
+        public async Task<UserInformationDto> GetUserProfileInformationAsync(string identityId)
         {
-            SetLocalUser(identityId, true);
-            return new UserInformationDto
+            return await Task.Run(async () =>
             {
-                Ethnicity = _user.Ethnicity.Name,
-                Interest = string.Join(",", _user.Interests.Select(x => x.Name).ToList()),
-                Email = _user.Identity.Email,
-                Occupation = _user.Occupation.Name,
-                Name = _user.Name,
-                CityName = _user.City.Name,
-                Phone = _user.Identity.PhoneNumber,
-                Gender = (int)_user.Gender,
-                Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
-                CityId = _user.City.Id,
-                CountryName = _user.Country.Name,
-                OccupationId = _user.Occupation.Id,
-                Surname = _user.Surname,
-                EthnicityId = _user.Ethnicity.Id,
-                MilesCompleted = "MilesCompleted",
-                MilesPledged = "MilesPledged",
-                TeamJoined = "TeamJoined",
-                UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl) ? "/img/img_Plaaceholder.jpg" : _user.ProfileImageUrl,
-            };
+                await SetLocalUser(identityId, true);
+                var n = new UserInformationDto
+                {
+                    Ethnicity = _user.Ethnicity.Name,
+                    Interest = string.Join(",", _user.Interests.Select(x => x.Name).ToList()),
+                    Email = _user.Identity.Email,
+                    Occupation = _user.Occupation.Name,
+                    Name = _user.Name,
+                    CityName = _user.City.Name,
+                    Phone = _user.Identity.PhoneNumber,
+                    Gender = (int)_user.Gender,
+                    Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
+                    CityId = _user.City.Id,
+                    CountryName = _user.Country.Name,
+                    OccupationId = _user.Occupation.Id,
+                    Surname = _user.Surname,
+                    EthnicityId = _user.Ethnicity.Id,
+                    MilesCompleted = "MilesCompleted",
+                    MilesPledged = "MilesPledged",
+                    TeamJoined = "TeamJoined",
+                    UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl)
+                        ? "/img/img_Plaaceholder.jpg"
+                        : _user.ProfileImageUrl,
+                };
+
+                return n;
+            });
         }
-        public int GetUserProfileId(string identityId)
+        public async Task<int> GetUserProfileIdAsync(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.Id;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId);
+                return _user.Id;
+            });
         }
-        public string GetUserFirstName(string identityId)
+        public async Task<string> GetUserFirstNameAsync(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.Name;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId);
+                return _user.Name;
+            });
         }
-        public string GetUserSurname(string identityId)
+        public async Task<string> GetUserSurnameAsync(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.Surname;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId);
+                return _user.Surname;
+            });
         }
-        public City GetUserCity(string identityId)
+        public async Task<City> GetUserCityAsync(string identityId)
         {
-            SetLocalUser(identityId, true);
-            return _user.City;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId, true);
+                return _user.City;
+            });
         }
-        public DateTime GetUserDateOfBirth(string identityId)
+        public async Task<DateTime> GetUserDateOfBirthAsync(string identityId)
         {
-            SetLocalUser(identityId);
-            return _user.DateOfBirth;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId);
+                return _user.DateOfBirth;
+            });
         }
-        public Occupation GetUserOccupation(string identityId)
+        public async Task<Occupation> GetUserOccupationAsync(string identityId)
         {
-            SetLocalUser(identityId, true);
-            return _user.Occupation;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId, true);
+                return _user.Occupation;
+            });
         }
-        public Ethnicity GetUserEthnicity(string identityId)
+        public async Task<Ethnicity> GetUserEthnicityAsync(string identityId)
         {
-            SetLocalUser(identityId, true);
-            return _user.Ethnicity;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId, true);
+                return _user.Ethnicity;
+            });
         }
-        public List<Interest> GetUserInterests(string identityId)
+        public async Task<List<Interest>> GetUserInterestsAsync(string identityId)
         {
-            SetLocalUser(identityId, true);
-            return _user.Interests.ToList();
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(identityId, true);
+                return _user.Interests.ToList();
+            });
         }
 
-        public UserInformationDto GetUserProfileInformation(int userId)
+        public async Task<UserInformationDto> GetUserProfileInformationAsync(int userId)
         {
-            SetLocalUser(userId, true);
-            return new UserInformationDto
+            return await Task.Run(async () =>
             {
-                Ethnicity = _user.Ethnicity.Name,
-                Interest = string.Join(",", _user.Interests.ToList()),
-                Email = _user.Identity.Email,
-                Occupation = _user.Occupation.Name,
-                Name = _user.Name,
-                CityName = _user.City.Name,
-                Phone = _user.Identity.PhoneNumber,
-                Gender = (int)_user.Gender,
-                Birthday = _user.DateOfBirth.ToString("MM/dd/yyyy"),
-                CityId = _user.City.Id,
-                CountryName = _user.Country.Name,
-                OccupationId = _user.Occupation.Id,
-                Surname = _user.Surname,
-                EthnicityId = _user.Ethnicity.Id,
-                MilesCompleted = "MilesCompleted",
-                MilesPledged = "MilesPledged",
-                TeamJoined = "TeamJoined",
-                UserImage = _user.ProfileImageUrl,
-            };
+                await SetLocalUser(userId, true);
+                return new UserInformationDto
+                {
+                    Ethnicity = _user.Ethnicity.Name,
+                    Interest = string.Join(",", _user.Interests.ToList()),
+                    Email = _user.Identity.Email,
+                    Occupation = _user.Occupation.Name,
+                    Name = _user.Name,
+                    CityName = _user.City.Name,
+                    Phone = _user.Identity.PhoneNumber,
+                    Gender = (int)_user.Gender,
+                    Birthday = _user.DateOfBirth.ToString("MM/dd/yyyy"),
+                    CityId = _user.City.Id,
+                    CountryName = _user.Country.Name,
+                    OccupationId = _user.Occupation.Id,
+                    Surname = _user.Surname,
+                    EthnicityId = _user.Ethnicity.Id,
+                    MilesCompleted = "MilesCompleted",
+                    MilesPledged = "MilesPledged",
+                    TeamJoined = "TeamJoined",
+                    UserImage = _user.ProfileImageUrl,
+                };
+            });
         }
-        public int GetUserProfileId(int userId)
+        public async Task<int> GetUserProfileIdAsync(int userId)
         {
-            SetLocalUser(userId);
-            return _user.Id;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId);
+                return _user.Id;
+            });
         }
-        public string GetUserFirstName(int userId)
+        public async Task<string> GetUserFirstNameAsync(int userId)
         {
-            SetLocalUser(userId);
-            return _user.Name;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId);
+                return _user.Name;
+            });
         }
-        public string GetUserSurnam(int userId)
+        public async Task<string> GetUserSurnamAsync(int userId)
         {
-            SetLocalUser(userId);
-            return _user.Surname;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId);
+                return _user.Surname;
+            });
         }
-        public City GetUserCity(int userId)
+        public async Task<City> GetUserCityAsync(int userId)
         {
-            SetLocalUser(userId, true);
-            return _user.City;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId, true);
+                return _user.City;
+            });
         }
-        public DateTime GetUserDateOfBirth(int userId)
+        public async Task<DateTime> GetUserDateOfBirthAsync(int userId)
         {
-            SetLocalUser(userId);
-            return _user.DateOfBirth;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId);
+                return _user.DateOfBirth;
+            });
         }
-        public Occupation GetUserOccupation(int userId)
+        public async Task<Occupation> GetUserOccupationAsync(int userId)
         {
-            SetLocalUser(userId, true);
-            return _user.Occupation;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId, true);
+                return _user.Occupation;
+            });
         }
-        public Ethnicity GetUserEthnicity(int userId)
+        public async Task<Ethnicity> GetUserEthnicityAsync(int userId)
         {
-            SetLocalUser(userId, true);
-            return _user.Ethnicity;
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId, true);
+                return _user.Ethnicity;
+            });
         }
-        public List<Interest> GetUserInterests(int userId)
+        public async Task<List<Interest>> GetUserInterestsAsync(int userId)
         {
-            SetLocalUser(userId, true);
-            return _user.Interests.ToList();
+            return await Task.Run(async () =>
+            {
+                await SetLocalUser(userId, true);
+                return _user.Interests.ToList();
+            });
         }
     }
 }

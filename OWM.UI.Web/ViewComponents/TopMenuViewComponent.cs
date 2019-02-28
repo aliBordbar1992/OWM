@@ -28,7 +28,7 @@ namespace OWM.UI.Web.ViewComponents
                 var model = new TopMenuDto
                 {
                     IsSignedIn = true,
-                    Name = _userInformation.GetUserFirstName(identityId)
+                    Name = await _userInformation.GetUserFirstNameAsync(identityId)
                 };
                 return View(model);
             }

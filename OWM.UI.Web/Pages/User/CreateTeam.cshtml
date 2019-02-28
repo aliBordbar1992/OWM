@@ -16,6 +16,11 @@
 <div class="alert alert-warning small">Based on your date of birth, only members @Model.AgeRange could join this team.</div>
 <form method="post">
     <div asp-validation-summary="All" id="ValidationSummary"></div>
+    @if (TempData[CreateTeamModel.MessageKey] is string message)
+    {
+        <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
+        <a href="/User"></a>
+    }
     <div id="inputarea">
         <div class="row">
             <div class="col-md-6">
@@ -40,7 +45,7 @@
                     <select class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions">
                         <option value=""></option>
                     </select>
-                    <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value=""/>
+                    <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value="" />
                 </div>
             </div>
         </div>
@@ -56,6 +61,8 @@
             </div>
         </div>
     </div>
+
+
 </form>
 <script>
     $(function () {

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.Exceptions;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
@@ -28,10 +29,10 @@ namespace OWM.Application.Services
         }
 
         public event EventHandler<TeamCreatedArgs> TeamCreated;
-        public event EventHandler<TeamCreationFailedArgs> CreationFaild;
+        public event EventHandler<Exception> CreationFailed;
         public event EventHandler<MilesPledgedArgs> MilesPledged;
         public event EventHandler<MilesPledgedArgs> PledgedMilesUpdated;
-        public event EventHandler<FailedToPledgeMilesdArgs> FailedToPledgeMiles;
+        public event EventHandler<Exception> FailedToPledgeMiles;
 
         public async Task CreateTeam(CreateTeamDto teamDto)
         {
@@ -67,19 +68,19 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                OnCreationFaild(new TeamCreationFailedArgs(e));
+                OnCreationFaild(new TeamCreationFailedException("There was an error creating the team. Try again.", e, teamDto));
             }
         }
 
-        public async Task PledgeMiles(int teamId, int profileId, float miles)
+        public async Task PledgeMiles(PledgeMilesDto dto)
         {
             try
             {
-                var profile = await _profileService.FindAsync(profileId);
-                var team = await _teamService.FindAsync(teamId);
+                var profile = await _profileService.FindAsync(dto.ProfileId);
+                var team = await _teamService.FindAsync(dto.TeamId);
                 MilesPledged mp = new MilesPledged
                 {
-                    Miles = miles,
+                    Miles = dto.Miles,
                     Profile = profile,
                     Team = team
                 };
@@ -91,13 +92,13 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                if (await TeamJustCreated(teamId))
+                if (await TeamJustCreated(dto.TeamId))
                 {
-                    await _teamService.DeleteAsync(teamId);
+                    await _teamService.DeleteAsync(dto.TeamId);
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                OnFailedToPledgeMiles(new FailedToPledgeMilesdArgs(e));
+                OnFailedToPledgeMiles(new PledgedMilesFailedException("There was an error with your miles pledged. Try again.", e, dto));
             }
         }
 
@@ -106,7 +107,7 @@ namespace OWM.Application.Services
             if (await _teamService.ExistsAsync(teamId))
             {
                 var team = await _teamService.FindAsync(teamId);
-                return team.PledgedMiles.Any();
+                return !team.PledgedMiles.Any();
             }
 
             return false;
@@ -123,7 +124,7 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                OnFailedToPledgeMiles(new FailedToPledgeMilesdArgs(e));
+                OnFailedToPledgeMiles(e);
             }
         }
 
@@ -139,10 +140,10 @@ namespace OWM.Application.Services
 
         protected virtual void OnMilesPledged(MilesPledgedArgs e) => MilesPledged?.Invoke(this, e);
         protected virtual void OnPledgedMileUpdated(MilesPledgedArgs e) => PledgedMilesUpdated?.Invoke(this, e);
-        protected virtual void OnFailedToPledgeMiles(FailedToPledgeMilesdArgs e) => FailedToPledgeMiles?.Invoke(this, e);
+        protected virtual void OnFailedToPledgeMiles(Exception e) => FailedToPledgeMiles?.Invoke(this, e);
 
         protected virtual void OnTeamCreated(TeamCreatedArgs e) => TeamCreated?.Invoke(this, e);
-        protected virtual void OnCreationFaild(TeamCreationFailedArgs e) => CreationFaild?.Invoke(this, e);
+        protected virtual void OnCreationFaild(Exception e) => CreationFailed?.Invoke(this, e);
     }
 
     public class MilesPledgedArgs : EventArgs
