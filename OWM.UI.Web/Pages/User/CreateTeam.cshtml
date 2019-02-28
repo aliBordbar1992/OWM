@@ -37,7 +37,9 @@
                 </div>
                 <div style="display: none;" id="OccupationList" class="card p-2 bg-light">
                     <span class="text-primary mb-1">You can add additional occupations, to be able to join your team</span>
-                    <select class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions"></select>
+                    <select class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions">
+                        <option value=""></option>
+                    </select>
                     <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value=""/>
                 </div>
             </div>
@@ -60,10 +62,15 @@
         var occ = [];
         $('.chosen-select').chosen({ width: "100%" })
             .on('change', function (evt, params) {
-                console.log($('#selectedOcc').val());
-                occ.push(params.selected);
-                $('#selectedOcc').val(occ.join(','));
-                console.log($('#selectedOcc').val());
+                if (params.selected) {
+                    occ.push({
+                        name: $('.chosen-select :selected:last').text(),
+                        value: params.selected
+                    });
+                } else {
+                    occ.splice(occ.findIndex(item => item.value == params.deselected), 1);
+                }
+                $('#selectedOcc').val(JSON.stringify(occ));
             });
     });
     function occupationlist(e) {

@@ -10,6 +10,7 @@
 <style>
     table tr td{ background-color: white;vertical-align: middle;padding: 3px 5px!important;font-size: 12pt;vertical-align: middle!important;}
     table tr th{ background-color: white;vertical-align: middle;}
+    table tr td:first-child{ padding-left: .75rem!important;}
     .fa{ margin-bottom: 4px;margin-right: 5px;}
 </style>
 <h2>Team Managment</h2>
@@ -38,19 +39,19 @@
         <tr>
             <td>@team.TeamName </td>
             <td class="text-center">
-                <span class="col border-right text-darcsuccess">
+                <span class="col border-right text-darcsuccess" title="me">
                     <span class="fa fa-user text-info"></span> @team.MilesPledgedMe
                 </span>
-                <span class="col text-darcsuccess">
+                <span class="col text-darcsuccess" title="team">
                     <span class="fa fa-users text-darcsuccess"></span> @team.MilesPledgedTeam
                 </span>
             </td>
 
             <td class="text-center">
-                <span class="col border-right text-darcsuccess">
+                <span class="col border-right text-darcsuccess" title="me">
                     <span class="fa fa-user text-info"></span> @team.MilesCompletedMe
                 </span>
-                <span class="col text-darcsuccess">
+                <span class="col text-darcsuccess" title="team">
                     <span class="fa fa-users text-darcsuccess"></span> @team.MilesCompletedTeam
                 </span>
             </td>
