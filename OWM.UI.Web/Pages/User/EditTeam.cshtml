@@ -3,3 +3,174 @@
 @{
     Layout = "Shared/UserLayout";
 }
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {display:none;}
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input.default:checked + .slider {
+        background-color: #444;
+    }
+    input.primary:checked + .slider {
+        background-color: #2196F3;
+    }
+    input.success:checked + .slider {
+        background-color: #8bc34a;
+    }
+    input.info:checked + .slider {
+        background-color: #3de0f5;
+    }
+    input.warning:checked + .slider {
+        background-color: #FFC107;
+    }
+    input.danger:checked + .slider {
+        background-color: #f44336;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+</style>
+
+<h4 class="font-weight-bold">London Foundation</h4>
+<hr/>
+<div class="row">
+    <div class="col-md-8">
+        <div class="small">Occupations that can join to this team:</div>
+        <span class="badge badge-primary">Actor</span>
+        <span class="badge badge-secondary">Web Developer</span>
+        <span class="badge badge-dark">Artist</span>
+    </div>
+    <div class="col-md-4">
+        <div class="alert alert-info">
+            <div class="small">Prevent members to join this team.</div>
+            <div class="mr-1 mt-2">
+                <label class="switch">
+                    <input type="checkbox" class="success" checked>
+                    <span class="slider round"></span>
+                </label>
+                <span class="small ml-2" id="prevent">Deny</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="fa fa-map-marked-alt display-4 text-info"></div>
+                    <div class="ml-3">
+                        <div class="text-muted small">Miles Pledged</div>
+                        <div>687,123</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="fa fa-users display-4 text-warning"></div>
+                    <div class="ml-3">
+                        <div class="text-muted small">Members</div>
+                        <div>105,652</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-1">
+    <div class="col-md-12">
+        <span class="small">Description</span>
+        <textarea class="form-control" style="resize: none;">some text here</textarea>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12">
+        <div class="list-group">
+            <a class="list-group-item active text-center">
+                Members
+            </a>
+            <a class="list-group-item text-left list-group-item-action" href="#">
+                <div class="media">
+                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
+                        <p class="small mt-2 mb-0">Los Angeled ,United States</p>
+                    </div>
+                </div>
+            </a>
+            <a class="list-group-item text-left list-group-item-action" href="#">
+                <div class="media">
+                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
+                        <p class="small mt-2 mb-0">Los Angeled ,United States</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row mt-3">
+    <div class="col-md-12">
+        <button class="btn btn-success">Save Changes</button>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');  
+        $('input.success').change(function() {
+            $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');  
+        })
+    })
+</script>

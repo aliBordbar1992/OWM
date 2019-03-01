@@ -125,10 +125,10 @@
 </div>
 <script>
     $(function () {
-        $('span.badge').each(function (x, y) {
+        $('span.badge').each(function () {
             $(this).addClass(getRandomClass());
         });
-        function getRandomClass() {
+        function getRandomClass(i) {
             var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
             return classes[Math.floor(Math.random() * classes.length)];
         }
