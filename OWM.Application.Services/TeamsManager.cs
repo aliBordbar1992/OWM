@@ -147,25 +147,30 @@ namespace OWM.Application.Services
 
         public async Task<List<MyTeamsListDto>> GetListOfTeams(int profileId)
         {
-            var profile = await _profileService.Queryable()
-                .Include(x => x.Teams)
-                .ThenInclude(x => x.Team)
-                .ThenInclude(x => x.PledgedMiles)
-                .ThenInclude(x => x.CompletedMiles)
-                .SingleAsync(x => x.Id == profileId);
-
+            var teams = await _teamService.Queryable()
+                .Where(x => x.Members.Any(m => m.ProfileId == profileId))
+                .ToListAsync();
+            
             var result = new List<MyTeamsListDto>();
 
-            foreach (var teamMember in profile.Teams)
+            foreach (var team in teams)
             {
+                var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
+                    .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
+
+                var totalMilesPledged =
+                    _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
+
                 result.Add(new MyTeamsListDto
                 {
-                    TeamName = teamMember.Team.Name,
-                    TeamId = teamMember.TeamId,
-                    TotalMilesCompleted = teamMember.Team.PledgedMiles.Sum(x => x.CompletedMiles.Select(c => c.Miles).Sum()),
-                    TotalMilesPledged = teamMember.Team.PledgedMiles.Sum(x => x.Miles),
-                    MyCompletedMiles = teamMember.Team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles),
-                    MyPledgedMiles = teamMember.Team.PledgedMiles.Single(x => x.Profile.Id == profileId).Miles,
+                    TeamName = team.Name,
+                    TeamId = team.Id,
+                    TotalMilesCompleted = totalMilesCompleted,
+                    TotalMilesPledged = totalMilesPledged,
+                    MyCompletedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles),
+                    MyPledgedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).Miles,
+                    IsCreator = team.Members.Any(x => x.IsCreator && x.ProfileId == profileId),
+                    IsKickedOut = team.Members.Any(x => x.KickedOut && x.ProfileId == profileId)
                 });
             }
 

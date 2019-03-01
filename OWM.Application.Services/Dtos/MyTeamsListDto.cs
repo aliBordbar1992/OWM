@@ -8,5 +8,7 @@
         public float MyCompletedMiles { get; set; }
         public float TotalMilesCompleted { get; set; }
         public int TeamId { get; set; }
+        public bool IsCreator { get; set; }
+        public bool IsKickedOut { get; set; }
     }
 }

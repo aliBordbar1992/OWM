@@ -5,13 +5,30 @@
     Layout = "Shared/UserLayout";
 }
 <style>
-    table tr td{ background-color: white;vertical-align: middle;padding: 3px 5px!important;font-size: 12pt;vertical-align: middle!important;}
-    table tr th{ background-color: white;vertical-align: middle;}
-    table tr td:first-child{ padding-left: .75rem!important;}
-    .fa{ margin-bottom: 4px;margin-right: 5px;}
+    table tr td {
+        background-color: white;
+        vertical-align: middle;
+        padding: 3px 5px !important;
+        font-size: 12pt;
+        vertical-align: middle !important;
+    }
+
+    table tr th {
+        background-color: white;
+        vertical-align: middle;
+    }
+
+    table tr td:first-child {
+        padding-left: .75rem !important;
+    }
+
+    .fa {
+        margin-bottom: 4px;
+        margin-right: 5px;
+    }
 </style>
 <h2>Team Managment</h2>
-<hr/>
+<hr />
 <div class="row mb-3">
     <div class="col-md-6 text-left">
         <div class="alert alert-info small">
@@ -25,7 +42,7 @@
     </div>
     <div class="col-md-6 text-left">
         <div class="alert alert-info small text-left">
-            Or you can search teams and join them.<br/>&nbsp;
+            Or you can search teams and join them.<br />&nbsp;
             <div class="d-block mt-2">
                 <a class="btn btn-success" asp-page="/User/SearchTeams">Join a team</a>
             </div>
@@ -34,9 +51,9 @@
 </div>
 <table class="table table-bordered" id="tbluserteams">
     <tr>
-        <th >Team name</th>
-        <th >Miles pledged</th>
-        <th >Miles Completed</th>
+        <th>Team name</th>
+        <th>Miles pledged</th>
+        <th>Miles Completed</th>
         <th></th>
     </tr>
     @foreach (var team in Model.TeamsList)
@@ -60,10 +77,15 @@
                     <span class="fa fa-users text-darcsuccess"></span> @team.TotalMilesCompleted
                 </span>
             </td>
-
-            <td>
-                <a href="#" class="fa fa-edit text-info" team-id="@team.TeamId"></a>
-            </td>
-        </tr>
+            @if (@team.IsCreator)
+            {
+                <td>
+                    <a class="fa fa-edit text-info" asp-route-teamid="@team.TeamId" asp-page="/User/EditTeam"></a>
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }</tr>
     }
 </table>

@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public static string DateFormat => "MM/dd/yyyy";
+        public static string DateFormat => "yyyy/MM/dd";
     }
 }
