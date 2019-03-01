@@ -81,11 +81,13 @@
 <h4 class="font-weight-bold">London Foundation</h4>
 <hr/>
 <div class="row">
-    <div class="col-md-8">
-        <div class="small">Occupations that can join to this team:</div>
-        <span class="badge badge-primary">Actor</span>
-        <span class="badge badge-secondary">Web Developer</span>
-        <span class="badge badge-dark">Artist</span>
+    <div class="col-md-8 pb-3">
+        <div class="alert alert-info" style="height: 100%;">
+            <div class="small mb-1">Occupations that can join this team:</div>
+            <span class="badge">Actor</span>
+            <span class="badge">Web Developer</span>
+            <span class="badge">Artist</span>
+        </div>
     </div>
     <div class="col-md-4">
         <div class="alert alert-info">
@@ -172,5 +174,12 @@
         $('input.success').change(function() {
             $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');  
         })
+        $('span.badge').each(function () {
+            $(this).addClass(getRandomClass());
+        });
+        function getRandomClass(i) {
+            var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
+            return classes[Math.floor(Math.random() * classes.length)];
+        }
     })
 </script>

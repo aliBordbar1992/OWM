@@ -1,77 +1,85 @@
 ﻿@page
 @model OWM.UI.Web.Pages.TeamInfoModel
 @{
-    Layout = "User/Shared/UserLayout";
+    Layout = "Shared/_Layout";
 }
 
-<div class="card bg-white">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-9">
-                <h3>London Foundation</h3>
-                <h6 class="x-small text-muted">Created on : 25 Jan 2017</h6>
-                <hr class="mt-1 mb-2"/>
-                <h6 class="mb-0 text-muted">
-                    Mix and match multiple content types to create the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list group—all wrapped in a fixed-width card.
-                </h6>
+<style>
+    .media img {
+        width: 50px;
+        height: auto;
+    }
+</style>
+<div class="container">
+    <div class="card bg-white">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-9">
+                    <h3>London Foundation</h3>
+                    <h6 class="x-small text-muted">Created on : 25 Jan 2017</h6>
+                    <hr class="mt-1 mb-2" />
+                    <h6 class="mb-0 text-muted">
+                        Mix and match multiple content types to create the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list group—all wrapped in a fixed-width card.
+                    </h6>
+                </div>
+                <div class="col-md-3 text-right mt-auto">
+                    <button type="submit" class="btn btn-primary">Join team</button>
+                </div>
             </div>
-            <div class="col-md-3 text-right mt-auto">
-                <button type="submit" class="btn btn-primary">Join team</button>
-            </div>
-        </div>
-        <hr/>
-        <div class="row">
-            <div class="col-sm-6 col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="fa fa-map-marked-alt display-4 text-info"></div>
-                            <div class="ml-3">
-                                <div class="text-muted small">Miles Pledged</div>
-                                <div>687,123</div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="fa fa-map-marked-alt display-4 text-info"></div>
+                                <div class="ml-3">
+                                    <div class="text-muted small">Miles Pledged</div>
+                                    <div>687,123</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xl-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="fa fa-users display-4 text-warning"></div>
+                                <div class="ml-3">
+                                    <div class="text-muted small">Members</div>
+                                    <div>105,652</div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6 col-xl-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center">
-                            <div class="fa fa-users display-4 text-warning"></div>
-                            <div class="ml-3">
-                                <div class="text-muted small">Members</div>
-                                <div>105,652</div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="list-group">
+                        <a class="list-group-item active text-center">
+                            Members
+                        </a>
+                        <a class="list-group-item text-left list-group-item-action" href="#">
+                            <div class="media">
+                                <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
+                                    <p class="small mt-2 mb-0">Los Angeled ,United States</p>
+                                </div>
                             </div>
-                        </div>
+                        </a>
+                        <a class="list-group-item text-left list-group-item-action" href="#">
+                            <div class="media">
+                                <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
+                                <div class="media-body">
+                                    <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
+                                    <p class="small mt-2 mb-0">Los Angeled ,United States</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="list-group">
-                    <a class="list-group-item active text-center">
-                        Members
-                    </a>
-                    <a class="list-group-item list-group-item-action text-left" href="#">
-                        <div class="media">
-                            <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                            </div>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action text-left" href="#">
-                        <div class="media">
-                            <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                            <div class="media-body">
-                                <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                            </div>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>
