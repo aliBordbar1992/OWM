@@ -1,0 +1,136 @@
+﻿@page
+@model OWM.UI.Web.Pages.UserProfileModel
+@{
+    Layout = "Shared/_Layout";
+}
+
+<style>
+    .profile-work{}
+    .profile-work p{
+        font-size: 17px;
+        color: #818182;
+        font-weight: 600;
+    }
+    .profile-work a{
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+    }
+</style>
+<div class="container ">
+    <div class="card p-4 ">
+        <form method="post" class="card-body">
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="img-thumbnail rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="" />
+                    <div class="profile-work">
+                        <p class="mt-4 mb-1">Intrests</p>
+                        <hr class="mt-1 mb-1"/>
+                        <span class="badge text-white" href="">Web Designer</span><br/>
+                        <span class="badge text-white">Web Developer</span><br/>
+                        <span class="badge text-white" href="">WordPress</span><br/>
+                        <span class="badge text-white" href="">WooCommerce</span><br/>
+                        <span class="badge text-white" href="">PHP, .Net</span><br/>
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <h3 class="text-dark font-weight-bold">Omid Mokhtari</h3>
+                    <hr class="mt-1 mb-3"/>
+                    <div class="badge badge-light small mt-1 mb-1">
+                        <span class="fas fa-user-md"></span>&nbsp; Agricultural manager
+                    </div>
+                    <br/>
+                    <div class="badge badge-light small mt-1 mb-1">
+                        <span class="fas fa-map-marker-alt"></span>&nbsp; Los Angeles ,United States
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-6 col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fa fa-map-marker-alt display-4 text-info"></div>
+                                        <div class="ml-3">
+                                            <div class="text-muted small">Miles Pledged</div>
+                                            <div>687,123</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="fas fa-map-marked-alt display-4 text-warning"></div>
+                                        <div class="ml-3">
+                                            <div class="text-muted small">Miles Completed</div>
+                                            <div>105,652</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <span class="small p-1 bg-info text-white d-block text-center">Teams Joined</span>
+                            <table class="table table-sm small bg-light">
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td >Larry the Bird</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="small p-1 bg-info text-white d-block text-center">Teams Created</span>
+                            <table class="table table-sm small bg-light">
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td>Larry the Bird</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('span.badge').each(function (x, y) {
+            $(this).addClass(getRandomClass());
+        });
+        function getRandomClass() {
+            var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
+            return classes[Math.floor(Math.random() * classes.length)];
+        }
+    });
+</script>
