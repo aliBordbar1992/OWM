@@ -145,6 +145,33 @@ namespace OWM.Application.Services
             }
         }
 
+        public async Task<List<MyTeamsListDto>> GetListOfTeams(int profileId)
+        {
+            var profile = await _profileService.Queryable()
+                .Include(x => x.Teams)
+                .ThenInclude(x => x.Team)
+                .ThenInclude(x => x.PledgedMiles)
+                .ThenInclude(x => x.CompletedMiles)
+                .SingleAsync(x => x.Id == profileId);
+
+            var result = new List<MyTeamsListDto>();
+
+            foreach (var teamMember in profile.Teams)
+            {
+                result.Add(new MyTeamsListDto
+                {
+                    TeamName = teamMember.Team.Name,
+                    TeamId = teamMember.TeamId,
+                    TotalMilesCompleted = teamMember.Team.PledgedMiles.Sum(x => x.CompletedMiles.Select(c => c.Miles).Sum()),
+                    TotalMilesPledged = teamMember.Team.PledgedMiles.Sum(x => x.Miles),
+                    MyCompletedMiles = teamMember.Team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles),
+                    MyPledgedMiles = teamMember.Team.PledgedMiles.Single(x => x.Profile.Id == profileId).Miles,
+                });
+            }
+
+            return result;
+        }
+
         public void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles)
         {
             throw new System.NotImplementedException();

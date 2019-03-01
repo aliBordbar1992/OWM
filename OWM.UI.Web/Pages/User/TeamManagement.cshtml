@@ -1,11 +1,8 @@
-﻿@page
+﻿@page "/User/Teams/List"
 @using OWM.UI.Web.Controllers
 @model TeamManagementModel
 @{
     Layout = "Shared/UserLayout";
-}
-@{
-    var teamData = TeamManagment.GeTeams();
 }
 <style>
     table tr td{ background-color: white;vertical-align: middle;padding: 3px 5px!important;font-size: 12pt;vertical-align: middle!important;}
@@ -20,7 +17,7 @@
         <div class="alert alert-warning small">
             Create a team and send invite link to your friends.
             <div class="d-block mt-2">
-                <a class="btn btn-primary" href="~/User/CreateTeam">
+                <a class="btn btn-primary" asp-page="/User/CreateTeam">
                     <span class="fa fa-plus"></span> Create new team
                 </a>
             </div>
@@ -30,7 +27,7 @@
         <div class="alert alert-warning small text-left">
             Or you can search teams and join them.<br/>&nbsp;
             <div class="d-block mt-2">
-                <a class="btn btn-success" href="~/User/SearchTeams">Join a team</a>
+                <a class="btn btn-success" asp-page="/User/SearchTeams">Join a team</a>
             </div>
         </div>
     </div>
@@ -42,25 +39,25 @@
         <th >Miles Completed</th>
         <th></th>
     </tr>
-    @foreach (var team in teamData)
+    @foreach (var team in Model.TeamsList)
     {
         <tr>
-            <td>@team.TeamName </td>
+            <td>@team.TeamName</td>
             <td class="text-center">
                 <span class="col border-right text-darcsuccess" title="me">
-                    <span class="fa fa-user text-info"></span> @team.MilesPledgedMe
+                    <span class="fa fa-user text-info"></span> @team.MyPledgedMiles
                 </span>
                 <span class="col text-darcsuccess" title="team">
-                    <span class="fa fa-users text-darcsuccess"></span> @team.MilesPledgedTeam
+                    <span class="fa fa-users text-darcsuccess"></span> @team.TotalMilesPledged
                 </span>
             </td>
 
             <td class="text-center">
                 <span class="col border-right text-darcsuccess" title="me">
-                    <span class="fa fa-user text-info"></span> @team.MilesCompletedMe
+                    <span class="fa fa-user text-info"></span> @team.MyCompletedMiles
                 </span>
                 <span class="col text-darcsuccess" title="team">
-                    <span class="fa fa-users text-darcsuccess"></span> @team.MilesCompletedTeam
+                    <span class="fa fa-users text-darcsuccess"></span> @team.TotalMilesCompleted
                 </span>
             </td>
 

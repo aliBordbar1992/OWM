@@ -2,7 +2,7 @@
 {
     public class CompletedMiles : BaseAuditClass
     {
-        public int Miles { get; set; }
+        public float Miles { get; set; }
         public virtual MilesPledged PledgedMile { get; set; }
     }
 }

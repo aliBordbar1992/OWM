@@ -1,18 +1,18 @@
-﻿@page
+﻿@page "/User/Teams/Search"
 @model OWM.UI.Web.Pages.User.SearchTeamsModel
 @{
     Layout = "Shared/UserLayout";
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 
 <link href="~/css/SearchTeams.css" rel="stylesheet" />
 <h2>Join A Team</h2>
-<hr/>
+<hr />
 <div class="pl-4 pr-4">
     <div class="list-group w-100 m-auto">
         <div class="searchbox list-group-item mb-1 p-1 pl-2">
-            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;"/>
-            <img src="~/img/loading.gif" class="loading-md-exp"/>
+            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;" />
+            <img src="~/img/loading.gif" class="loading-md-exp" />
         </div>
         <div class="list-group-item bg-gray pl-5 pr-4 pt-2 pb-2">
             <div class="row mb-4">
@@ -106,21 +106,21 @@
             AjaxGet({
                 url: '/Teams/SearchTeams',
                 param: { tm: teamMemebers, mp: milesPledged, oc: occupation },
-                func : createList
+                func: createList
             });
 
             function createList(e) {
                 for (var i = 0; i < e.length; i++) {
                     var searchResult = $('<div class="mb-3 pl-2 pr-2"><div class="list-group w-100 m-auto"><div class="list-group-item bg-darksuccess text-white"> ' +
-                        '<div class="row"><div class="col-md-4 text-center border-right"><p>Members</p><h4>'+e[i].members+'</h4></div> ' +
-                        '<div class="col-md-4 text-center border-right"><p>Miles Pledged</p><h4>' + e[i].milesPledged+'</h4></div><div class="col-md-4 text-center">' +
-                        '<p>Miles Completed</p><h4>' + e[i].milesCompeleted+'</h4></div></div></div><div class="list-group-item position-relative text-left" style="min-height: 130px;">' +
-                        '<div class="row"><div class="col-md-8" style="min-height: 95px;"><h5 class="card-title text-darcsuccess">' + e[i].teamName+'</h5>' +
-                        '<p class="card-text">' + e[i].description+'</p>' +
+                        '<div class="row"><div class="col-md-4 text-center border-right"><p>Members</p><h4>' + e[i].members + '</h4></div> ' +
+                        '<div class="col-md-4 text-center border-right"><p>Miles Pledged</p><h4>' + e[i].milesPledged + '</h4></div><div class="col-md-4 text-center">' +
+                        '<p>Miles Completed</p><h4>' + e[i].milesCompeleted + '</h4></div></div></div><div class="list-group-item position-relative text-left" style="min-height: 130px;">' +
+                        '<div class="row"><div class="col-md-8" style="min-height: 95px;"><h5 class="card-title text-darcsuccess">' + e[i].teamName + '</h5>' +
+                        '<p class="card-text">' + e[i].description + '</p>' +
                         '</div><div class="col-md-4 text-center" style="min-height: 95px;"><button class="fa fa-plus-circle text-darcsuccess" title="join team"> ' +
-                        '</button></div></div><i>Created on : ' + e[i].dateCreated+'</i></div></div></div>').hide().appendTo(teamSerachResult).show('slow');
+                        '</button></div></div><i>Created on : ' + e[i].dateCreated + '</i></div></div></div>').hide().appendTo(teamSerachResult).show('slow');
                 }
-                loading.hide();   
+                loading.hide();
             }
         }
     });
