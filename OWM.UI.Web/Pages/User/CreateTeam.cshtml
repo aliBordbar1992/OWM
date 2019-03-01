@@ -18,7 +18,7 @@
     <div asp-validation-summary="All" id="ValidationSummary"></div>
     @if (TempData[CreateTeamModel.MessageKey] is string message)
     {
-        <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
+        <p class="alert alert-success mt-3 mb-0 small" id="alertsuccess">@message</p>
         <a href="/User"></a>
     }
     <div id="inputarea">
@@ -66,6 +66,7 @@
 </form>
 <script>
     $(function () {
+        setTimeout(function () { $('#alertsuccess').fadeOut(700) }, 5000); 
         var occ = [];
         $('.chosen-select').chosen({ width: "100%" })
             .on('change', function (evt, params) {
