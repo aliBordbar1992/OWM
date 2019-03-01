@@ -13,5 +13,6 @@ namespace OWM.Application.Services.Dtos
         public AgeRange Range { get; set; }
         public bool OccupationFilter { get; set; }
         public int[] OccupationIds { get; set; }
+        public int ProfileId { get; set; }
     }
 }

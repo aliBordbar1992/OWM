@@ -8,12 +8,12 @@ namespace OWM.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<TeamOccupations> builder)
         {
-            builder.HasKey(x => x.Id);
             builder.HasKey(bc => new
             {
                 bc.TeamId,
                 bc.OccupationId
             });
+            builder.Ignore(x => x.Id);
             builder
                 .HasOne(bc => bc.Team)
                 .WithMany(b => b.AllowedOccupations)

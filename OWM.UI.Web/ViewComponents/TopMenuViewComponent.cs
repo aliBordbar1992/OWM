@@ -33,7 +33,11 @@ namespace OWM.UI.Web.ViewComponents
                 return View(model);
             }
             
-            return View(new TopMenuDto());
+            return View(new TopMenuDto
+            {
+                IsSignedIn = false,
+                Name = ""
+            });
         }
     }
 }

@@ -113,7 +113,7 @@ namespace OWM.Application.Services
             try
             {
                 var user = await _userManager.FindByEmailAsync(userRegistrationDto.Email);
-                if (user == null) throw new UserNotFoundException();
+                if (user == null) throw new UserNotFoundException<UserRegistrationDto>($"No user found related to {userRegistrationDto.Email}", null, userRegistrationDto);
 
                 var profile = _profileService.Queryable().Single(x => x.Identity.Id == user.Id);
 

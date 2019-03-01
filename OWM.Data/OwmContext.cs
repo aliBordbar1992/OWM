@@ -56,6 +56,8 @@ namespace OWM.Data
             modelBuilder.ApplyConfiguration(new UserRoleConfig());
             modelBuilder.ApplyConfiguration(new ProfileConfig());
             modelBuilder.ApplyConfiguration(new TeamConfig());
+            modelBuilder.ApplyConfiguration(new TeamOccupationConfig());
+            modelBuilder.ApplyConfiguration(new TeamMemberConfig());
 
             base.OnModelCreating(modelBuilder);
         }

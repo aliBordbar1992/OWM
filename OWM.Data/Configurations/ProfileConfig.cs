@@ -13,6 +13,8 @@ namespace OWM.Data.Configurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Gender)
                 .HasConversion(new EnumToNumberConverter<GenderEnum, int>());
+            builder.HasMany(x => x.MilesPledged)
+                .WithOne(x => x.Profile);
         }
     }
 }

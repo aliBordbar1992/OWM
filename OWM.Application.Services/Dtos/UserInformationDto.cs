@@ -2,6 +2,7 @@
 {
     public class UserInformationDto : UserRegistrationDto
     {
+        public int ProfileId { get; set; }
         public string UserImage { get; set; }
         public string Occupation { get; set; }
         public string Ethnicity { get; set; }

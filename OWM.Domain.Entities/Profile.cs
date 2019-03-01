@@ -9,6 +9,8 @@ namespace OWM.Domain.Entities
         public Profile()
         {
             Interests = new List<Interest>();
+            MilesPledged = new List<MilesPledged>();
+            Teams = new List<TeamMember>();
         }
         public string Name { get; set; }
         public string Surname { get; set; }
@@ -20,7 +22,8 @@ namespace OWM.Domain.Entities
         public virtual City City { get; set; }
         public virtual Ethnicity Ethnicity { get; set; }
         public virtual User Identity { get; set; }
-        public virtual ICollection<Interest> Interests { get; set; }
-        public virtual ICollection<MilesPledged> MilesPledged { get; set; }
+        public ICollection<Interest> Interests { get; set; }
+        public ICollection<MilesPledged> MilesPledged { get; set; }
+        public ICollection<TeamMember> Teams { get; set; }
     }
 }

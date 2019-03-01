@@ -28,8 +28,8 @@ namespace OWM.UI.Web.ViewComponents
                 var info = await _userInformation.GetUserProfileInformationAsync(identityId);
                 return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
             }
-            else 
-                throw new UserNotFoundException();
+            else
+                return View("/Pages/Login.cshtml");
         }
     }
 }

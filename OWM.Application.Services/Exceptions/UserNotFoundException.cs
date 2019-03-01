@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using OWM.Application.Services.Dtos;
 
 namespace OWM.Application.Services.Exceptions
 {
-    public class UserNotFoundException : SystemException
+    public class UserNotFoundException<TData> : SystemException
     {
         public UserNotFoundException()
         {
         }
-        public UserNotFoundException(string message) : base(message)
+        public UserNotFoundException(string displayMessage, Exception e, TData data) : base(displayMessage)
         {
         }
     }

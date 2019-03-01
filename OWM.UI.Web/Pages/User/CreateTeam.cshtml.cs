@@ -153,7 +153,8 @@ namespace OWM.UI.Web.Pages.User
                 OccupationFilter = input.OccupationFilter,
                 Description = input.Description,
                 OccupationIds = input.Occupations.Select(x => x.value).ToArray(),
-                Range = aR
+                Range = aR,
+                ProfileId = userInfo.ProfileId
             };
         }
 

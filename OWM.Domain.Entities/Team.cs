@@ -10,6 +10,7 @@ namespace OWM.Domain.Entities
         {
             PledgedMiles = new List<MilesPledged>();
             AllowedOccupations = new List<TeamOccupations>();
+            Members = new List<TeamMember>();
         }
 
         public string Name { get; set; }
@@ -20,5 +21,6 @@ namespace OWM.Domain.Entities
         public AgeRange AgeRange { get; set; }
         public ICollection<MilesPledged> PledgedMiles { get; set; }
         public ICollection<TeamOccupations> AllowedOccupations { get; set; }
+        public ICollection<TeamMember> Members { get; set; }
     }
 }

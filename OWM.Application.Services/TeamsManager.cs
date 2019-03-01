@@ -49,18 +49,9 @@ namespace OWM.Application.Services
                     TrackingState = TrackingState.Added
                 };
 
-                if (teamDto.OccupationFilter)
-                {
-                    foreach (var ocpId in teamDto.OccupationIds)
-                    {
-                        t.AllowedOccupations.Add(new TeamOccupations
-                        {
-                            Team = t,
-                            OccupationId = ocpId,
-                            TrackingState = TrackingState.Added
-                        });
-                    }
-                }
+                InsertMemberAsCreator(t, teamDto.ProfileId);
+                InsertOccupations(teamDto, t);
+
                 _teamService.ApplyChanges(t);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -69,6 +60,32 @@ namespace OWM.Application.Services
             catch (Exception e)
             {
                 OnCreationFaild(new TeamCreationFailedException("There was an error creating the team. Try again.", e, teamDto));
+            }
+        }
+
+        private void InsertMemberAsCreator(Team t, int profileId)
+        {
+            t.Members.Add(new TeamMember
+            {
+                Team = t,
+                ProfileId = profileId,
+                IsCreator = true,
+                KickedOut = false,
+                TrackingState = TrackingState.Added
+            });
+        }
+        private void InsertOccupations(CreateTeamDto teamDto, Team t)
+        {
+            if (!teamDto.OccupationFilter) return;
+
+            foreach (var ocpId in teamDto.OccupationIds)
+            {
+                t.AllowedOccupations.Add(new TeamOccupations
+                {
+                    Team = t,
+                    OccupationId = ocpId,
+                    TrackingState = TrackingState.Added
+                });
             }
         }
 

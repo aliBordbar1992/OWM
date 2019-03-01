@@ -26,19 +26,22 @@ namespace OWM.Application.Services
             try
             {
                 if (includeRelations)
+                {
                     _user = await _profileService.Queryable()
-                        .Include(x => x.City.Country)
-                        .Include(x => x.Ethnicity)
-                        .Include(x => x.Occupation)
-                        .Include(x => x.Identity)
                         .Include(x => x.Interests)
+                        .Include(x => x.Teams)
+                        .ThenInclude(x => x.Team)
+                        .Include(x => x.MilesPledged)
+                        .ThenInclude(x => x.CompletedMiles)
                         .SingleAsync(x => x.Identity.Id == identityId);
+                    await _profileService.LoadRelatedEntities(_user);
+                }
                 else
                     _user = await _profileService.Queryable().SingleAsync(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
             {
-                throw new UserNotFoundException($"No user found for {identityId}");
+                throw new UserNotFoundException<string>($"No user found for {identityId}", e, identityId);
             }
         }
         private async Task SetLocalUser(int userId, bool includeRelations = false)
@@ -46,19 +49,22 @@ namespace OWM.Application.Services
             try
             {
                 if (includeRelations)
+                {
                     _user = await _profileService.Queryable()
-                        .Include(x => x.City.Country)
-                        .Include(x => x.Ethnicity)
-                        .Include(x => x.Occupation)
-                        .Include(x => x.Identity)
                         .Include(x => x.Interests)
+                        .Include(x => x.Teams)
+                        .ThenInclude(x => x.Team)
+                        .Include(x => x.MilesPledged)
+                        .ThenInclude(x => x.CompletedMiles)
                         .SingleAsync(x => x.Id == userId);
+                    await _profileService.LoadRelatedEntities(_user);
+                }
                 else
                     _user = await _profileService.FindAsync(userId);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ArgumentNullException($"No user found for id {userId}");
+                throw new UserNotFoundException<int>($"No user found for id {userId}", e, userId);
             }
         }
 
@@ -69,6 +75,7 @@ namespace OWM.Application.Services
                 await SetLocalUser(identityId, true);
                 var n = new UserInformationDto
                 {
+                    ProfileId = _user.Id,
                     Ethnicity = _user.Ethnicity.Name,
                     Interest = string.Join(",", _user.Interests.Select(x => x.Name).ToList()),
                     Email = _user.Identity.Email,
@@ -76,16 +83,16 @@ namespace OWM.Application.Services
                     Name = _user.Name,
                     CityName = _user.City.Name,
                     Phone = _user.Identity.PhoneNumber,
-                    Gender = (int)_user.Gender,
+                    Gender = (int) _user.Gender,
                     Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
                     CityId = _user.City.Id,
                     CountryName = _user.Country.Name,
                     OccupationId = _user.Occupation.Id,
                     Surname = _user.Surname,
                     EthnicityId = _user.Ethnicity.Id,
-                    MilesCompleted = "MilesCompleted",
-                    MilesPledged = "MilesPledged",
-                    TeamJoined = "TeamJoined",
+                    MilesCompleted = $"{_user.MilesPledged.Sum(x => x.CompletedMiles.Select(c => c.Miles).Sum())}",
+                    MilesPledged = $"{_user.MilesPledged.Sum(x => x.Miles)}",
+                    TeamJoined = $"{_user.MilesPledged.Count}",
                     UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl)
                         ? "/img/img_Plaaceholder.jpg"
                         : _user.ProfileImageUrl,
