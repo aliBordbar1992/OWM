@@ -25,12 +25,22 @@
                     <img class="img-thumbnail rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="" />
                     <div class="profile-work">
                         <p class="mt-4 mb-1">Intrests</p>
-                        <hr class="mt-1 mb-1"/>
-                        <span class="badge text-white" href="">Web Designer</span><br/>
-                        <span class="badge text-white">Web Developer</span><br/>
-                        <span class="badge text-white" href="">WordPress</span><br/>
-                        <span class="badge text-white" href="">WooCommerce</span><br/>
-                        <span class="badge text-white" href="">PHP, .Net</span><br/>
+                        <hr class="mt-1 mb-1" />
+                        <span class="badge " href="">Web Designer</span><br />
+                        <span class="badge ">Web Developer</span><br />
+                        <span class="badge " href="">WordPress</span><br />
+                        <span class="badge " href="">WooCommerce</span><br />
+                        <span class="badge " href="">PHP, .Net</span><br />
+                        <span class="badge " href="">Web Designer</span><br />
+                        <span class="badge ">Web Developer</span><br />
+                        <span class="badge " href="">WordPress</span><br />
+                        <span class="badge " href="">WooCommerce</span><br />
+                        <span class="badge " href="">PHP, .Net</span><br />
+                        <span class="badge " href="">Web Designer</span><br />
+                        <span class="badge ">Web Developer</span><br />
+                        <span class="badge " href="">WordPress</span><br />
+                        <span class="badge " href="">WooCommerce</span><br />
+                        <span class="badge " href="">PHP, .Net</span><br />
                     </div>
                 </div>
                 <div class="col-md-10">
@@ -125,12 +135,17 @@
 </div>
 <script>
     $(function () {
+        var x = 0;
         $('span.badge').each(function () {
-            $(this).addClass(getRandomClass());
+            $(this).addClass(getClass(x));
+            x++;
         });
-        function getRandomClass(i) {
+        function getClass(i) {
             var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
-            return classes[Math.floor(Math.random() * classes.length)];
+            if (i === classes.length - 1) {
+                x = 0;
+            }
+            return classes[i];
         }
     });
 </script>
