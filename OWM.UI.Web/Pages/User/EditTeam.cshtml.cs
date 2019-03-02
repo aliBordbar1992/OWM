@@ -9,8 +9,17 @@ namespace OWM.UI.Web.Pages.User
 {
     public class EditTeamModel : PageModel
     {
-        public void OnGet()
+        public int TeamId { get; set; }
+
+        public async Task<IActionResult> OnGet(int? teamid)
         {
+            if (!teamid.HasValue)
+            {
+                return LocalRedirect("/User/Teams/List");
+            }
+
+            TeamId = teamid.Value;
+            return Page();
         }
     }
 }

@@ -187,6 +187,21 @@ namespace OWM.Application.Services
             throw new System.NotImplementedException();
         }
 
+        public async Task<int> CloseTeam(int teamId, bool isOpen)
+        {
+            try
+            {
+                var team = await _teamService.FindAsync(teamId);
+                team.IsClosed = !isOpen;
+                await _unitOfWork.SaveChangesAsync();
+                return 0;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
         protected virtual void OnMilesPledged(MilesPledgedArgs e) => MilesPledged?.Invoke(this, e);
         protected virtual void OnPledgedMileUpdated(MilesPledgedArgs e) => PledgedMilesUpdated?.Invoke(this, e);
         protected virtual void OnFailedToPledgeMiles(Exception e) => FailedToPledgeMiles?.Invoke(this, e);

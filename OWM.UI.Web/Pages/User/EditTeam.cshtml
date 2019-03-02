@@ -6,7 +6,7 @@
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 <h4 class="font-weight-bold">London Foundation</h4>
 <h6 class="x-small text-muted">Created on : 25 Jan 2017</h6>
-<hr/>
+<hr />
 <div class="row">
     <div class="col-md-8 pb-3">
         <div class="alert alert-info" style="height: 100%;">
@@ -18,7 +18,7 @@
     </div>
     <div class="col-md-4">
         <div class="alert alert-info" id="alert">
-            <div class="small">Prevent members to join this team.</div>
+            <div class="small">Can members can join this team?</div>
             <div class="mr-1 mt-2">
                 <label class="switch">
                     <input type="checkbox" class="success" checked>
@@ -113,23 +113,29 @@
 </div>
 <script>
     $(function () {
-        $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');  
+        $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');
         $('input.success').change(function() {
             $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');
             AjaxGet({
                 url: '/api/Prevent',
-                param: { check: this.checked },
-                func: changesApplied
+                param: { tId: @Model.TeamId, open: this.checked },
+                func: changesApplied,
+                err: errorOccured
             });
+
             function changesApplied(e) {
-                ElementGreenalert('alert','bottom center',e);
+                ElementGreenalert('alert', 'bottom center', e.displayMessage);
             }
-        })
+
+            function errorOccured(xhr, httpStatusMessage, customErrorMessage) {
+                ElementRedalert('alert', 'bottom center', xhr.responseText);
+            }
+        });
         $('#savechanges').on('click',
             function() {
                 AjaxGet({
                     url: '/api/SaveChanges',
-                    param: { description: $('#description').val() },
+                    param: { tId: @Model.TeamId, description: $('#description').val() },
                     func: saveChanges
                 });
 
