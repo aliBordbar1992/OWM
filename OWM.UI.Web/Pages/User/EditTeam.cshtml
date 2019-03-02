@@ -4,16 +4,17 @@
     Layout = "Shared/UserLayout";
 }
 <link href="~/css/EditTeam.css" rel="stylesheet" />
-<h4 class="font-weight-bold">London Foundation</h4>
-<h6 class="x-small text-muted">Created on : 25 Jan 2017</h6>
+<h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
+<h6 class="x-small text-muted">Created on : @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
 <hr />
 <div class="row">
     <div class="col-md-8 pb-3">
         <div class="alert alert-info" style="height: 100%;">
             <div class="small mb-1">Occupations that can join this team:</div>
-            <span class="badge">Actor</span>
-            <span class="badge">Web Developer</span>
-            <span class="badge">Artist</span>
+            @foreach (var occ in Model.TeamInformation.Occupations)
+            {
+                <span class="badge">@occ</span>
+            }
         </div>
     </div>
     <div class="col-md-4">
@@ -21,10 +22,20 @@
             <div class="small">Can members can join this team?</div>
             <div class="mr-1 mt-2">
                 <label class="switch">
-                    <input type="checkbox" class="success" checked>
-                    <span class="slider round"></span>
+                    @if (Model.TeamInformation.IsClosed)
+                    {
+                        <input type="checkbox" class="success">
+                        <span class="slider round"></span>
+                        <span class="small ml-2" id="prevent">Deny</span>
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="success" checked>
+                        <span class="slider round"></span>
+                        <span class="small ml-2" id="prevent">Allow</span>
+                    }
                 </label>
-                <span class="small ml-2" id="prevent">Deny</span>
+
             </div>
         </div>
     </div>
@@ -37,7 +48,7 @@
                     <div class="fa fa-map-marked-alt display-4 text-info"></div>
                     <div class="ml-3">
                         <div class="text-muted small">Miles Pledged</div>
-                        <div>687,123</div>
+                        <div>@Model.TeamInformation.TotalMilesPledged</div>
                     </div>
                 </div>
             </div>
@@ -50,7 +61,7 @@
                     <div class="fa fa-users display-4 text-warning"></div>
                     <div class="ml-3">
                         <div class="text-muted small">Members</div>
-                        <div>105,652</div>
+                        <div>@Model.TeamInformation.TeamMembers.Count</div>
                     </div>
                 </div>
             </div>
@@ -63,47 +74,33 @@
             <a class="list-group-item active text-center">
                 Members
             </a>
-            <a class="list-group-item text-left list-group-item-action" href="#">
-                <div class="media">
-                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Miles Pledged : <span class="badge">25</span></p>
-                                <p class="mb-0">Miles Completed : <span class="badge">12</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <a class="list-group-item text-left list-group-item-action" href="#">
-                <div class="media">
-                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                    <div class="media-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                            </div>
-                            <div class="col-md-6">
-                                <p>Miles Pledged : <span class="badge">25</span></p>
-                                <p class="mb-0">Miles Completed : <span class="badge">12</span></p>
+            @foreach (var member in Model.TeamInformation.TeamMembers)
+            {
+                <a class="list-group-item text-left list-group-item-action" asp-page="/UserProfile">
+                    <div class="media">
+                        <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="Generic placeholder image">
+                        <div class="media-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
+                                    <p class="small mt-2 mb-0">@member.City, @member.Country</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>Miles Pledged : <span class="badge">@member.MyPledgedMiles</span></p>
+                                    <p class="mb-0">Miles Completed : <span class="badge">@member.MyCompletedMiles</span></p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            }
         </div>
     </div>
 </div>
 <div class="row mt-1">
     <div class="col-md-12">
         <span class="small">Description</span>
-        <textarea class="form-control" id="description" style="resize: none;">some text here</textarea>
+        <textarea class="form-control" id="description" style="resize: none;">@Model.TeamInformation.Description</textarea>
     </div>
 </div>
 <div class="row mt-3">
@@ -140,7 +137,7 @@
                 });
 
                 function saveChanges(e) {
-                    ElementGreenalert('savechanges', 'right center', e);
+                    ElementGreenalert('savechanges', 'right center', e.displayMessage);
                 }
             });
         $('span.badge').each(function () {

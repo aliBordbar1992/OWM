@@ -18,10 +18,12 @@ namespace OWM.Application.Services.Interfaces
         Task CreateTeam(CreateTeamDto dto);
         Task PledgeMiles(PledgeMilesDto dto);
         Task IncreasePledgedMilesBy(int pledgedMileId, float miles);
-        Task<List<MyTeamsListDto>> GetListOfTeams(int profileId);
+        Task<List<TeamMemberInformationDto>> GetListOfTeams(int profileId);
         void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles);
         IEnumerable<CompletedMiles> CompletedMiles(Profile profile, Team team = null);
 
         Task<int> CloseTeam(int teamId, bool closed);
+        Task<int> UpdateDescription(int teamId, string description);
+        Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId);
     }
 }

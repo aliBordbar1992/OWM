@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
@@ -7,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWM.Application.Services.Exceptions;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
@@ -145,13 +145,13 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task<List<MyTeamsListDto>> GetListOfTeams(int profileId)
+        public async Task<List<TeamMemberInformationDto>> GetListOfTeams(int profileId)
         {
             var teams = await _teamService.Queryable()
                 .Where(x => x.Members.Any(m => m.ProfileId == profileId))
                 .ToListAsync();
-            
-            var result = new List<MyTeamsListDto>();
+
+            var result = new List<TeamMemberInformationDto>();
 
             foreach (var team in teams)
             {
@@ -161,7 +161,7 @@ namespace OWM.Application.Services
                 var totalMilesPledged =
                     _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
 
-                result.Add(new MyTeamsListDto
+                result.Add(new TeamMemberInformationDto
                 {
                     TeamName = team.Name,
                     TeamId = team.Id,
@@ -200,6 +200,79 @@ namespace OWM.Application.Services
             {
                 return -1;
             }
+        }
+
+        public async Task<int> UpdateDescription(int teamId, string description)
+        {
+            try
+            {
+                var team = await _teamService.FindAsync(teamId);
+                team.ShortDescription = description;
+                await _unitOfWork.SaveChangesAsync();
+                return 0;
+            }
+            catch (Exception e)
+            {
+                return -1;
+            }
+        }
+
+        public async Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId)
+        {
+            var team = await _teamService.FindAsync(teamId);
+            await _teamService.LoadRelatedEntities(team);
+
+            var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
+                .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
+
+            var totalMilesPledged =
+                _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
+
+            List<string> occupations = team.OccupationFilter
+                ? team.AllowedOccupations.Select(o => o.Occupation.Name).ToList()
+                : new List<string> { "All" };
+
+            var result = new TeamInformationDto
+            {
+                TeamName = team.Name,
+                DateCreated = team.Created,
+                Description = team.ShortDescription,
+                IsClosed = team.IsClosed,
+                Occupations = occupations,
+                TotalMilesCompleted = totalMilesCompleted,
+                TotalMilesPledged = totalMilesPledged,
+                TeamMembers = await GetTeamMembers(team)
+            };
+
+            return result;
+        }
+
+        private async Task<List<TeamMemberInformationDto>> GetTeamMembers(Team team)
+        {
+            var teamMembers = new List<TeamMemberInformationDto>();
+            foreach (var member in team.Members)
+            {
+                var memberProfile = member.MemberProfile;
+                await _profileService.LoadRelatedEntities(memberProfile);
+                teamMembers.Add(new TeamMemberInformationDto
+                {
+                    FirstName = memberProfile.Name,
+                    SurName = memberProfile.Surname,
+                    City = memberProfile.City.Name,
+                    Country = memberProfile.Country.Name,
+                    ProfilePicture = string.IsNullOrEmpty(memberProfile.ProfileImageUrl)
+                        ? "/img/img_Plaaceholder.jpg"
+                        : memberProfile.ProfileImageUrl,
+
+                    MyCompletedMiles = team.PledgedMiles.Single(x => x.Profile.Id == member.ProfileId).CompletedMiles
+                        .Sum(x => x.Miles),
+                    MyPledgedMiles = team.PledgedMiles.Single(x => x.Profile.Id == member.ProfileId).Miles,
+                    IsCreator = team.Members.Any(x => x.IsCreator && x.ProfileId == member.ProfileId),
+                    IsKickedOut = team.Members.Any(x => x.KickedOut && x.ProfileId == member.ProfileId),
+                });
+            }
+
+            return teamMembers;
         }
 
         protected virtual void OnMilesPledged(MilesPledgedArgs e) => MilesPledged?.Invoke(this, e);

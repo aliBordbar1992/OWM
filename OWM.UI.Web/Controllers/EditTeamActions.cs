@@ -44,9 +44,25 @@ namespace OWM.UI.Web.Controllers
         }
 
         [HttpGet("/api/SaveChanges")]
-        public JsonResult SaveChanges(int tId, string description)
+        public async Task<IActionResult> SaveChanges(int tId, string description)
         {
-            return new JsonResult("Save Changes");
+            try
+            {
+                int success = await _teamManager.UpdateDescription(tId, description);
+                return Json(new ApiResponse
+                {
+                    Success = success == 0,
+                    DisplayMessage =
+                        success == 0
+                            ? "Update successfull!"
+                            : "Something happened, try again.",
+                    ErrorCode = success
+                });
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("An error occurred during processing your request. Try again.");
+            }
         }
     }
 }
