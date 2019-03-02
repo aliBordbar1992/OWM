@@ -92,19 +92,19 @@
         </div>
     </div>
     <script src="~/js/Register.js"></script>
-    @*<script>
+    <script>
         $(function () {
             var t0 = performance.now();
             AjaxGet({
                 url: '/api/FilterCountriesByCities',
                 param: { city: "london" },
                 func: ct
-            })
+            });
 
             function ct(e) {
-                console.log(e);
+                console.log(JSON.parse(e.substring(e.indexOf("(") + 1, e.lastIndexOf(")"))));
                 var t1 = performance.now();
                 console.log("response time : " + (t1 - t0) + " milliseconds.")
             }
         })
-    </script>*@
+    </script>

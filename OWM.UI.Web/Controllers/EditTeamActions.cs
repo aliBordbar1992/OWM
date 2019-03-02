@@ -13,7 +13,7 @@ namespace OWM.UI.Web.Controllers
         [HttpGet("/api/Prevent")]
         public JsonResult ChangePrevent(bool check)
         {
-            return new JsonResult("Change Prevent");
+            return new JsonResult("Prevent Saved");
         }
 
         [HttpGet("/api/SaveChanges")]

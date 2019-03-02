@@ -16,17 +16,16 @@ namespace OWM.UI.Web.Controllers
             var request = (HttpWebRequest)WebRequest.Create("http://gd.geobytes.com/AutoCompleteCity?callback=?&sort=size&q=" + city);
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            var start = responseString.IndexOf("(") + 1;
-            var end = responseString.IndexOf(")", start);
-            responseString = responseString.Substring(start, end - start);
-            var js = JsonConvert.DeserializeObject<List<string>>(responseString);
-            return new JsonResult(js);
+            return new JsonResult(responseString);
         }
 
         [HttpGet("/api/GetCountry")]
-        public IActionResult GetCountry()
+        public IActionResult GetCountry(string country)
         {
-            return null;
+            var request = (HttpWebRequest)WebRequest.Create("http://gd.geobytes.com/GetCityDetails?callback=?&fqcn=" + country);
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            return new JsonResult(responseString);
         }
     }
 }

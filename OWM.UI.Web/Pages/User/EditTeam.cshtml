@@ -122,7 +122,7 @@
                 func: changesApplied
             });
             function changesApplied(e) {
-                ElementGreenalert('alert','bottom center','Saved!');
+                ElementGreenalert('alert','bottom center',e);
             }
         })
         $('#savechanges').on('click',
@@ -134,7 +134,7 @@
                 });
 
                 function saveChanges(e) {
-                    ElementGreenalert('savechanges', 'right center', 'Saved!');
+                    ElementGreenalert('savechanges', 'right center', e);
                 }
             });
         $('span.badge').each(function () {
