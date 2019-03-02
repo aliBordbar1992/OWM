@@ -72,7 +72,7 @@ function AjaxPost(t) {
         dataType: "json",
         success: t.func,
         error: function() {
-            console.log("error")
+            RedAlert('n',"Unknown error")
         }
     })
 }
