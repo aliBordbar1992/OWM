@@ -57,9 +57,7 @@ function AjaxGet(t) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: t.func,
-        error: function() {
-            console.log("error")
-        }
+        error: t.err
     })
 }
 
@@ -71,9 +69,7 @@ function AjaxPost(t) {
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: t.func,
-        error: function() {
-            RedAlert('n',"Unknown error")
-        }
+        error: t.err
     })
 }
 

@@ -21,6 +21,7 @@ namespace OWM.Application.Services.Interfaces
         Task<List<MyTeamsListDto>> GetListOfTeams(int profileId);
         void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles);
         IEnumerable<CompletedMiles> CompletedMiles(Profile profile, Team team = null);
-        
+
+        Task<int> CloseTeam(int teamId, bool closed);
     }
 }
