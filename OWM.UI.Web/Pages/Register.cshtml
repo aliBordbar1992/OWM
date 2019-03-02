@@ -70,7 +70,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12">
-                            <input required class="form-control" placeholder="Password" asp-for="RegistrationData.Password"/>
+                            <input required class="form-control" autocomplete="new-password" placeholder="Password" asp-for="RegistrationData.Password"/>
                         </div>
                     </div>
                     <div class="row mt-3">
@@ -91,4 +91,20 @@
             </div>
         </div>
     </div>
-<script src="~/js/Register.js"></script>
+    <script src="~/js/Register.js"></script>
+    @*<script>
+        $(function () {
+            var t0 = performance.now();
+            AjaxGet({
+                url: '/api/FilterCountriesByCities',
+                param: { city: "london" },
+                func: ct
+            })
+
+            function ct(e) {
+                console.log(e);
+                var t1 = performance.now();
+                console.log("response time : " + (t1 - t0) + " milliseconds.")
+            }
+        })
+    </script>*@

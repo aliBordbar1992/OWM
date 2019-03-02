@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace OWM.UI.Web.Controllers
 {
@@ -14,14 +16,11 @@ namespace OWM.UI.Web.Controllers
             var request = (HttpWebRequest)WebRequest.Create("http://gd.geobytes.com/AutoCompleteCity?callback=?&sort=size&q=" + city);
             var response = (HttpWebResponse)request.GetResponse();
             var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
-            responseString = responseString.Replace("?", "");
-            responseString = responseString.Replace("([", "");
-            responseString = responseString.Replace("]);", "");
-            responseString = responseString.Remove(responseString.LastIndexOf("\""));
-            responseString = responseString.Remove(0, 1);
-            var array = responseString.Split("\"");
-            array = array.Where(x => x != ",").ToArray();
-            return new JsonResult(array); 
+            var start = responseString.IndexOf("(") + 1;
+            var end = responseString.IndexOf(")", start);
+            responseString = responseString.Substring(start, end - start);
+            var js = JsonConvert.DeserializeObject<List<string>>(responseString);
+            return new JsonResult(js);
         }
 
         [HttpGet("/api/GetCountry")]

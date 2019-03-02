@@ -1,0 +1,26 @@
+﻿table {
+    width: 100%;
+}
+table td, table th {
+    color: #2b686e;
+    padding: 10px;
+}
+table td {
+    text-align: center;
+    vertical-align: middle;
+}
+table td:last-child {
+    font-size: 0.95em;
+    line-height: 1.4;
+    text-align: left;
+}
+table th {
+    background-color: #daeff1;
+    font-weight: 300;
+}
+table tr:nth-child(2n) {
+    background-color: white;
+}
+table tr:nth-child(2n+1) {
+    background-color: #edf7f8;
+}
