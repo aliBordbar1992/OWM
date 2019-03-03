@@ -1,5 +1,5 @@
 ﻿$(function() {
-    $('#counter').each(function() {
+    $('[counter]').each(function() {
         $(this).prop('Counter', 0).animate({
                 Counter: $(this).text().replace(',', '')
             },

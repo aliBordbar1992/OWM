@@ -12,10 +12,10 @@
         font-size: 10pt;
         text-align: center;
     }
-     .media img {
-         width: 50px;
-         height: auto;
-     }
+    .media img {
+        width: 50px;
+        height: auto;
+    }
 </style>
 <div class="container">
     <div class="card bg-white">
@@ -30,16 +30,16 @@
                     </h6>
                 </div>
                 <div class="col-md-3 text-right mt-auto">
-                    <button type="submit" class="btn btn-primary">Join team</button>
+                    <button type="submit" class="btn btn-primary mt-2">Join team</button>
                 </div>
             </div>
             <hr />
-            <div class="row">
-                <div class="col-sm-6 col-xl-6">
+            <div class="row mt-4 mb-4">
+                <div class="col-sm-4 col-xl-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
-                                <div class="fa fa-map-marked-alt display-4 text-info"></div>
+                                <div class="fa fa-map-marker-alt display-4 text-info"></div>
                                 <div class="ml-3">
                                     <div class="text-muted small">Miles Pledged</div>
                                     <div>687,123</div>
@@ -48,7 +48,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6 col-xl-6">
+                <div class="col-sm-4 col-xl-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="fas fa-map-marked-alt display-4 text-primary"></div>
+                                <div class="ml-3">
+                                    <div class="text-muted x-small">Miles Completed</div>
+                                    <div>10</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-xl-4">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex align-items-center">
@@ -65,43 +78,28 @@
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="list-group">
-                        <a class="list-group-item active text-center">
+                        <div class="list-group-item active text-center">
                             Members
-                        </a>
-                        <a class="list-group-item text-left list-group-item-action" href="#">
-                            <div class="media">
-                                <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                            <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Miles Pledged : <span class="badge badge-primary">25</span></p>
-                                            <p class="mb-0">Miles Completed : <span class="badge badge-success">12</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="list-group-item text-left list-group-item-action" href="#">
-                            <div class="media">
-                                <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                                <div class="media-body">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5>
-                                            <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Miles Pledged : <span class="badge badge-primary">25</span></p>
-                                            <p class="mb-0">Miles Completed : <span class="badge badge-success">12</span></p>
+                        </div>
+                        <div style="overflow: auto; max-height: 250px;" id="search">
+                            <div class="list-group-item text-left list-group-item-action" href="#">
+                                <div class="media">
+                                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <a href="#"><h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5></a>
+                                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>Miles Pledged : <span class="badge badge-primary">25</span></p>
+                                                <p class="mb-0">Miles Completed : <span class="badge badge-success">12</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
