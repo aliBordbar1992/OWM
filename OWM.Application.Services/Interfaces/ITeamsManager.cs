@@ -27,6 +27,7 @@ namespace OWM.Application.Services.Interfaces
         Task<int> KickMember(int teamId, int profileId, int memberProfileId);
         Task<int> UnKickMember(int teamId, int profileId, int memberProfileId);
 
-        Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId);
+        Task<TeamInformationDto> GetTeamInformation(int teamId);
+        Task<bool> IsMemberOfTeam(int teamId, int userId);
     }
 }

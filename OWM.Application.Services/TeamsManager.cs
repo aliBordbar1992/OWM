@@ -155,11 +155,17 @@ namespace OWM.Application.Services
 
             foreach (var team in teams)
             {
-                var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
-                    .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
+                var teamPledgedMiles = await _teamService.GetTeamMilesPledged(team.Id);
+                var teamCompletedMiles = _teamService.GetTeamMilesCompleted(team.Id);
 
-                var totalMilesPledged =
-                    _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
+                var totalMilesCompleted = teamCompletedMiles.Sum(x => x.Miles);
+                var totalMilesPledged = teamPledgedMiles.Sum(x => x.Miles);
+
+                //var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
+                //    .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
+                //
+                //var totalMilesPledged =
+                //    _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
 
                 result.Add(new TeamMemberInformationDto
                 {
@@ -217,7 +223,7 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId)
+        public async Task<TeamInformationDto> GetTeamInformation(int teamId)
         {
             var team = await _teamService.Queryable()
                 .Include(x => x.AllowedOccupations)
@@ -225,11 +231,11 @@ namespace OWM.Application.Services
                 .SingleAsync(x => x.Id == teamId);
             await _teamService.LoadRelatedEntities(team);
 
-            var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
-                .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
+            var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
+            var teamCompletedMiles = _teamService.GetTeamMilesCompleted(teamId);
 
-            var totalMilesPledged =
-                _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
+            var totalMilesCompleted = teamCompletedMiles.Sum(x => x.Miles);
+            var totalMilesPledged = teamPledgedMiles.Sum(x => x.Miles);
 
             List<string> occupations = team.OccupationFilter
                 ? team.AllowedOccupations.Select(o => o.Occupation.Name).ToList()
@@ -244,22 +250,29 @@ namespace OWM.Application.Services
                 Occupations = occupations,
                 TotalMilesCompleted = totalMilesCompleted,
                 TotalMilesPledged = totalMilesPledged,
-                TeamMembers = await GetTeamMembers(team)
+                TeamMembers = await GetTeamMembers(teamId)
             };
 
             return result;
         }
 
-        private async Task<List<TeamMemberInformationDto>> GetTeamMembers(Team team)
+        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
         {
-            var teamMembers = new List<TeamMemberInformationDto>();
-            foreach (var member in team.Members)
+            return await _teamService.Queryable()
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
+        }
+
+        private async Task<List<TeamMemberInformationDto>> GetTeamMembers(int teamId)
+        {
+            var teamMembers = await _teamService.GetTeamMembers(teamId);
+            var teamMembersInformation = new List<TeamMemberInformationDto>();
+            foreach (var member in teamMembers.ToList())
             {
                 var memberProfile = member.MemberProfile;
                 await _profileService.LoadRelatedEntities(memberProfile);
-                teamMembers.Add(new TeamMemberInformationDto
+                teamMembersInformation.Add(new TeamMemberInformationDto
                 {
-                    TeamId = team.Id,
+                    TeamId = teamId,
                     ProfileId = memberProfile.Id,
                     FirstName = memberProfile.Name,
                     SurName = memberProfile.Surname,
@@ -269,15 +282,14 @@ namespace OWM.Application.Services
                         ? "/img/img_Plaaceholder.jpg"
                         : memberProfile.ProfileImageUrl,
 
-                    MyCompletedMiles = team.PledgedMiles.Single(x => x.Profile.Id == member.ProfileId).CompletedMiles
-                        .Sum(x => x.Miles),
-                    MyPledgedMiles = team.PledgedMiles.Single(x => x.Profile.Id == member.ProfileId).Miles,
-                    IsCreator = team.Members.Any(x => x.IsCreator && x.ProfileId == member.ProfileId),
-                    IsKickedOut = team.Members.Any(x => x.KickedOut && x.ProfileId == member.ProfileId),
+                    MyCompletedMiles = await _teamService.GetMemberCompletedMiles(teamId, memberProfile.Id),
+                    MyPledgedMiles = await _teamService.GetMemberPledgedMiles(teamId, memberProfile.Id),
+                    IsCreator = member.IsCreator,
+                    IsKickedOut = member.KickedOut,
                 });
             }
 
-            return teamMembers;
+            return teamMembersInformation;
         }
 
         public async Task<int> KickMember(int profileId, int teamId, int memberProfileId)

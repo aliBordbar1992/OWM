@@ -41,9 +41,11 @@ namespace OWM.UI.Web.Pages.User
 
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
-            
 
-            TeamInformation = await _teamManager.GetTeamInformation(TeamId, userInfo.ProfileId);
+            if (!await _teamManager.IsMemberOfTeam(TeamId, userInfo.ProfileId))
+                return LocalRedirect("/User/Teams/List");
+
+            TeamInformation = await _teamManager.GetTeamInformation(TeamId);
             return Page();
         }
     }
