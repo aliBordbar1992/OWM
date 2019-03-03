@@ -3,13 +3,17 @@
 @{
     Layout = "Shared/UserLayout";
 }
+
+<style>
+   
+</style>
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
 <h6 class="x-small text-muted">Created on : @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
 <hr />
 <div class="row">
     <div class="col-md-8 pb-3">
-        <div class="alert alert-info" style="height: 100%;">
+        <div id="badges" class="alert alert-info" style="height: 100%;">
             <div class="small mb-1">Occupations that can join this team:</div>
             @foreach (var occ in Model.TeamInformation.Occupations)
             {
@@ -19,20 +23,18 @@
     </div>
     <div class="col-md-4">
         <div class="alert alert-info" id="alert">
-            <div class="small">Can members can join this team?</div>
+            <div class="small">Can members join this team?</div>
             <div class="mr-1 mt-2">
                 <label class="switch">
                     @if (Model.TeamInformation.IsClosed)
                     {
                         <input type="checkbox" class="success">
                         <span class="slider round"></span>
-                        <span class="small ml-2" id="prevent">Deny</span>
                     }
                     else
                     {
                         <input type="checkbox" class="success" checked>
                         <span class="slider round"></span>
-                        <span class="small ml-2" id="prevent">Allow</span>
                     }
                 </label>
 
@@ -41,26 +43,39 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6 col-xl-6">
+    <div class="col-sm-4 col-xl-4">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
-                    <div class="fa fa-map-marked-alt display-4 text-info"></div>
+                    <div class="fa fa-map-marker-alt display-4 text-info"></div>
                     <div class="ml-3">
-                        <div class="text-muted small">Miles Pledged</div>
+                        <div class="text-muted x-small">Miles Pledged</div>
                         <div>@Model.TeamInformation.TotalMilesPledged</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-xl-6">
+    <div class="col-sm-4 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="fas fa-map-marked-alt display-4 text-primary"></div>
+                    <div class="ml-3">
+                        <div class="text-muted x-small">Miles Completed</div>
+                        <div>10</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-xl-4">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="fa fa-users display-4 text-warning"></div>
                     <div class="ml-3">
-                        <div class="text-muted small">Members</div>
+                        <div class="text-muted x-small">Members</div>
                         <div>@Model.TeamInformation.TeamMembers.Count</div>
                     </div>
                 </div>
@@ -71,29 +86,37 @@
 <div class="row mt-3">
     <div class="col-md-12">
         <div class="list-group">
-            <a class="list-group-item active text-center">
-                Members
-            </a>
-            @foreach (var member in Model.TeamInformation.TeamMembers)
-            {
-                <a class="list-group-item text-left list-group-item-action" asp-page="/UserProfile">
-                    <div class="media">
-                        <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="Generic placeholder image">
-                        <div class="media-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
-                                    <p class="small mt-2 mb-0">@member.City, @member.Country</p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>Miles Pledged : <span class="badge">@member.MyPledgedMiles</span></p>
-                                    <p class="mb-0">Miles Completed : <span class="badge">@member.MyCompletedMiles</span></p>
+            <div class="list-group-item active text-center">
+                <label class="mt-2">Members</label>
+                <input class="form-control form-control-sm w-25 float-left" id="searchuser" placeholder="Search Memebr .."/>
+            </div>
+            <div style="overflow: auto; max-height: 250px;" id="search">
+                @foreach (var member in Model.TeamInformation.TeamMembers)
+                {
+                    <div class="list-group-item text-left list-group-item-action">
+                        <div class="media">
+                            <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.ProfilePicture">
+                            <div class="media-body">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <h5 class="h5 mt-0 mb-0 font-weight-bold"><a asp-page="/UserProfile">@member.FirstName @member.SurName</a></h5>
+                                        <p class="small mt-2 mb-0">@member.City, @member.Country</p>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <p>Miles Pledged : <span class="badge badge-primary">@member.MyPledgedMiles</span>
+                                        </p>
+                                        <p class="mb-0">Miles Completed : <span class="badge badge-success">@member.MyCompletedMiles</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-2 text-right">
+                                        <button class="btn-sm btn-primary">Kick</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
-            }
+                }
+            </div>
         </div>
     </div>
 </div>
@@ -110,9 +133,14 @@
 </div>
 <script>
     $(function () {
-        $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');
+        $("#searchuser").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#search div.list-group-item").filter(function(index, ele) {
+                $(ele).toggle($(ele).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
         $('input.success').change(function() {
-            $('input.success').is(':checked') ? $('#prevent').text('Allow') : $('#prevent').text('Deny');
             AjaxGet({
                 url: '/api/Prevent',
                 param: { tId: @Model.TeamId, open: this.checked },
@@ -140,12 +168,17 @@
                     ElementGreenalert('savechanges', 'right center', e.displayMessage);
                 }
             });
-        $('span.badge').each(function () {
+        var x = 0;
+        $('#badges span.badge').each(function () {
             $(this).addClass(getRandomClass());
+            x++;
         });
         function getRandomClass() {
             var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
-            return classes[Math.floor(Math.random() * classes.length)];
+            if (x === classes.length - 1) {
+                x = 0;
+            }
+            return classes[x];
         }
     })
 </script>

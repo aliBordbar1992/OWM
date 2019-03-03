@@ -1,4 +1,26 @@
-﻿function Checkinputs(n) {
+﻿$(function() {
+    $('#counter').each(function() {
+        $(this).prop('Counter', 0).animate({
+                Counter: $(this).text().replace(',', '')
+            },
+            {
+                duration: 1000,
+                easing: 'swing',
+                step: function(now) {
+                    $(this).text(Math.ceil(now));
+                    $(this).Digit();
+                }
+            });
+    });
+});
+
+$.fn.Digit = function () {
+    return this.each(function () {
+        $(this).text($(this).text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+    });
+}
+
+function Checkinputs(n) {
     var t = !1,
         a = $("#" + n).find("input[required]");
     return 0 === a.length && (a = $("#" + n).find("textarea[required]")), a.each(function (n, a) {
