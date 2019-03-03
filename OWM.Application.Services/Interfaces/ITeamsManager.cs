@@ -24,6 +24,9 @@ namespace OWM.Application.Services.Interfaces
 
         Task<int> CloseTeam(int teamId, bool closed);
         Task<int> UpdateDescription(int teamId, string description);
+        Task<int> KickMember(int teamId, int profileId, int memberProfileId);
+        Task<int> UnKickMember(int teamId, int profileId, int memberProfileId);
+
         Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId);
     }
 }

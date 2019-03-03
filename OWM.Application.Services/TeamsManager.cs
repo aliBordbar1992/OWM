@@ -219,7 +219,10 @@ namespace OWM.Application.Services
 
         public async Task<TeamInformationDto> GetTeamInformation(int teamId, int currentUserId)
         {
-            var team = await _teamService.FindAsync(teamId);
+            var team = await _teamService.Queryable()
+                .Include(x => x.AllowedOccupations)
+                .ThenInclude(x => x.Occupation)
+                .SingleAsync(x => x.Id == teamId);
             await _teamService.LoadRelatedEntities(team);
 
             var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
@@ -273,6 +276,52 @@ namespace OWM.Application.Services
             }
 
             return teamMembers;
+        }
+
+        public async Task<int> KickMember(int profileId, int teamId, int memberProfileId)
+        {
+            try
+            {
+                var team = await _teamService.Queryable()
+                    .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
+
+                if (team == null) return -1;
+
+                var teamMemberToKickOut =
+                    team.Members.FirstOrDefault(x => x.ProfileId == memberProfileId && !x.KickedOut);
+                if (teamMemberToKickOut == null) return -2;
+
+                teamMemberToKickOut.KickedOut = true;
+                await _unitOfWork.SaveChangesAsync();
+                return 0;
+            }
+            catch (Exception e)
+            {
+                return -3;
+            }
+        }
+
+        public async Task<int> UnKickMember(int profileId, int teamId, int memberProfileId)
+        {
+            try
+            {
+                var team = await _teamService.Queryable()
+                    .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
+
+                if (team == null) return -1;
+
+                var teamMemberToUnKickOut =
+                    team.Members.FirstOrDefault(x => x.ProfileId == memberProfileId && x.KickedOut);
+                if (teamMemberToUnKickOut == null) return -2;
+
+                teamMemberToUnKickOut.KickedOut = false;
+                await _unitOfWork.SaveChangesAsync();
+                return 0;
+            }
+            catch (Exception e)
+            {
+                return -3;
+            }
         }
 
         protected virtual void OnMilesPledged(MilesPledgedArgs e) => MilesPledged?.Invoke(this, e);
