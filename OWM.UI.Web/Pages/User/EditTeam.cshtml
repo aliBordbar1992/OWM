@@ -5,7 +5,6 @@
 }
 
 <style>
-   
 </style>
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
@@ -88,7 +87,7 @@
         <div class="list-group" id="statusmessage">
             <div class="list-group-item active text-center">
                 <label class="mt-2">Members</label>
-                <input class="form-control form-control-sm w-25 float-left" id="searchuser" placeholder="Search Memebr .."/>
+                <input class="form-control form-control-sm w-25 float-left" id="searchuser" placeholder="Search Memebr .." />
             </div>
             <div style="overflow: auto; max-height: 250px;" id="search">
                 @foreach (var member in Model.TeamInformation.TeamMembers)
@@ -103,14 +102,28 @@
                                         <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                     </div>
                                     <div class="col-md-5">
-                                        <p>Miles Pledged : <span class="badge badge-primary">@member.MyPledgedMiles</span>
+                                        <p>
+                                            Miles Pledged : <span class="badge badge-primary">@member.MyPledgedMiles</span>
                                         </p>
-                                        <p class="mb-0">Miles Completed : <span class="badge badge-success">@member.MyCompletedMiles</span>
+                                        <p class="mb-0">
+                                            Miles Completed : <span class="badge badge-success">@member.MyCompletedMiles</span>
                                         </p>
                                     </div>
-                                    <div class="col-md-2 text-right">
-                                        <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId , @Model.ProfileId, @member.ProfileId ,this);">Kick</button>
-                                    </div>
+                                    @if (!member.IsCreator)
+                                    {
+                                        if (member.IsKickedOut)
+                                        {
+                                            <div class="col-md-2 text-right">
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-2 text-right">
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Kick</button>
+                                            </div>
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>

@@ -45,6 +45,8 @@ namespace OWM.UI.Web.Pages.User
             if (!await _teamManager.IsMemberOfTeam(TeamId, userInfo.ProfileId))
                 return LocalRedirect("/User/Teams/List");
 
+            ProfileId = userInfo.ProfileId;
+
             TeamInformation = await _teamManager.GetTeamInformation(TeamId);
             return Page();
         }

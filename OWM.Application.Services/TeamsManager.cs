@@ -292,11 +292,12 @@ namespace OWM.Application.Services
             return teamMembersInformation;
         }
 
-        public async Task<int> KickMember(int profileId, int teamId, int memberProfileId)
+        public async Task<int> KickMember(int teamId, int profileId, int memberProfileId)
         {
             try
             {
                 var team = await _teamService.Queryable()
+                    .Include(x => x.Members)
                     .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
 
                 if (team == null) return -1;

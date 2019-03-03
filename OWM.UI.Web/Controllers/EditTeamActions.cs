@@ -74,7 +74,7 @@ namespace OWM.UI.Web.Controllers
                 case -3:
                     return "Something happened, try again.";
                 default:
-                    return "Memebr kick out from team";
+                    return "Member kick out from team";
             }
         }
 
