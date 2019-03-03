@@ -3,6 +3,7 @@
     public class TeamMemberInformationDto
     {
         public int TeamId { get; set; }
+        public int ProfileId { get; set; }
         public string TeamName { get; set; }
         public string FirstName { get; set; }
         public string SurName { get; set; }

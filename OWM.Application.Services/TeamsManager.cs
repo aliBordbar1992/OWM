@@ -259,6 +259,8 @@ namespace OWM.Application.Services
                 await _profileService.LoadRelatedEntities(memberProfile);
                 teamMembers.Add(new TeamMemberInformationDto
                 {
+                    TeamId = team.Id,
+                    ProfileId = memberProfile.Id,
                     FirstName = memberProfile.Name,
                     SurName = memberProfile.Surname,
                     City = memberProfile.City.Name,
