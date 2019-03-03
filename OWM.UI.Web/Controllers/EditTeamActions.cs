@@ -43,6 +43,41 @@ namespace OWM.UI.Web.Controllers
             }
         }
 
+        [HttpGet("/api/kickmember")]
+        public async Task<IActionResult> KickMember(int tId , int pId ,int mpId)
+        {
+            try
+            {
+                int success = await _teamManager.KickMember(tId , pId , mpId);
+                string displayMessage = GetKickMemberMessage(success);
+                return Json(new ApiResponse
+                {
+                    Success = success == -1,
+                    DisplayMessage = displayMessage,
+                    ErrorCode = success
+                });
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("An error occurred during processing your request. Try again.");
+            }
+        }
+
+        private string GetKickMemberMessage(int success)
+        {
+            switch (success)
+            {
+                case -1:
+                    return "Team not found";
+                case -2:
+                    return "Member not found";
+                case -3:
+                    return "Something happened, try again.";
+                default:
+                    return "Memebr kick out from team";
+            }
+        }
+
         [HttpGet("/api/SaveChanges")]
         public async Task<IActionResult> SaveChanges(int tId, string description)
         {

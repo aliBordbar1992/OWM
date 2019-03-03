@@ -28,6 +28,7 @@ namespace OWM.UI.Web.Pages.User
         }
 
         public int TeamId { get; set; }
+        public int ProfileId { get; set; }
         [BindProperty] public TeamInformationDto TeamInformation { get; set; }
 
         public async Task<IActionResult> OnGet(int? teamid)
@@ -38,7 +39,6 @@ namespace OWM.UI.Web.Pages.User
             }
 
             TeamId = teamid.Value;
-
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
 
