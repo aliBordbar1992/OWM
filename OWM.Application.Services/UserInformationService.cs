@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OWM.Application.Services.Exceptions;
+using OWM.Application.Services.Utils;
 
 namespace OWM.Application.Services
 {
@@ -93,9 +94,7 @@ namespace OWM.Application.Services
                     MilesCompleted = $"{_user.MilesPledged.Sum(x => x.CompletedMiles.Select(c => c.Miles).Sum())}",
                     MilesPledged = $"{_user.MilesPledged.Sum(x => x.Miles)}",
                     TeamJoined = $"{_user.MilesPledged.Count}",
-                    UserImage = string.IsNullOrEmpty(_user.ProfileImageUrl)
-                        ? "/img/img_Plaaceholder.jpg"
-                        : _user.ProfileImageUrl,
+                    ProfilePicture = Constants.GetProfilePictures(_user.ProfileImageUrl)
                 };
 
                 return n;
@@ -173,24 +172,25 @@ namespace OWM.Application.Services
                 await SetLocalUser(userId, true);
                 return new UserInformationDto
                 {
+                    ProfileId = _user.Id,
                     Ethnicity = _user.Ethnicity.Name,
-                    Interest = string.Join(",", _user.Interests.ToList()),
+                    Interest = string.Join(",", _user.Interests.Select(x => x.Name).ToList()),
                     Email = _user.Identity.Email,
                     Occupation = _user.Occupation.Name,
                     Name = _user.Name,
                     CityName = _user.City.Name,
                     Phone = _user.Identity.PhoneNumber,
                     Gender = (int)_user.Gender,
-                    Birthday = _user.DateOfBirth.ToString("MM/dd/yyyy"),
+                    Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
                     CityId = _user.City.Id,
                     CountryName = _user.Country.Name,
                     OccupationId = _user.Occupation.Id,
                     Surname = _user.Surname,
                     EthnicityId = _user.Ethnicity.Id,
-                    MilesCompleted = "MilesCompleted",
-                    MilesPledged = "MilesPledged",
-                    TeamJoined = "TeamJoined",
-                    UserImage = _user.ProfileImageUrl,
+                    MilesCompleted = $"{_user.MilesPledged.Sum(x => x.CompletedMiles.Select(c => c.Miles).Sum())}",
+                    MilesPledged = $"{_user.MilesPledged.Sum(x => x.Miles)}",
+                    TeamJoined = $"{_user.MilesPledged.Count}",
+                    ProfilePicture = Constants.GetProfilePictures(_user.ProfileImageUrl)
                 };
             });
         }

@@ -1,4 +1,4 @@
-﻿@page "Profile/{profileid?}"
+﻿@page "/Profile/{profileid?}"
 @model OWM.UI.Web.Pages.UserProfileModel
 @{
     Layout = "Shared/_Layout";
@@ -22,27 +22,25 @@
         <form method="post" class="card-body">
             <div class="row">
                 <div class="col-md-2">
-                    <img class="img-thumbnail rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="" />
+                    <img class="img-thumbnail rounded-circle" src="@Model.MemberInformation.ProfilePicture" alt="" />
                     <div class="profile-work">
-                        <p class="mt-4 mb-1">Intrests</p>
+                        <p class="mt-4 mb-1">Interests</p>
                         <hr class="mt-1 mb-1" />
-                        <span class="badge " href="">Web Designer</span><br />
-                        <span class="badge ">Web Developer</span><br />
-                        <span class="badge " href="">WordPress</span><br />
-                        <span class="badge " href="">WooCommerce</span><br />
-                        <span class="badge " href="">PHP, .Net</span><br />
-                        <span class="badge " href="">Web Designer</span><br />
+                        @foreach (string interest in Model.MemberInformation.Interests)
+                        {
+                            <span class="badge " href="">@interest</span><br />
+                        }
                     </div>
                 </div>
                 <div class="col-md-10">
-                    <h3 class="text-dark font-weight-bold">Omid Mokhtari</h3>
+                    <h3 class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
                     <hr class="mt-1 mb-3"/>
                     <div class="badge badge-light small mt-1 mb-1">
-                        <span class="fas fa-user-md text-info"></span>&nbsp; Agricultural manager
+                        <span class="fas fa-user-md text-info"></span>&nbsp; @Model.MemberInformation.Occupation
                     </div>
                     <br/>
                     <div class="badge badge-light small mt-1 mb-1">
-                        <span class="fas fa-map-marker-alt text-info"></span>&nbsp; Los Angeles ,United States
+                        <span class="fas fa-map-marker-alt text-info"></span>&nbsp; @Model.MemberInformation.City, @Model.MemberInformation.Country
                     </div>
                     <hr/>
                     <div class="row">
@@ -53,7 +51,7 @@
                                         <div class="fa fa-map-marker-alt display-4 text-info"></div>
                                         <div class="ml-3">
                                             <div class="text-muted small">Miles Pledged</div>
-                                            <div counter>687123</div>
+                                            <div>@Model.MemberInformation.MilesPledged</div>
                                         </div>
                                     </div>
                                 </div>
@@ -66,7 +64,7 @@
                                         <div class="fas fa-map-marked-alt display-4 text-warning"></div>
                                         <div class="ml-3">
                                             <div class="text-muted small">Miles Completed</div>
-                                            <div counter>105652</div>
+                                            <div>@Model.MemberInformation.MilesCompleted</div>
                                         </div>
                                     </div>
                                 </div>
@@ -77,45 +75,36 @@
                         <div class="col-md-6">
                             <span class="small p-1 bg-info text-white d-block text-center">Teams Joined</span>
                             <table class="table table-sm small bg-light">
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td >Larry the Bird</td>
-                                    <td></td>
-                                </tr>
+                                @{ int tjRow = 1; }
+                                @foreach (var team in Model.MemberInformation.TeamsJoined)
+                                {
+                                    <tr>
+                                        <th scope="row">@tjRow</th>
+                                        <td>
+                                            <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
+                                        </td>
+                                    </tr>
+                                    
+                                    {
+                                        tjRow = tjRow + 1;
+                                    }
+                                }
                             </table>
                         </div>
                         <div class="col-md-6">
                             <span class="small p-1 bg-info text-white d-block text-center">Teams Created</span>
                             <table class="table table-sm small bg-light">
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Larry the Bird</td>
-                                    <td></td>
-                                </tr>
+                                @{ int tcRow = 1; }
+                                @foreach (var team in Model.MemberInformation.TeamsCreated)
+                                {
+                                    <tr>
+                                        <th scope="row">@tcRow</th>
+                                        <td>
+                                            <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
+                                        </td>
+                                    </tr>
+                                    { tcRow = tcRow + 1; }
+                                }
                             </table>
                         </div>
                     </div>

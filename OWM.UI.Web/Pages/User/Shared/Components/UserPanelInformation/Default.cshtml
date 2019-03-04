@@ -3,8 +3,7 @@
     <div class="list-group mb-2">
         <div class="list-group-item text-center bg-light">
             <div class="d-block mb-2">
-                @{var src = string.IsNullOrEmpty(Model.UserImage) ? "/img/img_Plaaceholder.jpg" : Model.UserImage;}
-                <img class="user-image" src="@src" />
+                <img class="user-image" src="@Model.ProfilePicture" />
             </div>
             <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
             <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>

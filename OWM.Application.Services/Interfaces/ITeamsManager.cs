@@ -18,7 +18,7 @@ namespace OWM.Application.Services.Interfaces
         Task CreateTeam(CreateTeamDto dto);
         Task PledgeMiles(PledgeMilesDto dto);
         Task IncreasePledgedMilesBy(int pledgedMileId, float miles);
-        Task<List<TeamMemberInformationDto>> GetListOfTeams(int profileId);
+        Task<List<MyTeamsListDto>> GetListOfMyTeams(int profileId);
         void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles);
         IEnumerable<CompletedMiles> CompletedMiles(Profile profile, Team team = null);
 
@@ -27,7 +27,9 @@ namespace OWM.Application.Services.Interfaces
         Task<int> KickMember(int teamId, int profileId, int memberProfileId);
         Task<int> UnKickMember(int teamId, int profileId, int memberProfileId);
 
-        Task<TeamInformationDto> GetTeamInformation(int teamId);
+        Task<TeamInformationDto> GetTeamInformation(int teamId, bool getKickedMembers = false);
         Task<bool> IsMemberOfTeam(int teamId, int userId);
+
+        Task<ProfileInformationDto> GetTeamMemberProfileInformation(int profileId);
     }
 }

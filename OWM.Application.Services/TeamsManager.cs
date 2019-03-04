@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.Utils;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
@@ -145,13 +146,13 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task<List<TeamMemberInformationDto>> GetListOfTeams(int profileId)
+        public async Task<List<MyTeamsListDto>> GetListOfMyTeams(int profileId)
         {
             var teams = await _teamService.Queryable()
                 .Where(x => x.Members.Any(m => m.ProfileId == profileId))
                 .ToListAsync();
 
-            var result = new List<TeamMemberInformationDto>();
+            var result = new List<MyTeamsListDto>();
 
             foreach (var team in teams)
             {
@@ -161,13 +162,7 @@ namespace OWM.Application.Services
                 var totalMilesCompleted = teamCompletedMiles.Sum(x => x.Miles);
                 var totalMilesPledged = teamPledgedMiles.Sum(x => x.Miles);
 
-                //var totalMilesCompleted = _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id)
-                //    .Select(x => x.CompletedMiles.Select(c => c.Miles).Sum()).Sum();
-                //
-                //var totalMilesPledged =
-                //    _milesPledgedService.Queryable().Where(x => x.Team.Id == team.Id).Sum(x => x.Miles);
-
-                result.Add(new TeamMemberInformationDto
+                result.Add(new MyTeamsListDto
                 {
                     TeamName = team.Name,
                     TeamId = team.Id,
@@ -176,7 +171,6 @@ namespace OWM.Application.Services
                     MyCompletedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles),
                     MyPledgedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).Miles,
                     IsCreator = team.Members.Any(x => x.IsCreator && x.ProfileId == profileId),
-                    IsKickedOut = team.Members.Any(x => x.KickedOut && x.ProfileId == profileId)
                 });
             }
 
@@ -223,7 +217,7 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task<TeamInformationDto> GetTeamInformation(int teamId)
+        public async Task<TeamInformationDto> GetTeamInformation(int teamId, bool getKickedMembers = true)
         {
             var team = await _teamService.Queryable()
                 .Include(x => x.AllowedOccupations)
@@ -250,21 +244,16 @@ namespace OWM.Application.Services
                 Occupations = occupations,
                 TotalMilesCompleted = totalMilesCompleted,
                 TotalMilesPledged = totalMilesPledged,
-                TeamMembers = await GetTeamMembers(teamId)
+                TeamMembers = await GetTeamMembers(teamId, getKickedMembers)
             };
 
             return result;
         }
-
-        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
+        private async Task<List<TeamMemberInformationDto>> GetTeamMembers(int teamId, bool getKickedMembers)
         {
-            return await _teamService.Queryable()
-                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
-        }
-
-        private async Task<List<TeamMemberInformationDto>> GetTeamMembers(int teamId)
-        {
-            var teamMembers = await _teamService.GetTeamMembers(teamId);
+            var teamMembers = getKickedMembers
+                ? await _teamService.GetTeamMembers(teamId)
+                : await _teamService.GetUnKickedTeamMembersAsync(teamId);
             var teamMembersInformation = new List<TeamMemberInformationDto>();
             foreach (var member in teamMembers.ToList())
             {
@@ -278,9 +267,7 @@ namespace OWM.Application.Services
                     SurName = memberProfile.Surname,
                     City = memberProfile.City.Name,
                     Country = memberProfile.Country.Name,
-                    ProfilePicture = string.IsNullOrEmpty(memberProfile.ProfileImageUrl)
-                        ? "/img/img_Plaaceholder.jpg"
-                        : memberProfile.ProfileImageUrl,
+                    ProfilePicture = Constants.GetProfilePictures(memberProfile.ProfileImageUrl),
 
                     MyCompletedMiles = await _teamService.GetMemberCompletedMiles(teamId, memberProfile.Id),
                     MyPledgedMiles = await _teamService.GetMemberPledgedMiles(teamId, memberProfile.Id),
@@ -291,6 +278,44 @@ namespace OWM.Application.Services
 
             return teamMembersInformation;
         }
+
+        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
+        {
+            return await _teamService.Queryable()
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
+        }
+
+        public async Task<ProfileInformationDto> GetTeamMemberProfileInformation(int profileId)
+        {
+            IUserInformationService uInfoSrvc = new UserInformationService(_profileService);
+            var profileInfo = await uInfoSrvc.GetUserProfileInformationAsync(profileId);
+            var myTeams = await GetListOfMyTeams(profileId);
+            return new ProfileInformationDto
+            {
+                ProfilePicture = profileInfo.ProfilePicture,
+                Country = profileInfo.CountryName,
+                City = profileInfo.CityName,
+                Surname = profileInfo.Surname,
+                FirstName = profileInfo.Name,
+                Occupation = profileInfo.Occupation,
+                Interests = profileInfo.Interests.Select(x => x.Name).ToList(),
+                MilesCompleted = profileInfo.MilesCompleted,
+                MilesPledged = profileInfo.MilesPledged,
+                TeamsCreated = myTeams.Where(x => x.IsCreator).Select(x => new TeamInfoDto()
+                {
+                    TeamName = x.TeamName,
+                    Id = x.TeamId
+                }).ToList(),
+                TeamsJoined = myTeams.Where(x => !x.IsCreator).Select(x => new TeamInfoDto()
+                {
+                    TeamName = x.TeamName,
+                    Id = x.TeamId
+                }).ToList()
+            };
+        }
+        
+
+        
 
         public async Task<int> KickMember(int teamId, int profileId, int memberProfileId)
         {

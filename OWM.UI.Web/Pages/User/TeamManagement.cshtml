@@ -30,7 +30,7 @@
         margin-right: 5px;
     }
 </style>*@
-<h2>Team Managment</h2>
+<h2>My teams</h2>
 <hr />
 <div class="row mb-3">
     <div class="col-md-6 text-left">
@@ -80,7 +80,7 @@
                     <span class="fa fa-users text-info"></span> @team.TotalMilesCompleted
                 </span>
             </td>
-            @if (@team.IsCreator)
+            @if (team.IsCreator)
             {
                 <td>
                     <a class="fa fa-edit text-success" asp-route-teamid="@team.TeamId" asp-page="/User/EditTeam"></a>

@@ -17,7 +17,7 @@ namespace OWM.UI.Web.Pages.User
         private readonly IUserInformationService _userInformation;
         private readonly ITeamsManagerService _teamManager;
         private readonly IOccupationInformationService _ocpInformationService;
-        [BindProperty] public List<TeamMemberInformationDto> TeamsList { get; set; }
+        [BindProperty] public List<MyTeamsListDto> TeamsList { get; set; }
 
         public TeamManagementModel(SignInManager<Domain.Entities.User> signInManager
             , IUserInformationService userInformation
@@ -40,7 +40,7 @@ namespace OWM.UI.Web.Pages.User
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
-            TeamsList = await _teamManager.GetListOfTeams(userInfo.ProfileId);
+            TeamsList = await _teamManager.GetListOfMyTeams(userInfo.ProfileId);
         }
     }
 }

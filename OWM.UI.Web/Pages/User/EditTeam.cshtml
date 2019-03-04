@@ -8,7 +8,7 @@
 </style>
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
-<h6 class="x-small text-muted">Created on : @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
+<h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
 <hr />
 <div class="row">
     <div class="col-md-8 pb-3">
@@ -94,11 +94,11 @@
                 {
                     <div class="list-group-item text-left list-group-item-action">
                         <div class="media">
-                            <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.ProfilePicture">
+                            <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
                             <div class="media-body">
                                 <div class="row">
                                     <div class="col-md-5">
-                                        <a asp-page="/UserProfile"><h5 class="h5 mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5></a>
+                                        <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile"><h5 class="h5 mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5></a>
                                         <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                     </div>
                                     <div class="col-md-5">

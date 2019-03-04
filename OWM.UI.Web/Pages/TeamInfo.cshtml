@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/Teams/Details/{teamid?}"
 @model OWM.UI.Web.Pages.TeamInfoModel
 @{
     Layout = "Shared/_Layout";
@@ -8,10 +8,12 @@
     .list-group-item a {
         font-size: 11pt;
     }
+
     .card .list-group .list-group-item {
         font-size: 10pt;
         text-align: center;
     }
+
     .media img {
         width: 50px;
         height: auto;
@@ -22,16 +24,19 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-9">
-                    <h3>London Foundation</h3>
-                    <h6 class="x-small text-muted">Created on : 25 Jan 2017</h6>
+                    <h3>@Model.TeamInformation.TeamName</h3>
+                    <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
                     <hr class="mt-1 mb-2" />
                     <h6 class="mb-0 text-muted">
-                        Mix and match multiple content types to create the card you need, or throw everything in there. Shown below are image styles, blocks, text styles, and a list group—all wrapped in a fixed-width card.
+                        @Model.TeamInformation.Description
                     </h6>
                 </div>
-                <div class="col-md-3 text-right mt-auto">
-                    <button type="submit" class="btn btn-primary mt-2">Join team</button>
-                </div>
+                @if (!Model.TeamInformation.IsClosed)
+                {
+                    <div class="col-md-3 text-right mt-auto">
+                        <button type="submit" class="btn btn-primary mt-2">Join team</button>
+                    </div>
+                }
             </div>
             <hr />
             <div class="row mt-4 mb-4">
@@ -42,7 +47,7 @@
                                 <div class="fa fa-map-marker-alt display-4 text-info"></div>
                                 <div class="ml-3">
                                     <div class="text-muted small">Miles Pledged</div>
-                                    <div>687,123</div>
+                                    <div>@Model.TeamInformation.TotalMilesPledged</div>
                                 </div>
                             </div>
                         </div>
@@ -55,7 +60,7 @@
                                 <div class="fas fa-map-marked-alt display-4 text-primary"></div>
                                 <div class="ml-3">
                                     <div class="text-muted x-small">Miles Completed</div>
-                                    <div>10</div>
+                                    <div>@Model.TeamInformation.TotalMilesCompleted</div>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +73,7 @@
                                 <div class="fa fa-users display-4 text-warning"></div>
                                 <div class="ml-3">
                                     <div class="text-muted small">Members</div>
-                                    <div>105,652</div>
+                                    <div>@Model.TeamInformation.TeamMembers.Count</div>
                                 </div>
                             </div>
                         </div>
@@ -82,23 +87,28 @@
                             Members
                         </div>
                         <div style="overflow: auto; max-height: 250px;" id="search">
-                            <div class="list-group-item text-left list-group-item-action" href="#">
-                                <div class="media">
-                                    <img class="mr-3 rounded-circle" src="http://up.vbiran.ir/uploads/620015514480685669_photo_2018-07-20_13-43-57.jpg" alt="Generic placeholder image">
-                                    <div class="media-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <a href="#"><h5 class="mt-0 mb-0 font-weight-bold">Omid Mokhtari</h5></a>
-                                                <p class="small mt-2 mb-0">Los Angeled ,United States</p>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <p>Miles Pledged : <span class="badge badge-primary">25</span></p>
-                                                <p class="mb-0">Miles Completed : <span class="badge badge-success">12</span></p>
+                            @foreach (var member in Model.TeamInformation.TeamMembers)
+                            {
+                                <div class="list-group-item text-left list-group-item-action">
+                                    <div class="media">
+                                        <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
+                                        <div class="media-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile">
+                                                        <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
+                                                    </a>
+                                                    <p class="small mt-2 mb-0">@member.City, @member.Country</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p>Miles Pledged: <span class="badge badge-primary">@member.MyPledgedMiles</span></p>
+                                                    <p class="mb-0">Miles Completed: <span class="badge badge-success">@member.MyCompletedMiles</span></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                         </div>
                     </div>
                 </div>

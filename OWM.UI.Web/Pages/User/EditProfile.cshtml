@@ -77,7 +77,7 @@
             </div>
             <div class="col-md-4">
                 <div class="text-center">
-                    <img src="@Model.UserInformationDto.UserImage" class="user-image w-50" alt="avatar" id="imgProfile">
+                    <img src="@Model.UserInformationDto.ProfilePicture" class="user-image w-50" alt="avatar" id="imgProfile">
                     <input type="hidden" asp-for="Input.UserImage" id="imgProfileAddress" />
                     <button type="button" class="btn-sm btn-success mt-3 w-100" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
                     <button type="submit" asp-page-handler="ResetPassword" class="btn-sm btn-success mt-3 w-100" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
