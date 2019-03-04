@@ -8,60 +8,60 @@
 <link href="~/css/SearchTeams.css" rel="stylesheet" />
 <h2>Join A Team</h2>
 <hr />
-<div class="pl-4 pr-4">
-    <div class="list-group w-100 m-auto">
-        <div class="searchbox list-group-item mb-1 p-1 pl-2">
-            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;" />
-            <img src="~/img/loading.gif" class="loading-md-exp" />
-        </div>
-        <div class="list-group-item bg-gray pl-5 pr-4 pt-2 pb-2">
-            <div class="row mb-4">
-                <div class="col-md-4" style="line-height: 37px;">Team Members</div>
-                <div class="col-md-8 text-left">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-success active">
-                            <input type="radio" name="teammembers" id="option1" autocomplete="off" checked value-data="1"> Acending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="teammembers" id="option2" autocomplete="off" value-data="2"> Decending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="teammembers" id="option3" autocomplete="off" value-data="0"> Off
-                        </label>
+    <div class="pl-4 pr-4">
+        <div class="list-group w-100 m-auto">
+            <div class="searchbox list-group-item mb-1 p-1 pl-2">
+                <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;" />
+                <img src="~/img/loading.gif" class="loading-md-exp" />
+            </div>
+            <div class="list-group-item bg-gray pl-4 pr-4 pt-2 pb-2">
+                <div class="row mb-4">
+                    <div class="col-md-3 text-left" style="line-height: 31px;">Team Members</div>
+                    <div class="col-md-9 text-left">
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-success active">
+                                <input type="radio" name="teammembers" id="option1" autocomplete="off" checked value-data="1"> Acending
+                            </label>
+                            <label class="btn btn-sm btn-outline-success">
+                                <input type="radio" name="teammembers" id="option2" autocomplete="off" value-data="2"> Decending
+                            </label>
+                            <label class="btn btn-sm btn-outline-success">
+                                <input type="radio" name="teammembers" id="option3" autocomplete="off" value-data="0"> Off
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-4" style="line-height: 37px;">Miles Pledged</div>
-                <div class="col-md-8 text-left">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-success active">
-                            <input type="radio" name="milespledged" id="option4" autocomplete="off" checked value-data="1"> Acending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="milespledged" id="option5" autocomplete="off" value-data="2"> Decending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="milespledged" id="option6" autocomplete="off" value-data="0"> Off
-                        </label>
+                <div class="row mb-4">
+                    <div class="col-md-3 text-left" style="line-height: 31px;">Miles Pledged</div>
+                    <div class="col-md-9 text-left">
+                        <div class="btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-sm btn-outline-success active">
+                                <input type="radio" name="milespledged" id="option4" autocomplete="off" checked value-data="1"> Acending
+                            </label>
+                            <label class="btn btn-sm btn-outline-success">
+                                <input type="radio" name="milespledged" id="option5" autocomplete="off" value-data="2"> Decending
+                            </label>
+                            <label class="btn btn-sm btn-outline-success">
+                                <input type="radio" name="milespledged" id="option6" autocomplete="off" value-data="0"> Off
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" style="line-height: 37px;">Occupation</div>
-                <div class="col-md-8 text-left">
-                    <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="Model.OccupationOptions">
-                        <option></option>
-                    </select>
+                <div class="row">
+                    <div class="col-md-3 text-left" style="line-height: 37px;">Occupation</div>
+                    <div class="col-md-9 text-left">
+                        <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="Model.OccupationOptions">
+                            <option></option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="container mt-3" id="teamsearchresult">
-</div>
 
-<script>
+    <div class="container mt-3" id="teamsearchresult"></div>
+
+    <script>
     $(function () {
         $('.chosen-select').chosen({ width: "100%" });
         $('#searchteams').focus();
@@ -109,16 +109,17 @@
                 func: createList
             });
 
+            var html;
+            $.get("/contents/TeamSearchTemplate.html", function(htmlString) {
+                html = htmlString;
+            }, 'html');
+
             function createList(e) {
                 for (var i = 0; i < e.length; i++) {
-                    var searchResult = $('<div class="mb-3 pl-2 pr-2"><div class="list-group w-100 m-auto"><div class="list-group-item bg-darksuccess text-white"> ' +
-                        '<div class="row"><div class="col-md-4 text-center border-right"><p>Members</p><h4>' + e[i].members + '</h4></div> ' +
-                        '<div class="col-md-4 text-center border-right"><p>Miles Pledged</p><h4>' + e[i].milesPledged + '</h4></div><div class="col-md-4 text-center">' +
-                        '<p>Miles Completed</p><h4>' + e[i].milesCompeleted + '</h4></div></div></div><div class="list-group-item position-relative text-left" style="min-height: 130px;">' +
-                        '<div class="row"><div class="col-md-8" style="min-height: 95px;"><h5 class="card-title text-darcsuccess">' + e[i].teamName + '</h5>' +
-                        '<p class="card-text">' + e[i].description + '</p>' +
-                        '</div><div class="col-md-4 text-center" style="min-height: 95px;"><button class="fa fa-plus-circle text-darcsuccess" title="join team"> ' +
-                        '</button></div></div><i>Created on : ' + e[i].dateCreated + '</i></div></div></div>').hide().appendTo(teamSerachResult).show('slow');
+                    var sr = html.replace("#m#", e[i].members).replace("#mp#", e[i].milesPledged)
+                        .replace('#mc#', e[i].milesCompeleted).replace('#teamname#', e[i].teamName)
+                        .replace('#datecreated#', e[i].dateCreated).replace("#desc#", e[i].description);
+                    $(sr).hide().appendTo(teamSerachResult).show('slow');
                 }
                 loading.hide();
             }

@@ -1,4 +1,4 @@
-﻿  .col-md-4 {
+﻿  .col-md-3 {
       font-size: 12pt;
   }
   #searchteams {
@@ -17,10 +17,10 @@
       font-weight: 600;
   }
   .fa-plus-circle {
-      font-size: 40pt;
+      font-size: 35pt;
       font-weight: 600;
       background-color: transparent;
-      line-height: 95px;
+      line-height: 70px;
       outline: none!important;
   }
   .fa-plus-circle:hover {
