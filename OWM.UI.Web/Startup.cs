@@ -90,11 +90,11 @@ namespace OWM.UI.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
-
             CreateUserRoles(services).Wait();
         }
 

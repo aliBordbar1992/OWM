@@ -39,7 +39,7 @@ namespace OWM.UI.Web.Pages
             }
 
             if (_signInManager.IsSignedIn(User))
-                return LocalRedirect("/User/NewsFeed");
+                return RedirectToRoute("/User/News");
 
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -70,7 +70,7 @@ namespace OWM.UI.Web.Pages
             var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
             if (result.Succeeded)
             {
-                returnUrl = returnUrl ?? Url.Content("/User/NewsFeed");
+                returnUrl = returnUrl ?? Url.Content("/User/News");
                 return LocalRedirect(returnUrl);
             }
 

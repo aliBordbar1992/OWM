@@ -7,20 +7,21 @@
             </div>
             <a class="border-bottom mb-2 text-info" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
             <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
-            <hr class="mb-2 mt-2"/>
+            <hr class="mb-2 mt-2" />
             <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
         </div>
     </div>
     <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
         <div class="list-group list-group-flush bg-light">
-            <form method="post" >
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Logout</a>
+
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
+            <form asp-page="/Logout" method="post">
+                <button type="submit" class="list-group-item bg-light">Logout</button>
             </form>
         </div>
     </div>

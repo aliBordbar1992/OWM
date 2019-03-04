@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Utils;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
@@ -119,7 +120,6 @@ namespace OWM.Application.Services
                 OnFailedToPledgeMiles(new PledgedMilesFailedException("There was an error with your miles pledged. Try again.", e, dto));
             }
         }
-
         private async Task<bool> TeamJustCreated(int teamId)
         {
             if (await _teamService.ExistsAsync(teamId))
@@ -174,7 +174,11 @@ namespace OWM.Application.Services
                 });
             }
 
-            return result;
+            return result
+                .OrderByDescending(x => x.IsCreator)
+                .ThenByDescending(x => x.TotalMilesCompleted)
+                .ThenByDescending(x => x.TotalMilesPledged)
+                .ToList();
         }
 
         public void IncreaseMilesCompletedBy(int pledgedMileId, int profileId, float miles)
@@ -276,13 +280,11 @@ namespace OWM.Application.Services
                 });
             }
 
-            return teamMembersInformation;
-        }
-
-        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
-        {
-            return await _teamService.Queryable()
-                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
+            return teamMembersInformation
+                .OrderByDescending(x => x.IsCreator)
+                .ThenByDescending(x => x.MyCompletedMiles)
+                .ThenByDescending(x => x.MyPledgedMiles)
+                .ToList();
         }
 
         public async Task<ProfileInformationDto> GetTeamMemberProfileInformation(int profileId)
@@ -313,9 +315,51 @@ namespace OWM.Application.Services
                 }).ToList()
             };
         }
-        
 
-        
+        public async Task<bool> CanJoinTeam(int teamId, int profileId)
+        {
+            var team = await _teamService.Queryable()
+                .Include(x => x.AllowedOccupations)
+                .SingleAsync(x => x.Id == teamId);
+
+            if (team.IsClosed) return false;
+
+            if (await IsMemberOfTeam(teamId, profileId))
+                return false;
+
+            
+            if (!team.OccupationFilter) return true;
+
+            IUserInformationService uInfoSrvc = new UserInformationService(_profileService);
+            var profileOccupation = await uInfoSrvc.GetUserOccupationAsync(profileId);
+
+            return team.AllowedOccupations.Any(x => x.OccupationId == profileOccupation.Id);
+        }
+
+        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
+        {
+            return await _teamService.Queryable()
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
+        }
+
+        public async Task<bool> IsCreatorOfTeam(int teamId, int profileId)
+        {
+            return await _teamService.Queryable()
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId && m.IsCreator));
+        }
+
+        public async Task<TeamInvitationInformationDto> GetTeamInviteInformation(int teamId)
+        {
+            var team = await _teamService.FindAsync(teamId);
+
+            return new TeamInvitationInformationDto
+            {
+                TeamId = team.Id,
+                TeamName = team.Name,
+                TeamGuid = team.Identity.ToString()
+            };
+        }
+
 
         public async Task<int> KickMember(int teamId, int profileId, int memberProfileId)
         {
@@ -370,43 +414,5 @@ namespace OWM.Application.Services
 
         protected virtual void OnTeamCreated(TeamCreatedArgs e) => TeamCreated?.Invoke(this, e);
         protected virtual void OnCreationFaild(Exception e) => CreationFailed?.Invoke(this, e);
-    }
-
-    public class MilesPledgedArgs : EventArgs
-    {
-        public MilesPledged MilesPledged { get; }
-
-        public MilesPledgedArgs(MilesPledged miles)
-        {
-            MilesPledged = miles;
-        }
-    }
-    public class FailedToPledgeMilesdArgs : EventArgs
-    {
-        public Exception Exception { get; }
-
-        public FailedToPledgeMilesdArgs(Exception exception)
-        {
-            Exception = exception;
-        }
-    }
-
-    public class TeamCreatedArgs : EventArgs
-    {
-        public Team Team { get; }
-
-        public TeamCreatedArgs(Team team)
-        {
-            Team = team;
-        }
-    }
-    public class TeamCreationFailedArgs : EventArgs
-    {
-        public Exception Exception { get; }
-
-        public TeamCreationFailedArgs(Exception exception)
-        {
-            Exception = exception;
-        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +24,11 @@ namespace OWM.UI.Web.Pages
         }
 
         public int TeamId { get; set; }
+        public bool CanJoinTeam { get; set; }
+        public bool CanInviteMembers { get; set; }
         [BindProperty] public TeamInformationDto TeamInformation { get; set; }
 
-        public async Task<IActionResult> OnGet(int? teamid)
+        public async Task<IActionResult> OnGetAsync(int? teamid)
         {
             if (!teamid.HasValue)
             {
@@ -33,6 +36,17 @@ namespace OWM.UI.Web.Pages
             }
 
             TeamId = teamid.Value;
+            if (_signInManager.IsSignedIn(User))
+            {
+                string identityId = _signInManager.UserManager.GetUserId(User);
+                var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
+
+                CanJoinTeam = await _teamManager.CanJoinTeam(TeamId, userInfo.ProfileId);
+                CanInviteMembers = await _teamManager.IsMemberOfTeam(TeamId, userInfo.ProfileId);
+            }
+            else
+                CanJoinTeam = false;
+
 
             TeamInformation = await _teamManager.GetTeamInformation(TeamId, false);
             return Page();

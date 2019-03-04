@@ -1,0 +1,16 @@
+﻿@page "/Teams/{handler}/{id}"
+@model OWM.UI.Web.Pages.TeamJoinModel
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@if (Model.IsJoin)
+{
+    <div>join</div>
+}
+
+@if (Model.IsInvite)
+{
+    <div>You have been invited to join @Model.TeamName</div>
+    <div>To join this team, you need to login or register</div>
+}

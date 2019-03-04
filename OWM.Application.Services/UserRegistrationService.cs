@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Exceptions;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
@@ -198,47 +199,5 @@ namespace OWM.Application.Services
 
         protected virtual void OnUserUpdated(UserUpdatedArgs e) => UserUpdated?.Invoke(this, e);
         protected virtual void OnUpdateFailed(UpdateFailedArgs e) => UpdateFailed?.Invoke(this, e);
-    }
-
-    public class UserUpdatedArgs : EventArgs
-    {
-        public Profile User { get; }
-        public User Identity { get; }
-
-        public UserUpdatedArgs(User identity, Profile user)
-        {
-            User = user;
-            Identity = identity;
-        }
-    }
-    public class UpdateFailedArgs : EventArgs
-    {
-        public Exception Exception { get; }
-
-        public UpdateFailedArgs(Exception exception)
-        {
-            Exception = exception;
-        }
-    }
-
-    public class UserRegisteredArgs : EventArgs
-    {
-        public Profile User { get; }
-        public User Identity { get; }
-
-        public UserRegisteredArgs(User identity, Profile user)
-        {
-            User = user;
-            Identity = identity;
-        }
-    }
-    public class RegistrationFailedArgs : EventArgs
-    {
-        public IEnumerable<IdentityError> ResultErrors { get; }
-
-        public RegistrationFailedArgs(IEnumerable<IdentityError> resultErrors)
-        {
-            ResultErrors = resultErrors;
-        }
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
-using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
@@ -14,6 +13,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using OWM.Application.Services.EventHandlers;
 
 namespace OWM.UI.Web.Pages.User
 {
@@ -83,7 +83,7 @@ namespace OWM.UI.Web.Pages.User
             _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
         }
 
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
             UserInformationDto = await _userInformation.GetUserProfileInformationAsync(identityId);

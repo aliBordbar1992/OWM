@@ -31,7 +31,7 @@ namespace OWM.UI.Web.Pages.User
         }
 
 
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
             await SetTeamsList();
         }

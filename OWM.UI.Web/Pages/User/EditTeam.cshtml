@@ -11,6 +11,7 @@
 <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
 <hr />
 <div class="row">
+    <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId">Invite a friend</a>
     <div class="col-md-8 pb-3">
         <div id="badges" class="alert alert-info" style="height: 100%;">
             <div class="small mb-1">Occupations that can join this team:</div>

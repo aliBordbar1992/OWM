@@ -34,7 +34,7 @@ namespace OWM.Data
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<MilesPledged> MilesPledged { get; set; }
         public virtual DbSet<CompletedMiles> CompletedMiles { get; set; }
-
+        public virtual DbSet<TeamInvitation> TeamInvitations { get; set; }
 
 
 

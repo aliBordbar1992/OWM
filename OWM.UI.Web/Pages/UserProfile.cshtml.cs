@@ -25,7 +25,7 @@ namespace OWM.UI.Web.Pages
         public int ProfileId { get; set; }
         [BindProperty] public ProfileInformationDto MemberInformation { get; set; }
 
-        public async Task<IActionResult> OnGet(int? profileid)
+        public async Task<IActionResult> OnGetAsync(int? profileid)
         {
             if (!profileid.HasValue)
             {

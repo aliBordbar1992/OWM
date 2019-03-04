@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
-using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 using OWM.Application.Services.Utils;
@@ -14,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.EventHandlers;
 
 namespace OWM.UI.Web.Pages.User
 {
@@ -80,7 +80,7 @@ namespace OWM.UI.Web.Pages.User
             OccupationOptions = new List<SelectListItem>();
         }
 
-        public async Task OnGet()
+        public async Task OnGetAsync()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);

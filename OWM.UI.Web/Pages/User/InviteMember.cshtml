@@ -1,0 +1,26 @@
+﻿@page "/User/Teams/Invite/{teamid?}"
+@model OWM.UI.Web.Pages.User.InviteMemberModel
+@{
+    ViewData["Title"] = "InviteMember";
+    Layout = "Shared/UserLayout.cshtml";
+}
+
+<form method="post" asp-route-teamid="@Model.TeamId">
+    <div asp-validation-summary="All" id="ValidationSummary"></div>
+    @if (TempData[EditProfileModel.MessageKey] is string message)
+    {
+        <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
+    }
+    Your friend email address:
+    <input asp-for="@Model.Input.EmailAddress" type="email" class="form-control" />
+
+    Your friend's name:
+    <input asp-for="@Model.Input.RecipientName" type="text" class="form-control" />
+
+    Your invite message:
+    <textarea asp-for="@Model.Input.Message" class="form-control" id="description" style="resize: none;">
+        
+    </textarea>
+
+    <button type="submit">Send</button>
+</form>

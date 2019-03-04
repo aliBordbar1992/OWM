@@ -7,21 +7,21 @@
         if (Model.IsSignedIn)
         {
             <li>
-                <a href="/User/NewsFeed">Welcome @Model.Name</a>
+                <a asp-page="/User/NewsFeed">Welcome @Model.Name</a>
             </li>
         }
         else
         {
             <li>
-                <a href="/login">Login</a>
+                <a asp-page="/Login">Login</a>
             </li>
             <li>
-                <a href="/register">Register</a>
+                <a asp-page="/Register">Register</a>
             </li>
         }
     }
     <li>
-        <a href="/Explore">Explore</a>
+        <a asp-page="/Explore">Explore</a>
     </li>
     <li>
         <a href="#">Help us</a>

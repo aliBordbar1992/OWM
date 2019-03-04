@@ -24,6 +24,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITrackableRepository<Interest>, TrackableRepository<Interest>>();
             services.AddScoped<ITrackableRepository<Team>, TrackableRepository<Team>>();
             services.AddScoped<ITrackableRepository<MilesPledged>, TrackableRepository<MilesPledged>>();
+            services.AddScoped<ITrackableRepository<TeamInvitation>, TrackableRepository<TeamInvitation>>();
 
             services.AddScoped<ICityService, CityService>();
             services.AddScoped<ICountryService, CountryService>();
@@ -33,12 +34,14 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<IInterestService, InterestService>();
             services.AddScoped<ITeamService, TeamService>();
             services.AddScoped<IMilesPledgedService, MilesPledgedService>();
+            services.AddScoped<ITeamInvitationService, TeamInvitationService>();
 
             services.AddScoped<IUserRegistrationService, UserRegistrationService>();
             services.AddScoped<IUserInformationService, UserInformationService>();
             services.AddScoped<ITeamsManagerService, TeamsManagerService>();
             services.AddScoped<IEthnicityInformationService, EthnicityInformationService>();
             services.AddScoped<IOccupationInformationService, OccupationInformationService>();
+            services.AddScoped<ITeamInvitationsService, TeamInvitationsService>();
         }
     }
 }

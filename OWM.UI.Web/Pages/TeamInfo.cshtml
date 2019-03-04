@@ -31,10 +31,17 @@
                         @Model.TeamInformation.Description
                     </h6>
                 </div>
-                @if (!Model.TeamInformation.IsClosed)
+                @if (Model.CanJoinTeam)
                 {
                     <div class="col-md-3 text-right mt-auto">
-                        <button type="submit" class="btn btn-primary mt-2">Join team</button>
+                        <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamJoin" class="btn btn-primary mt-2">Join team</a>
+                    </div>
+                }
+                else if (Model.CanInviteMembers)
+                {
+                    <div class="col-md-3 text-right mt-auto">
+                        <span>Spread the word, invite your friends to join this team.</span>
+                        <a asp-route-teamid="@Model.TeamId" asp-page="/User/InviteMember" class="btn btn-success mt-2">Invite a friend</a>
                     </div>
                 }
             </div>

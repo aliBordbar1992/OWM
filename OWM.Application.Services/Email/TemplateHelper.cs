@@ -8,6 +8,8 @@
         public static string UserFullNameHolder = "<UserFullName/>";
         public static string UserFirstNameHolder = "<UserFirstName/>";
         public static string UserSurNameHolder = "<UserSurName/>";
+        public static string SenderNameHolder = "<SenderName/>";
+        public static string RecipientNameHolder = "<RecipientName/>";
 
         public static string MessageHeaderHolder = "<MessageHeader/>";
         public static string MessageBodyHolder = "<MessageBody/>";

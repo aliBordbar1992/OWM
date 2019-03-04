@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.EventHandlers;
 using OWM.Domain.Entities;
 
 namespace OWM.Application.Services.Interfaces

@@ -31,7 +31,7 @@ namespace OWM.UI.Web.Pages.User
         public int ProfileId { get; set; }
         [BindProperty] public TeamInformationDto TeamInformation { get; set; }
 
-        public async Task<IActionResult> OnGet(int? teamid)
+        public async Task<IActionResult> OnGetAsync(int? teamid)
         {
             if (!teamid.HasValue)
             {
@@ -42,13 +42,18 @@ namespace OWM.UI.Web.Pages.User
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
 
-            if (!await _teamManager.IsMemberOfTeam(TeamId, userInfo.ProfileId))
-                return LocalRedirect("/User/Teams/List");
+            if (!await CanEditTeam(userInfo.ProfileId))
+                return NotFound();
 
             ProfileId = userInfo.ProfileId;
 
             TeamInformation = await _teamManager.GetTeamInformation(TeamId);
             return Page();
+        }
+
+        private async Task<bool> CanEditTeam(int profileId)
+        {
+            return await _teamManager.IsCreatorOfTeam(TeamId, profileId);
         }
     }
 }

@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
-using OWM.Application.Services;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Email;
+using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Interfaces;
 
 namespace OWM.UI.Web.Pages
