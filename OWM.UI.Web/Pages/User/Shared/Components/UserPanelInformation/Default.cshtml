@@ -1,36 +1,37 @@
 ﻿@model Application.Services.Dtos.UserInformationDto
-<div class="col-md-3 p-0">
-    <div class="list-group mb-2">
+<div class="col-md-3">
+    <div class="list-group mb-4">
         <div class="list-group-item text-center bg-light">
             <div class="d-block mb-2">
                 <img class="user-image" src="@Model.ProfilePicture" />
             </div>
-            <a class="border-bottom mb-2" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
+            <a class="border-bottom mb-2 text-info" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
             <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
+            <hr class="mb-2 mt-2"/>
             <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
         </div>
     </div>
-    <div class="card mb-2 p-2" id="menu">
-        <div class="list-group list-group-flush">
+    <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
+        <div class="list-group list-group-flush bg-light">
             <form method="post" >
-                <a class="list-group-item" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-                <a class="list-group-item" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                <a class="list-group-item" asp-area="" asp-page="/User/Messages">Messages</a>
-                <a class="list-group-item" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-                <a class="list-group-item" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-                <a class="list-group-item" asp-area="" asp-page="/User/Help">Help</a>
-                <button type="submit" class="list-group-item w-100 border-bottom-0" style="outline: none;">Logout</button>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Logout</a>
             </form>
         </div>
     </div>
-    <div class="card mb-2 pt-3 p-2 bg-success text-white text-center">
-        <p class="mb-1">Team Joined</p>
-        <h1 class="mb-0">@Model.TeamJoined</h1>
-        <hr class="bg-white" />
-        <p class="mb-1">Miles Pledged</p>
-        <h1 class="mb-0">@Model.MilesPledged</h1>
-        <hr class="bg-white" />
-        <p class="mb-1">Miles Completed</p>
-        <h1 class="mb-0">@Model.MilesCompleted</h1>
+    <div class="card mb-4 p-2 text-center bg-light">
+        <p class="mb-1 small">Team Joined</p>
+        <h2 class="mb-0">@Model.TeamJoined</h2>
+        <hr class="bg-white mb-2 mt-2" />
+        <p class="mb-1 small">Miles Pledged</p>
+        <h2 class="mb-0">@Model.MilesPledged</h2>
+        <hr class="bg-white mb-2 mt-2" />
+        <p class="mb-1 small">Miles Completed</p>
+        <h2 class="mb-0">@Model.MilesCompleted</h2>
     </div>
 </div>
