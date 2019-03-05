@@ -8,6 +8,8 @@
         public string RecipientName { get; set; }
         public string EmailAddress { get; set; }
         public string Message { get; set; }
+        public string InvitationGuid { get; set; }
+        public string Token { get; set; }
         public int TeamId { get; set; }
         public int SenderId { get; set; }
         public int? RecipientId { get; set; }

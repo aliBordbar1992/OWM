@@ -1,0 +1,106 @@
+﻿@page "/Teams/Invite/{id}"
+@model OWM.UI.Web.Pages.TeamInviteModel
+@{
+    Layout = "Shared/_Layout";
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
+
+<div class="container">
+    <img class="img-thumbnail rounded-circle" src="@Model.MemberInformation.ProfilePicture" alt="" />
+    <h3 class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
+
+    <div>
+        Hi! I've invited you to join me on @Model.TeamInformation.TeamName
+    </div>
+
+
+    <h3 class="mb-0">@Model.TeamInformation.TeamName</h3>
+    <div class="mb-2 mt-2 x-small text-muted border-bottom">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
+    <h6 class="mb-0 text-muted">
+        @Model.TeamInformation.Description
+    </h6>
+
+    <div class="row mt-4 mb-4">
+        <div class="col-sm-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="fa fa-map-marker-alt display-4 text-info"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Miles Pledged</div>
+                            <div>@Model.TeamInformation.TotalMilesPledged</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="fas fa-map-marked-alt display-4 text-primary"></div>
+                        <div class="ml-3">
+                            <div class="text-muted x-small">Miles Completed</div>
+                            <div>@Model.TeamInformation.TotalMilesCompleted</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="fa fa-users display-4 text-warning"></div>
+                        <div class="ml-3">
+                            <div class="text-muted small">Members</div>
+                            <div>@Model.TeamInformation.TeamMembers.Count</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="list-group">
+                <div class="list-group-item active text-center">
+                    Members
+                </div>
+                <div style="overflow-y: auto; overflow-x: hidden; max-height: 250px;" id="search">
+                    @foreach (var member in Model.TeamInformation.TeamMembers)
+                    {
+                        <div class="list-group-item text-left list-group-item-action">
+                            <div class="media">
+                                <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
+                                <div class="media-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile">
+                                                <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
+                                            </a>
+                                            <p class="small mt-2 mb-0">@member.City, @member.Country</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p>Miles Pledged: <span class="badge badge-primary">@member.MyPledgedMiles</span></p>
+                                            <p class="mb-0">Miles Completed: <span class="badge badge-success">@member.MyCompletedMiles</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success d-block text-center">
+        <div>
+            To join this team, you need to
+            <a class="text-primary" asp-page="/Login">login</a>
+            or <a class="text-primary" asp-page="/Register">register</a>.
+        </div>
+    </div>
+</div>

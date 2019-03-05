@@ -11,5 +11,7 @@ namespace OWM.Application.Services.Interfaces
         event EventHandler<AddInvitationArgs> InvitationAddFailed;
 
         Task AddInvitation(InvitationInformationDto dto);
+        bool TryVerifyToken(string token, out InvitationKeyDto key);
+        void UpdateInvitations(string email, int profileId);
     }
 }

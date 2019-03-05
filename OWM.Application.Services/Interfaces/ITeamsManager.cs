@@ -29,10 +29,13 @@ namespace OWM.Application.Services.Interfaces
         Task<int> UnKickMember(int teamId, int profileId, int memberProfileId);
 
         Task<TeamInformationDto> GetTeamInformation(int teamId, bool getKickedMembers = false);
+        Task<TeamInformationDto> GetTeamInformation(Guid teamGuid, bool getKickedMembers);
 
         Task<bool> IsMemberOfTeam(int teamId, int userId); Task<ProfileInformationDto> GetTeamMemberProfileInformation(int profileId);
         Task<bool> CanJoinTeam(int teamId, int profileId);
         Task<bool> IsCreatorOfTeam(int teamId, int profileId);
         Task<TeamInvitationInformationDto> GetTeamInviteInformation(int teamId);
+
+        int GetTeamId(Guid keyTeamGuid);
     }
 }

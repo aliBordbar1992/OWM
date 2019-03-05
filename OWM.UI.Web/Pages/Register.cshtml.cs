@@ -26,6 +26,7 @@ namespace OWM.UI.Web.Pages
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IEthnicityInformationService _ethnicityInformation;
         private readonly IOccupationInformationService _ocpInformation;
+        private readonly ITeamInvitationsService _invitations;
         private string _uId;
         private bool _succeeded;
 
@@ -44,6 +45,7 @@ namespace OWM.UI.Web.Pages
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
             _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
             _ocpInformation = serviceProvider.GetRequiredService<IOccupationInformationService>();
+            _invitations = serviceProvider.GetRequiredService<ITeamInvitationsService>();
 
              EthnicityOptions = new List<SelectListItem>();
              OccupationOptions = new List<SelectListItem>();
@@ -65,6 +67,7 @@ namespace OWM.UI.Web.Pages
 
                 _userRegistrationService.UserRegistered += SendVerificationEmail;
                 _userRegistrationService.UserRegistered += SetUserId;
+                _userRegistrationService.UserRegistered += SetInvitationsForThisEmail;
 
                 _userRegistrationService.RegisterFailed += RegisterFailed;
 
@@ -94,9 +97,9 @@ namespace OWM.UI.Web.Pages
         {
             _uId = e.Identity.Id;
         }
-        public void LoginUser(object sender, UserRegisteredArgs e)
+        public void SetInvitationsForThisEmail(object sender, UserRegisteredArgs e)
         {
-            _signInManager.SignInAsync(e.Identity, isPersistent: false);
+            _invitations.UpdateInvitations(e.Identity.Email, e.User.Id);
         }
         public void SendVerificationEmail(object sender, UserRegisteredArgs e)
         {

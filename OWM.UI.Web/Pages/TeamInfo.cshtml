@@ -20,7 +20,7 @@
                     @if (Model.CanJoinTeam)
                     {
                         <div class="alert alert-light mb-0">
-                            <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamJoin" class="btn btn-primary mt-2">Join team</a>
+                            <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamInvite" class="btn btn-primary mt-2">Join team</a>
                         </div>
                     }
                     else if (Model.CanInviteMembers)

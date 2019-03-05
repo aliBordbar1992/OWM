@@ -253,6 +253,40 @@ namespace OWM.Application.Services
 
             return result;
         }
+
+        public async Task<TeamInformationDto> GetTeamInformation(Guid teamGuid, bool getKickedMembers)
+        {
+            var team = await _teamService.Queryable()
+                .Include(x => x.AllowedOccupations)
+                .ThenInclude(x => x.Occupation)
+                .SingleAsync(x => x.Identity == teamGuid);
+            await _teamService.LoadRelatedEntities(team);
+
+            var teamPledgedMiles = await _teamService.GetTeamMilesPledged(team.Id);
+            var teamCompletedMiles = _teamService.GetTeamMilesCompleted(team.Id);
+
+            var totalMilesCompleted = teamCompletedMiles.Sum(x => x.Miles);
+            var totalMilesPledged = teamPledgedMiles.Sum(x => x.Miles);
+
+            List<string> occupations = team.OccupationFilter
+                ? team.AllowedOccupations.Select(o => o.Occupation.Name).ToList()
+                : new List<string> { "All" };
+
+            var result = new TeamInformationDto
+            {
+                TeamName = team.Name,
+                DateCreated = team.Created,
+                Description = team.ShortDescription,
+                IsClosed = team.IsClosed,
+                Occupations = occupations,
+                TotalMilesCompleted = totalMilesCompleted,
+                TotalMilesPledged = totalMilesPledged,
+                TeamMembers = await GetTeamMembers(team.Id, getKickedMembers)
+            };
+
+            return result;
+        }
+
         private async Task<List<TeamMemberInformationDto>> GetTeamMembers(int teamId, bool getKickedMembers)
         {
             var teamMembers = getKickedMembers
@@ -358,6 +392,11 @@ namespace OWM.Application.Services
                 TeamName = team.Name,
                 TeamGuid = team.Identity.ToString()
             };
+        }
+
+        public int GetTeamId(Guid keyTeamGuid)
+        {
+            return _teamService.Queryable().Single(x => x.Identity == keyTeamGuid).Id;
         }
 
 

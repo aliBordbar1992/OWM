@@ -136,9 +136,9 @@ namespace OWM.UI.Web.Pages.User
         public void SendInvitationEmail(object sender, AddInvitationArgs args)
         {
             var callbackUrl = Url.Page(
-                "/TeamJoin",
-                pageHandler: "Invite",
-                values: new { id = args.Info.TeamGuid },
+                "/TeamInvite",
+                pageHandler: null,
+                values: new { id = args.Info.Token },
                 protocol: Request.Scheme);
             string encodedUrl = HtmlEncoder.Default.Encode(callbackUrl);
             var hostingEnv = _serviceProvider.GetRequiredService<IHostingEnvironment>();
