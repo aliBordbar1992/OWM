@@ -9,4 +9,7 @@
     $(".chosen-select").chosen({
         width: "100%"
     })
+    $('[data-toggle="popover"]').popover({
+        trigger: 'focus'
+    })
 });

@@ -1,4 +1,18 @@
-﻿.alert {
+﻿@media(max-width: 768px) {
+    .col-md-4 img {
+        margin-top: 15px !important;
+    }
+
+    .row {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+
+    .fa-times {
+        top: 33px !important;
+    }
+}
+.alert {
     font-size: 12pt;
     font-weight: normal;
 }
@@ -39,7 +53,7 @@ ul[name="cityfilter"] li:last-child {
 }
 
 .fa-times {
-    top: 40px;
+    top: 36px;
     right: 25px;
     font-size: 10pt;
     cursor: pointer;

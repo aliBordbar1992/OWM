@@ -82,8 +82,9 @@
                     <div class="col-md-6">
                         <input required class="form-control" type="date" asp-for="RegistrationData.Birthday" />
                     </div>
-                    <div class="col-md-6 p-2">
-                        <a class="text-info" href="#">Why do i need to provide my <br>date of birth?</a>
+                    <div class="col-md-6">
+                        <a style="cursor: pointer; margin-top: 3px;" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
+                           data-placement="bottom" data-content="And here's some amazing content. It's very engaging. Right?" class="text-info">Why do i need to provide my<br>date of birth?</a>
                     </div>
                 </div>
                 <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register" />
@@ -91,5 +92,6 @@
         </div>
     </div>
 </div>
+
 <script src="~/js/Register.js"></script>
 <script src="~/js/CityFilter.js"></script>

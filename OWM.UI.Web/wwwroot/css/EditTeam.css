@@ -1,4 +1,28 @@
-﻿ .switch {
+﻿@media(max-width:768px) {
+    .list-group-item.list-group-item-action {
+        padding: 3px !important;
+    }
+    .col-5 {
+        padding: 2px 3px;
+    }
+    .col-5 > p {
+        font-size: 8pt;
+        font-weight: 600;
+    }
+    .col-5 > a > h5{
+        font-size: 11pt;
+    }
+    .media img {
+        margin-right: 15px!important;
+        width: 20px;
+        height: 20px;
+    }
+    .col-5.text-right a {
+        margin-right: 10px!important;
+    }
+}
+
+.switch {
      position: relative;
      display: inline-block;
      width: 60px;

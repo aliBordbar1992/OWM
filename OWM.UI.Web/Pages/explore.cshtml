@@ -4,73 +4,78 @@
     Layout = "Shared/_Layout";
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
-<link href="~/css/explore.css" rel="stylesheet" />
+<link href="~/css/SearchTeams.css" rel="stylesheet" />
 <div class="container">
-    <div class="list-group w-75 m-auto">
-        <div class="searchbox list-group-item mb-1 p-1 pl-2">
-            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px; "/>
-            <img src="img/loading.gif" class="loading-md-exp"/>
-        </div>
-        <div class="list-group-item bg-gray pl-5 pr-4 pt-2 pb-2">
-            <div class="row mb-4">
-                <div class="col" style="line-height: 37px;">
-                    <label class="text-dark">Filters</label>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="list-group">
+                <div class="searchbox list-group-item mb-1 p-1 pl-2">
+                    <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;"/>
+                    <img src="~/img/loading.gif" class="loading-md-exp"/>
                 </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-4" style="line-height: 37px;">Team Members</div>
-                <div class="col-md-8">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-success active">
-                            <input type="radio" name="teammembers" id="option1" autocomplete="off" checked> Acending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="teammembers" id="option2" autocomplete="off"> Decending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="teammembers" id="option3" autocomplete="off"> Off
-                        </label>
+                <div class="list-group-item bg-gray pl-4 pr-4 pt-2 pb-2">
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-left" style="line-height: 31px;">Team Members</div>
+                        <div class="col-md-8 text-left">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-sm btn-outline-success active">
+                                    <input type="radio" name="teammembers" id="option1" autocomplete="off" checked value-data="1"> Acending
+                                </label>
+                                <label class="btn btn-sm btn-outline-success">
+                                    <input type="radio" name="teammembers" id="option2" autocomplete="off" value-data="2"> Decending
+                                </label>
+                                <label class="btn btn-sm btn-outline-success">
+                                    <input type="radio" name="teammembers" id="option3" autocomplete="off" value-data="0"> Off
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-md-4 text-left" style="line-height: 31px;">Miles Pledged</div>
+                        <div class="col-md-8 text-left">
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                                <label class="btn btn-sm btn-outline-success active">
+                                    <input type="radio" name="milespledged" id="option4" autocomplete="off" checked value-data="1"> Acending
+                                </label>
+                                <label class="btn btn-sm btn-outline-success">
+                                    <input type="radio" name="milespledged" id="option5" autocomplete="off" value-data="2"> Decending
+                                </label>
+                                <label class="btn btn-sm btn-outline-success">
+                                    <input type="radio" name="milespledged" id="option6" autocomplete="off" value-data="0"> Off
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-left" style="line-height: 37px;">Occupation</div>
+                        <div class="col-md-8 text-left">
+                            <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="Model.OccupationOptions">
+                                <option></option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row mb-4">
-                <div class="col-md-4" style="line-height: 37px;">Miles Pledged</div>
-                <div class="col-md-8">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-outline-success active">
-                            <input type="radio" name="milespledged" id="option4" autocomplete="off" checked> Acending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="milespledged" id="option5" autocomplete="off"> Decending
-                        </label>
-                        <label class="btn btn-outline-success">
-                            <input type="radio" name="milespledged" id="option6" autocomplete="off"> Off
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4" style="line-height: 37px;">Occupation</div>
-                <div class="col-md-8">
-                    <select class="chosen-select" data-placeholder="" asp-items="Model.OccupationOptions">
-                        <option></option>
-                    </select>
-                </div>
-            </div>
+            <div class="mt-3" id="teamsearchresult"></div>
         </div>
+        <div class="col-md-3"></div>
     </div>
 </div>
-<div class="container mt-3" id="teamsearchresult">
-</div>
-
+<style>
+    #res {
+        padding: 0 !important;
+        margin-top: 5px;
+    }
+</style>
 <script>
-    $(function() {
+    $(function () {
         $('.chosen-select').chosen({ width: "100%" });
         $('#searchteams').focus();
         var loading = $('.loading-md-exp');
         var teamSerachResult = $('#teamsearchresult');
 
-        $('input[name=teammembers]').on('change',function() {
+        $('input[name=teammembers]').on('change', function () {
             FilterTeams();
         });
 
@@ -102,17 +107,29 @@
                 loading.hide();
                 return;
             }
-            for (var i = 0; i < 3; i++) {
-                var searchResult = $('<div class="mb-3"><div class="list-group w-75 m-auto"><div class="list-group-item bg-darksuccess text-white"> ' +
-                    '<div class="row"><div class="col-md-4 text-center border-right"><p>Members</p><h4>12</h4></div> ' +
-                    '<div class="col-md-4 text-center border-right"><p>Miles Pledged</p><h4>12</h4></div><div class="col-md-4 text-center">' +
-                    '<p>Miles Completed</p><h4>12</h4></div></div></div><div class="list-group-item position-relative" style="height: 130px;">' +
-                    '<div class="row"><div class="col-md-8" style="height: 95px;"><h5 class="card-title text-darcsuccess">Team Name</h5>' +
-                    '<p class="card-text">Some quick example text to build on the card title and make up the bulk of the cards content.</p>' +
-                    '</div><div class="col-md-4 text-center" style="height: 95px;"><button class="fa fa-plus-circle text-darcsuccess" title="join team"> ' +
-                    '</button></div></div><i>Created on : February 5, 2019</i></div></div></div>').hide().appendTo(teamSerachResult).show('slow');
+            var teamMemebers = $(document).find('input[type=Radio][name=teammembers]').attr('value-data');
+            var milesPledged = $(document).find('input[type=Radio][name=milespledged]').attr('value-data');
+            var occupation = $('#Occupations :selected').val();
+            AjaxGet({
+                url: '/Teams/SearchTeams',
+                param: { tm: teamMemebers, mp: milesPledged, oc: occupation },
+                func: createList
+            });
+
+            var html;
+            $.get("/contents/TeamSearchTemplate.html", function (htmlString) {
+                html = htmlString;
+            }, 'html');
+
+            function createList(e) {
+                for (var i = 0; i < e.length; i++) {
+                    var sr = html.replace("#m#", e[i].members).replace("#mp#", e[i].milesPledged)
+                        .replace('#mc#', e[i].milesCompeleted).replace('#teamname#', e[i].teamName)
+                        .replace('#datecreated#', e[i].dateCreated).replace("#desc#", e[i].description);
+                    $(sr).hide().appendTo(teamSerachResult).show('slow');
+                }
+                loading.hide();
             }
-            loading.hide();
         }
     });
 </script>

@@ -5,22 +5,24 @@
     Layout = "Shared/UserLayout.cshtml";
 }
 
+
+<h4 class="font-weight-bold">Invite a friend</h4>
+<hr class="mb-1 bt-1"/>
+
 <form method="post" asp-route-teamid="@Model.TeamId">
-    <div asp-validation-summary="All" id="ValidationSummary"></div>
+    <div asp-validation-summary="All" id="ValidationSummary" class="small"></div>
     @if (TempData[EditProfileModel.MessageKey] is string message)
     {
-        <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
+        <p class="alert alert-success mt-3 small" id="alertsuccess">@message</p>
     }
-    Your friend email address:
+        <span class="small">Your friend email address:</span>
     <input asp-for="@Model.Input.EmailAddress" type="email" class="form-control" />
 
-    Your friend's name:
+    <span class="small">Your friend's name:</span>
     <input asp-for="@Model.Input.RecipientName" type="text" class="form-control" />
 
-    Your invite message:
-    <textarea asp-for="@Model.Input.Message" class="form-control" id="description" style="resize: none;">
-        
-    </textarea>
+    <span class="small">Your invite message:</span>
+    <textarea asp-for="@Model.Input.Message" class="form-control" id="description" rows="3" style="resize: none;"></textarea>
 
-    <button type="submit">Send</button>
+    <button type="submit" class="btn btn-success mt-3">Send</button>
 </form>

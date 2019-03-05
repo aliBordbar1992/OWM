@@ -19,7 +19,7 @@
             <div class="col-md-8" id="inputarea">
                 @if (TempData[EditProfileModel.MessageKey] is string message)
                 {
-                    <p class="alert alert-success mt-3" id="alertsuccess">@message</p>
+                    <p class="alert alert-success mt-3">@message</p>
                 }
                 <div asp-validation-summary="All" id="ValidationSummary"></div>
                 <div class="row">

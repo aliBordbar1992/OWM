@@ -1,4 +1,37 @@
-﻿  .col-md-3 {
+﻿@media(max-width: 768px) {
+    h2 {
+        margin-bottom: 0 !important;
+    }
+    hr {
+        margin: 3px 0 5px 0!important;
+    }
+   #main {
+       padding-left: 0 !important;
+       padding-right: 0 !important;
+   }
+    #teamsearchresult.container {
+        padding: 0 !important;
+        margin-top: 3px!important;
+    }
+    .list-group-item.bg-gray {
+        padding: 8px!important;
+    }
+    #res {
+        padding: 0 !important;
+        margin-bottom: 3px !important;
+    }
+    .row {
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
+    }
+    .list-group-item.position-relative.text-left {
+        padding: 5px;
+    }
+    .list-group-item.bg-darksuccess.text-white {
+        padding: 5px !important;
+    }
+}
+  .col-md-3 {
       font-size: 12pt;
   }
   #searchteams {

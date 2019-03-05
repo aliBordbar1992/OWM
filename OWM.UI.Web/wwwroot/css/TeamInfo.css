@@ -1,0 +1,26 @@
+﻿@media(max-width: 768px) {
+    #namearea.col-sm-9 {
+        margin-bottom: 10px !important;
+    }
+    .list-group-item.list-group-item-action {
+        padding: 3px !important;
+    }
+    .media img {
+        margin-right: 15px !important;
+        width: 20px;
+        height: 20px;
+    }
+} 
+.list-group-item a {
+     font-size: 11pt;
+ }
+
+ .card .list-group .list-group-item {
+     font-size: 10pt;
+     text-align: center;
+ }
+
+ .media img {
+     width: 50px;
+     height: auto;
+ }

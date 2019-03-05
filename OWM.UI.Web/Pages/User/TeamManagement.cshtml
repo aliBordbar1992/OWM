@@ -6,30 +6,6 @@
 }
 
 <link href="~/css/TeamManagment.css" rel="stylesheet" />
-@*<style>
-    
-     table tr td {
-         background-color: white;
-         vertical-align: middle;
-         padding: 3px 5px !important;
-         font-size: 12pt;
-         vertical-align: middle !important;
-     }
-
-    table tr th {
-        background-color: white;
-        vertical-align: middle;
-    }
-
-    table tr td:first-child {
-        padding-left: .75rem !important;
-    }
-
-    .fa {
-        margin-bottom: 4px;
-        margin-right: 5px;
-    }
-</style>*@
 <h2>My teams</h2>
 <hr />
 <div class="row mb-3">
@@ -52,43 +28,49 @@
         </div>
     </div>
 </div>
-<table id="tbluserteams">
-    <tr>
-        <th>Team name</th>
-        <th>Miles pledged</th>
-        <th>Miles Completed</th>
-        <th></th>
-    </tr>
-    @foreach (var team in Model.TeamsList)
-    {
-    <tr>
-        <td>
-            <a asp-route-teamid="@team.TeamId" asp-page="/TeamInfo">@team.TeamName</a>
-        </td>
-        <td class="text-center">
-            <span class="col border-right text-info" title="Me">
-                <span class="fa fa-user text-info"></span> @team.MyPledgedMiles
-            </span>
-            <span class="col text-info" title="Team">
-                <span class="fa fa-users text-info"></span> @team.TotalMilesPledged
-            </span>
-        </td>
+<div class="table-responsive-sm">
+    <table id="tbluserteams" class="table">
+        <tr>
+            <th>Team name</th>
+            <th>Miles pledged</th>
+            <th>Miles Completed</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var team in Model.TeamsList)
+        {
+            <tr>
+                <td>
+                    <a asp-route-teamid="@team.TeamId" asp-page="/TeamInfo">@team.TeamName</a>
+                </td>
+                <td class="text-center">
+                    <span class="col border-right text-info" title="Me">
+                        <span class="fa fa-user text-info"></span> @team.MyPledgedMiles
+                    </span>
+                    <span class="col text-info" title="Team">
+                        <span class="fa fa-users text-info"></span> @team.TotalMilesPledged
+                    </span>
+                </td>
 
-        <td class="text-center">
-            <span class="col border-right text-info" title="Me">
-                <span class="fa fa-user text-info"></span> @team.MyCompletedMiles
-            </span>
-            <span class="col text-info" title="Team">
-                <span class="fa fa-users text-info"></span> @team.TotalMilesCompleted
-            </span>
-        </td>
-        <td>
-            <a class="fa fa-plus text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>
-            @if (team.IsCreator)
-            {
-                <a class="fa fa-edit text-warning" asp-route-teamid="@team.TeamId" asp-page="/User/EditTeam" title="Edit your team"></a>
-            }
-        </td>
-    </tr>
-    }
-</table>
+                <td class="text-center">
+                    <span class="col border-right text-info" title="Me">
+                        <span class="fa fa-user text-info"></span> @team.MyCompletedMiles
+                    </span>
+                    <span class="col text-info" title="Team">
+                        <span class="fa fa-users text-info"></span> @team.TotalMilesCompleted
+                    </span>
+                </td>
+                <td>
+                    <a class="fa fa-envelope text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>
+                </td>
+                <td>
+                    @if (team.IsCreator)
+                    {
+                        <a class="fa fa-edit text-warning" asp-route-teamid="@team.TeamId" asp-page="/User/EditTeam" title="Edit your team"></a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

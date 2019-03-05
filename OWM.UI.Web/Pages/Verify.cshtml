@@ -39,24 +39,3 @@
         </div>
     }
 }
-
-<script>
-    $(function () {
-        var btnSend = $('#send');
-        var loading = $('#loading');
-
-        btnSend.on('click',
-            function () {
-                AjaxPost({
-                    url: "/eth/all",
-                    param: { str: "omid" },
-                    func: testit
-                });
-
-                function testit(e) {
-                    al
-                    ElementGreenert('send', 'bottom middle', 'Not Found');
-                }
-            });
-    });
-</script>

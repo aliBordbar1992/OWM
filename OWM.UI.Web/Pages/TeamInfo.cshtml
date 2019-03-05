@@ -4,46 +4,35 @@
     Layout = "Shared/_Layout";
 }
 
-<style>
-    .list-group-item a {
-        font-size: 11pt;
-    }
-
-    .card .list-group .list-group-item {
-        font-size: 10pt;
-        text-align: center;
-    }
-
-    .media img {
-        width: 50px;
-        height: auto;
-    }
-</style>
+<link href="~/css/TeamInfo.css" rel="stylesheet" />
 <div class="container">
     <div class="card bg-white">
         <div class="card-body">
             <div class="row">
-                <div class="col-md-9">
-                    <h3>@Model.TeamInformation.TeamName</h3>
-                    <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
-                    <hr class="mt-1 mb-2" />
+                <div class="col-sm-9" id="namearea">
+                    <h3 class="mb-0">@Model.TeamInformation.TeamName</h3>
+                    <div class="mb-2 mt-2 x-small text-muted border-bottom">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
                     <h6 class="mb-0 text-muted">
                         @Model.TeamInformation.Description
                     </h6>
                 </div>
-                @if (Model.CanJoinTeam)
-                {
-                    <div class="col-md-3 text-right mt-auto">
-                        <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamJoin" class="btn btn-primary mt-2">Join team</a>
-                    </div>
-                }
-                else if (Model.CanInviteMembers)
-                {
-                    <div class="col-md-3 text-right mt-auto">
-                        <span>Spread the word, invite your friends to join this team.</span>
-                        <a asp-route-teamid="@Model.TeamId" asp-page="/User/InviteMember" class="btn btn-success mt-2">Invite a friend</a>
-                    </div>
-                }
+                <div class="col-sm-3">
+                    @if (Model.CanJoinTeam)
+                    {
+                        <div class="alert alert-light mb-0">
+                            <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamJoin" class="btn btn-primary mt-2">Join team</a>
+                        </div>
+                    }
+                    else if (Model.CanInviteMembers)
+                    {
+                        <div class="alert alert-info mb-0">
+                            <div class="x-small">Spread the word, invite your friends to join this team.</div>
+                            <a asp-route-teamid="@Model.TeamId" asp-page="/User/InviteMember" class="btn btn-sm btn-success mt-2">
+                                <span class="fa fa-envelope"></span> Invite a friend
+                            </a>
+                        </div>
+                    }
+                </div>
             </div>
             <hr />
             <div class="row mt-4 mb-4">
@@ -93,7 +82,7 @@
                         <div class="list-group-item active text-center">
                             Members
                         </div>
-                        <div style="overflow: auto; max-height: 250px;" id="search">
+                        <div style="overflow-y: auto; overflow-x: hidden; max-height: 250px;" id="search">
                             @foreach (var member in Model.TeamInformation.TeamMembers)
                             {
                                 <div class="list-group-item text-left list-group-item-action">
@@ -101,13 +90,13 @@
                                         <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
                                         <div class="media-body">
                                             <div class="row">
-                                                <div class="col-md-6">
+                                                <div class="col-6">
                                                     <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile">
                                                         <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
                                                     </a>
                                                     <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-6">
                                                     <p>Miles Pledged: <span class="badge badge-primary">@member.MyPledgedMiles</span></p>
                                                     <p class="mb-0">Miles Completed: <span class="badge badge-success">@member.MyCompletedMiles</span></p>
                                                 </div>

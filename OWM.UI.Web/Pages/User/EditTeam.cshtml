@@ -5,13 +5,22 @@
 }
 
 <style>
-</style>
+    </style>
 <link href="~/css/EditTeam.css" rel="stylesheet" />
-<h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
-<h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
-<hr />
+
 <div class="row">
-    <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId">Invite a friend</a>
+    <div class="col-7">
+        <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
+        <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
+    </div>
+    <div class="col-5 text-right">
+        <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn btn-sm btn-success mt-3">
+            <span class="fa fa-envelope"></span> Invite a friend
+        </a>
+    </div>
+</div>
+<hr class="mt-1"/>
+<div class="row">
     <div class="col-md-8 pb-3">
         <div id="badges" class="alert alert-info" style="height: 100%;">
             <div class="small mb-1">Occupations that can join this team:</div>
@@ -87,10 +96,18 @@
     <div class="col-md-12">
         <div class="list-group" id="statusmessage">
             <div class="list-group-item active text-center">
-                <label class="mt-2">Members</label>
-                <input class="form-control form-control-sm w-25 float-left" id="searchuser" placeholder="Search Memebr .." />
+                <div class="row">
+                    <div class="col-md-4">
+                        <input class="form-control form-control-sm" id="searchuser" placeholder="Search Memebr .." />
+                    </div>
+                    <div class="col-md-4">
+                        <p class="mt-2 mb-0">Members</p>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
             </div>
-            <div style="overflow: auto; max-height: 250px;" id="search">
+            <div style="overflow-y: auto; overflow-x: hidden; max-height: 250px;" id="search">
                 @foreach (var member in Model.TeamInformation.TeamMembers)
                 {
                     <div class="list-group-item text-left list-group-item-action">
@@ -98,12 +115,12 @@
                             <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
                             <div class="media-body">
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-5">
                                         <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile"><h5 class="h5 mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5></a>
                                         <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                     </div>
-                                    <div class="col-md-5">
-                                        <p>
+                                    <div class="col-5">
+                                        <p class="mb-3">
                                             Miles Pledged : <span class="badge badge-primary">@member.MyPledgedMiles</span>
                                         </p>
                                         <p class="mb-0">
@@ -114,13 +131,13 @@
                                     {
                                         if (member.IsKickedOut)
                                         {
-                                            <div class="col-md-2 text-right">
+                                            <div class="col-2 text-right">
                                                 <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
                                             </div>
                                         }
                                         else
                                         {
-                                            <div class="col-md-2 text-right">
+                                            <div class="col-2 text-right">
                                                 <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Kick</button>
                                             </div>
                                         }

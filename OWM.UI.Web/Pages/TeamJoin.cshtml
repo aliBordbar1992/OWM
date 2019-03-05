@@ -1,16 +1,25 @@
 ﻿@page "/Teams/{handler}/{id}"
 @model OWM.UI.Web.Pages.TeamJoinModel
-@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-@if (Model.IsJoin)
-{
-    <div>join</div>
+@{
+    Layout = "Shared/_Layout";   
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
 
-@if (Model.IsInvite)
-{
-    <div>You have been invited to join @Model.TeamName</div>
-    <div>To join this team, you need to login or register</div>
-}
+<div class="container">
+    @if (Model.IsJoin)
+    {
+        <div class="alert alert-success d-block text-center">join</div>
+    }
+
+    @if (Model.IsInvite)
+    {
+        <div class="alert alert-success d-block text-center">
+            <div>You have been invited to join @Model.TeamName
+                <br/>
+                To join this team, you need to 
+                <a class="text-primary" asp-page="/Login">login</a>
+                or <a class="text-primary" asp-page="/Register">register</a>.
+            </div>
+        </div>
+    }    
+</div>

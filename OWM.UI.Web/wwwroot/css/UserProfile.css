@@ -1,0 +1,19 @@
+﻿@media(max-width: 768px) {
+    .card.p-4 {
+        padding: 5px!important;
+    }
+    .col-md-10 {
+        margin-top: 10px!important;
+    }
+} 
+.profile-work{}
+ .profile-work p{
+     font-size: 17px;
+     color: #818182;
+     font-weight: 600;
+ }
+ .profile-work a{
+     text-decoration: none;
+     font-weight: 600;
+     font-size: 14px;
+ }
