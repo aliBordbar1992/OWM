@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.EventHandlers;
@@ -13,5 +14,8 @@ namespace OWM.Application.Services.Interfaces
         Task AddInvitation(InvitationInformationDto dto);
         bool TryVerifyToken(string token, out InvitationKeyDto key);
         void UpdateInvitations(string email, int profileId);
+        bool HasInvitations(int profileId);
+        Task<List<UserInvitationsDto>> GetInvitations(int profileId);
+        Task FlagAsRead(int invitationId);
     }
 }

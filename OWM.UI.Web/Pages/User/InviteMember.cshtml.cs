@@ -38,8 +38,11 @@ namespace OWM.UI.Web.Pages.User
             _invitations = serviceProvider.GetRequiredService<ITeamInvitationsService>();
         }
 
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
         public string Name { get; set; }
         public const string MessageKey = nameof(MessageKey);
+
         [BindProperty] public InputModel Input { get; set; }
         public class InputModel
         {
@@ -54,6 +57,8 @@ namespace OWM.UI.Web.Pages.User
             [Required(AllowEmptyStrings = false, ErrorMessage = "Write an invite message")]
             public string Message { get; set; }
         }
+
+
 
         public async Task<IActionResult> OnGetAsync(int? teamid)
         {
@@ -70,6 +75,9 @@ namespace OWM.UI.Web.Pages.User
             if (!await _teamManager.IsMemberOfTeam(TeamId, userInfo.ProfileId))
                 return NotFound();
 
+            var t = await _teamManager.GetTeamInviteInformation(TeamId);
+            TeamName = t.TeamName;
+
             Name = $"{userInfo.Name} {userInfo.Surname}";
 
             Input = new InputModel
@@ -80,7 +88,6 @@ namespace OWM.UI.Web.Pages.User
             return Page();
         }
 
-        public int TeamId { get; set; }
 
         public async Task OnPostAsync(int teamid)
         {

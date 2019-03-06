@@ -394,9 +394,27 @@ namespace OWM.Application.Services
             };
         }
 
+        public async Task<TeamInvitationInformationDto> GetTeamInviteInformation(Guid teamGuid)
+        {
+            var team = await _teamService.Queryable()
+                .SingleAsync(x => x.Identity == teamGuid);
+
+            return new TeamInvitationInformationDto
+            {
+                TeamId = team.Id,
+                TeamName = team.Name,
+                TeamGuid = team.Identity.ToString()
+            };
+        }
+
         public int GetTeamId(Guid keyTeamGuid)
         {
             return _teamService.Queryable().Single(x => x.Identity == keyTeamGuid).Id;
+        }
+
+        public async Task<bool> TeamExists(int teamId)
+        {
+            return await _teamService.ExistsAsync(teamId);
         }
 
 

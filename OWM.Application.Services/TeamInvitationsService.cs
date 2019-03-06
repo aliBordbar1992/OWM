@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +17,21 @@ namespace OWM.Application.Services
     {
         private readonly ITeamInvitationService _invitationService;
         private readonly ITeamService _teamService;
+        private readonly IUserInformationService _userInformation;
+        private readonly ITeamsManagerService _teamsManager;
+        private readonly IProfileService _profileService;
         private readonly IUnitOfWork _unitOfWork;
 
         public TeamInvitationsService(ITeamInvitationService invitationService
             , ITeamService teamService
+            , IUserInformationService userInformation
+            , ITeamsManagerService teamsManager
             , IUnitOfWork unitOfWork)
         {
             _invitationService = invitationService;
             _teamService = teamService;
+            _userInformation = userInformation;
+            _teamsManager = teamsManager;
             _unitOfWork = unitOfWork;
         }
 
@@ -81,16 +89,12 @@ namespace OWM.Application.Services
             try
             {
                 var dto = DecryptKey(token);
-                var team = _teamService.Queryable()
-                    .First(x => x.Identity == dto.TeamGuid);
-
                 bool exists = _invitationService.Queryable()
                     .AnyAsync(x => x.InvitationGuid == dto.InvitationGuid
                                    && x.TeamGuid == dto.TeamGuid
                                    && x.SenderProfileId == dto.SenderId).Result;
 
-                if (exists) key = dto;
-                else key = null;
+                key = exists ? dto : null;
 
                 return exists;
             }
@@ -113,6 +117,57 @@ namespace OWM.Application.Services
             }
 
             _unitOfWork.SaveChangesAsync().RunSynchronously();
+        }
+
+        public bool HasInvitations(int profileId)
+        {
+            return _invitationService.Queryable()
+                .Any(x => x.RecipientProfileId == profileId && !x.Read);
+        }
+
+        public async Task<List<UserInvitationsDto>> GetInvitations(int profileId)
+        {
+            var invitations = await _invitationService.Queryable()
+                .Where(x => x.RecipientProfileId == profileId)
+                .OrderBy(x => x.SenderProfileId)
+                .ThenBy(x => x.TeamGuid)
+                .ToListAsync();
+
+            var sender = new UserInformationDto();
+            var teamInvitation = new TeamInvitationInformationDto();
+
+            var result = new List<UserInvitationsDto>();
+
+            foreach (var invitation in invitations)
+            {
+                if (sender.ProfileId != invitation.SenderProfileId)
+                    sender = await _userInformation.GetUserProfileInformationAsync(invitation.SenderProfileId);
+
+                if (teamInvitation.TeamGuid != invitation.TeamGuid.ToString())
+                    teamInvitation = await _teamsManager.GetTeamInviteInformation(invitation.TeamGuid);
+
+                result.Add(new UserInvitationsDto
+                {
+                    InvitationId = invitation.Id,
+                    TeamId = teamInvitation.TeamId,
+                    TeamName = teamInvitation.TeamName,
+                    Created = invitation.Created,
+                    Read = invitation.Read,
+                    SenderId = invitation.SenderProfileId,
+                    SenderFullName = sender.Name + " " + sender.Surname,
+                    SenderProfilePicture = sender.ProfilePicture
+                });
+            }
+
+            return result.OrderByDescending(x => x.Created).ToList();
+        }
+
+        public async Task FlagAsRead(int invitationId)
+        {
+            var i = await _invitationService.FindAsync(invitationId);
+            i.Read = true;
+
+            await _unitOfWork.SaveChangesAsync();
         }
 
         private string Slice(string source, int start, int end)

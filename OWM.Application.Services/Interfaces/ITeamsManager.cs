@@ -35,7 +35,9 @@ namespace OWM.Application.Services.Interfaces
         Task<bool> CanJoinTeam(int teamId, int profileId);
         Task<bool> IsCreatorOfTeam(int teamId, int profileId);
         Task<TeamInvitationInformationDto> GetTeamInviteInformation(int teamId);
+        Task<TeamInvitationInformationDto> GetTeamInviteInformation(Guid teamGuid);
 
         int GetTeamId(Guid keyTeamGuid);
+        Task<bool> TeamExists(int teamId);
     }
 }

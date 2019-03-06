@@ -1,4 +1,6 @@
-﻿namespace OWM.Application.Services.Dtos
+﻿using System;
+
+namespace OWM.Application.Services.Dtos
 {
     public class InvitationInformationDto
     {
@@ -13,5 +15,9 @@
         public int TeamId { get; set; }
         public int SenderId { get; set; }
         public int? RecipientId { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public bool Read { get; set; }
     }
 }

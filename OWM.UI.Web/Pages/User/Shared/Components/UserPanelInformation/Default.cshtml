@@ -19,6 +19,13 @@
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Invitations">
+                @if (Model.HasInvitations)
+                {
+                    <div class="circle-ripple">c</div>
+                }
+                Invitations
+            </a>
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
             <form asp-page="/Logout" method="post">
                 <button type="submit" class="list-group-item bg-light btn-block border-top" style="color: #535353;">Logout</button>

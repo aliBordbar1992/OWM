@@ -13,11 +13,15 @@ namespace OWM.UI.Web.ViewComponents
     {
         private readonly SignInManager<User> _signInManager;
         private readonly IUserInformationService _userInformation;
+        private readonly ITeamInvitationsService _invitations;
 
-        public UserPanelInformationViewComponent(SignInManager<User> signInManager, IUserInformationService userInformation)
+        public UserPanelInformationViewComponent(SignInManager<User> signInManager
+            , IUserInformationService userInformation
+            , ITeamInvitationsService invitations)
         {
             _signInManager = signInManager;
             _userInformation = userInformation;
+            this._invitations = invitations;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
@@ -26,6 +30,7 @@ namespace OWM.UI.Web.ViewComponents
             {
                 string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
                 var info = await _userInformation.GetUserProfileInformationAsync(identityId);
+                info.HasInvitations = _invitations.HasInvitations(info.ProfileId);
                 return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
             }
             else

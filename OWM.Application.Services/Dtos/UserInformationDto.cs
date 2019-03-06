@@ -28,6 +28,14 @@ namespace OWM.Application.Services.Dtos
         public string MilesPledged { get; set; }
         public string MilesCompleted { get; set; }
 
+        public int InvitationCount { get; set; }
+        public bool HasInvitations { get; set; }
+
+        public int UnreadMessagesCount { get; set; }
+        public bool HasMessages { get; set; }
+
+
+
         public List<Interest> Interests => string.IsNullOrEmpty(Interest)
             ? new List<Interest>()
             : Interest.Split(',').Select(x => new Interest {Name = x}).ToList();
