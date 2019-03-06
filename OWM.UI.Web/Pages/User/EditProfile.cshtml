@@ -16,7 +16,7 @@
         <h2>Edit Profile</h2>
         <hr>
         <div class="row mt-2">
-            <div class="col-md-8" id="inputarea">
+            <div class="col-md-8 order-2" id="inputarea">
                 @if (TempData[EditProfileModel.MessageKey] is string message)
                 {
                     <p class="alert alert-success mt-3">@message</p>
@@ -75,7 +75,7 @@
                 </div>
                 <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 order-1">
                 <div class="text-center">
                     <img src="@Model.UserInformationDto.ProfilePicture" class="user-image w-50" alt="avatar" id="imgProfile">
                     <input type="hidden" asp-for="Input.UserImage" id="imgProfileAddress" />

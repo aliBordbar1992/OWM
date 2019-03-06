@@ -17,8 +17,11 @@
         width: 20px;
         height: 20px;
     }
-    .col-5.text-right a {
-        margin-right: 10px!important;
+    .col-md-5.text-right {
+        text-align: center !important;
+    }
+    .col-md-5.text-right a {
+        margin-top: 0 !important;
     }
 }
 

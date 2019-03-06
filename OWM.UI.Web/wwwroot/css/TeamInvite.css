@@ -1,0 +1,34 @@
+﻿ @media(max-width: 768px) {
+     .col-6 p {
+         font-size: 9pt!important;
+     }     
+     .col-6 p[mp] {
+         margin-top: 0 !important;
+     }
+     .col-6 a h5{
+         font-size: 11pt;
+     }
+    .list-group-item.text-left.list-group-item-action {
+        padding: 5px;
+    }
+    .col-6 {
+        padding: 0 5px;
+    }
+     img[memberimg] {
+         width: 40px !important;
+         height: 40px !important;
+     }
+ }  
+
+.row >.col-3 > img {
+    max-width: 50px!important;
+    height: auto!important;
+    border-radius: 100%;
+}
+img[memberimg] {
+    width: 60px ;
+    height: 60px ;
+}
+ .col-6 p {
+     font-size: 12pt;
+ }   

@@ -9,11 +9,11 @@
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 
 <div class="row">
-    <div class="col-7">
+    <div class="col-md-7">
         <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
         <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
     </div>
-    <div class="col-5 text-right">
+    <div class="col-md-5 text-right">
         <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn btn-sm btn-success mt-3">
             <span class="fa fa-envelope"></span> Invite a friend
         </a>
