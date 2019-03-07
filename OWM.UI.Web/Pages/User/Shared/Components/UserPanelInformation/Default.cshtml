@@ -1,4 +1,5 @@
 ﻿@model Application.Services.Dtos.UserInformationDto
+<link href="~/css/InviteNotifier.css" rel="stylesheet" />
 <div class="col-md-3">
     <div class="list-group mb-4">
         <div class="list-group-item text-center bg-light">
@@ -22,7 +23,9 @@
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/Invitations">
                 @if (Model.HasInvitations)
                 {
-                    <div class="circle-ripple">c</div>
+                    <span class="notifier new pl-3">
+                        <span class="badge"><i class="fa fa-bell"></i></span>
+                    </span>
                 }
                 Invitations
             </a>

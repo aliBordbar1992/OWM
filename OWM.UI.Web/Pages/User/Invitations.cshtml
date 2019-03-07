@@ -4,67 +4,91 @@
     ViewData["Title"] = "Invitations";
     Layout = "~/Pages/User/Shared/UserLayout.cshtml";
 }
+
+<link href="~/css/Invitations.css" rel="stylesheet" />
+<h4 class="font-weight-bold">Invitations</h4>
+<hr class="mb-0 mb-3" />
 <form method="post">
-    <div class="mr-1 mt-2">
+    <div class="pb-1">
         <label class="switch">
             <input type="checkbox" class="success">
-            <span class="slider round"></span>
-            <span class="small ml-2" id="showRead">Unread invitations</span>
+            <span class="slider round">
+                <span class="fa fa-envelope-open" open title="Read"></span>
+                <span class="fa fa-envelope" close title="Unread"></span>
+            </span>
         </label>
     </div>
 
-
-    <div id="unread">
-        @if (Model.EmptyState)
-        {
-            <div>
-                <span>:( No invitations... yet.</span>
-                <span>But you can search and join teams</span>
-                <a asp-page="/User/SearchTeams">Search for a team</a>
-            </div>
-        }
-        else
-        {
-            foreach (var invitation in Model.Invitations.Where(x => !x.Read))
+    <div class="list-group mt-1">
+        <div id="unread" class="list-group-item text-left">
+            @if (Model.EmptyState)
             {
-                <img class="img-thumbnail" src="@invitation.SenderProfilePicture" alt="" />
-                <span class="text-dark small">@invitation.SenderFullName</span>
-                <span>invited you to join</span>
-                <h3 class="mb-0">@invitation.TeamName</h3>
-                <div class="mb-2 mt-2 x-small text-muted border-bottom">Invited on: @invitation.Created.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
-
-                @*<a asp-route-teamid="@invitation.TeamId" asp-page="/TeamInfo">View team</a>*@
-                <button asp-route-invitationid="@invitation.InvitationId" asp-route-teamid="@invitation.TeamId">View team</button>
+                <div class="p-2">
+                    <div class="far fa-envelope fa-3x d-block text-center" env></div>
+                    <div class="d-block text-center p-3 font-weight-bold highlight">No invitations... yet. But you can search and join teams</div>
+                <div class="d-block text-center">
+                    <a class="btn btn-outline-primary" asp-page="/User/SearchTeams">search for a team</a>
+                </div>
+                </div>
             }
-        }
-    </div>
-    <div id="read" style="display: none">
-        @foreach (var invitation in Model.Invitations.Where(x => x.Read))
-        {
-            <img class="img-thumbnail" src="@invitation.SenderProfilePicture" alt="" />
-            <span class="text-dark small">@invitation.SenderFullName</span>
-            <span>invited you to join</span>
-            <h3 class="mb-0">@invitation.TeamName</h3>
-            <div class="mb-2 mt-2 x-small text-muted border-bottom">Invited on: @invitation.Created.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
+            else
+            {
+                foreach (var invitation in Model.Invitations.Where(x => !x.Read))
+                {
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="img-thumbnail" src="@invitation.SenderProfilePicture" alt="" />
+                            <span>@invitation.SenderFullName</span>
+                            <div class="mb-2 mt-2 x-small text-muted border-bottom">Invited on: @invitation.Created.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
+                        </div>
+                        <div class="col-md-7">
+                            <h6 class="mt-3">invited you to join</h6>
+                            <h5 class="mb-0 mt-3" teamname>@invitation.TeamName</h5>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-sm btn-primary" asp-route-invitationid="@invitation.InvitationId" asp-route-teamid="@invitation.TeamId">View team</button>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
 
-            <a asp-route-teamid="@invitation.TeamId" asp-page="/TeamInfo">View team</a>
-        }
+        <div id="read" style="display: none" class="list-group-item text-left">
+            @if (!Model.Invitations.Any(x => x.Read))
+            {
+            <div>
+                <div class="far fa-envelope fa-3x d-block text-center" env></div>
+                <div class="d-block text-center p-2 font-weight-bold highlight">No read invitations...</div>
+            </div>
+            }
+            @foreach (var invitation in Model.Invitations.Where(x => x.Read))
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="img-thumbnail" src="@invitation.SenderProfilePicture" alt="" />
+                        <span>@invitation.SenderFullName</span>
+                        <div class="mb-2 mt-2 x-small text-muted border-bottom">Invited on: @invitation.Created.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
+                    </div>
+                    <div class="col-md-7">
+                        <h6 class="mt-3">invited you to join</h6>
+                        <h5 class="mb-0 mt-3">@invitation.TeamName</h5>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-sm btn-primary" asp-route-teamid="@invitation.TeamId" asp-page="/TeamInfo">View team</a>  
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </form>
 <script>
     $('input.success').change(function () {
-        ReadMessagesSwitch();
-    });
-
-    function ReadMessagesSwitch() {
-        if ($('input.success').is(':checked')) {
-            $('#showRead').text('Read invitations');
+        if (this.checked) {
             $("#read").show();
             $("#unread").hide();
         } else {
-            $('#showRead').text('Unread invitations');
             $("#read").hide();
             $("#unread").show();
         }
-    }
+    });
 </script>
