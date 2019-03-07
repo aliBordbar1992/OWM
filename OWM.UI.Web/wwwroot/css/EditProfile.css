@@ -58,6 +58,6 @@ ul[name="cityfilter"] li:last-child {
     font-size: 10pt;
     cursor: pointer;
 }
-.row span {
+#inputarea span {
     font-size: 11pt!important;
 }
