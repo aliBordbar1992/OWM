@@ -116,7 +116,7 @@ namespace OWM.Application.Services
                 invitation.RecipientProfileId = profileId;
             }
 
-            _unitOfWork.SaveChangesAsync().RunSynchronously();
+            var a = _unitOfWork.SaveChangesAsync().Result;
         }
 
         public bool HasInvitations(int profileId)
