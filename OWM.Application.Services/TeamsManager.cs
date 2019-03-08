@@ -25,6 +25,9 @@ namespace OWM.Application.Services
 
         public event EventHandler<TeamCreatedArgs> TeamCreated;
         public event EventHandler<Exception> CreationFailed;
+
+        public event EventHandler<TeamCreatedArgs> JoinedTeamSuccessfully;
+        public event EventHandler<Exception> JoinTeamFailed;
         #endregion
 
         public TeamsManagerService(ITeamService teamService
@@ -41,22 +44,32 @@ namespace OWM.Application.Services
 
         public async Task CreateTeam(CreateTeamDto teamDto)
         {
+            Team t = new Team
+            {
+                Name = teamDto.Name,
+                ShortDescription = teamDto.Description,
+                OccupationFilter = teamDto.OccupationFilter,
+                AgeRange = teamDto.Range,
+                Identity = Guid.NewGuid(),
+                IsClosed = false,
+                TrackingState = TrackingState.Added
+            };
+
+            var creator = new TeamMember
+            {
+                Team = t,
+                ProfileId = teamDto.ProfileId,
+                IsCreator = true,
+                KickedOut = false,
+                TrackingState = TrackingState.Added
+            };
+
+            t.Members.Add(creator);
+
+            InsertOccupations(teamDto, t);
+
             try
             {
-                Team t = new Team
-                {
-                    Name = teamDto.Name,
-                    ShortDescription = teamDto.Description,
-                    OccupationFilter = teamDto.OccupationFilter,
-                    AgeRange = teamDto.Range,
-                    Identity = Guid.NewGuid(),
-                    IsClosed = false,
-                    TrackingState = TrackingState.Added
-                };
-
-                InsertMemberAsCreator(t, teamDto.ProfileId);
-                InsertOccupations(teamDto, t);
-
                 _teamService.ApplyChanges(t);
                 await _unitOfWork.SaveChangesAsync();
 
@@ -64,19 +77,17 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                OnCreationFaild(new TeamCreationFailedException("There was an error creating the team. Try again.", e, teamDto));
+                //Rollback
+                creator.TrackingState = TrackingState.Deleted;
+                t.Members.Remove(creator);
+                foreach (var occupation in t.AllowedOccupations)
+                    occupation.TrackingState = TrackingState.Deleted;
+
+                _teamService.ApplyChanges(t);
+                await _unitOfWork.SaveChangesAsync();
+
+                OnCreationFailed(new TeamCreationFailedException("There was an error creating the team. Try again.", e, teamDto));
             }
-        }
-        private void InsertMemberAsCreator(Team t, int profileId)
-        {
-            t.Members.Add(new TeamMember
-            {
-                Team = t,
-                ProfileId = profileId,
-                IsCreator = true,
-                KickedOut = false,
-                TrackingState = TrackingState.Added
-            });
         }
         private void InsertOccupations(CreateTeamDto teamDto, Team t)
         {
@@ -93,7 +104,55 @@ namespace OWM.Application.Services
             }
         }
 
-        
+
+        public async Task JoinTeam(int teamId, int profileId)
+        {
+            var profile = await _profileService.Queryable()
+                .FirstOrDefaultAsync(x => x.Id == profileId);
+
+            if (profile == null)
+                throw new UserNotFoundException<int>($"No user found for id {profileId}", new ArgumentNullException(),
+                    profileId);
+
+            var team = await _teamService.Queryable()
+                .FirstOrDefaultAsync(x => x.Id == teamId);
+
+            if (team == null) throw new TeamNotFoundException<int>($"No team found for id {teamId}", new ArgumentNullException(),
+                teamId);
+
+            var newMember = new TeamMember
+            {
+                Team = team,
+                ProfileId = profile.Id,
+                IsCreator = false,
+                KickedOut = false,
+                TrackingState = TrackingState.Added
+            };
+            try
+            {
+                team.Members.Add(newMember);
+
+                _teamService.ApplyChanges(team);
+                await _unitOfWork.SaveChangesAsync();
+
+                OnJoinedTeamSuccess(new TeamCreatedArgs(team));
+            }
+            catch (Exception e)
+            {
+                team.Members.Remove(newMember);
+
+                _teamService.ApplyChanges(team);
+                await _unitOfWork.SaveChangesAsync();
+
+                OnJoinedTeamFailed(e);
+            }
+        }
+
+        private static void InsertMember(Team team, Profile profile)
+        {
+            
+        }
+
         public async Task<int> CloseTeam(int teamId, bool isOpen)
         {
             try
@@ -403,24 +462,38 @@ namespace OWM.Application.Services
                 .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
         }
 
-        public async Task<bool> CanJoinTeam(int teamId, int profileId)
+        public async Task<CanJoinTeamDto> CanJoinTeam(int teamId, int profileId)
         {
+            CanJoinTeamDto result = new CanJoinTeamDto();
+
             var team = await _teamService.Queryable()
                 .Include(x => x.AllowedOccupations)
                 .SingleAsync(x => x.Id == teamId);
 
-            if (team.IsClosed) return false;
-
-            if (await IsMemberOfTeam(teamId, profileId))
-                return false;
-
-
-            if (!team.OccupationFilter) return true;
+            result.TeamIsClosed = team.IsClosed;
+            result.IsAlreadyMember = await IsMemberOfTeam(teamId, profileId);
+            result.OccupationFilter = team.OccupationFilter;
 
             IUserInformationService uInfoSrvc = new UserInformationService(_profileService);
             var profileOccupation = await uInfoSrvc.GetUserOccupationAsync(profileId);
 
-            return team.AllowedOccupations.Any(x => x.OccupationId == profileOccupation.Id);
+            result.OccupationsMatch = team.AllowedOccupations.Any(x => x.OccupationId == profileOccupation.Id);
+
+            var dateOfBirth = await uInfoSrvc.GetUserDateOfBirthAsync(profileId);
+            var ageRange = AgeRangeCalculator.GetAgeRange(dateOfBirth);
+
+            result.AgeRangeMatch = team.AgeRange == ageRange;
+
+            //can join a team if:
+            //1. team is not closed, and
+            //2. user is not already a member of team, and
+            //3. team does not have occupation filter, if it have, user occupation must match with team,
+            //4. age ranges match
+            result.FinalResult = (!result.TeamIsClosed) && !result.IsAlreadyMember &&
+                                 (!result.OccupationFilter || (result.OccupationFilter && result.OccupationsMatch)) &&
+                                 result.AgeRangeMatch;
+
+            return result;
         }
 
         public async Task<bool> IsCreatorOfTeam(int teamId, int profileId)
@@ -438,7 +511,10 @@ namespace OWM.Application.Services
 
         #region Events
         protected virtual void OnTeamCreated(TeamCreatedArgs e) => TeamCreated?.Invoke(this, e);
-        protected virtual void OnCreationFaild(Exception e) => CreationFailed?.Invoke(this, e);
+        protected virtual void OnCreationFailed(Exception e) => CreationFailed?.Invoke(this, e);
+
+        protected virtual void OnJoinedTeamSuccess(TeamCreatedArgs e) => JoinedTeamSuccessfully?.Invoke(this, e);
+        protected virtual void OnJoinedTeamFailed(Exception e) => JoinTeamFailed?.Invoke(this, e);
         #endregion
     }
 }

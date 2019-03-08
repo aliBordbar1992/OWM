@@ -17,8 +17,8 @@
                     <div class="mb-3 small">Hi! I've invited you to join me on @Model.TeamInformation.TeamName</div>
                     <div class="small">
                         To join this team, you need to
-                        <a class="text-primary" asp-page="/Login">login</a>
-                        or <a class="text-primary" asp-page="/Register">register</a>.
+                        <a class="text-primary" asp-page="/Login" asp-route-returnUrl="/User/Invitations">Login</a>
+                        or <a class="text-primary" asp-page="/Register" asp-route-returnUrl="/User/Invitations">Register</a>.
                     </div>
                 </div>
             </div>

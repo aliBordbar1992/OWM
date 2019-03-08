@@ -11,8 +11,11 @@ namespace OWM.Application.Services.Interfaces
     {
         event EventHandler<TeamCreatedArgs> TeamCreated;
         event EventHandler<Exception> CreationFailed;
+        event EventHandler<TeamCreatedArgs> JoinedTeamSuccessfully;
+        event EventHandler<Exception> JoinTeamFailed;
 
         Task CreateTeam(CreateTeamDto dto);
+        Task JoinTeam(int teamId, int profileId);
         Task<int> CloseTeam(int teamId, bool closed);
         Task<int> UpdateDescription(int teamId, string description);
         Task<int> KickMember(int teamId, int profileId, int memberProfileId);
@@ -30,7 +33,7 @@ namespace OWM.Application.Services.Interfaces
         
         
         Task<bool> IsMemberOfTeam(int teamId, int userId);
-        Task<bool> CanJoinTeam(int teamId, int profileId);
+        Task<CanJoinTeamDto> CanJoinTeam(int teamId, int profileId);
         Task<bool> IsCreatorOfTeam(int teamId, int profileId);
         Task<bool> TeamExists(int teamId);
     }
