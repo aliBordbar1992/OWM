@@ -42,22 +42,30 @@ namespace OWM.Application.Services
         {
             try
             {
-                var newInvitation = new TeamInvitation
+                if (InvitationAlreadyExists(dto.SenderId, dto.EmailAddress, out Guid invGuid))
                 {
-                    SenderProfileId = dto.SenderId,
-                    TeamGuid = Guid.Parse(dto.TeamGuid),
-                    RecipientEmailAddress = dto.EmailAddress,
-                    Read = false,
-                    RecipientProfileId = dto.RecipientId,
-                    InvitationGuid = Guid.NewGuid()
-                };
+                    dto.Token = GenerateKey(dto.SenderId, dto.TeamGuid, invGuid.ToString());
+                    OnInvitationAdded(new AddInvitationArgs(dto));
+                }
+                else
+                {
+                    var newInvitation = new TeamInvitation
+                    {
+                        SenderProfileId = dto.SenderId,
+                        TeamGuid = Guid.Parse(dto.TeamGuid),
+                        RecipientEmailAddress = dto.EmailAddress,
+                        Read = false,
+                        RecipientProfileId = dto.RecipientId,
+                        InvitationGuid = Guid.NewGuid()
+                    };
 
-                _invitationService.Insert(newInvitation);
-                await _unitOfWork.SaveChangesAsync();
+                    _invitationService.Insert(newInvitation);
+                    await _unitOfWork.SaveChangesAsync();
 
-                dto.InvitationGuid = newInvitation.InvitationGuid.ToString();
-                dto.Token = GenerateKey(dto.SenderId, dto.TeamGuid, dto.InvitationGuid);
-                OnInvitationAdded(new AddInvitationArgs(dto));
+                    dto.InvitationGuid = newInvitation.InvitationGuid.ToString();
+                    dto.Token = GenerateKey(dto.SenderId, dto.TeamGuid, dto.InvitationGuid);
+                    OnInvitationAdded(new AddInvitationArgs(dto));
+                }
             }
             catch (Exception e)
             {
@@ -65,6 +73,24 @@ namespace OWM.Application.Services
             }
         }
 
+        private bool InvitationAlreadyExists(int senderId, string recipientEmail, out Guid invitationGuid)
+        {
+            if (!_invitationService.Queryable()
+                .Any(x =>
+                    !x.Read && x.SenderProfileId == senderId && x.RecipientEmailAddress.Equals(recipientEmail)))
+            {
+                invitationGuid = Guid.Empty;
+                return false;
+            }
+            else
+            {
+                var inv = _invitationService.Queryable()
+                    .First(x =>
+                        !x.Read && x.SenderProfileId == senderId && x.RecipientEmailAddress.Equals(recipientEmail));
+                invitationGuid = inv.InvitationGuid;
+                return true;
+            }
+        }
         private string GenerateKey(int senderId, string teamGuid, string invitationGuid)
         {
             return $"{senderId}@{teamGuid}:{invitationGuid}";

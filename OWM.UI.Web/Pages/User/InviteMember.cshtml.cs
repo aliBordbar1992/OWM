@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +8,14 @@ using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Email;
 using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Interfaces;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web.Pages.User
 {
-    [Authorize(Roles="User")]
+    [Authorize(Roles = "User")]
     public class InviteMemberModel : PageModel
     {
         private readonly SignInManager<Domain.Entities.User> _signInManager;
@@ -88,8 +88,7 @@ namespace OWM.UI.Web.Pages.User
             return Page();
         }
 
-
-        public async Task OnPostAsync(int teamid)
+        public async Task<IActionResult> OnPostAsync(int teamid)
         {
             if (ModelState.IsValid)
             {
@@ -99,6 +98,7 @@ namespace OWM.UI.Web.Pages.User
                     _invitations.InvitationAdded += SendInvitationEmail;
 
                     await _invitations.AddInvitation(await MapToDto(teamid, null));
+                    return await OnGetAsync(teamid);
                 }
                 else
                 {
@@ -106,7 +106,7 @@ namespace OWM.UI.Web.Pages.User
                     if (await _teamManager.IsMemberOfTeam(teamid, invitedUserProfileId))
                     {
                         ModelState.AddModelError(string.Empty, $"A member with email {Input.EmailAddress} is already joined this team.");
-                        return;
+                        return await OnGetAsync(teamid);
                     }
 
                     _invitations.InvitationAdded += SendInvitationEmail;
@@ -114,7 +114,10 @@ namespace OWM.UI.Web.Pages.User
                 }
 
                 TempData[MessageKey] = "Invitation email sent successfully.";
+
+                return await OnGetAsync(teamid);
             }
+            return await OnGetAsync(teamid);
         }
 
         private async Task<InvitationInformationDto> MapToDto(int teamId, int? recipientId)
