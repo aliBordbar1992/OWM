@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "/User/Teams/Miles/{teamId?}"
 @model OWM.UI.Web.Pages.User.TeamMilesModel
 @{
     Layout = "Shared/UserLayout";
@@ -6,52 +6,70 @@
 
 
 <style>
-    #news{margin : 10px 0px 0px 150px}
-    .alert_list{font-size: 11px; color:grey}
+    #news {
+        margin: 10px 0px 0px 150px
+    }
+
+    .alert_list {
+        font-size: 11px;
+        color: grey
+    }
+
     li.alert_li {
-        font-size: 11px; 
-        color:grey;
-        padding:10px 0px 2px 0px;
+        font-size: 11px;
+        color: grey;
+        padding: 10px 0px 2px 0px;
         border-bottom: thin solid #c0c0c0;
     }
-    li.alert_li:hover{background-color:#eee}
-    .turn_off_alert{float:right;margin-bottom :1px}
-    a.alert_message{color : grey}
-    a.alert_message:hover{color : grey}
 
+        li.alert_li:hover {
+            background-color: #eee
+        }
+
+    .turn_off_alert {
+        float: right;
+        margin-bottom: 1px
+    }
+
+    a.alert_message {
+        color: grey
+    }
+
+        a.alert_message:hover {
+            color: grey
+        }
 </style>
-<h4 class="font-weight-bold">London</h4>
-<h6 class="x-small text-muted">Created on: 15 jan 1993</h6>
-<hr/>
+<h4 class="font-weight-bold">@Model.MilesInformation.TeamName</h4>
+<hr />
 <div class="card">
     <div class="card-body pt-2">
-        <div class="row">
-            <div class="col-9">
-                <span class="x-small mb-1">My progress</span>
-                <div class="progress" style="height: 25px">
-                    <div class="progress-bar progress-bar-striped bg-success" style="width: 40%">
-                        20 miles
-                    </div>
-                </div>
-            </div>
-            <div class="col-3 pl-0">
-                <div>&nbsp;</div>
-                <div class="x-small" style="line-height: 25px;">30 miles</div>
-            </div>
-        </div>
-
         <div class="row mt-3">
             <div class="col-9">
                 <span class="x-small mb-1">Team progress</span>
                 <div class="progress" style="height: 25px">
-                    <div class="progress-bar progress-bar-striped bg-success" style="width: 60%">
-                        30 miles
+                    <div class="progress-bar progress-bar-striped bg-success" style="width: @Model.MilesInformation.TeamCompletedMilesPercentage%">
+                        @Model.MilesInformation.TeamCompletedMiles miles
                     </div>
                 </div>
             </div>
             <div class="col-3 pl-0">
                 <div>&nbsp;</div>
-                <div class="x-small" style="line-height: 25px;">35 miles</div>
+                <div class="x-small" style="line-height: 25px;">@Model.MilesInformation.TeamTotalMilesPledged miles</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-9">
+                <span class="x-small mb-1">My progress</span>
+                <div class="progress" style="height: 25px">
+                    <div class="progress-bar progress-bar-striped bg-success" style="width: @Model.MilesInformation.MyCompletedMilesPercentage%">
+                        @Model.MilesInformation.MyCompletedMiles miles
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 pl-0">
+                <div>&nbsp;</div>
+                <div class="x-small" style="line-height: 25px;">@Model.MilesInformation.MyPledgedMiles miles</div>
             </div>
         </div>
     </div>
@@ -59,64 +77,131 @@
 <hr />
 <div class="card card-body" style="height: 250px;">
     <div class="row">
-        <div class="col-6 text-right">
-            <button class="btn btn-success cancelc" type="button" id="pledged">Pledged</button>
-        </div>
-        <div class="col-6 text-left">
-            <button class="btn btn-primary cancelp" type="button" id="complete">
-                <span class="fa fa-plus"></span> Complete
-            </button>
-        </div>
+        @if (Model.MilesInformation.CanPledgeMiles)
+        {
+            <div class="col-6 text-right">
+                <button class="btn btn-success cancelc" type="button" id="pledged">
+                    <span class="fa fa-plus"></span> Pledged miles
+                </button>
+            </div>
+        }
+        @if (Model.MilesInformation.CanCompleteMiles)
+        {
+            <div class="col-6 text-left">
+                <button class="btn btn-primary cancelp" type="button" id="complete">
+                    <span class="fa fa-plus"></span> Completed miles
+                </button>
+            </div>
+        }
     </div>
 
-    <div style="display: none" class="alert_list pledgeElements">
-        <div class="x-small mb-1">Miles : </div>
-        <input class="form-control" type="number"/>
-        <div class="row mt-2">
-            <div class="col-6">
-                <button class="btn btn-sm btn-success btn-block">Submit</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-sm btn-danger btn-block cancelp">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <div style="display: none" class="alert_list completeElemnts">
-        <div class="x-small mb-1">Miles : </div>
-        <input class="form-control" type="number" />
-        <div class="row mt-2">
-            <div class="col-6">
-                <button class="btn btn-sm btn-success btn-block">Submit</button>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-sm btn-danger btn-block cancelc">Cancel</button>
+    @if (Model.MilesInformation.CanPledgeMiles)
+    {
+        <div style="display: none" class="alert_list pledgeElements">
+            <div class="x-small mb-1">Miles : </div>
+            <input class="form-control miles-pledged" type="number" step="0.1" />
+            <div class="row mt-2">
+                <div class="col-6">
+                    <input type="button" class="btn btn-sm btn-success btn-block" onclick="pledgeMiles()" value="Submit"/>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-sm btn-danger btn-block cancelp">Cancel</button>
+                </div>
             </div>
         </div>
-    </div>
+    }
 
+
+    @if (Model.MilesInformation.CanCompleteMiles)
+    {
+        <div style="display: none" class="alert_list completeElemnts">
+            <div class="x-small mb-1">Miles : </div>
+            <input class="form-control" type="number" />
+            <div class="row mt-2">
+                <div class="col-6">
+                    <button class="btn btn-sm btn-success btn-block">Submit</button>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-sm btn-danger btn-block cancelc">Cancel</button>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 <script>
-    $("#pledged").popover({
-        'title' : 'Pledged', 
-        'html' : true,
-        'placement' : 'bottom',
-        'content': $(".pledgeElements").html()
-    });
-
-    $("#complete").popover({
-        'title': 'Complete',
-        'html': true,
-        'placement': 'bottom',
-        'content': $(".completeElemnts").html()
-    });
-
-    $(document).on('click', '.cancelp',function() {
+    @if (Model.MilesInformation.CanPledgeMiles)
+    {
+        <text>
+    $(document).on('click', '.cancelp', function () {
         $('#pledged').popover('hide');
     });
 
-    $(document).on('click', '.cancelc', function () {
-        $('#complete').popover('hide');
+    $("#pledged").popover({
+        'title': 'Increase your miles pledged',
+        'html': true,
+        'placement': 'bottom',
+        'content': $(".pledgeElements").html()
     });
+
+    function pledgeMiles() {
+        debugger;
+        if (!isNaN(parseFloat($($('.miles-pledged')[1]).val()))) {
+            AjaxGet({
+                url: '/api/Miles/IncreaseMilesPledged',
+                param: {
+                    tId: @Model.TeamId,
+                    pId: @Model.ProfileId,
+                    miles: parseFloat($($('.miles-pledged')[1]).val())
+                },
+                func: success
+            });
+
+            function success(e) {
+                alert("milesPledged");
+                console.log(e);
+            }
+        } else {
+            alert("error");
+        }
+    }
+        </text>
+    }
+
+    @if (Model.MilesInformation.CanCompleteMiles)
+    {
+        <text>
+            $(document).on('click', '.cancelc', function () {
+                $('#complete').popover('hide');
+            });
+
+            $("#complete").popover({
+                'title': 'Increase your completed miles',
+                'html': true,
+                'placement': 'bottom',
+                'content': $(".completeElemnts").html()
+            });
+
+            function pledgeMiles() {
+                if (!isNaN(parseFloat($($('.miles-complete')[1]).val()))) {
+                    AjaxGet({
+                        url: '/api/Miles/IncreaseMilesPledged',
+                        param: {
+                            tId: @Model.TeamId,
+                            pId: @Model.ProfileId,
+                            miles: parseFloat($($('.miles-complete')[1]).val())
+                        },
+                        func: success
+                    });
+
+                    function success(e) {
+                        alert("milesPledged");
+                        console.log(e);
+                    }
+                } else {
+                    alert("error");
+                }
+            }
+        </text>
+    }
 </script>

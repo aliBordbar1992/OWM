@@ -47,7 +47,7 @@ namespace OWM.UI.Web.Pages.User
 
             ProfileId = userInfo.ProfileId;
 
-            TeamInformation = await _teamManager.GetTeamInformation(TeamId);
+            TeamInformation = await _teamManager.GetTeamInformation(TeamId, true);
             return Page();
         }
 

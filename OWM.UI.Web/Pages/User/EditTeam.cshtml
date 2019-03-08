@@ -132,13 +132,13 @@
                                         if (member.IsKickedOut)
                                         {
                                             <div class="col-2 text-right">
-                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="BlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
                                             </div>
                                         }
                                         else
                                         {
                                             <div class="col-2 text-right">
-                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#KickModal" onclick="kickModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Kick</button>
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="BlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Block</button>
                                             </div>
                                         }
                                     }
@@ -163,15 +163,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="KickModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="BlockMemberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body small bg-light rounded-top">
-                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want kick <span class="text-danger" id="modalUsername"></span> ?</p>
+                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to block <span class="text-danger" id="modalUsername"></span> ?</p>
             </div>
             <div class="modal-footer text-center">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" kickuser class="btn btn-danger" onclick="kickMember();">Kick Out</button>
+                <button type="button" blockuser class="btn btn-danger" onclick="blockMember();">Yes, Block</button>
             </div>
         </div>
     </div>
@@ -179,33 +179,33 @@
 
 <script>
     var teamId, profielId, mprofileId;
-    function kickModalOpen(t, p , mp , th) {
+    function BlockMemberModalOpen(t, p , mp , th) {
         $('#modalUsername').text(($(th).parent().parent().find('a')[0].innerText));
         teamId = t;
         profielId = p;
         mprofileId = mp;
     }
 
-    function kickMember() {
+    function blockMember() {
         AjaxGet({
-            url: '/api/kickmember',
+            url: '/api/blockMember',
             param: {
                 tId: teamId,
                 pId: profielId,
                 mpId :mprofileId
             },
-            func: kickChangesApplied,
-            err: kickErrorOccured
+            func: blockChangesApplied,
+            err: blockErrorOccured
         });
     }
 
-    function kickChangesApplied(e) {
-        $('#KickModal').modal('toggle');
+    function blockChangesApplied(e) {
+        $('#BlockMemberModal').modal('toggle');
         ElementGreenalert('statusmessage', 'top center', e.displayMessage);
     }
 
-    function kickErrorOccured(xhr, httpStatusMessage, customErrorMessage) {
-        ElementRedalert('KickModal', 'top center', xhr.responseText);
+    function blockErrorOccured(xhr, httpStatusMessage, customErrorMessage) {
+        ElementRedalert('BlockMemberModal', 'top center', xhr.responseText);
     }
 
     $(function () {

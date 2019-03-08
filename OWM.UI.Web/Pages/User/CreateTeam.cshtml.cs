@@ -23,6 +23,7 @@ namespace OWM.UI.Web.Pages.User
         private readonly SignInManager<Domain.Entities.User> _signInManager;
         private readonly IUserInformationService _userInformation;
         private readonly ITeamsManagerService _teamManager;
+        private readonly ITeamMilesService _teamMiles;
         private readonly IOccupationInformationService _ocpInformationService;
         public string AgeRange { get; set; }
         public List<SelectListItem> OccupationOptions;
@@ -71,11 +72,13 @@ namespace OWM.UI.Web.Pages.User
         public CreateTeamModel(SignInManager<Domain.Entities.User> signInManager
             , IUserInformationService userInformation
             , ITeamsManagerService teamManager
+            , ITeamMilesService teamMiles
             , IOccupationInformationService ocpInformationService)
         {
             _signInManager = signInManager;
             _userInformation = userInformation;
             _teamManager = teamManager;
+            _teamMiles = teamMiles;
             _ocpInformationService = ocpInformationService;
             OccupationOptions = new List<SelectListItem>();
         }
@@ -163,10 +166,10 @@ namespace OWM.UI.Web.Pages.User
             string identityId = _signInManager.UserManager.GetUserId(User);
             int profileId = _userInformation.GetUserProfileIdAsync(identityId).Result;
 
-            _teamManager.MilesPledged += MilesPledgedSuccessfully;
-            _teamManager.FailedToPledgeMiles += CreateTeamFailed;
+            _teamMiles.MilesPledged += MilesPledgedSuccessfully;
+            _teamMiles.FailedToPledgeMiles += CreateTeamFailed;
 
-            _teamManager.PledgeMiles(new PledgeMilesDto(args.Team.Id, profileId, Input.MilesPledged)).Wait();
+            _teamMiles.PledgeMiles(new PledgeMilesDto(args.Team.Id, profileId, Input.MilesPledged)).Wait();
         }
         public void MilesPledgedSuccessfully(object sender, MilesPledgedArgs args)
         {

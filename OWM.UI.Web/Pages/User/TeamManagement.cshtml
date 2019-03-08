@@ -34,8 +34,7 @@
             <th>Team name</th>
             <th>Miles pledged</th>
             <th>Miles Completed</th>
-            <th></th>
-            <th></th>
+            <th colspan="3">Actions</th>
         </tr>
         @foreach (var team in Model.TeamsList)
         {
@@ -59,6 +58,9 @@
                     <span class="col text-info" title="Team">
                         <span class="fa fa-users text-info"></span> @team.TotalMilesCompleted
                     </span>
+                </td>
+                <td>
+                    <a class="fa fa-plus text-success" asp-route-teamId="@team.TeamId" asp-page="/User/TeamMiles" title="Increase miles pledged/completed"></a>
                 </td>
                 <td>
                     <a class="fa fa-envelope text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>

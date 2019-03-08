@@ -39,7 +39,7 @@ namespace OWM.UI.Web.Pages
             }
 
             if (_signInManager.IsSignedIn(User))
-                return RedirectToRoute("/User/News");
+                return LocalRedirect("/User/News");
 
             returnUrl = returnUrl ?? Url.Content("~/");
 
