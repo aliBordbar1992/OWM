@@ -33,13 +33,12 @@
                                     {
                                         <li class="x-small">Your occupation does not match with team's selected occupation.</li>
                                     }
-
-                            if (Model.CanJoinTeam.AgeRangeMatch == false)
-                            {
-                                <div class="alert alert-warning mb-0">
-                                    <span>Your age range does not match with this team members.</span>
-                                </div>
-                            }
+                                    @if (Model.CanJoinTeam.AgeRangeMatch == false)
+                                    {
+                                        <li class="x-small">Your age range does not match with this team members.</li>
+                                    }
+                                </ul>
+                            </div>
                         }
                         else
                         {

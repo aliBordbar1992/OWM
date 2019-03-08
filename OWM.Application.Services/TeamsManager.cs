@@ -242,6 +242,9 @@ namespace OWM.Application.Services
         public async Task<MyTeamsListDto> GetMyTeam(int teamId, int profileId)
         {
             var team = await _teamService.Queryable()
+                .Include(x => x.Members)
+                .Include(x => x.PledgedMiles)
+                .ThenInclude(x => x.Profile)
                 .Include(x => x.PledgedMiles)
                 .ThenInclude(x => x.CompletedMiles)
                 .SingleAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
@@ -251,6 +254,8 @@ namespace OWM.Application.Services
 
             var totalMilesCompleted = teamCompletedMiles.Sum(x => x.Miles);
             var totalMilesPledged = teamPledgedMiles.Sum(x => x.Miles);
+
+            var t = team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles);
 
             MyTeamsListDto result = new MyTeamsListDto
             {
