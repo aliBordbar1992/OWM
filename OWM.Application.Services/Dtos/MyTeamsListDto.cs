@@ -9,5 +9,6 @@
         public float TotalMilesCompleted { get; set; }
         public float TotalMilesPledged { get; set; }
         public bool IsCreator { get; set; }
+        public bool IsBlocked { get; set; }
     }
 }

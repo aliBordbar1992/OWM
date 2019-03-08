@@ -293,6 +293,7 @@ namespace OWM.Application.Services
                     MyCompletedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).CompletedMiles.Sum(x => x.Miles),
                     MyPledgedMiles = team.PledgedMiles.Single(x => x.Profile.Id == profileId).Miles,
                     IsCreator = team.Members.Any(x => x.IsCreator && x.ProfileId == profileId),
+                    IsBlocked = team.Members.Any(x => x.KickedOut && x.ProfileId == profileId),
                 });
             }
 
@@ -456,10 +457,10 @@ namespace OWM.Application.Services
 
 
 
-        public async Task<bool> IsMemberOfTeam(int teamId, int userId)
+        public async Task<bool> IsMemberOfTeam(int teamId, int profileId)
         {
             return await _teamService.Queryable()
-                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == userId));
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
         }
 
         public async Task<CanJoinTeamDto> CanJoinTeam(int teamId, int profileId)
@@ -494,6 +495,12 @@ namespace OWM.Application.Services
                                  result.AgeRangeMatch;
 
             return result;
+        }
+
+        public async Task<bool> IsBlockedMember(int teamId, int profileId)
+        {
+            return await _teamService.Queryable()
+                .AnyAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId && m.KickedOut));
         }
 
         public async Task<bool> IsCreatorOfTeam(int teamId, int profileId)

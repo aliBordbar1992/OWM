@@ -8,7 +8,7 @@ namespace OWM.UI.Web.Controllers
     [Route("api/[Controller]")]
     public class SearchTeams:Controller
     {
-        [HttpGet("/Teams/SearchTeams")]
+        [HttpGet("/Teams/Search/")]
         public JsonResult Get()
         {
             var searchedTeamlist = new List<Teams> {new Teams()

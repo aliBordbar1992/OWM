@@ -59,12 +59,15 @@
                         <span class="fa fa-users text-info"></span> @team.TotalMilesCompleted
                     </span>
                 </td>
-                <td>
-                    <a class="fa fa-plus text-success" asp-route-teamId="@team.TeamId" asp-page="/User/TeamMiles" title="Increase miles pledged/completed"></a>
-                </td>
-                <td>
-                    <a class="fa fa-envelope text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>
-                </td>
+                @if (!team.IsBlocked)
+                {
+                    <td>
+                        <a class="fa fa-plus text-success" asp-route-teamId="@team.TeamId" asp-page="/User/TeamMiles" title="Increase miles pledged/completed"></a>
+                    </td>
+                    <td>
+                        <a class="fa fa-envelope text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>
+                    </td>
+                }
                 <td>
                     @if (team.IsCreator)
                     {

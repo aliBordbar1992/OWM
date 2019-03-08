@@ -32,9 +32,10 @@ namespace OWM.Application.Services.Interfaces
         Task<TeamInvitationInformationDto> GetTeamInviteInformation(Guid teamGuid);
         
         
-        Task<bool> IsMemberOfTeam(int teamId, int userId);
+        Task<bool> IsMemberOfTeam(int teamId, int profileId);
         Task<CanJoinTeamDto> CanJoinTeam(int teamId, int profileId);
         Task<bool> IsCreatorOfTeam(int teamId, int profileId);
         Task<bool> TeamExists(int teamId);
+        Task<bool> IsBlockedMember(int teamId, int profileId);
     }
 }

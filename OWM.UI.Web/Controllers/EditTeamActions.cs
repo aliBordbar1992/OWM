@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using OWM.Application.Services.EventHandlers;
+using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
 using OWM.UI.Web.Dtos;
 
@@ -39,6 +40,26 @@ namespace OWM.UI.Web.Controllers
                         success == 0
                             ? open ? "Members can join this team." : "Team is closed now."
                             : "Something happened, try again.",
+                    ErrorCode = success
+                });
+            }
+            catch (Exception e)
+            {
+                return new BadRequestObjectResult("An error occurred during processing your request. Try again.");
+            }
+        }
+
+        [HttpGet("/api/unblockMember")]
+        public async Task<IActionResult> UnBlockMember(int tId , int pId ,int mpId)
+        {
+            try
+            {
+                int success = await _teamManager.UnKickMember(tId , pId , mpId);
+                string displayMessage = GetKickMemberMessage(success);
+                return Json(new ApiResponse
+                {
+                    Success = success == -1,
+                    DisplayMessage = displayMessage,
                     ErrorCode = success
                 });
             }
@@ -149,17 +170,34 @@ namespace OWM.UI.Web.Controllers
 
 
         private ApiResponse _completeMilesResponse;
+        private int _teamId;
+        private int _profileId;
         [HttpGet("/api/Miles/CompleteMiles")]
         public async Task<IActionResult> CompleteMiles(int tId, int pId, float miles)
         {
+            _teamId = tId;
+            _profileId = pId;
             try
             {
-                _teamMiles.PledgedMilesUpdated += CompleteMilesUpdated;
-                _teamMiles.FailedToPledgeMiles += CompleteMilesUpdateFailed;
+                if (await _teamMiles.CanCompleteMiles(tId, pId))
+                {
+                    _teamMiles.PledgedMilesUpdated += CompleteMilesUpdated;
+                    _teamMiles.FailedToPledgeMiles += CompleteMilesUpdateFailed;
 
-                await _teamMiles.IncreaseMilesCompletedBy(tId, pId, miles);
+                    await _teamMiles.IncreaseMilesCompletedBy(tId, pId, miles);
 
-                return Json(_completeMilesResponse);
+                    return Json(_completeMilesResponse);
+                }
+                else
+                {
+                    return Json(new ApiResponse
+                    {
+                        Success = false,
+                        ErrorCode = -1,
+                        DisplayMessage = "Failed to add miles completed",
+                        Data = "You cannot complete miles"
+                    });
+                }
             }
             catch (Exception e)
             {
@@ -179,13 +217,30 @@ namespace OWM.UI.Web.Controllers
         }
         public void CompleteMilesUpdateFailed(object sender, Exception args)
         {
-            _completeMilesResponse = new ApiResponse
+            var t = args.GetType();
+            if (t == typeof(CompleteMilesFailedException))
             {
-                Success = false,
-                ErrorCode = -1,
-                DisplayMessage = "Failed to add miles completed",
-                Data = args.Message
-            };
+                _completeMilesResponse = new ApiResponse
+                {
+                    Success = false,
+                    ErrorCode = -1,
+                    DisplayMessage = args.Message,
+                    Data = _teamMiles.GetTeamMilesInformation(_teamId, _profileId)
+                        .Result
+                };
+            }
+            else
+            {
+                _completeMilesResponse = new ApiResponse
+                {
+                    Success = false,
+                    ErrorCode = -1,
+                    DisplayMessage = $"Failed to add miles completed.",
+                    Data = _teamMiles.GetTeamMilesInformation(_teamId, _profileId)
+                        .Result
+                };
+            }
+           
         }
     }
 }
