@@ -24,3 +24,10 @@
      width: 50px;
      height: auto;
  }
+.alert ul li {
+    padding: 3px;
+    border-bottom: 1px solid darkgray;
+}
+.alert ul li:last-child {
+    border-bottom: none;
+}
