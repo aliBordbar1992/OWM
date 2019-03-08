@@ -19,8 +19,8 @@
                 <div class="col-sm-3">
                     @if (Model.CanJoinTeam)
                     {
-                        <div class="alert alert-light mb-0">
-                            <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamInvite" class="btn btn-primary mt-2">Join team</a>
+                        <div class="alert alert-info mb-0">
+                            <a asp-route-handler="Join" asp-route-id="@Model.TeamId" asp-page="/TeamInvite" class="btn btn-success mt-2">Join team</a>
                         </div>
                     }
                     else if (Model.CanInviteMembers)

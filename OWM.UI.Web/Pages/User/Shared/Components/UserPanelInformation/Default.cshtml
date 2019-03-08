@@ -14,7 +14,6 @@
     </div>
     <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
         <div class="list-group list-group-flush bg-light">
-
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
             <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
@@ -24,7 +23,7 @@
                 @if (Model.HasInvitations)
                 {
                     <span class="notifier new pl-3">
-                        <span class="badge"><i class="fa fa-bell"></i></span>
+                        <span class="notify-badge"><i class="fa fa-bell"></i></span>
                     </span>
                 }
                 Invitations
