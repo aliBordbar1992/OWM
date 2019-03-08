@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -116,6 +117,20 @@ namespace OWM.Application.Services
                                           && x.Profile.Id == profileId);
 
             if (mp == null) throw new ArgumentNullException("No miles pledged found for the given arguments");
+
+            var pledgedMiles = mp.Miles;
+            var completedMiles = mp.CompletedMiles.Sum(x => x.Miles);
+
+            if (completedMiles + miles > pledgedMiles)
+            {
+                var failedException = new CompleteMilesFailedException(
+                    $"Cannot complete miles more than {pledgedMiles - completedMiles}.",
+                    new InvalidEnumArgumentException(), null);
+
+                OnFailedToPledgeMiles(failedException);
+
+                return;
+            }
 
             CompletedMiles cm = new CompletedMiles
             {

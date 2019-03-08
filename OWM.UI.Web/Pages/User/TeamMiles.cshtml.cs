@@ -60,7 +60,8 @@ namespace OWM.UI.Web.Pages.User
 
         private async Task<bool> CanEditTeamMiles(int profileId)
         {
-            return await _teamManager.IsMemberOfTeam(TeamId, profileId);
+            return await _teamManager.IsMemberOfTeam(TeamId, profileId) && 
+                  !await _teamManager.IsBlockedMember(TeamId, profileId);
         }
 
         

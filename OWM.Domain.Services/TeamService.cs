@@ -28,6 +28,7 @@ namespace OWM.Domain.Services
         public async Task<IEnumerable<TeamMember>> GetUnKickedTeamMembersAsync(int teamId)
         {
             var members = await _teamMembers.Query()
+                .Include(x => x.MemberProfile)
                 .Where(x => x.TeamId == teamId && !x.KickedOut)
                 .SelectAsync();
 
@@ -37,6 +38,7 @@ namespace OWM.Domain.Services
         public async Task<IEnumerable<TeamMember>> GetTeamMembers(int teamId)
         {
             var result = await _teamMembers.Query()
+                .Include(x => x.MemberProfile)
                 .Where(x => x.TeamId == teamId)
                 .SelectAsync();
 

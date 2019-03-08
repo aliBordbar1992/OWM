@@ -132,7 +132,7 @@
                                         if (member.IsKickedOut)
                                         {
                                             <div class="col-2 text-right">
-                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="BlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="UnBlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
                                             </div>
                                         }
                                         else
@@ -180,6 +180,12 @@
 <script>
     var teamId, profielId, mprofileId;
     function BlockMemberModalOpen(t, p , mp , th) {
+        $('#modalUsername').text(($(th).parent().parent().find('a')[0].innerText));
+        teamId = t;
+        profielId = p;
+        mprofileId = mp;
+    }
+    function UnBlockMemberModalOpen(t, p , mp , th) {
         $('#modalUsername').text(($(th).parent().parent().find('a')[0].innerText));
         teamId = t;
         profielId = p;
