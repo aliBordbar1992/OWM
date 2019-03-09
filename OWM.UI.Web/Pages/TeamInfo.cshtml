@@ -83,7 +83,7 @@
                 </div>
             </div>
             <hr />
-            <div class="row mt-4 mb-4">
+            <div class="row mt-4 mb-4" id="teamstatistics">
                 <div class="col-sm-4 col-xl-4">
                     <div class="card">
                         <div class="card-body">
@@ -138,13 +138,13 @@
                                         <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
                                         <div class="media-body">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-sm-6">
                                                     <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile">
                                                         <h5 class="mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5>
                                                     </a>
                                                     <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                                 </div>
-                                                <div class="col-6">
+                                                <div class="col-sm-6">
                                                     <p>Miles Pledged: <span class="badge badge-primary">@member.MyPledgedMiles</span></p>
                                                     <p class="mb-0">Miles Completed: <span class="badge badge-success">@member.MyCompletedMiles</span></p>
                                                 </div>

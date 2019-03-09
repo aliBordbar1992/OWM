@@ -5,6 +5,14 @@
     .col-md-10 {
         margin-top: 10px!important;
     }
+    .display-4 {
+        width: 70px !important;
+        text-align: center !important;
+    }
+
+    #userstatistic .card-body {
+        padding: 5px 15px !important;
+    }
 } 
 .profile-work{}
  .profile-work p{

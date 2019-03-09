@@ -94,7 +94,9 @@
     <input class="form-control miles-pledged" type="number" step="0.1" />
     <div class="row mt-2">
         <div class="col-6">
-            <input type="button" class="btn btn-sm btn-success btn-block" onclick="pledgeMiles()" value="Submit"/>
+            <button type="button" class="btn btn-sm btn-success btn-block" onclick="pledgeMiles()">
+                <img src="~/img/loading.gif" class="loading-sm" style="display: none;"/> Submit
+            </button>
         </div>
         <div class="col-6">
             <button class="btn btn-sm btn-danger btn-block cancelp">Cancel</button>
@@ -107,7 +109,9 @@
     <input class="form-control miles-complete" type="number" />
     <div class="row mt-2">
         <div class="col-6">
-            <button type="button" class="btn btn-sm btn-success btn-block" onclick="completeMiles();">Submit</button>
+            <button type="button" class="btn btn-sm btn-success btn-block" onclick="completeMiles();">
+                <img src="~/img/loading.gif" class="loading-sm" style="display: none;"/> Submit
+            </button>
         </div>
         <div class="col-6">
             <button class="btn btn-sm btn-danger btn-block cancelc">Cancel</button>
@@ -150,6 +154,7 @@
 
     function pledgeMiles() {
         if (!isNaN(parseFloat($($('.miles-pledged')[1]).val()))) {
+            $('.loading-sm').show();
             AjaxGet({
                 url: '/api/Miles/IncreaseMilesPledged',
                 param: {
@@ -167,6 +172,7 @@
 
     function completeMiles() {
         if (!isNaN(parseFloat($($('.miles-complete')[1]).val()))) {
+            $('.loading-sm').show();
             AjaxGet({
                 url: '/api/Miles/CompleteMiles',
                 param: {
@@ -183,7 +189,11 @@
 
     /////Check member can pledge or complete miles/////
     function preventCompleteOrPledge(e) {
-        console.log(e.data);
+        if (!e.success) {
+            ElementRedalert('card', 'top center', e.displayMessage);
+            $('.loading-sm').hide();
+            return;
+        }
         if (e.data.canCompleteMiles) {
             $('#complete').removeClass('hidden');
             $('#pledged').addClass('hidden');

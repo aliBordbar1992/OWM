@@ -53,7 +53,7 @@
             }
         </div>
 
-        <div id="read" style="display: none" class="list-group-item text-left">
+        <div id="read" style="display: none; padding-top: 1px; padding-bottom: 5px;" class="list-group-item text-left">
             @if (!Model.Invitations.Any(x => x.Read))
             {
             <div>
@@ -63,18 +63,18 @@
             }
             @foreach (var invitation in Model.Invitations.Where(x => x.Read))
             {
-                <div class="row">
+                <div class="row p-1 border-bottom mt-1 bg-light">
                     <div class="col-md-3">
                         <img class="img-thumbnail" src="@invitation.SenderProfilePicture" alt="" />
                         <span>@invitation.SenderFullName</span>
                         <div class="mb-2 mt-2 x-small text-muted border-bottom">Invited on: @invitation.Created.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</div>
                     </div>
                     <div class="col-md-7">
-                        <h6 class="mt-3">invited you to join</h6>
-                        <h5 class="mb-0 mt-3">@invitation.TeamName</h5>
+                        <h6 class="mb-0" style="line-height: 41px;">invited you to join</h6>
+                        <h5 class="mb-0" style="line-height: 41px;">@invitation.TeamName</h5>
                     </div>
                     <div class="col-md-2">
-                        <a class="btn btn-sm btn-primary" asp-route-teamid="@invitation.TeamId" asp-page="/TeamInfo">View team</a>  
+                        <a class="btn btn-sm btn-primary mt-2 mb-2" asp-route-teamid="@invitation.TeamId" asp-page="/TeamInfo">View team</a>  
                     </div>
                 </div>
             }
