@@ -4,10 +4,9 @@
 @{
     Layout = "Shared/UserLayout";
 }
-
 <link href="~/css/TeamManagment.css" rel="stylesheet" />
-<h2>My teams</h2>
-<hr />
+<h4 class="font-weight-bold">My teams</h4>
+<hr class="mb-0 mb-3" />
 <div class="row mb-3">
     <div class="col-md-6 text-left">
         <div class="alert alert-info small">
@@ -67,6 +66,11 @@
                     <td>
                         <a class="fa fa-envelope text-success" asp-route-teamid="@team.TeamId" asp-page="/User/InviteMember" title="Invite a friend"></a>
                     </td>
+                }
+                else
+                {
+                    <td></td>
+                    <td></td>
                 }
                 <td>
                     @if (team.IsCreator)

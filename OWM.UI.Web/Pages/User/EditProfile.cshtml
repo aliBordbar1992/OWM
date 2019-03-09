@@ -13,8 +13,8 @@
 
 <form method="post">
     <div>
-        <h2>Edit Profile</h2>
-        <hr>
+        <h4 class="font-weight-bold">Edit Profile</h4>
+        <hr class="mb-0 mb-3" />
         <div class="row mt-2">
             <div class="col-md-8 order-2" id="inputarea">
                 @if (TempData[EditProfileModel.MessageKey] is string message)
@@ -25,11 +25,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <span>First Name</span>
-                        <input asp-for="Input.Name" required class="form-control" value="@Model.UserInformationDto.Name" />
+                        <input asp-for="Input.Name" required class="form-control" value="@Model.UserInformationDto.Name"/>
                     </div>
                     <div class="col-sm-6">
                         <span>Last Name</span>
-                        <input asp-for="Input.Surname" required class="form-control" value="@Model.UserInformationDto.Surname" />
+                        <input asp-for="Input.Surname" required class="form-control" value="@Model.UserInformationDto.Surname"/>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -41,14 +41,14 @@
                 <div class="row mt-3">
                     <div class="col-sm-6 position-relative">
                         <span>City</span>
-                        <input asp-for="Input.CityName" required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName" />
+                        <input asp-for="Input.CityName" required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName"/>
                         <span class="fa fa-times position-absolute" title="clear field"></span>
                         <ul class="position-absolute" name="cityfilter"></ul>
-                        <input asp-for="Input.CityId" type="hidden" id="RegistrationData_CityId" value="@Model.UserInformationDto.CityId" />
+                        <input asp-for="Input.CityId" type="hidden" id="RegistrationData_CityId" value="@Model.UserInformationDto.CityId"/>
                     </div>
                     <div class="col-sm-6">
                         <span>Country</span>
-                        <input asp-for="Input.CountryName" required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName" />
+                        <input asp-for="Input.CountryName" required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName"/>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -78,7 +78,7 @@
             <div class="col-md-4 order-1">
                 <div class="text-center">
                     <img src="@Model.UserInformationDto.ProfilePicture" class="user-image w-50" alt="avatar" id="imgProfile">
-                    <input type="hidden" asp-for="Input.UserImage" id="imgProfileAddress" />
+                    <input type="hidden" asp-for="Input.UserImage" id="imgProfileAddress"/>
                     <button type="button" class="btn-sm btn-success mt-3 w-100" data-toggle="modal" data-target="#UserProfilePictureModal">Change profile picture</button>
                     <button type="submit" asp-page-handler="ResetPassword" class="btn-sm btn-success mt-3 w-100" asp-route-email="@Model.UserInformationDto.Email">Change password</button>
                 </div>
