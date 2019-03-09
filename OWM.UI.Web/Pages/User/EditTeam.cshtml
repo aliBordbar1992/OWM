@@ -51,7 +51,7 @@
         </div>
     </div>
 </div>
-<div class="row">
+<div class="row" id="teamstatistics">
     <div class="col-sm-4 col-xl-4">
         <div class="card">
             <div class="card-body">
@@ -115,11 +115,11 @@
                             <img class="mr-3 rounded-circle" src="@member.ProfilePicture" alt="@member.FirstName @member.SurName">
                             <div class="media-body">
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-sm-5">
                                         <a asp-route-profileid="@member.ProfileId" asp-page="/UserProfile"><h5 class="h5 mt-0 mb-0 font-weight-bold">@member.FirstName @member.SurName</h5></a>
                                         <p class="small mt-2 mb-0">@member.City, @member.Country</p>
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-sm-5">
                                         <p class="mb-3">
                                             Miles Pledged : <span class="badge badge-primary">@member.MyPledgedMiles</span>
                                         </p>
@@ -131,13 +131,13 @@
                                     {
                                         if (member.IsKickedOut)
                                         {
-                                            <div class="col-2 text-right">
+                                            <div class="col-sm-2 text-right">
                                                 <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="UnBlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
                                             </div>
                                         }
                                         else
                                         {
-                                            <div class="col-2 text-right">
+                                            <div class="col-sm-2 text-right">
                                                 <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="BlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Block</button>
                                             </div>
                                         }
