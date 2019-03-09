@@ -1,5 +1,5 @@
-using System;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +12,9 @@ using OWM.Application.Services;
 using OWM.Application.Services.AppConfigs;
 using OWM.Data;
 using OWM.Domain.Entities;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web
 {
@@ -38,6 +41,32 @@ namespace OWM.UI.Web
             services.AddDbContext<OwmContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, OwmContext>();
             services.AddApplicationConfigs();
+
+            services.AddAuthentication(options =>
+                {
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie()
+                .AddGoogle(o =>
+                {
+                    o.ClientId = Configuration["Authentication:Google:ClientId"];
+                    o.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
+                    o.ClaimActions.Clear();
+                    o.ClaimActions.MapAll();
+                    o.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.Name, "name");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.GivenName, "given_name");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
+                    o.ClaimActions.MapJsonKey("urn:google:profile", "link");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.Gender, "gender");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.MobilePhone, "phone_number");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "birthdate");
+                    o.ClaimActions.MapJsonKey(ClaimTypes.Thumbprint, "picture");
+                });
 
             services.AddIdentity<User, Role>()
                 .AddUserStore<UserStore<User, Role, OwmContext, string, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>>()

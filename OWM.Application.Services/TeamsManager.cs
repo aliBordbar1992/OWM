@@ -519,6 +519,11 @@ namespace OWM.Application.Services
             return await _teamService.ExistsAsync(teamId);
         }
 
+        public async Task<bool> TeamExists(Guid teamGuid)
+        {
+            return await _teamService.Queryable().AnyAsync(x => x.Identity == teamGuid);
+        }
+
 
 
         #region Events

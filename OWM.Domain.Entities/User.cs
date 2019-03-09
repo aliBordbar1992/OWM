@@ -5,13 +5,13 @@ namespace OWM.Domain.Entities
 {
     public class User : IdentityUser
     {
-        public static User CreateIdentity(string username, string email, string phoneNumber = "")
+        public static User CreateIdentity(string username, string email, bool verifiedEmail, string phoneNumber = "")
         {
             var newUser = new User
             {
                 UserName = username,
                 Email = email,
-                EmailConfirmed = false,
+                EmailConfirmed = verifiedEmail,
                 PhoneNumber = phoneNumber,
                 PhoneNumberConfirmed = false
             };

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.EventHandlers;
+using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Entities.Enums;
@@ -9,9 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWM.Application.Services.EventHandlers;
-using OWM.Application.Services.Exceptions;
-using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
@@ -48,64 +47,63 @@ namespace OWM.Application.Services
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork>();
         }
 
-        public async Task Register(UserRegistrationDto userRegistrationDto)
+        public async Task Register(UserRegistrationDto userRegistrationDto, ExternalLoginInfo info = null)
         {
-            var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.Phone);
+            var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.VerfiedEmail, userRegistrationDto.Phone);
             var identityResult = await _userManager.CreateAsync(user, userRegistrationDto.Password);
-            if (identityResult.Succeeded)
+            if (identityResult.Succeeded == false) OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+
+            if (info != null) identityResult = await _userManager.AddLoginAsync(user, info);
+            if (identityResult.Succeeded == false) OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+
+            await _userManager.AddToRoleAsync(user, ApplicationRoles.User);
+
+            var profile = new Profile();
+
+            var country = GetCountry(userRegistrationDto.CountryName);
+            var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
+
+            var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+            var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+            var interests = GetInterests(userRegistrationDto.Interests);
+
+            profile.Identity = user;
+            profile.Country = country;
+            profile.City = city;
+            profile.Occupation = occupation;
+            profile.Ethnicity = ethnicity;
+            profile.Interests = interests;
+
+            profile.DateOfBirth = userRegistrationDto.DateOfBirth.Value;
+
+            profile.Name = userRegistrationDto.Name;
+            profile.Surname = userRegistrationDto.Surname;
+            profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+            profile.ProfileImageUrl = userRegistrationDto.ProfileImageAddress;
+
+            _profileService.Insert(profile);
+
+            try
             {
-                await _userManager.AddToRoleAsync(user, ApplicationRoles.User);
-
-                var profile = new Profile();
-
-                var country = GetCountry(userRegistrationDto.CountryName);
-                var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
-
-                var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
-                var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
-                var interests = GetInterests(userRegistrationDto.Interests);
-
-                profile.Identity = user;
-                profile.Country = country;
-                profile.City = city;
-                profile.Occupation = occupation;
-                profile.Ethnicity = ethnicity;
-                profile.Interests = interests;
-
-                profile.DateOfBirth = userRegistrationDto.DateOfBirth.Value;
-
-                profile.Name = userRegistrationDto.Name;
-                profile.Surname = userRegistrationDto.Surname;
-                profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
-
-                _profileService.Insert(profile);
-
-                try
-                {
-                    await _unitOfWork.SaveChangesAsync();
-                    OnUserRegistered(new UserRegisteredArgs(user, profile));
-                }
-                catch (Exception e)
-                {
-                    if (_profileService.ExistsAsync(profile.Id).Result)
-                    {
-                        _profileService.Delete(profile);
-                        await _unitOfWork.SaveChangesAsync();
-                        await _userManager.DeleteAsync(user);
-                    }
-
-
-                    var error = new IdentityError
-                    {
-                        Code = "UserSave",
-                        Description = "Unable to register. Try again."
-                    };
-                    OnRegistrationFailed(new RegistrationFailedArgs(new List<IdentityError> { error }));
-                }
+                await _unitOfWork.SaveChangesAsync();
+                OnUserRegistered(new UserRegisteredArgs(user, profile));
             }
-            else
+            catch (Exception e)
             {
-                OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+                if (_profileService.ExistsAsync(profile.Id).Result)
+                {
+                    _profileService.Delete(profile);
+                    await _unitOfWork.SaveChangesAsync();
+                    await _userManager.DeleteAsync(user);
+                }
+
+
+                var error = new IdentityError
+                {
+                    Code = "UserSave",
+                    Description = "Unable to register. Try again."
+                };
+                OnRegistrationFailed(new RegistrationFailedArgs(new List<IdentityError> { error }));
             }
         }
 

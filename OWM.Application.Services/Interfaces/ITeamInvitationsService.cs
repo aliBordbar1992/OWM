@@ -14,8 +14,9 @@ namespace OWM.Application.Services.Interfaces
         Task AddInvitation(InvitationInformationDto dto);
         bool TryVerifyToken(string token, out InvitationKeyDto key);
         void UpdateInvitations(string email, int profileId);
-        bool HasInvitations(int profileId);
+        Task<bool> HasInvitations(int profileId);
         Task<List<UserInvitationsDto>> GetInvitations(int profileId);
         Task FlagAsRead(int invitationId);
+        Task GarbageInvitationCollection(int profileId);
     }
 }

@@ -48,6 +48,17 @@
                     <span class="x-small">Don't have an account? </span>
                     <a class="text-primary x-small" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign up</a>
                 </form>
+                or login with
+                <form asp-page="/ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in Model.ExternalLogins)
+                            {
+                                <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                            }
+                        </p>
+                    </div>
+                </form>
             </div>  
         </div>
     </div>

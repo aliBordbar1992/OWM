@@ -65,5 +65,6 @@ namespace OWM.Application.Services.Dtos
         public string Birthday { get; set; }
 
         public string ProfileImageAddress { get; set; }
+        public bool  VerfiedEmail { get; set; }
     }
 }

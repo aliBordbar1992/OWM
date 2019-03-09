@@ -38,7 +38,9 @@ namespace OWM.UI.Web.Pages.User
             string identityId = _signInManager.UserManager.GetUserId(User);
             var profileId = await _userInformation.GetUserProfileIdAsync(identityId);
 
-            EmptyState = !_invitations.HasInvitations(profileId);
+            await _invitations.GarbageInvitationCollection(profileId);
+
+            EmptyState = !await _invitations.HasInvitations(profileId);
 
             Invitations = await _invitations.GetInvitations(profileId);
 

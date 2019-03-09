@@ -65,6 +65,9 @@ namespace OWM.UI.Web.Pages
                 };
             }
 
+            if (!await _teamManager.TeamExists(TeamId))
+                return NotFound();
+
             TeamInformation = await _teamManager.GetTeamInformation(TeamId, false);
 
             return Page();

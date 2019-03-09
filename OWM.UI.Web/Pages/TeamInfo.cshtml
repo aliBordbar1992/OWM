@@ -15,7 +15,16 @@
                     <h6 class="mb-0 text-muted">
                         @Model.TeamInformation.Description
                     </h6>
+                    <div class="profile-work text-left">
+                        <p class="mt-4 mb-1">Occupations</p>
+                        <hr class="mt-1 mb-1" />
+                        @foreach (string ocp in Model.TeamInformation.Occupations)
+                        {
+                            <span class="badge" href="">@ocp</span>
+                        }
+                    </div>
                 </div>
+
                 <div class="col-sm-3">
                     @if (Model.CanJoinTeam.FinalResult == false && Model.CanJoinTeam.IsAlreadyMember == false)
                     {

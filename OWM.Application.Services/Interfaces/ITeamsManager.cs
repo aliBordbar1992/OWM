@@ -22,7 +22,7 @@ namespace OWM.Application.Services.Interfaces
         Task<int> UnKickMember(int teamId, int profileId, int memberProfileId);
 
 
-        int GetTeamId(Guid keyTeamGuid);
+        int GetTeamId(Guid teamGuid);
         Task<MyTeamsListDto> GetMyTeam(int teamId, int profileId);
         Task<List<MyTeamsListDto>> GetListOfMyTeams(int profileId);
         Task<TeamInformationDto> GetTeamInformation(int teamId, bool getKickedMembers);
@@ -36,6 +36,7 @@ namespace OWM.Application.Services.Interfaces
         Task<CanJoinTeamDto> CanJoinTeam(int teamId, int profileId);
         Task<bool> IsCreatorOfTeam(int teamId, int profileId);
         Task<bool> TeamExists(int teamId);
+        Task<bool> TeamExists(Guid teamGuid);
         Task<bool> IsBlockedMember(int teamId, int profileId);
     }
 }

@@ -43,6 +43,7 @@ namespace OWM.Data
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(@"Server=.;Database=Owm;Trusted_Connection=True;");
+                optionsBuilder.EnableSensitiveDataLogging();
             }
         }
 

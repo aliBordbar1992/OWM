@@ -30,7 +30,7 @@ namespace OWM.UI.Web.ViewComponents
             {
                 string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
                 var info = await _userInformation.GetUserProfileInformationAsync(identityId);
-                info.HasInvitations = _invitations.HasInvitations(info.ProfileId);
+                info.HasInvitations = await _invitations.HasInvitations(info.ProfileId);
                 return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
             }
             else

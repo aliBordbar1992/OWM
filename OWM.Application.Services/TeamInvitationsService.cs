@@ -9,6 +9,7 @@ using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
+using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
@@ -145,10 +146,27 @@ namespace OWM.Application.Services
             var a = _unitOfWork.SaveChangesAsync().Result;
         }
 
-        public bool HasInvitations(int profileId)
+        public async Task<bool> HasInvitations(int profileId)
         {
-            return _invitationService.Queryable()
-                .Any(x => x.RecipientProfileId == profileId && !x.Read);
+            return await _invitationService.Queryable().AnyAsync(x => x.RecipientProfileId == profileId && !x.Read);
+        }
+
+        public async Task GarbageInvitationCollection(int profileId)
+        {
+            var invitations = await _invitationService.Queryable()
+                .Where(x => x.RecipientProfileId == profileId).ToListAsync();
+
+            bool anyDeleted = false;
+            foreach (var invitation in invitations)
+            {
+                if (!await _teamsManager.TeamExists(invitation.TeamGuid))
+                {
+                    _invitationService.Delete(invitation);
+                    anyDeleted = true;
+                }
+            }
+
+            if (anyDeleted) await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<List<UserInvitationsDto>> GetInvitations(int profileId)
