@@ -161,7 +161,7 @@ namespace OWM.UI.Web.Pages
             }
             else if (_succeeded)
             {
-                return LocalRedirect(returnUrl + $"?userid={_uId}");
+                return LocalRedirect($"/Verify?userid={_uId}");
             }
 
             return Page();

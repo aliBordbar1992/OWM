@@ -16,7 +16,11 @@ namespace OWM.Application.Services.Interfaces
         event EventHandler<UserUpdatedArgs> UserUpdated;
         event EventHandler<UpdateFailedArgs> UpdateFailed;
 
+        event EventHandler<string> UserExternalLoginAdded;
+        event EventHandler<List<IdentityError>> UserExternalLoginAddFailed;
+
         Task Register(UserRegistrationDto userRegistrationDto, ExternalLoginInfo info = null);
         Task Update(UserRegistrationDto userRegistrationDto);
+        Task AddExternalLogin(ExternalLoginInfo info);
     }
 }

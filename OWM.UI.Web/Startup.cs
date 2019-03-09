@@ -66,7 +66,21 @@ namespace OWM.UI.Web
                     o.ClaimActions.MapJsonKey(ClaimTypes.MobilePhone, "phone_number");
                     o.ClaimActions.MapJsonKey(ClaimTypes.DateOfBirth, "birthdate");
                     o.ClaimActions.MapJsonKey(ClaimTypes.Thumbprint, "picture");
-                });
+                })
+                .AddFacebook(o =>
+                {
+                    o.AppId = Configuration["Authentication:Facebook:AppId"];
+                    o.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                    o.Scope.Add("user_gender");
+                    o.Scope.Add("user_birthday");
+                    o.Scope.Add("email");
+                    o.Fields.Add("first_name");
+                    o.Fields.Add("last_name");
+                    o.Fields.Add("gender");
+                    o.Fields.Add("picture");
+                    o.Fields.Add("email");
+                    o.Fields.Add("birthday");
+                }); ;
 
             services.AddIdentity<User, Role>()
                 .AddUserStore<UserStore<User, Role, OwmContext, string, UserClaim, UserRole, UserLogin, UserToken, RoleClaim>>()

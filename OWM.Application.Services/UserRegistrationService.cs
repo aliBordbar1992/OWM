@@ -10,6 +10,7 @@ using OWM.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using URF.Core.Abstractions;
 
@@ -32,6 +33,8 @@ namespace OWM.Application.Services
         public event EventHandler<RegistrationFailedArgs> RegisterFailed;
         public event EventHandler<UserUpdatedArgs> UserUpdated;
         public event EventHandler<UpdateFailedArgs> UpdateFailed;
+        public event EventHandler<string> UserExternalLoginAdded;
+        public event EventHandler<List<IdentityError>> UserExternalLoginAddFailed;
 
         public UserRegistrationService(IServiceProvider serviceProvider, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
@@ -51,10 +54,18 @@ namespace OWM.Application.Services
         {
             var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.VerfiedEmail, userRegistrationDto.Phone);
             var identityResult = await _userManager.CreateAsync(user, userRegistrationDto.Password);
-            if (identityResult.Succeeded == false) OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+            if (identityResult.Succeeded == false)
+            {
+                OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+                return;
+            }
 
             if (info != null) identityResult = await _userManager.AddLoginAsync(user, info);
-            if (identityResult.Succeeded == false) OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+            if (identityResult.Succeeded == false)
+            {
+                OnRegistrationFailed(new RegistrationFailedArgs(identityResult.Errors));
+                return;
+            }
 
             await _userManager.AddToRoleAsync(user, ApplicationRoles.User);
 
@@ -148,6 +159,36 @@ namespace OWM.Application.Services
             }
         }
 
+        public async Task AddExternalLogin(ExternalLoginInfo info)
+        {
+            string email = info.Principal.HasClaim(c => c.Type == ClaimTypes.Email)
+                ? info.Principal.FindFirstValue(ClaimTypes.Email)
+                : "";
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                var identityResult = await _userManager.AddLoginAsync(user, info);
+                if (identityResult.Succeeded)
+                {
+                    OnUserExternalLoginAdded($"{info.LoginProvider} added successfully to account.");
+                }
+                else
+                {
+                    OnUserExternalLoginAddFailed(identityResult.Errors.ToList());
+                    return;
+                }
+
+                bool verifiedEmail = info.Principal.HasClaim(c => c.Type == "verified_email") &&
+                                     (info.Principal.FindFirstValue("verified_email").Equals("True"));
+
+                if (verifiedEmail)
+                {
+                    string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    await _userManager.ConfirmEmailAsync(user, token);
+                }
+            }
+        }
+
         private Country GetCountry(string countryName)
         {
             if (CountryExistsInDb(countryName))
@@ -194,6 +235,9 @@ namespace OWM.Application.Services
 
         protected virtual void OnUserRegistered(UserRegisteredArgs e) => UserRegistered?.Invoke(this, e);
         protected virtual void OnRegistrationFailed(RegistrationFailedArgs e) => RegisterFailed?.Invoke(this, e);
+
+        protected virtual void OnUserExternalLoginAdded(string e) => UserExternalLoginAdded?.Invoke(this, e);
+        protected virtual void OnUserExternalLoginAddFailed(List<IdentityError> e) => UserExternalLoginAddFailed?.Invoke(this, e);
 
         protected virtual void OnUserUpdated(UserUpdatedArgs e) => UserUpdated?.Invoke(this, e);
         protected virtual void OnUpdateFailed(UpdateFailedArgs e) => UpdateFailed?.Invoke(this, e);
