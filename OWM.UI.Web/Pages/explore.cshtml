@@ -114,7 +114,7 @@
             searchObj.Occupation = $('#Occupations :selected').val();
             AjaxPost({
                 url: '/Teams/Search',
-                param: JSON.stringify({ search: searchObj, skip: 0, take: 10 }),
+                param: JSON.stringify(searchObj),
                 func: createList
             });
 
