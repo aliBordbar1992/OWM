@@ -8,6 +8,50 @@
     input[type="checkbox"] {
         margin-bottom: 2px;
     }
+    .divider-text {
+        position: relative;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+    .divider-text span {
+        padding: 7px;
+        font-size: 12px;
+        position: relative;   
+        z-index: 2;
+    }
+    .divider-text:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        border-bottom: 1px solid #ddd;
+        top: 55%;
+        left: 0;
+        z-index: 1;
+    }
+    .btn-Facebook {
+        background-color: #405D9D;
+        color: #fff;
+    }
+    .btn-Facebook:hover {
+        background-color: #29437e;
+        color: #fff;
+    }
+    .btn-Google {
+        background-color: #dc4b39;
+        color: #fff;
+    }
+    .btn-Google:hover {
+        background-color: #ca301d;
+        color: #fff;
+    }
+    .fa-facebook-f {
+        margin-bottom: 3px;
+        margin-right: 10px;
+    }
+    .fa-google {
+        margin: 0 10px 2px 0;
+    }
 </style>
 <div class="container">
     <div class="row">
@@ -48,15 +92,25 @@
                     <span class="x-small">Don't have an account? </span>
                     <a class="text-primary x-small" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Sign up</a>
                 </form>
-                or login with
                 <form asp-page="/ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                     <div>
-                        <p>
-                            @foreach (var provider in Model.ExternalLogins)
-                            {
-                                <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                            }
+                        <p class="divider-text">
+                            <span class="bg-white">Or login with</span>
                         </p>
+                        @foreach (var provider in Model.ExternalLogins)
+                        {
+                            <button type="submit" class="btn btn-block btn-@provider.DisplayName" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                                @if (provider.DisplayName == "Google")
+                                {
+                                    <i class="fab fa-google"></i>
+                                }
+                                @if (provider.DisplayName == "Facebook")
+                                {
+                                    <i class="fab fa-facebook-f"></i>
+                                }
+                                @provider.DisplayName
+                            </button>
+                        }
                     </div>
                 </form>
             </div>  
