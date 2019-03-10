@@ -22,7 +22,7 @@ namespace OWM.UI.Web.Controllers
         }
 
         [HttpPost("/Teams/Search/")]
-        public JsonResult Post([FromBody] SearchTeamDto search, int skip, int take)
+        public SearchModel Post([FromBody] SearchModel search)
         {
             int total = _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
 
