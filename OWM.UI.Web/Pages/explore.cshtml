@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="list-group">
                 <div class="searchbox list-group-item mb-1 p-1 pl-2">
-                    <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;"/>
+                    <input placeholder="Search Teams" id="searchTeams" class="border-0 w-100" style="height: 40px;"/>
                     <img src="~/img/loading.gif" class="loading-md-exp"/>
                 </div>
                 <div class="list-group-item bg-gray pl-4 pr-4 pt-2 pb-2">
@@ -20,13 +20,13 @@
                         <div class="col-md-8 text-left">
                             <div class="btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-sm btn-outline-success active">
-                                    <input type="radio" name="teammembers" id="option1" autocomplete="off" checked value-data="1"> Acending
+                                    <input type="radio" name="teamMembers" id="option1" autocomplete="off" checked value-data="1"> Acending
                                 </label>
                                 <label class="btn btn-sm btn-outline-success">
-                                    <input type="radio" name="teammembers" id="option2" autocomplete="off" value-data="2"> Decending
+                                    <input type="radio" name="teamMembers" id="option2" autocomplete="off" value-data="2"> Decending
                                 </label>
                                 <label class="btn btn-sm btn-outline-success">
-                                    <input type="radio" name="teammembers" id="option3" autocomplete="off" value-data="0"> Off
+                                    <input type="radio" name="teamMembers" id="option3" autocomplete="off" value-data="0"> Off
                                 </label>
                             </div>
                         </div>
@@ -36,13 +36,13 @@
                         <div class="col-md-8 text-left">
                             <div class="btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-sm btn-outline-success active">
-                                    <input type="radio" name="milespledged" id="option4" autocomplete="off" checked value-data="1"> Acending
+                                    <input type="radio" name="milesPledged" id="option4" autocomplete="off" checked value-data="1"> Acending
                                 </label>
                                 <label class="btn btn-sm btn-outline-success">
-                                    <input type="radio" name="milespledged" id="option5" autocomplete="off" value-data="2"> Decending
+                                    <input type="radio" name="milesPledged" id="option5" autocomplete="off" value-data="2"> Decending
                                 </label>
                                 <label class="btn btn-sm btn-outline-success">
-                                    <input type="radio" name="milespledged" id="option6" autocomplete="off" value-data="0"> Off
+                                    <input type="radio" name="milesPledged" id="option6" autocomplete="off" value-data="0"> Off
                                 </label>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-3" id="teamsearchresult"></div>
+            <div class="mt-3" id="teamSearchResult"></div>
         </div>
         <div class="col-md-3"></div>
     </div>
@@ -71,48 +71,51 @@
 <script>
     $(function () {
         $('.chosen-select').chosen({ width: "100%" });
-        $('#searchteams').focus();
+        $('#searchTeams').focus();
         var loading = $('.loading-md-exp');
-        var teamSerachResult = $('#teamsearchresult');
+        var teamSearchResult = $('#teamSearchResult');
 
-        $('input[name=teammembers]').on('change', function () {
-            FilterTeams();
+        $('input[name=teamMembers]').on('change', function () {
+            filterTeams();
         });
 
-        $('input[name=milespledged]').on('change', function () {
-            FilterTeams();
+        $('input[name=milesPledged]').on('change', function () {
+            filterTeams();
         });
 
         $('.chosen-select').on('change', function () {
-            FilterTeams();
+            filterTeams();
         });
 
         var typingTimer;
         var doneTypingInterval = 1000;
-        var $input = $('#searchteams');
+        var $input = $('#searchTeams');
         $input.on('keyup', function () {
             loading.show();
             clearTimeout(typingTimer);
-            typingTimer = setTimeout(FilterTeams, doneTypingInterval);
+            typingTimer = setTimeout(filterTeams, doneTypingInterval);
         });
         $input.on('keydown', function () {
-            clearTimeout(FilterTeams);
+            clearTimeout(filterTeams);
         });
 
-        function FilterTeams() {
+        function filterTeams() {
             loading.show();
-            teamSerachResult.empty();
+            teamSearchResult.empty();
             if ($input.val() === '') {
-                teamSerachResult.empty();
+                teamSearchResult.empty();
                 loading.hide();
                 return;
             }
-            var teamMemebers = $(document).find('input[type=Radio][name=teammembers]').attr('value-data');
-            var milesPledged = $(document).find('input[type=Radio][name=milespledged]').attr('value-data');
-            var occupation = $('#Occupations :selected').val();
-            AjaxGet({
-                url: '/Teams/SearchTeams',
-                param: { tm: teamMemebers, mp: milesPledged, oc: occupation },
+            var searchObj = {};
+            searchObj.SearchExpression = $input.val();
+            searchObj.MemberOrder = $(document).find('input[type=Radio][name=teamMembers]').attr('value-data');
+            searchObj.MilesOrder = $(document).find('input[type=Radio][name=milesPledged]').attr('value-data');
+            searchObj.Occupation = $('#Occupations :selected').val();
+            console.log(JSON.stringify({ search: searchObj }));
+            AjaxPost({
+                url: '/Teams/Search',
+                param: JSON.stringify({ search: searchObj }),
                 func: createList
             });
 
@@ -126,7 +129,7 @@
                     var sr = html.replace("#m#", e[i].members).replace("#mp#", e[i].milesPledged)
                         .replace('#mc#', e[i].milesCompeleted).replace('#teamname#', e[i].teamName)
                         .replace('#datecreated#', e[i].dateCreated).replace("#desc#", e[i].description);
-                    $(sr).hide().appendTo(teamSerachResult).show('slow');
+                    $(sr).hide().appendTo(teamSearchResult).show('slow');
                 }
                 loading.hide();
             }
