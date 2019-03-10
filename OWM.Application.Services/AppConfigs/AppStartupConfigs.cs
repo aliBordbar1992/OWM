@@ -43,6 +43,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<IOccupationInformationService, OccupationInformationService>();
             services.AddScoped<ITeamInvitationsService, TeamInvitationsService>();
             services.AddScoped<ITeamMilesService, TeamMilesService>();
+            services.AddScoped<ITeamSearchService, TeamSearchService>();
         }
     }
 }

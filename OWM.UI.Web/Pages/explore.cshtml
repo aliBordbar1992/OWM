@@ -102,20 +102,19 @@
         function filterTeams() {
             loading.show();
             teamSearchResult.empty();
-            if ($input.val() === '') {
-                teamSearchResult.empty();
-                loading.hide();
-                return;
-            }
+            //if ($input.val() === '') {
+            //    teamSearchResult.empty();
+            //    loading.hide();
+            //    return;
+            //}
             var searchObj = {};
-            searchObj.SearchExpression = $input.val();
-            searchObj.MemberOrder = $(document).find('input[type=Radio][name=teamMembers]').attr('value-data');
+            searchObj.SearchExpression = $('#searchTeams').val();
+            searchObj.MembersOrder = $(document).find('input[type=Radio][name=teamMembers]').attr('value-data');
             searchObj.MilesOrder = $(document).find('input[type=Radio][name=milesPledged]').attr('value-data');
             searchObj.Occupation = $('#Occupations :selected').val();
-            console.log(JSON.stringify({ search: searchObj }));
             AjaxPost({
                 url: '/Teams/Search',
-                param: JSON.stringify({ search: searchObj }),
+                param: JSON.stringify({ search: searchObj, skip: 0, take: 10 }),
                 func: createList
             });
 
@@ -126,9 +125,10 @@
 
             function createList(e) {
                 for (var i = 0; i < e.length; i++) {
-                    var sr = html.replace("#m#", e[i].members).replace("#mp#", e[i].milesPledged)
-                        .replace('#mc#', e[i].milesCompeleted).replace('#teamname#', e[i].teamName)
-                        .replace('#datecreated#', e[i].dateCreated).replace("#desc#", e[i].description);
+                    console.log(e[i]);
+                    var sr = html.replace("#m#", e[i].teamMembersCount).replace("#mp#", e[i].totalMilesPledged)
+                        .replace('#mc#', e[i].totalMilesCompleted).replace('#teamname#', e[i].teamName)
+                        .replace('#datecreated#', e[i].str_DateCreated).replace("#desc#", e[i].description);
                     $(sr).hide().appendTo(teamSearchResult).show('slow');
                 }
                 loading.hide();

@@ -1,37 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using OWM.Application.Services.Dtos;
+using OWM.Application.Services.Interfaces;
+using OWM.Domain.Entities.Enums;
 using OWM.UI.Web.Enums;
+using EnumOrderBy = OWM.Application.Services.Enums.EnumOrderBy;
 
 namespace OWM.UI.Web.Controllers
 {
     [Route("api/[Controller]")]
     public partial class SearchTeams:Controller
     {
-        public class SearchModel
+        private readonly ITeamSearchService _search;
+
+        public SearchTeams(ITeamSearchService search)
         {
-            public string SearchExpression { get; set; }
-            public int MilesOrder { get; set; }
-            public int MemberOrder { get; set; }
-            public string Occupation { get; set; }
+            _search = search;
         }
 
         [HttpPost("/Teams/Search/")]
-        public JsonResult Post(SearchModel search)
+        public JsonResult Post([FromBody] SearchTeamDto search, int skip, int take)
         {
-            var searchedTeamlist = new List<Teams> {new Teams()
-            {
-                TeamName = "London Foundation",
-                Occupation = "Europian",
-                Members = 5,
-                MilesPledged = 25,
-                MilesCompeleted = 17,
-                Description = "Some quick example text to build on the card title and make up the bulk of the cards content.",
-                DateCreated = FullDateTime("15/01/2016")
-            }};
-            return new JsonResult(searchedTeamlist);
+            int total = _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
+
+            var searchedTeamList = _search.Search(search, skip, 10).Result;
+            return new JsonResult(searchedTeamList);
         }
+
 
         public string FullDateTime(string date)
         {
@@ -51,5 +49,8 @@ namespace OWM.UI.Web.Controllers
             public string Description { get; set; }
             public string DateCreated { get; set; }
         }
+
+        //public ActionResult Search(int page = 1, string term = "", SortBy sortBy = SortBy.AddDate, SortOrder sortOrder = SortOrder.Desc)
+
     }
 }
