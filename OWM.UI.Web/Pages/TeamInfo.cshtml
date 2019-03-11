@@ -15,9 +15,9 @@
                     <h6 class="mb-0 text-muted">
                         @Model.TeamInformation.Description
                     </h6>
-                    <div class="profile-work text-left">
-                        <p class="mt-4 mb-1">Occupations</p>
-                        <hr class="mt-1 mb-1" />
+                    <div class="profile-work text-left" id="badges">
+                        <hr class="mt-4 mb-1" />
+                        <p class="mt-1 mb-1 small">Occupations</p>
                         @foreach (string ocp in Model.TeamInformation.Occupations)
                         {
                             <span class="badge" href="">@ocp</span>
@@ -160,3 +160,19 @@
         </div>
     </div>
 </div> 
+<script>
+    $(function () {
+        var x = 0;
+        $('#badges span.badge').each(function () {
+            $(this).addClass(getRandomClass());
+            x++;
+        });
+        function getRandomClass() {
+            var classes = ["badge-info", "badge-primary", "badge-secondary", "badge-success", "badge-danger", "badge-warning", "badge-dark"];
+            if (x === classes.length - 1) {
+                x = 0;
+            }
+            return classes[x];
+        }
+    })
+</script>

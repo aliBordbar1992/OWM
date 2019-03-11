@@ -32,8 +32,6 @@ namespace OWM.UI.Web.Controllers
         public int SearchTeamsCount([FromBody] SearchTeamDto search)
         {
             return  _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
-            //var searchedTeamList = _search.Search(search, 0, 10).Result;
-            //return new JsonResult(searchedTeamList);
         }
     }
 }

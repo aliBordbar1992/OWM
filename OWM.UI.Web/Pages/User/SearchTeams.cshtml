@@ -91,6 +91,10 @@
             filterTeams();
         });
 
+        var take = 3, skip = 0 , rows = 0;
+        var elements = [];
+        var isDataAvailable = true, isPreviousEventComplete = true;
+        var load = '<img src="/img/loading.gif" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
         var typingTimer;
         var doneTypingInterval = 1000;
         var $input = $('#searchteams');
@@ -106,6 +110,7 @@
         function filterTeams() {
             loading.show();
             teamSerachResult.empty();
+            take = 3, skip = 0;
             sendRequest();
         }
 
@@ -115,10 +120,6 @@
             sendRequest();
         }, 'html');
 
-        var x = 0, y = 3 , step = 3;
-        var elements = [];
-        var isDataAvailable = true, isPreviousEventComplete = true;
-
         function sendRequest() {
             var search = {};
             search.SearchExpression = $input.val();
@@ -126,18 +127,18 @@
             search.MilesOrder = $(document).find('input[name=milespledged]:checked').data().value;
             search.Occupation = $('#Occupations :selected').val() !== "" ? $('#Occupations :selected').val() : -1;
             search.SrchAgeRange = $('#Ages :selected').val();
-            search.Take = step;
-            search.Skip = x;
+            search.Take = take;
+            search.Skip = skip;
 
-            AjaxPost({
-                url: '/api/Search/Count',
-                param: JSON.stringify(search),
-                func: counterr
-            });
+            //AjaxPost({
+            //    url: '/api/Search/Count',
+            //    param: JSON.stringify(search),
+            //    func: counterr
+            //});
 
-            function counterr(e) {
-                console.log(e);
-            }
+            //function counterr(e) {
+            //    rows = e;
+            //}
 
             AjaxPost({
                 url: '/api/Teams/Search',
@@ -148,6 +149,10 @@
 
         
         function createList(e) {
+            if (!e.length) {
+                isDataAvailable = false;
+                return;
+            }
             elements = [];
             for (var i = 0; i < e.length; i++) {
                 elements.push(html
@@ -164,26 +169,22 @@
             writeElementsToDom();
         }
 
-        var load = '<img src="/img/loading.gif" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
+        
         function writeElementsToDom() {
-            if (elements.length < 1) {
+            if (elements.length > 0) {
+                isDataAvailable = true;
+                for (var i = 0; i < elements.length; i++) {
+                    $(elements[i]).hide().appendTo(teamSerachResult).show('slow');
+                    skip++;
+                }
+            } else {
                 isDataAvailable = false;
-                return;
             }
-            var k = x;
-            for (k ; k < y; k++) {
-                if (x >= elements.length) {
-                    break;
-                };
-                $(elements[x]).hide().appendTo(teamSerachResult).show('slow');
-                x++;
-            }
-            y = x + 3;
         }
 
         
         $(window).scroll(function () {
-            if ($(document).height() - 350 <= $(window).scrollTop() + $(window).height()) {
+            if ($(document).height() - 400 <= $(window).scrollTop() + $(window).height()) {
                 if (isPreviousEventComplete && isDataAvailable) {
                     isPreviousEventComplete = false;
                     var loadingElement = $(load);
