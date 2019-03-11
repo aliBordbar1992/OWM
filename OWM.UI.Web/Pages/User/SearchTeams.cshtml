@@ -10,8 +10,8 @@
 <hr class="mb-0 mb-3" />
 <div class="pl-4 pr-4" id="main">
     <div class="list-group w-100 m-auto">
-        <div class="searchbox list-group-item mb-1 p-1 pl-2">
-            <input placeholder="Search Teams" id="searchteams" class="border-0 w-100" style="height: 40px;" />
+        <div class="searchbox list-group-item p-1 pl-2" style="margin-bottom: .5px;">
+            <input placeholder="Search Teams" autocomplete="off" id="searchteams" class="border-0 w-100" style="height: 40px;" />
             <img src="~/img/loading.gif" class="loading-md-exp" />
         </div>
         <div class="list-group-item bg-gray pl-4 pr-4 pt-2 pb-2">
@@ -51,7 +51,18 @@
                 <div class="col-md-3 text-left" style="line-height: 37px;">Occupation</div>
                 <div class="col-md-9 text-left">
                     <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="Model.OccupationOptions">
-                        <option></option>
+                        <option value="-1">All</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-3 text-left" style="line-height: 37px;">Age range</div>
+                <div class="col-md-9 text-left">
+                    <select class="chosen-select" data-placeholder="" id="Ages">
+                        <option value="0">Below 14</option>
+                        <option value="1">15 To 17</option>
+                        <option value="2">17 Plus</option>
+                        <option value="3" selected>All</option>
                     </select>
                 </div>
             </div>
@@ -93,39 +104,66 @@
         });
 
         function filterTeams() {
-            var html;
-            $.get("/contents/TeamSearchTemplate.html", function(htmlString) {
-                html = htmlString;
-            }, 'html');
-
             loading.show();
             teamSerachResult.empty();
-            if ($input.val() === '') {
-                teamSerachResult.empty();
-                loading.hide();
-                return;
-            }
+            SendRequest();
+        }
+
+        var html;
+        $.get("/contents/TeamSearchTemplate.html", function(htmlString) {
+            html = htmlString;
+            SendRequest();
+        }, 'html');
+
+        function SendRequest() {
             var search = {};
             search.SearchExpression = $input.val();
             search.MemberOrder = $(document).find('input[name=teammembers]:checked').attr('value-data');
             search.MilesOrder = $(document).find('input[name=milespledged]:checked').attr('value-data');
-            search.Occupation = $('#Occupations :selected').val();
+            search.Occupation = $('#Occupations :selected').val() !== "" ? $('#Occupations :selected').val() : -1;
+            search.SrchAgeRange = $('#Ages :selected').val();
 
             AjaxPost({
-                url: '/Teams/Search/',
+                url: '/api/searchteams',
                 param: JSON.stringify(search),
                 func: createList
             });
-
-            function createList(e) {
-                for (var i = 0; i < e.length; i++) {
-                    var sr = html.replace("#m#", e[i].members).replace("#mp#", e[i].milesPledged)
-                        .replace('#mc#', e[i].milesCompeleted).replace('#teamname#', e[i].teamName)
-                        .replace('#datecreated#', e[i].dateCreated).replace("#desc#", e[i].description);
-                    $(sr).hide().appendTo(teamSerachResult).show('slow');
-                }
-                loading.hide();
-            }
         }
+
+        var elements = [];
+        var x = 0, y = 2;
+        function createList(e) {
+            elements = [];
+            x = 0;
+            y = 2;
+            for (var i = 0; i < e.length; i++) {
+                elements.push(html.replace("#m#", e[i].teamMembersCount).replace("#mp#", e[i].totalMilesPledged)
+                    .replace('#mc#', e[i].totalMilesCompleted).replace('#teamname#', e[i].teamName)
+                    .replace('#datecreated#', e[i].str_DateCreated).replace("#desc#", e[i].description.substring(0, 150) + ' ...')
+                    .replace("#occ#", e[i].occupations.join(' / ')));
+            }
+            //console.log(elements);
+            loading.hide();
+            WriteElementsToDom();
+        }
+
+        var load = "<img src=\"/img/loading.gif\" class=\"loading-md-exp\" />";
+        function WriteElementsToDom() {
+            for (j = x; j <= y; j++) {
+                if (x >= elements.length)break;
+                $(elements[x]).hide().appendTo(teamSerachResult).show('slow');
+                x++;
+            }
+            y = x + 2;
+            console.log('x is : ' + x + ' and  y is :' + y + ' element length : ' + elements.length );
+        }
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() >= $('#teamsearchresult').height() - 170 && $(window).scrollTop() > 100) {
+                setTimeout(function() {
+                    WriteElementsToDom()
+                }, 500);
+            }
+        });
     });
 </script>

@@ -12,7 +12,7 @@ using EnumOrderBy = OWM.Application.Services.Enums.EnumOrderBy;
 namespace OWM.UI.Web.Controllers
 {
     [Route("api/[Controller]")]
-    public partial class SearchTeams:Controller
+    public class SearchTeams:Controller
     {
         private readonly ITeamSearchService _search;
 
@@ -21,11 +21,10 @@ namespace OWM.UI.Web.Controllers
             _search = search;
         }
 
-        [HttpPost("/Teams/Search/")]
-        public JsonResult Post([FromBody] SearchTeamDto search)
+        [HttpPost("/api/searchteams")]
+        public JsonResult SearchTeamsDto([FromBody] SearchTeamDto search)
         {
             int total = _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
-
             var searchedTeamList = _search.Search(search, 0, 10).Result;
             return new JsonResult(searchedTeamList);
         }

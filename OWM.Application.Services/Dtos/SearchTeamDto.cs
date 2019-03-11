@@ -9,7 +9,7 @@ namespace OWM.Application.Services.Dtos
         public string SearchExpression { get; set; }
         public int MilesOrder { get; set; }
         public int MembersOrder { get; set; }
-        public int َSrchAgeRange { get; set; }
+        public int SrchAgeRange { get; set; }
         public EnumOrderBy MilesOrderBy => (EnumOrderBy) MilesOrder;
         public EnumOrderBy MemberOrderBy => (EnumOrderBy) MembersOrder;
         public AgeRange AgeRange => (AgeRange) SrchAgeRange;

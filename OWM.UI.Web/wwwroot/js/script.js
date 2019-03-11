@@ -88,8 +88,7 @@ function AjaxPost(t) {
         type: "Post",
         url: t.url,
         data: t.param,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
+        contentType: "application/json",
         success: t.func,
         error: t.err
     })
