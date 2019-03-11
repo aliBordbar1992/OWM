@@ -14,5 +14,7 @@ namespace OWM.Application.Services.Dtos
         public EnumOrderBy MemberOrderBy => (EnumOrderBy) MembersOrder;
         public AgeRange AgeRange => (AgeRange) SrchAgeRange;
         public int Occupation { get; set; }
+        public int Take { get; set; }
+        public int Skip { get; set; }
     }
 }

@@ -21,12 +21,19 @@ namespace OWM.UI.Web.Controllers
             _search = search;
         }
 
-        [HttpPost("/api/searchteams")]
-        public JsonResult SearchTeamsDto([FromBody] SearchTeamDto search)
+        [HttpPost("/api/Teams/Search")]
+        public JsonResult SearchTeamsList([FromBody] SearchTeamDto search)
         {
-            int total = _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
-            var searchedTeamList = _search.Search(search, 0, 10).Result;
+            var searchedTeamList = _search.Search(search, search.Skip, search.Take).Result;
             return new JsonResult(searchedTeamList);
+        }
+
+        [HttpPost("/api/Search/Count")]
+        public int SearchTeamsCount([FromBody] SearchTeamDto search)
+        {
+            return  _search.Count(search.SearchExpression, search.Occupation, search.AgeRange).Result;
+            //var searchedTeamList = _search.Search(search, 0, 10).Result;
+            //return new JsonResult(searchedTeamList);
         }
     }
 }

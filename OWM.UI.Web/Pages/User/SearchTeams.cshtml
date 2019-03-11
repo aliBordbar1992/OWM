@@ -20,13 +20,13 @@
                 <div class="col-md-9 text-left">
                     <div class="btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-sm btn-outline-success active">
-                            <input type="radio" name="teammembers" id="option1" autocomplete="off" checked value-data="1"> Acending
+                            <input type="radio" name="teammembers" id="option1" autocomplete="off" data-value="1"> Acending
                         </label>
                         <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="teammembers" id="option2" autocomplete="off" value-data="2"> Decending
+                            <input type="radio" name="teammembers" id="option2" autocomplete="off" data-value="2"> Decending
                         </label>
                         <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="teammembers" id="option3" autocomplete="off" value-data="0"> Off
+                            <input type="radio" name="teammembers" id="option3" autocomplete="off" data-value="0" checked> Off
                         </label>
                     </div>
                 </div>
@@ -36,13 +36,13 @@
                 <div class="col-md-9 text-left">
                     <div class="btn-group-toggle" data-toggle="buttons">
                         <label class="btn btn-sm btn-outline-success active">
-                            <input type="radio" name="milespledged" id="option4" autocomplete="off" checked value-data="1"> Acending
+                            <input type="radio" name="milespledged" id="option4" autocomplete="off" data-value="1"> Acending
                         </label>
                         <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="milespledged" id="option5" autocomplete="off" value-data="2"> Decending
+                            <input type="radio" name="milespledged" id="option5" autocomplete="off" data-value="2"> Decending
                         </label>
                         <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="milespledged" id="option6" autocomplete="off" value-data="0"> Off
+                            <input type="radio" name="milespledged" id="option6" autocomplete="off" data-value="0" checked> Off
                         </label>
                     </div>
                 </div>
@@ -68,8 +68,6 @@
             </div>
         </div>
     </div>
-    
-
 </div>
 
 <div class="container mt-3" id="teamsearchresult"></div>
@@ -117,40 +115,61 @@
             sendRequest();
         }, 'html');
 
+        var x = 0, y = 3 , step = 3;
+        var elements = [];
+        var isDataAvailable = true, isPreviousEventComplete = true;
+
         function sendRequest() {
             var search = {};
             search.SearchExpression = $input.val();
-            search.MemberOrder = $(document).find('input[name=teammembers]:checked').attr('value-data');
-            search.MilesOrder = $(document).find('input[name=milespledged]:checked').attr('value-data');
+            search.MembersOrder = $(document).find('input[name=teammembers]:checked').data().value;
+            search.MilesOrder = $(document).find('input[name=milespledged]:checked').data().value;
             search.Occupation = $('#Occupations :selected').val() !== "" ? $('#Occupations :selected').val() : -1;
             search.SrchAgeRange = $('#Ages :selected').val();
+            search.Take = step;
+            search.Skip = x;
 
             AjaxPost({
-                url: '/api/searchteams',
+                url: '/api/Search/Count',
+                param: JSON.stringify(search),
+                func: counterr
+            });
+
+            function counterr(e) {
+                console.log(e);
+            }
+
+            AjaxPost({
+                url: '/api/Teams/Search',
                 param: JSON.stringify(search),
                 func: createList
             });
         }
 
-        var elements = [];
-        var x = 0, y = 3;
+        
         function createList(e) {
             elements = [];
-            x = 0;
-            y = 3;
             for (var i = 0; i < e.length; i++) {
-                elements.push(html.replace("#m#", e[i].teamMembersCount).replace("#mp#", e[i].totalMilesPledged)
-                    .replace('#mc#', e[i].totalMilesCompleted).replace('#teamname#', e[i].teamName)
-                    .replace('#datecreated#', e[i].str_DateCreated).replace("#desc#", e[i].description.substring(0, 150) + ' ...')
+                elements.push(html
+                    .replace("#m#", e[i].teamMembersCount)
+                    .replace("#mp#", e[i].totalMilesPledged)
+                    .replace('#mc#', e[i].totalMilesCompleted)
+                    .replace('#teamname#', e[i].teamName)
+                    .replace('#datecreated#', e[i].str_DateCreated)
+                    .replace("#desc#", e[i].description.substring(0, 150) + ' ...')
+                    .replace("#teamid#", e[i].teamId)
                     .replace("#occ#", e[i].occupations.join(' / ')));
             }
             loading.hide();
             writeElementsToDom();
         }
 
-        var isDataAvailable = true ,isPreviousEventComplete = true;
         var load = '<img src="/img/loading.gif" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
         function writeElementsToDom() {
+            if (elements.length < 1) {
+                isDataAvailable = false;
+                return;
+            }
             var k = x;
             for (k ; k < y; k++) {
                 if (x >= elements.length) {
@@ -159,12 +178,7 @@
                 $(elements[x]).hide().appendTo(teamSerachResult).show('slow');
                 x++;
             }
-            if (x < elements.length) {
-                isDataAvailable = true;
-                y = x + 3;
-            } else {
-                isDataAvailable = false;
-            }
+            y = x + 3;
         }
 
         
@@ -175,8 +189,7 @@
                     var loadingElement = $(load);
                     loadingElement.appendTo(teamSerachResult);
                     setTimeout(function() {
-                        writeElementsToDom();
-                        console.log('isDataAvailable : ' + isDataAvailable);
+                        sendRequest();
                         isPreviousEventComplete = true;
                         loadingElement.remove();
                     } , 1000);

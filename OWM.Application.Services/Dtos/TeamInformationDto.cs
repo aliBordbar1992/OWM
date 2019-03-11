@@ -6,6 +6,7 @@ namespace OWM.Application.Services.Dtos
 {
     public class TeamInformationDto
     {
+        public int TeamId { get; set; }
         public string TeamName { get; set; }
         public DateTime DateCreated { get; set; }
         public string str_DateCreated => DateCreated.ToString(Constants.DateFormat_LongMonth);

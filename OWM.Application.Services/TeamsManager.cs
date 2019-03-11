@@ -207,12 +207,13 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task<int> UnKickMember(int profileId, int teamId, int memberProfileId)
+        public async Task<int> UnKickMember(int teamId, int profileId, int memberProfileId)
         {
             try
             {
                 var team = await _teamService.Queryable()
-                    .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
+                    .Include(x => x.Members)
+                    .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId && m.IsCreator));
 
                 if (team == null) return -1;
 
@@ -276,6 +277,8 @@ namespace OWM.Application.Services
             var teams = await _teamService.Queryable()
                 .Include(x => x.PledgedMiles)
                 .ThenInclude(x => x.CompletedMiles)
+                .Include(x => x.PledgedMiles)
+                .ThenInclude(m => m.Profile)
                 .Where(x => x.Members.Any(m => m.ProfileId == profileId))
                 .ToListAsync();
 

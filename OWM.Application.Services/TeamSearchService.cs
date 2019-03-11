@@ -57,7 +57,7 @@ namespace OWM.Application.Services
                     : query.OrderByDescending(x => x.Members.Count);
             }
 
-            if (search.MemberOrderBy != EnumOrderBy.Default)
+            if (search.MilesOrderBy != EnumOrderBy.Default)
             {
                 query = search.MilesOrderBy == EnumOrderBy.Asc
                     ? query.OrderBy(x => x.PledgedMiles.Sum(p => p.Miles))
@@ -66,6 +66,7 @@ namespace OWM.Application.Services
 
             var result = await query.Select(team => new TeamInformationDto
             {
+                TeamId = team.Id,
                 TeamName = team.Name,
                 DateCreated = team.Created,
                 Description = team.ShortDescription,

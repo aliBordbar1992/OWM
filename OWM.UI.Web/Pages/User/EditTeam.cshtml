@@ -132,7 +132,7 @@
                                         if (member.IsKickedOut)
                                         {
                                             <div class="col-sm-2 text-right">
-                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#BlockMemberModal" onclick="UnBlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
+                                                <button class="btn-sm btn-danger" data-toggle="modal" data-target="#UnblockMemberModal" onclick="UnBlockMemberModalOpen(@Model.TeamId, @Model.ProfileId, @member.ProfileId, this);">Unblock</button>
                                             </div>
                                         }
                                         else
@@ -177,6 +177,20 @@
     </div>
 </div>
 
+<div class="modal fade" id="UnblockMemberModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body small bg-light rounded-top">
+                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to unblock <span class="text-danger" id="UnblockmodalUsername"></span> ?</p>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" blockuser class="btn btn-danger" onclick="unblockMember();">Yes, Unblock</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     var teamId, profielId, mprofileId;
     function BlockMemberModalOpen(t, p , mp , th) {
@@ -186,7 +200,7 @@
         mprofileId = mp;
     }
     function UnBlockMemberModalOpen(t, p , mp , th) {
-        $('#modalUsername').text(($(th).parent().parent().find('a')[0].innerText));
+        $('#UnblockmodalUsername').text(($(th).parent().parent().find('a')[0].innerText));
         teamId = t;
         profielId = p;
         mprofileId = mp;
@@ -206,11 +220,36 @@
     }
 
     function blockChangesApplied(e) {
+        location.reload();
         $('#BlockMemberModal').modal('toggle');
         ElementGreenalert('statusmessage', 'top center', e.displayMessage);
+        setTimeout(function () { location.reload(); }, 1000);
     }
 
     function blockErrorOccured(xhr, httpStatusMessage, customErrorMessage) {
+        ElementRedalert('BlockMemberModal', 'top center', xhr.responseText);
+    }
+
+    function unblockMember() {
+        AjaxGet({
+            url: '/api/unblockMember',
+            param: {
+                tId: teamId,
+                pId: profielId,
+                mpId: mprofileId
+            },
+            func: unblockChangesApplied,
+            err: unblockErrorOccured
+        });
+    }
+
+    function unblockChangesApplied(e) {
+        $('#UnblockMemberModal').modal('toggle');
+        ElementGreenalert('statusmessage', 'top center', e.displayMessage);
+        setTimeout(function() {location.reload();} , 1000);
+    }
+
+    function unblockErrorOccured(xhr, httpStatusMessage, customErrorMessage) {
         ElementRedalert('BlockMemberModal', 'top center', xhr.responseText);
     }
 

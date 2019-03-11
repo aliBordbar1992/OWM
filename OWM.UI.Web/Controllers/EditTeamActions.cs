@@ -55,7 +55,7 @@ namespace OWM.UI.Web.Controllers
             try
             {
                 int success = await _teamManager.UnKickMember(tId , pId , mpId);
-                string displayMessage = GetKickMemberMessage(success);
+                string displayMessage = GetUnKickMemberMessage(success);
                 return Json(new ApiResponse
                 {
                     Success = success == -1,
@@ -66,6 +66,21 @@ namespace OWM.UI.Web.Controllers
             catch (Exception e)
             {
                 return new BadRequestObjectResult("An error occurred during processing your request. Try again.");
+            }
+        }
+
+        private string GetUnKickMemberMessage(int success)
+        {
+            switch (success)
+            {
+                case -1:
+                    return "Team not found";
+                case -2:
+                    return "Member not found";
+                case -3:
+                    return "Something happened, try again.";
+                default:
+                    return "Member unblocked successfully";
             }
         }
 
@@ -100,7 +115,7 @@ namespace OWM.UI.Web.Controllers
                 case -3:
                     return "Something happened, try again.";
                 default:
-                    return "Member kick out from team";
+                    return "Member blocked successfully";
             }
         }
 
