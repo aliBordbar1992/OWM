@@ -68,6 +68,8 @@
             </div>
         </div>
     </div>
+    
+
 </div>
 
 <div class="container mt-3" id="teamsearchresult"></div>
@@ -106,16 +108,16 @@
         function filterTeams() {
             loading.show();
             teamSerachResult.empty();
-            SendRequest();
+            sendRequest();
         }
 
         var html;
         $.get("/contents/TeamSearchTemplate.html", function(htmlString) {
             html = htmlString;
-            SendRequest();
+            sendRequest();
         }, 'html');
 
-        function SendRequest() {
+        function sendRequest() {
             var search = {};
             search.SearchExpression = $input.val();
             search.MemberOrder = $(document).find('input[name=teammembers]:checked').attr('value-data');
@@ -131,38 +133,54 @@
         }
 
         var elements = [];
-        var x = 0, y = 2;
+        var x = 0, y = 3;
         function createList(e) {
             elements = [];
             x = 0;
-            y = 2;
+            y = 3;
             for (var i = 0; i < e.length; i++) {
                 elements.push(html.replace("#m#", e[i].teamMembersCount).replace("#mp#", e[i].totalMilesPledged)
                     .replace('#mc#', e[i].totalMilesCompleted).replace('#teamname#', e[i].teamName)
                     .replace('#datecreated#', e[i].str_DateCreated).replace("#desc#", e[i].description.substring(0, 150) + ' ...')
                     .replace("#occ#", e[i].occupations.join(' / ')));
             }
-            //console.log(elements);
             loading.hide();
-            WriteElementsToDom();
+            writeElementsToDom();
         }
 
-        var load = "<img src=\"/img/loading.gif\" class=\"loading-md-exp\" />";
-        function WriteElementsToDom() {
-            for (j = x; j <= y; j++) {
-                if (x >= elements.length)break;
+        var isDataAvailable = true ,isPreviousEventComplete = true;
+        var load = '<img src="/img/loading.gif" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
+        function writeElementsToDom() {
+            var k = x;
+            for (k ; k < y; k++) {
+                if (x >= elements.length) {
+                    break;
+                };
                 $(elements[x]).hide().appendTo(teamSerachResult).show('slow');
                 x++;
             }
-            y = x + 2;
-            console.log('x is : ' + x + ' and  y is :' + y + ' element length : ' + elements.length );
+            if (x < elements.length) {
+                isDataAvailable = true;
+                y = x + 3;
+            } else {
+                isDataAvailable = false;
+            }
         }
 
+        
         $(window).scroll(function () {
-            if ($(window).scrollTop() >= $('#teamsearchresult').height() - 170 && $(window).scrollTop() > 100) {
-                setTimeout(function() {
-                    WriteElementsToDom()
-                }, 500);
+            if ($(document).height() - 350 <= $(window).scrollTop() + $(window).height()) {
+                if (isPreviousEventComplete && isDataAvailable) {
+                    isPreviousEventComplete = false;
+                    var loadingElement = $(load);
+                    loadingElement.appendTo(teamSerachResult);
+                    setTimeout(function() {
+                        writeElementsToDom();
+                        console.log('isDataAvailable : ' + isDataAvailable);
+                        isPreviousEventComplete = true;
+                        loadingElement.remove();
+                    } , 1000);
+                }
             }
         });
     });
