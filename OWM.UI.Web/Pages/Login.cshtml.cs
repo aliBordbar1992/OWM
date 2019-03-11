@@ -154,6 +154,8 @@ namespace OWM.UI.Web.Pages
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            
             if (!ModelState.IsValid) return Page();
 
             if (!await IsEmailConfirmed() && !_notRegistered)
