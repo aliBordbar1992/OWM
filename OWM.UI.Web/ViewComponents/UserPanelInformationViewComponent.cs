@@ -1,11 +1,10 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OWM.Application.Services.Dtos;
-using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web.ViewComponents
 {
@@ -21,20 +20,18 @@ namespace OWM.UI.Web.ViewComponents
         {
             _signInManager = signInManager;
             _userInformation = userInformation;
-            this._invitations = invitations;
+            _invitations = invitations;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            if (_signInManager.IsSignedIn((ClaimsPrincipal)User))
-            {
-                string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
-                var info = await _userInformation.GetUserProfileInformationAsync(identityId);
-                info.HasInvitations = await _invitations.HasInvitations(info.ProfileId);
-                return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
-            }
-            else
-                return View("/Pages/Login.cshtml");
+            if (!_signInManager.IsSignedIn((ClaimsPrincipal)User))
+                return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", new UserInformationDto());
+
+            string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
+            var info = await _userInformation.GetUserProfileInformationAsync(identityId);
+            info.HasInvitations = await _invitations.HasInvitations(info.ProfileId);
+            return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", info);
         }
     }
 }
