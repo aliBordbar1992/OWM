@@ -3,7 +3,7 @@
     public class ForgetPasswordTemplateBuilder : ITemplateBuilder
     {
         private string _msg1 = @"You received this email because there was a request to reset your password.";
-        private string _msg2 = @"To reset your password, click on the link below";
+        private string _msg2 = @"To do so, click on the link below";
         private string _link = "<a style=\"font-family: inherit;background: #2f833d;color:" +
                                "#f3f3f3;border: none;font-size: 20px;padding: 15px 20px;" +
                                "outline: none;cursor: pointer;text-decoration:none;margin-bottom:10px;\" href='vrLnk'>Reset password</a>";
