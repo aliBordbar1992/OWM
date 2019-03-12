@@ -21,6 +21,7 @@ namespace OWM.Application.Services
         private readonly ITeamService _teamService;
         private readonly IMilesPledgedService _milesPledgedService;
         private readonly IProfileService _profileService;
+        private readonly ICountryService _countryService;
         private readonly IUnitOfWork _unitOfWork;
 
         public event EventHandler<TeamCreatedArgs> TeamCreated;
@@ -33,12 +34,13 @@ namespace OWM.Application.Services
         public TeamsManagerService(ITeamService teamService
             , IMilesPledgedService milesPledgedService
             , IProfileService profileService
-            , IUnitOfWork unitOfWork)
+            , IUnitOfWork unitOfWork, ICountryService countryService)
         {
             _teamService = teamService;
             _milesPledgedService = milesPledgedService;
             _profileService = profileService;
             _unitOfWork = unitOfWork;
+            _countryService = countryService;
         }
 
 
@@ -463,6 +465,15 @@ namespace OWM.Application.Services
             };
         }
 
+        public TotalTeamInformationSummaryDto GetSummary()
+        {
+            return new TotalTeamInformationSummaryDto
+            {
+                MilesPledged = _milesPledgedService.GetTotalMilesPledged(),
+                Countries = _countryService.Queryable().Count(),
+                Participants = _teamService.GetTotalMembers()
+            };
+        }
 
 
         public async Task<bool> IsMemberOfTeam(int teamId, int profileId)

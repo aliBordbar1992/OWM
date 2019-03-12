@@ -93,5 +93,13 @@ namespace OWM.Domain.Services
             var pledgedMiles = team.Select(x => x.PledgedMiles.Where(m => m.Profile.Id == memberId).AsEnumerable()).FirstOrDefault();
             return pledgedMiles?.Sum(x => x.Miles) ?? 0;
         }
+
+        public int GetTotalMembers()
+        {
+            return _teamMembers.Queryable()
+                .Select(x => x.ProfileId)
+                .Distinct()
+                .Count();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace OWM.Domain.Services.Interfaces
         IEnumerable<CompletedMiles> GetTeamMilesCompleted(int teamId, bool removeKickedMembers = true);
         Task<float> GetMemberCompletedMiles(int teamId, int memberId);
         Task<float> GetMemberPledgedMiles(int teamId, int memberId);
+        int GetTotalMembers();
     }
 }

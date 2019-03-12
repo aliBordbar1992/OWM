@@ -30,5 +30,11 @@ namespace OWM.Domain.Services
                 .Take(take)
                 .AsEnumerable();
         }
+
+        public float GetTotalMilesPledged()
+        {
+            return Repository.Queryable()
+                .Sum(x => x.Miles);
+        }
     }
 }

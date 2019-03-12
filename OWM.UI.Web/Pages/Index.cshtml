@@ -1,12 +1,12 @@
 ﻿@page
-@using OWM.UI.Web.Controllers
-@model OWM.UI.Web.Pages.IndexModel
+@using OWM.Application.Services.Interfaces
+@inject ITeamsManagerService TeamManager;
 @{
-    ViewData["Title"] = "OneWorldMarathon";
+    ViewData["Title"] = "One World Marathon";
     Layout = "Shared/_Layout";
 }
 @{
-    var statisticData = StatisticData.GetStatisticData();
+    var summary = TeamManager.GetSummary();
 }
 <section id="splash" class="anim">
     <div class="logo" style="transition-delay: 0s, 0s;">
@@ -21,15 +21,15 @@
         <!----><ul class="clearfix wrap-std">
             <li class="stat stat-1">
                 <h2>Participants</h2>
-                <p>@statisticData?.Participants</p>
+                <p>@summary.Participants</p>
             </li>
             <li class="stat stat-2">
                 <h2>Countries</h2>
-                <p>@statisticData?.Countries</p>
+                <p>@summary.Countries</p>
             </li>
             <li class="stat stat-3">
                 <h2>Miles pledged</h2>
-                <p>@statisticData?.MilesPledged</p>
+                <p>@summary.MilesPledged</p>
             </li>
         </ul>
         <div class="pledge wrap-std">
