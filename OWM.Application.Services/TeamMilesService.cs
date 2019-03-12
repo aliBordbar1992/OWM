@@ -184,6 +184,21 @@ namespace OWM.Application.Services
             return teamMiles;
         }
 
+        public string[] GetRecentMilePledges(int take)
+        {
+            var t = _milesPledgedService.GetRecentMilePledges(take)
+                .Select(x => new
+                {
+                    x.Profile.Name,
+                    CityName = x.Profile.City.Name,
+                    CountryName = x.Profile.Country.Name,
+                    x.Miles
+                }).ToList();
+
+            return t.Select(x => $"{x.Name} from {x.CityName}, {x.CountryName} just pledged {x.Miles} miles")
+                .ToArray();
+        }
+
         public async Task<bool> CanPledgeMiles(int teamId, int profileId)
         {
             //can pledge miles if:

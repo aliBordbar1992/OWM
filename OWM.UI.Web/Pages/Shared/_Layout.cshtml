@@ -135,22 +135,7 @@
     </div>
 </div>
 
-@{
-    var tickerData = IndexUserTicker.GetTickerData();
-    if (tickerData?.Length > 0)
-    {
-        <section class="mm-slideout" id="ticker">
-            <div class="ticker-inner">
-                <div class="ticker">
-                    @foreach (var tick in tickerData)
-                    {
-                        <div class="ticker-item">@tick</div>
-                    }
-                </div>
-            </div>
-        </section>
-    }
-}
+<partial name="_BottomTicker"/>
 <script>
     $('[closenavbar]').on('click', function (e) {
         e.preventDefault();

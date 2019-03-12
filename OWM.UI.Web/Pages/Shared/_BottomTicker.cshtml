@@ -1,0 +1,19 @@
+﻿@using OWM.Application.Services.Interfaces
+@inject ITeamMilesService TeamMiles;
+@{
+    var ticker = TeamMiles.GetRecentMilePledges(10);
+}
+
+@if (ticker?.Length > 0)
+{
+    <section class="mm-slideout" id="ticker">
+        <div class="ticker-inner">
+            <div class="ticker">
+                @foreach (var tick in ticker)
+                {
+                    <div class="ticker-item">@tick</div>
+                }
+            </div>
+        </div>
+    </section>
+}
