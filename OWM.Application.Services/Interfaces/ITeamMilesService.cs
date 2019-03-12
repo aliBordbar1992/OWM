@@ -17,6 +17,7 @@ namespace OWM.Application.Services.Interfaces
 
 
         Task<TeamMilesInformationDto> GetTeamMilesInformation(int teamId, int profileId);
+        string[] GetRecentMilePledges(int take);
 
 
         Task<bool> CanPledgeMiles(int teamId, int profileId);
