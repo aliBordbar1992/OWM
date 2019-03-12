@@ -1,4 +1,22 @@
-﻿.box a {
+﻿@media(max-width: 768px) {
+    #RegistrationData_Name,
+    #RegistrationData_CityName,
+    #RegistrationData_Gender_chosen
+    {
+        margin-bottom: 1rem !important;
+    }
+    #birthdaycm {
+        margin-top: 10px!important;
+    }
+    ul[name="cityfilter"] {
+        z-index: 999;
+        width: 90%!important;
+        margin-top: -1rem !important;
+        margin-left: 1px!important;
+    }
+}
+
+.box a {
     font-size: 10pt;
 }
 ul[name="cityfilter"] {

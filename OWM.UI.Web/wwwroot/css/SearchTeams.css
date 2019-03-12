@@ -11,14 +11,17 @@
    }
     #teamsearchresult.container {
         padding: 0 !important;
-        margin-top: 3px!important;
+        margin-top: 5px!important;
+        padding-bottom: 25px !important;
     }
     .list-group-item.bg-gray {
         padding: 8px!important;
     }
     #res {
         padding: 0 !important;
-        margin-bottom: 3px !important;
+        margin-bottom: 5px !important;
+        margin-left: 0 !important;
+        margin-right: 0px !important;
     }
     .row {
         margin-bottom: 0 !important;
@@ -29,6 +32,9 @@
     }
     .list-group-item.bg-darksuccess.text-white {
         padding: 5px !important;
+    }
+    #loadteams {
+        margin-top: 0px!important;
     }
 }
   .col-md-3 {
@@ -49,6 +55,11 @@
       font-size: 20pt!important;
       font-weight: 600;
   }
+#res {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
   #res .badge {
       font-size: 10pt;
   }
