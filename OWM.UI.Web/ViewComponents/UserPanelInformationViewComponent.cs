@@ -26,7 +26,7 @@ namespace OWM.UI.Web.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             if (!_signInManager.IsSignedIn((ClaimsPrincipal)User))
-                return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", new UserInformationDto());
+                return View("/Pages/User/Shared/Components/UserPanelInformation/Default.cshtml", new UserInformationDto(false));
 
             string identityId = _signInManager.UserManager.GetUserId((ClaimsPrincipal)User);
             var info = await _userInformation.GetUserProfileInformationAsync(identityId);

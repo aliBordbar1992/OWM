@@ -1,47 +1,50 @@
 ﻿@model Application.Services.Dtos.UserInformationDto
-<link href="~/css/InviteNotifier.css" rel="stylesheet" />
-<div class="col-md-3">
-    <div class="list-group mb-4">
-        <div class="list-group-item text-center bg-light">
-            <div class="d-block mb-2">
-                <img class="user-image" src="@Model.ProfilePicture" />
+@if (Model.IsLoggedIn)
+{
+    <link href="~/css/InviteNotifier.css" rel="stylesheet" />
+    <div class="col-md-3">
+        <div class="list-group mb-4">
+            <div class="list-group-item text-center bg-light">
+                <div class="d-block mb-2">
+                    <img class="user-image" src="@Model.ProfilePicture" />
+                </div>
+                <a class="border-bottom mb-2 text-info" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
+                <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
+                <hr class="mb-2 mt-2" />
+                <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
             </div>
-            <a class="border-bottom mb-2 text-info" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
-            <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
-            <hr class="mb-2 mt-2" />
-            <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
+        </div>
+        <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
+            <div class="list-group list-group-flush bg-light">
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Invitations">
+                    @if (Model.HasInvitations)
+                    {
+                        <span class="notifier new pl-3">
+                            <span class="notify-badge"><i class="fa fa-bell"></i></span>
+                        </span>
+                    }
+                    Invitations
+                </a>
+                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
+                <form asp-page="/Logout" method="post">
+                    <button type="submit" class="list-group-item bg-light btn-block border-top" style="color: #535353;">Logout</button>
+                </form>
+            </div>
+        </div>
+        <div class="card mb-4 p-2 text-center bg-light">
+            <p class="mb-1 small">Team Joined</p>
+            <h2 class="mb-0">@Model.TeamJoined</h2>
+            <hr class="bg-white mb-2 mt-2" />
+            <p class="mb-1 small">Miles Pledged</p>
+            <h2 class="mb-0">@Model.MilesPledged</h2>
+            <hr class="bg-white mb-2 mt-2" />
+            <p class="mb-1 small">Miles Completed</p>
+            <h2 class="mb-0">@Model.MilesCompleted</h2>
         </div>
     </div>
-    <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
-        <div class="list-group list-group-flush bg-light">
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Invitations">
-                @if (Model.HasInvitations)
-                {
-                    <span class="notifier new pl-3">
-                        <span class="notify-badge"><i class="fa fa-bell"></i></span>
-                    </span>
-                }
-                Invitations
-            </a>
-            <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
-            <form asp-page="/Logout" method="post">
-                <button type="submit" class="list-group-item bg-light btn-block border-top" style="color: #535353;">Logout</button>
-            </form>
-        </div>
-    </div>
-    <div class="card mb-4 p-2 text-center bg-light">
-        <p class="mb-1 small">Team Joined</p>
-        <h2 class="mb-0">@Model.TeamJoined</h2>
-        <hr class="bg-white mb-2 mt-2" />
-        <p class="mb-1 small">Miles Pledged</p>
-        <h2 class="mb-0">@Model.MilesPledged</h2>
-        <hr class="bg-white mb-2 mt-2" />
-        <p class="mb-1 small">Miles Completed</p>
-        <h2 class="mb-0">@Model.MilesCompleted</h2>
-    </div>
-</div>
+}

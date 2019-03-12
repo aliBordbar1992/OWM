@@ -4,7 +4,10 @@
     Layout = "Shared/_Layout";
 }
 
-<link href="~/css/TeamInfo.css" rel="stylesheet"/>
+<link href="~/css/TeamInfo.css" rel="stylesheet" />
+
+@await Component.InvokeAsync("UserPanelInformation")
+
 <div class="container">
     <div class="card bg-white">
         <div class="card-body">
@@ -159,7 +162,7 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 <script>
     $(function () {
         var x = 0;
