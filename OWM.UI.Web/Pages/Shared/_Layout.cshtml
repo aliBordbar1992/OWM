@@ -152,13 +152,19 @@
     }
 }
 <script>
-    $(document).on('click', '.mobile-open',function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
     $('[closenavbar]').on('click', function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+    });
+
+    $(document).click(function (event) { 
+        $target = $(event.target);
+        if ($target.closest('#page-content-wrapper').length && $('#wrapper').hasClass("toggled")) {
+            $("#wrapper").removeClass("toggled");
+        }
+        if ($target.closest('.mobile-open').length) {
+            $("#wrapper").addClass("toggled");
+        }
     });
 </script>
 </body>

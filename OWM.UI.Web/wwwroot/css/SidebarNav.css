@@ -18,7 +18,8 @@
      height: 100%;
      margin-right: -250px;
      overflow-y: auto;
-     background: #c2c2c2;
+     background: #f7f8f9;
+     border-left: 1px solid #dfdfdf;
      -webkit-transition: all 0.5s ease;
      -moz-transition: all 0.5s ease;
      -o-transition: all 0.5s ease;
@@ -74,11 +75,11 @@
      text-decoration: none;
  }
 
- .sidebar-nav > .sidebar-brand {
-     font-size: 18px;
-     padding: 10px 15px 10px 0;
-     border-bottom: 1px solid #b4b4b4;
- }
+    .sidebar-nav > .sidebar-brand {
+        font-size: 18px;
+        padding: 10px 15px 10px 0;
+        border-bottom: 1px solid #dfdfdf;
+    }
 
  .sidebar-nav > .sidebar-brand a {
      color: #282828;

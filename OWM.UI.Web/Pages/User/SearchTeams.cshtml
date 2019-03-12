@@ -94,7 +94,7 @@
         var take = 3, skip = 0 , rows = 0;
         var elements = [];
         var isDataAvailable = true, isPreviousEventComplete = true;
-        var load = '<img src="/img/loading.gif" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
+        var load = '<img src="/img/loading.gif" id="loadteams" style="width: 20px; height: 20px; position: absolute; left: 48%; margin-top: -5px;"/>';
         var typingTimer;
         var doneTypingInterval = 1000;
         var $input = $('#searchteams');
@@ -151,6 +151,7 @@
         function createList(e) {
             if (!e.length) {
                 isDataAvailable = false;
+                loading.hide();
                 return;
             }
             elements = [];
