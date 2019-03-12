@@ -8,8 +8,8 @@
     } else {
         var fileSize = ele[0].files[0].size;
         fileSize = fileSize / 1024;
-        if (fileSize > 300) {
-            RedAlert('n','file size must be less than 300kb');
+        if (fileSize > 1024) {
+            RedAlert('n','file size must be less than 1MB');
             ele[0] = [];
             return;
         } else {
@@ -105,6 +105,7 @@ function clearcanvas() {
         w: canvas.width,
         h: canvas.height,
     };
+    fillCanvasByDisplaySize();
 }
 
 function selectcanvas(coords) {
@@ -129,6 +130,12 @@ function applyScale(scale) {
     canvas.height = canvas.height * scale;
     context.drawImage(image, 0, 0, canvas.width, canvas.height);
     validateImage();
+}
+
+function fillCanvasByDisplaySize() {
+    var displayWidth = $('.modal-body').width() - 10;
+    var scale = displayWidth / canvas.width;
+    applyScale(scale);
 }
 
 function applyRotate() {
