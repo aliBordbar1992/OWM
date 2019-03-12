@@ -13,6 +13,10 @@
     #userstatistic .card-body {
         padding: 5px 15px !important;
     }
+    #mainUserImage {
+        width: 50%!important;
+        height: auto!important;
+    }
 } 
 .profile-work{}
  .profile-work p{

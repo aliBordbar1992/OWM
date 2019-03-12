@@ -4,107 +4,117 @@
     Layout = "Shared/_Layout";
 }
 <link href="~/css/UserProfile.css" rel="stylesheet" />
-
-@await Component.InvokeAsync("UserPanelInformation")
-
+<link href="~/css/user.css" rel="stylesheet" />
 <div class="container ">
-    <div class="card p-4">
-        <form method="post" class="card-body">
-            <div class="row">
-                <div class="col-md-2 text-center">
-                    <img class="img-thumbnail rounded-circle" src="@Model.MemberInformation.ProfilePicture" alt="" />
-                    <div class="profile-work text-left">
-                        <p class="mt-4 mb-1">Interests</p>
-                        <hr class="mt-1 mb-1" />
-                        @foreach (string interest in Model.MemberInformation.Interests)
-                        {
-                            <span class="badge" href="">@interest</span>
-                        }
-                    </div>
-                </div>
-                <div class="col-md-10">
-                    <h3 class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
-                    <hr class="mt-1 mb-3" />
-                    <div class="badge badge-secondary small mt-1 mb-1">
-                        <span class="fas fa-user-md text-light"></span>&nbsp; @Model.MemberInformation.Occupation
-                    </div>
-                    <br />
-                    <div class="badge badge-secondary small mt-1 mb-1">
-                        <span class="fas fa-map-marker-alt text-light"></span>&nbsp; @Model.MemberInformation.City, @Model.MemberInformation.Country
-                    </div>
-                    <hr />
-                    <div class="row" id="userstatistic">
-                        <div class="col-sm-6 col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="fa fa-map-marker-alt display-4 text-info"></div>
-                                        <div class="ml-3">
-                                            <div class="text-muted small">Miles Pledged</div>
-                                            <div>@Model.MemberInformation.MilesPledged</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6 col-xl-6">
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <div class="d-flex align-items-center">
-                                        <div class="fas fa-map-marked-alt display-4 text-warning"></div>
-                                        <div class="ml-3">
-                                            <div class="text-muted small">Miles Completed</div>
-                                            <div>@Model.MemberInformation.MilesCompleted</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row">
+        @await Component.InvokeAsync("UserPanelInformation")
+        <div class="col-md-9" id="mainArea">
+            <div class="card bg-light">
+                <form method="post" class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <span class="small p-1 bg-info text-white d-block text-center">Teams Joined</span>
-                            <table class="table table-sm small bg-light">
-                                @{ int tjRow = 1; }
-                                @foreach (var team in Model.MemberInformation.TeamsJoined)
+                        <div class="col-md-2 text-center">
+                            <img class="img-thumbnail rounded-circle" id="mainUserImage" src="@Model.MemberInformation.ProfilePicture" alt=""/>
+                            <div class="profile-work text-left">
+                                <p class="mt-4 mb-1">Interests</p>
+                                <hr class="mt-1 mb-1"/>
+                                @foreach (string interest in Model.MemberInformation.Interests)
                                 {
-                                    <tr>
-                                        <th scope="row">@tjRow</th>
-                                        <td>
-                                            <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
-                                        </td>
-                                    </tr>
-
-                                    {
-                                        tjRow = tjRow + 1;
-                                    }
+                                    <span class="badge" href="">@interest</span>
                                 }
-                            </table>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <span class="small p-1 bg-info text-white d-block text-center">Teams Created</span>
-                            <table class="table table-sm small bg-light">
-                                @{ int tcRow = 1; }
-                                @foreach (var team in Model.MemberInformation.TeamsCreated)
-                                {
-                                    <tr>
-                                        <th scope="row">@tcRow</th>
-                                        <td>
-                                            <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
-                                        </td>
-                                    </tr>
-                                    { tcRow = tcRow + 1; }
-                                }
-                            </table>
+                        <div class="col-md-10">
+                            <h3 class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
+                            <hr class="mt-1 mb-3"/>
+                            <div class="badge badge-secondary small mt-1 mb-1">
+                                <span class="fas fa-user-md text-light"></span>&nbsp; @Model.MemberInformation.Occupation
+                            </div>
+                            <br/>
+                            <div class="badge badge-secondary small mt-1 mb-1">
+                                <span class="fas fa-map-marker-alt text-light"></span>&nbsp; @Model.MemberInformation.City, @Model.MemberInformation.Country
+                            </div>
+                            <hr/>
+                            <div class="row" id="userstatistic">
+                                <div class="col-sm-6 col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="fa fa-map-marker-alt display-4 text-info"></div>
+                                                <div class="ml-3">
+                                                    <div class="text-muted small">Miles Pledged</div>
+                                                    <div>@Model.MemberInformation.MilesPledged</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="fas fa-map-marked-alt display-4 text-warning"></div>
+                                                <div class="ml-3">
+                                                    <div class="text-muted small">Miles Completed</div>
+                                                    <div>@Model.MemberInformation.MilesCompleted</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <span class="small p-1 bg-info text-white d-block text-center">Teams Joined</span>
+                                    <table class="table table-sm small bg-light">
+                                        @{ int tjRow = 1; }
+                                        @foreach (var team in Model.MemberInformation.TeamsJoined)
+                                        {
+                                            <tr>
+                                                <th scope="row">@tjRow</th>
+                                                <td>
+                                                    <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
+                                                </td>
+                                            </tr>
+
+                                            {
+                                                tjRow = tjRow + 1;
+                                            }
+                                        }
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="small p-1 bg-info text-white d-block text-center">Teams Created</span>
+                                    <table class="table table-sm small bg-light">
+                                        @{ int tcRow = 1; }
+                                        @foreach (var team in Model.MemberInformation.TeamsCreated)
+                                        {
+                                            <tr>
+                                                <th scope="row">@tcRow</th>
+                                                <td>
+                                                    <a asp-route-teamid="@team.Id" asp-page="/TeamInfo">@team.TeamName</a>
+                                                </td>
+                                            </tr>
+                                            {
+                                                tcRow = tcRow + 1;
+                                            }
+                                        }
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
+
 <script>
     $(function () {
+        if (!document.querySelectorAll("#sideArea").length) {
+            $('#mainArea').addClass('col-md-12');
+        }
+
         var x = 0;
         $('span.badge').each(function () {
             $(this).addClass(getClass(x));
