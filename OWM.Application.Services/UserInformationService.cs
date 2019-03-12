@@ -29,6 +29,7 @@ namespace OWM.Application.Services
                 if (includeRelations)
                 {
                     _user = await _profileService.Queryable()
+                        .Include(x => x.Identity)
                         .Include(x => x.Interests)
                         .Include(x => x.Teams)
                         .ThenInclude(x => x.Team)
@@ -38,7 +39,9 @@ namespace OWM.Application.Services
                     await _profileService.LoadRelatedEntities(_user);
                 }
                 else
-                    _user = await _profileService.Queryable().SingleAsync(x => x.Identity.Id == identityId);
+                    _user = await _profileService.Queryable()
+                        .Include(x => x.Identity)
+                        .SingleAsync(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
             {

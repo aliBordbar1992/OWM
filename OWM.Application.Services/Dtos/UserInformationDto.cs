@@ -34,7 +34,7 @@ namespace OWM.Application.Services.Dtos
         public int UnreadMessagesCount { get; set; }
         public bool HasMessages { get; set; }
 
-
+        public bool IsLoggedIn { get; set; }
 
         public List<Interest> Interests => string.IsNullOrEmpty(Interest)
             ? new List<Interest>()
@@ -44,6 +44,14 @@ namespace OWM.Application.Services.Dtos
             ? (DateTime?) null
             : DateTime.ParseExact(Birthday.Replace("-", "/"), Utils.Constants.DateFormat, null);
 
-        
+        public UserInformationDto()
+        {
+            IsLoggedIn = true;
+        }
+
+        public UserInformationDto(bool isLoggedIn)
+        {
+            IsLoggedIn = isLoggedIn;
+        }
     }
 }
