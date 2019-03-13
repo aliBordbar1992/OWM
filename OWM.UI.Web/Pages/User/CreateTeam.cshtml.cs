@@ -99,7 +99,7 @@ namespace OWM.UI.Web.Pages.User
         }
         public void FillOccupationDropdown(int ocpId)
         {
-            OccupationOptions = _ocpInformationService.GetOccupations().Where(x => x.Id != ocpId).Select(x => new SelectListItem
+            OccupationOptions = _ocpInformationService.GetOccupations().Where(x => x.Id != ocpId && x.Order == 1).Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""
