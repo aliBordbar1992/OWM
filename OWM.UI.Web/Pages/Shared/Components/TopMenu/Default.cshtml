@@ -1,25 +1,21 @@
 ﻿@model Dtos.TopMenuDto
+
+<div class="donate">
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="donateform">
+        <input type="hidden" name="cmd" value="_s-xclick" />
+        <input type="hidden" name="hosted_button_id" value="C9YKGHNPSQU8G" />
+        <input type="hidden" name="return" value="https://www.google.com" id="comp-j698gmttreturn"
+               class="ppb0return" />
+        <button class="owmbtn" type="image" name="submit" id="donateBtn"
+                title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
+            <i class="fab fa-paypal"></i> Donate
+        </button><br>
+    </form>
+</div>
 <ul class="desktop-menu">
-    @{
-        <li>
-            <a href="/index">Home</a>
-        </li>
-        if (Model.IsSignedIn)
-        {
-            <li>
-                <a asp-page="/User/NewsFeed">Welcome @Model.Name</a>
-            </li>
-        }
-        else
-        {
-            <li>
-                <a asp-page="/Login">Login</a>
-            </li>
-            <li>
-                <a asp-page="/Register">Register</a>
-            </li>
-        }
-    }
+    <li>
+        <a href="/index">Home</a>
+    </li>
     <li>
         <a asp-page="/Explore">Explore</a>
     </li>
@@ -29,7 +25,31 @@
     <li>
         <a href="#">Gallery</a>
     </li>
-    <li>
-        <a href="#">Contact us</a>
-    </li>
+    @{
+        if (Model.IsSignedIn)
+        {
+            <li>
+                <a asp-page="/User/NewsFeed">Welcome @Model.Name</a>
+            </li>
+        }
+        else
+        {
+            <li>
+                <a asp-page="/Register">Register</a>
+            </li>
+            <li>
+                <a class="owmbtn" id="LoginBtn" asp-page="/Login">Login</a>
+            </li>
+        }
+    }
 </ul>
+<script>
+    $(function () {
+        if ($(window).width() < 768) {
+            $('#LoginBtn').removeClass('owmbtn');
+            $('#LoginBtn').css('background-color', 'transparent');
+            $('#donateBtn').removeClass('owmbtn');
+            $('#donateBtn').css('background-color', 'transparent');
+        }
+    });
+</script>

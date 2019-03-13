@@ -116,3 +116,15 @@
          position: relative;
      }
  }
+ @media(max-width: 768px) {
+    #donateBtn {
+        margin: 15px 10px 15px 12px;
+    }
+    form#donateform:hover {
+        background-color: #d0d0d0;
+        cursor: pointer;
+    }
+    form#donateform {
+        background-color: #e6e6e6;
+    }
+ }
