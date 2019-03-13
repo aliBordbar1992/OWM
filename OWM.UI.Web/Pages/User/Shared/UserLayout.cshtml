@@ -28,135 +28,141 @@
     </environment>
 </head>
 <body>
-    <div id="wrapper">
-        <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand" closenavbar>
-                    <a href="#">
-                        <div style="font-size: 20pt;">&times;</div>
-                    </a>
-                </li>
+<div id="wrapper">
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-brand" closenavbar>
+                <a href="#">
+                    <div style="font-size: 20pt;">&times;</div>
+                </a>
+            </li>
+            @await Component.InvokeAsync("TopMenu")
+        </ul>
+    </div>
+    <div id="page-content-wrapper">
+        <header id="header" class="anim" style="margin-bottom: 100px;">
+            <div class="wrap-logo">
+                <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
+            </div><nav class="">
+                <div class="donate">
+                    <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
+                </div>
                 @await Component.InvokeAsync("TopMenu")
-            </ul>
-        </div>
-        <div id="page-content-wrapper">
-            <header id="header" class="anim" style="margin-bottom: 100px;">
-                <div class="wrap-logo">
-                    <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
-                </div><nav class="">
-                    <div class="donate">
-                        <a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact">Donate</a>
-                    </div>
-                    @await Component.InvokeAsync("TopMenu")
-                    <div class="mobile-open">
-                        <span class="mobile-icon"></span>
-                    </div>
-                </nav>
-            </header>
-            <div>
-                <div class="container">
-                    <div class="w-100 m-auto">
-                        <div class="row">
-                            @await Component.InvokeAsync("UserPanelInformation")
-                            <div class="col-md-9">
-                                <div class="card">
-                                    <div class="card-body bg-light">
-                                        @RenderBody()
-                                    </div>
+                <div class="mobile-open">
+                    <span class="mobile-icon"></span>
+                </div>
+            </nav>
+        </header>
+        <div>
+            <div class="container">
+                <div class="w-100 m-auto">
+                    <div class="row">
+                        @await Component.InvokeAsync("UserPanelInformation")
+                        <div class="col-md-9">
+                            <div class="card">
+                                <div class="card-body bg-light">
+                                    @RenderBody()
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <footer id="footer">
-                <div class="wrap-std">
-                    <ul class="social clearfix">
-                        <li>
-                            <a href="#">
-                                <img alt="Facebook" src="/img/icon-facebook.svg">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img alt="Twitter" src="/img/icon-twitter.svg">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <img alt="Instagram" src="/img/icon-instagram.svg">
-                            </a>
-                        </li>
-                    </ul>
-                    <hr class="bg-white" />
-                    <div class="columns clearfix">
-                        <div class="column column-1">
-                            <h4>
-                                <a href="#">About</a>
-                            </h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Mission</a>
-                                </li>
-                                <li>
-                                    <a href="#">Our story</a>
-                                </li>
-                                <li>
-                                    <a href="#">Board</a>
-                                </li>
-                                <li>
-                                    <a href="#">What we do</a>
-                                </li>
-                                <li>
-                                    <a href="#">How we do it</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="column column-2">
-                            <h4>
-                                <a href="#">Impact</a>
-                            </h4><ul>
-                                <li>
-                                    <a href="#">In the US</a>
-                                </li>
-                                <li>
-                                    <a href="#">Abroad</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="column column-3">
-                            <h4>
-                                <a href="#">Help us</a>
-                            </h4>
-                        </div>
-                        <div class="column column-4">
-                            <h4>
-                                <a href="#">Gallery</a>
-                            </h4>
-                        </div>
-                        <div class="column column-5">
-                            <h4>
-                                <a href="#">Contact us</a>
-                            </h4>
-                        </div>
-                    </div>
-                    <hr class="bg-white" />
-                    <div class="copyright"> © 2019 - One World Strong Foundation </div>
-                </div>
-            </footer>
         </div>
+        <footer id="footer">
+            <div class="wrap-std">
+                <ul class="social clearfix">
+                    <li>
+                        <a href="#">
+                            <img alt="Facebook" src="/img/icon-facebook.svg">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="Twitter" src="/img/icon-twitter.svg">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img alt="Instagram" src="/img/icon-instagram.svg">
+                        </a>
+                    </li>
+                </ul>
+                <hr class="bg-white" />
+                <div class="columns clearfix">
+                    <div class="column column-1">
+                        <h4>
+                            <a href="#">About</a>
+                        </h4>
+                        <ul>
+                            <li>
+                                <a href="#">Mission</a>
+                            </li>
+                            <li>
+                                <a href="#">Our story</a>
+                            </li>
+                            <li>
+                                <a href="#">Board</a>
+                            </li>
+                            <li>
+                                <a href="#">What we do</a>
+                            </li>
+                            <li>
+                                <a href="#">How we do it</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column column-2">
+                        <h4>
+                            <a href="#">Impact</a>
+                        </h4><ul>
+                            <li>
+                                <a href="#">In the US</a>
+                            </li>
+                            <li>
+                                <a href="#">Abroad</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column column-3">
+                        <h4>
+                            <a href="#">Help us</a>
+                        </h4>
+                    </div>
+                    <div class="column column-4">
+                        <h4>
+                            <a href="#">Gallery</a>
+                        </h4>
+                    </div>
+                    <div class="column column-5">
+                        <h4>
+                            <a href="#">Contact us</a>
+                        </h4>
+                    </div>
+                </div>
+                <hr class="bg-white" />
+                <div class="copyright"> © 2019 - One World Strong Foundation </div>
+            </div>
+        </footer>
     </div>
+</div>
 
-    <div id="mm-blocker" class="mm-slideout"></div>
-    <partial name="_BottomTicker" />
+<div id="mm-blocker" class="mm-slideout"></div>
+<partial name="_BottomTicker" />
 <script>
-    $(document).on('click', '.mobile-open',function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
     $('[closenavbar]').on('click', function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+    });
+
+    $(document).click(function (event) { 
+        $target = $(event.target);
+        if ($target.closest('#page-content-wrapper').length && $('#wrapper').hasClass("toggled")) {
+            $("#wrapper").removeClass("toggled");
+        }
+        if ($target.closest('.mobile-open').length) {
+            $("#wrapper").addClass("toggled");
+        }
     });
 </script>
 </body>
