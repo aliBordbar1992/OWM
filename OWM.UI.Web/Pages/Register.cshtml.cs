@@ -125,13 +125,13 @@ namespace OWM.UI.Web.Pages
                     Phone = phone,
                     Gender = gender,
                     ProfileImageAddress = profilePicture,
-                    VerfiedEmail = verifiedEmail
+                    VerifiedEmail = verifiedEmail
                 };
             }
             else
             {
                 dto.ProfileImageAddress = profilePicture;
-                dto.VerfiedEmail = verifiedEmail;
+                dto.VerifiedEmail = verifiedEmail;
             }
         }
 
@@ -147,14 +147,14 @@ namespace OWM.UI.Web.Pages
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info != null) FillRegistrationInformation(info, RegistrationData);
 
-            if (!RegistrationData.VerfiedEmail) _userRegistrationService.UserRegistered += SendVerificationEmail;
+            if (!RegistrationData.VerifiedEmail) _userRegistrationService.UserRegistered += SendVerificationEmail;
             _userRegistrationService.UserRegistered += SetUserId;
             _userRegistrationService.UserRegistered += SetInvitationsForThisEmail;
 
             _userRegistrationService.RegisterFailed += RegisterFailed;
 
             await _userRegistrationService.Register(RegistrationData, info);
-            if (_succeeded && RegistrationData.VerfiedEmail)
+            if (_succeeded && RegistrationData.VerifiedEmail)
             {
                 var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: false);
                 if (result.Succeeded) return LocalRedirect("/User/News");
@@ -172,13 +172,15 @@ namespace OWM.UI.Web.Pages
             EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
                 Text = x.Name,
-                Value = x.Id + ""
+                Value = x.Id + "",
+                Selected = x.Order == 0
             }).ToList().Result;
 
             OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
             {
                 Text = x.Name,
-                Value = x.Id + ""
+                Value = x.Id + "",
+                Selected = x.Order == 0
             }).ToList().Result;
         }
 

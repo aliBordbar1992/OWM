@@ -1,7 +1,7 @@
 ﻿@using OWM.Application.Services.Interfaces
 @inject IOccupationInformationService OcpInformationService;
 @{
-    List<SelectListItem> occupationOptions = OcpInformationService.GetOccupations().Select(x => new SelectListItem
+    List<SelectListItem> occupationOptions = OcpInformationService.GetOccupations().Where(x => x.Order == 1).Select(x => new SelectListItem
     {
         Text = x.Name,
         Value = x.Id + ""

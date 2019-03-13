@@ -25,11 +25,11 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <span>First Name</span>
-                        <input asp-for="Input.Name" required class="form-control" value="@Model.UserInformationDto.Name"/>
+                        <input asp-for="Input.Name" required class="form-control" value="@Model.UserInformationDto.Name" />
                     </div>
                     <div class="col-sm-6">
                         <span>Last Name</span>
-                        <input asp-for="Input.Surname" required class="form-control" value="@Model.UserInformationDto.Surname"/>
+                        <input asp-for="Input.Surname" required class="form-control" value="@Model.UserInformationDto.Surname" />
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -38,17 +38,27 @@
                         <input asp-for="Input.Phone" required class="form-control" value="@Model.UserInformationDto.Phone">
                     </div>
                 </div>
+                @if (Model.UserInformationDto.OccupationOrder != 1)
+                {
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <select class="chosen-select" asp-items="Model.OccupationOptions" data-placeholder="Occupation" asp-for="Input.OccupationId">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                }
                 <div class="row mt-3">
                     <div class="col-sm-6 position-relative">
                         <span>City</span>
-                        <input asp-for="Input.CityName" required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName"/>
+                        <input asp-for="Input.CityName" required class="form-control" type="text" autocomplete="off" id="RegistrationData_CityName" value="@Model.UserInformationDto.CityName" />
                         <span class="fa fa-times position-absolute" title="clear field"></span>
                         <ul class="position-absolute" name="cityfilter"></ul>
-                        <input asp-for="Input.CityId" type="hidden" id="RegistrationData_CityId" value="@Model.UserInformationDto.CityId"/>
+                        <input asp-for="Input.CityId" type="hidden" id="RegistrationData_CityId" value="@Model.UserInformationDto.CityId" />
                     </div>
                     <div class="col-sm-6">
                         <span>Country</span>
-                        <input asp-for="Input.CountryName" required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName"/>
+                        <input asp-for="Input.CountryName" required class="form-control" type="text" readonly id="RegistrationData_CountryName" value="@Model.UserInformationDto.CountryName" />
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -70,7 +80,7 @@
                 <div class="row mt-3">
                     <div class="col-sm-12">
                         <span>Interests</span>
-                        <input required type="text" id="interests" class="demo-default" value="@Model.UserInformationDto.Interest" asp-for="Input.Interest">
+                        <input type="text" id="interests" class="demo-default" value="@Model.UserInformationDto.Interest" asp-for="Input.Interest">
                     </div>
                 </div>
                 <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>

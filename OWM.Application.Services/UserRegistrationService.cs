@@ -52,7 +52,7 @@ namespace OWM.Application.Services
 
         public async Task Register(UserRegistrationDto userRegistrationDto, ExternalLoginInfo info = null)
         {
-            var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.VerfiedEmail, userRegistrationDto.Phone);
+            var user = User.CreateIdentity(userRegistrationDto.Email, userRegistrationDto.Email, userRegistrationDto.VerifiedEmail, userRegistrationDto.Phone);
             var identityResult = await _userManager.CreateAsync(user, userRegistrationDto.Password);
             if (identityResult.Succeeded == false)
             {
@@ -74,8 +74,15 @@ namespace OWM.Application.Services
             var country = GetCountry(userRegistrationDto.CountryName);
             var city = GetCity(country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
 
-            var ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
-            var occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+            Ethnicity ethnicity = null;
+            if (userRegistrationDto.EthnicityId.HasValue)
+                ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+
+            Occupation occupation = null;
+            if (userRegistrationDto.OccupationId.HasValue)
+                occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+
+
             var interests = GetInterests(userRegistrationDto.Interests);
 
             profile.Identity = user;
@@ -101,7 +108,7 @@ namespace OWM.Application.Services
             }
             catch (Exception e)
             {
-                if (_profileService.ExistsAsync(profile.Id).Result)
+                if (await _profileService.ExistsAsync(profile.Id))
                 {
                     _profileService.Delete(profile);
                     await _unitOfWork.SaveChangesAsync();
@@ -135,6 +142,9 @@ namespace OWM.Application.Services
 
                 if (profile.Ethnicity.Id != userRegistrationDto.EthnicityId)
                     profile.Ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+
+                if (profile.Occupation.Id != userRegistrationDto.OccupationId)
+                    profile.Occupation = GetOccupation(userRegistrationDto.EthnicityId.Value);
 
                 RemoveInterests(profile.Interests.ToList());
                 profile.Interests = GetInterests(userRegistrationDto.Interests);

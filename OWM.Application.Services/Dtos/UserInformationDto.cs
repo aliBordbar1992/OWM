@@ -9,6 +9,7 @@ namespace OWM.Application.Services.Dtos
     {
         public int ProfileId { get; set; }
         public int OccupationId { get; set; }
+        public int OccupationOrder { get; set; }
         public int CityId { get; set; }
         public int EthnicityId { get; set; }
         public int Gender { get; set; }

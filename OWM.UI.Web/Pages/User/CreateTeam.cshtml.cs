@@ -29,7 +29,7 @@ namespace OWM.UI.Web.Pages.User
         public List<SelectListItem> OccupationOptions;
         [BindProperty] public InputModel Input { get; set; }
         public const string MessageKey = nameof(MessageKey);
-
+        public bool NoOccupation { get; set; }
 
         public class InputModel
         {
@@ -87,8 +87,12 @@ namespace OWM.UI.Web.Pages.User
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
-            var ocp = await _userInformation.GetUserOccupationAsync(identityId);
-            FillOccupationDropdown(ocp.Id);
+            if (userInfo.OccupationOrder != 1)
+            {
+                var ocp = await _userInformation.GetUserOccupationAsync(identityId);
+                FillOccupationDropdown(ocp.Id);
+                NoOccupation = true;
+            }
 
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
             AgeRange = AgeRangeCalculator.GetAgeRangeCaption(aR);
@@ -110,6 +114,13 @@ namespace OWM.UI.Web.Pages.User
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
             AgeRange = AgeRangeCalculator.GetAgeRangeCaption(aR);
+
+            if (userInfo.OccupationOrder != 1)
+            {
+                var ocp = await _userInformation.GetUserOccupationAsync(identityId);
+                FillOccupationDropdown(ocp.Id);
+                NoOccupation = true;
+            }
 
             if (ModelState.IsValid)
             {

@@ -32,23 +32,26 @@
                 <input asp-for="Input.MilesPledged" required class="form-control" type="number" step="0.01" id="milesdpledge" />
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-12">
-                <div class="checkbox mb-1">
-                    <span>
-                        <input asp-for="Input.OccupationFilter" type="checkbox" onchange="occupationlist(this);" class="align-middle">
-                        Only same occupations as mine can join this team
-                    </span>
-                </div>
-                <div style="display: none;" id="OccupationList" class="card p-2 bg-light">
-                    <span class="text-primary mb-1">You can add additional occupations, to be able to join your team</span>
-                    <select class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions">
-                        <option value=""></option>
-                    </select>
-                    <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value="" />
+        @if (!Model.NoOccupation)
+        {
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <div class="checkbox mb-1">
+                        <span>
+                            <input asp-for="Input.OccupationFilter" type="checkbox" onchange="occupationlist(this);" class="align-middle">
+                            Only same occupations as mine can join this team
+                        </span>
+                    </div>
+                    <div style="display: none;" id="OccupationList" class="card p-2 bg-light">
+                        <span class="text-primary mb-1">You can add additional occupations, to be able to join your team</span>
+                        <select class="chosen-select" multiple data-placeholder="" asp-items="Model.OccupationOptions">
+                            <option value=""></option>
+                        </select>
+                        <input id="selectedOcc" type="hidden" asp-for="Input.SelectedOccupations" value="" />
+                    </div>
                 </div>
             </div>
-        </div>
+        }
         <div class="row mt-3">
             <div class="col-md-12">
                 <span>Descreption</span>

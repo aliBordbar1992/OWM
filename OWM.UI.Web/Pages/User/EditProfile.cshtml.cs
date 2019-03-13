@@ -26,11 +26,15 @@ namespace OWM.UI.Web.Pages.User
         private readonly IUserRegistrationService _userRegistrationService;
         private readonly IUserInformationService _userInformation;
         private readonly IEthnicityInformationService _ethnicityInformation;
+        private readonly IOccupationInformationService _ocpInformation;
         private bool _succeeded;
 
         public UserInformationDto UserInformationDto { get; set; }
         public List<SelectListItem> EthnicityOptions;
+        public List<SelectListItem> OccupationOptions;
+
         [BindProperty] public InputModel Input { get; set; }
+
         public const string MessageKey = nameof(MessageKey);
 
 
@@ -38,6 +42,9 @@ namespace OWM.UI.Web.Pages.User
         {
             [Required(ErrorMessage = "City is Required")]
             public int? CityId { get; set; }
+
+            [Required(ErrorMessage = "Occupation is Required")]
+            public int? OccupationId { get; set; }
 
             [Required(ErrorMessage = "Ethnicity is Required")]
             public int? EthnicityId { get; set; }
@@ -61,7 +68,6 @@ namespace OWM.UI.Web.Pages.User
             [Required(ErrorMessage = "City is Required")]
             public string CityName { get; set; }
 
-            [Required(ErrorMessage = "Enter at least one interest")]
             public string Interest { get; set; }
 
             public List<Interest> Interests => string.IsNullOrEmpty(Interest)
@@ -81,21 +87,12 @@ namespace OWM.UI.Web.Pages.User
             _userRegistrationService = serviceProvider.GetRequiredService<IUserRegistrationService>();
             _userInformation = _serviceProvider.GetRequiredService<IUserInformationService>();
             _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
+            _ocpInformation = serviceProvider.GetRequiredService<IOccupationInformationService>();
         }
 
         public async Task OnGetAsync()
         {
-            string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = await _userInformation.GetUserProfileInformationAsync(identityId);
-            if (Input == null) Input = new InputModel();
-            Input.Gender = UserInformationDto.Gender;
-            Input.EthnicityId = UserInformationDto.EthnicityId;
-
-            EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Id + ""
-            }).ToList().Result;
+            await InitializePage();
         }
 
         public async Task OnPostAsync()
@@ -110,6 +107,8 @@ namespace OWM.UI.Web.Pages.User
 
                 await _userRegistrationService.Update(updData);
             }
+
+            await InitializePage();
         }
         private async Task<UserRegistrationDto> MapToDto(InputModel input)
         {
@@ -124,6 +123,7 @@ namespace OWM.UI.Web.Pages.User
                 CityName = input.CityName,
                 CountryName = input.CountryName,
                 EthnicityId = input.EthnicityId,
+                OccupationId = input.OccupationId,
                 Gender = input.Gender,
                 Name = input.Name,
                 Surname = input.Surname,
@@ -134,26 +134,42 @@ namespace OWM.UI.Web.Pages.User
 
         public void UpdateSuccess(object sender, UserUpdatedArgs e)
         {
-            string identityId = _signInManager.UserManager.GetUserId(User);
-            UserInformationDto = _userInformation.GetUserProfileInformationAsync(identityId).Result;
-            EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
-            {
-                Text = x.Name,
-                Value = x.Id + ""
-            }).ToList().Result;
+            InitializePage().Wait();
 
             TempData[MessageKey] = "Update success!";
         }
         public void UpdateFailed(object sender, UpdateFailedArgs e)
         {
+            InitializePage().Wait();
+
+            _succeeded = false;
+            ModelState.AddModelError(string.Empty, e.Exception.Message);
+        }
+
+        public async Task InitializePage()
+        {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            UserInformationDto = await _userInformation.GetUserProfileInformationAsync(identityId);
+            if (Input == null) Input = new InputModel();
+            Input.Gender = UserInformationDto.Gender;
+            Input.EthnicityId = UserInformationDto.EthnicityId;
+            Input.OccupationId = UserInformationDto.OccupationId;
+
             EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + ""
             }).ToList().Result;
 
-            _succeeded = false;
-            ModelState.AddModelError(string.Empty, e.Exception.Message);
+            if (UserInformationDto.OccupationOrder != 1)
+            {
+                OccupationOptions = new List<SelectListItem>();
+                OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.Id + "",
+                }).ToList().Result;
+            }
         }
 
         public async Task<IActionResult> OnPostResetPasswordAsync(string email)

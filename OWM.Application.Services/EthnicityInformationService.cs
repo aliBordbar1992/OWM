@@ -15,6 +15,6 @@ namespace OWM.Application.Services
             _ethnicityService = ethnicityService;
         }
 
-        public IAsyncEnumerable<Ethnicity> GetEthnicities() => _ethnicityService.Queryable().ToAsyncEnumerable();
+        public IAsyncEnumerable<Ethnicity> GetEthnicities() => _ethnicityService.Queryable().OrderBy(x => x.Order).ToAsyncEnumerable();
     }
 }

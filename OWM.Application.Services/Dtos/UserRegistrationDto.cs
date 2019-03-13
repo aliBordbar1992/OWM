@@ -9,13 +9,11 @@ namespace OWM.Application.Services.Dtos
 {
     public class UserRegistrationDto
     {
-        [Required(ErrorMessage = "Occupation is Required")]
         public int? OccupationId { get; set; }
 
         [Required(ErrorMessage = "City is Required")]
         public int? CityId { get; set; }
 
-        [Required(ErrorMessage = "Ethnicity is Required")]
         public int? EthnicityId { get; set; }
 
         [Required(ErrorMessage = "Gender is Required")]
@@ -27,7 +25,6 @@ namespace OWM.Application.Services.Dtos
         [Required(ErrorMessage = "Surname is Required")]
         public string Surname { get; set; }
 
-        [Required(ErrorMessage = "Mobile no. is required")]
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Phone { get; set; }
 
@@ -51,7 +48,6 @@ namespace OWM.Application.Services.Dtos
         [Required(ErrorMessage = "City is Required")]
         public string CityName { get; set; }
 
-        [Required(ErrorMessage = "Enter at least one interest")]
         public string Interest { get; set; }
 
         public List<Interest> Interests => string.IsNullOrEmpty(Interest)
@@ -65,6 +61,6 @@ namespace OWM.Application.Services.Dtos
         public string Birthday { get; set; }
 
         public string ProfileImageAddress { get; set; }
-        public bool  VerfiedEmail { get; set; }
+        public bool  VerifiedEmail { get; set; }
     }
 }

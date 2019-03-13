@@ -16,7 +16,7 @@ namespace OWM.Application.Services
             _occupationService = occupationService;
         }
 
-        public IAsyncEnumerable<Occupation> GetOccupations() => _occupationService.Queryable().ToAsyncEnumerable();
+        public IAsyncEnumerable<Occupation> GetOccupations() => _occupationService.Queryable().OrderBy(x => x.Order).ToAsyncEnumerable();
         public async Task<bool> AssertOccupationExists(int occupationId)
         {
             return await _occupationService.ExistsAsync(occupationId);
