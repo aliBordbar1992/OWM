@@ -65,7 +65,7 @@
 
         </script>
         <div class="pledge wrap-std">
-            <a class="owmbtn owmbtn-dark-green go-to-pledge" href="#pledge">Pledge to run</a><br>
+            <a class="owmbtn btn-dark-green go-to-pledge" href="#pledge">Pledge to run</a><br>
         </div>
         <div class="arrow">
             <a class="go-to-pledge" href="#pledge">
@@ -168,7 +168,19 @@
 <section class="wrap-std" id="donate">
     <div class="box">
         <div class="std-content donate-content">
-            <p>Individuals and organizations are invited to make donations to our organization via PayPal.</p><a class="owmbtn" href="https://www.oneworldstrong.org/copy-of-our-impact" target="_blank">Donate</a>
+            <p>Individuals and organizations are invited to make donations to our organization via PayPal.</p>
+            <div class="donate">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="donateform">
+                    <input type="hidden" name="cmd" value="_s-xclick" />
+                    <input type="hidden" name="hosted_button_id" value="C9YKGHNPSQU8G" />
+                    <input type="hidden" name="return" value="https://www.google.com" id="comp-j698gmttreturn"
+                           class="ppb0return" />
+                    <button class="owmbtn" name="submit" id="donateBtn"
+                            title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
+                        <i class="fab fa-paypal"></i> Donate
+                    </button><br>
+                </form>
+            </div>
         </div>
     </div>
 </section>
