@@ -19,6 +19,7 @@ namespace OWM.Domain.Entities
         public bool IsClosed { get; set; }
         public Guid Identity { get; set; }
         public AgeRange AgeRange { get; set; }
+        public MessageBoard Board { get; set; }
         public ICollection<MilesPledged> PledgedMiles { get; set; }
         public ICollection<TeamOccupations> AllowedOccupations { get; set; }
         public ICollection<TeamMember> Members { get; set; }
