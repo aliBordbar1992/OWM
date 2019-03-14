@@ -906,6 +906,7 @@ body {
 
 @media only screen and (max-width: 1060px) {
     #header .donate {
+        display: none;
         margin-right: 100px
     }
 

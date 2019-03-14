@@ -103,7 +103,7 @@ $(function () {
     });
 })
 $(function () {
-  if ($(window).width() < 768) {
+  if ($(window).width() < 1060) {
     $('#LoginBtn').removeClass('owmbtn');
     $('#LoginBtn').css('background-color', 'transparent');
     $('#donateBtn').removeClass('owmbtn');
@@ -138,4 +138,13 @@ $(function () {
       break;
     }
 });
+
+window.onresize = function() {
+    if ($(window).width() < 1060) {
+        $('#LoginBtn').removeClass('owmbtn');
+        $('#LoginBtn').css('background-color', 'transparent');
+        $('#donateBtn').removeClass('owmbtn');
+        $('#donateBtn').css('background-color', 'transparent');
+    }
+}
 
