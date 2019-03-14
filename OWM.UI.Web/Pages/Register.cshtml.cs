@@ -139,7 +139,7 @@ namespace OWM.UI.Web.Pages
         {
             returnUrl = returnUrl ?? Url.Page("/Verify");
             FillDropdowns();
-
+            TempData["Interests"] = RegistrationData.Interest;
             if (!ModelState.IsValid) return Page();
 
             _succeeded = true;

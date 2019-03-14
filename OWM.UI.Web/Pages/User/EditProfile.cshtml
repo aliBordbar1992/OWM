@@ -38,7 +38,7 @@
                         <input asp-for="Input.Phone" required class="form-control" value="@Model.UserInformationDto.Phone">
                     </div>
                 </div>
-                @if (Model.UserInformationDto.OccupationOrder != 1)
+                @if (Model.Input.OcpRequired)
                 {
                     <div class="row mt-3">
                         <div class="col-md-12">
@@ -80,7 +80,7 @@
                 <div class="row mt-3">
                     <div class="col-sm-12">
                         <span>Interests</span>
-                        <input type="text" id="interests" class="demo-default" value="@Model.UserInformationDto.Interest" asp-for="Input.Interest">
+                        <input type="text" id="interests" class="demo-default" value="@TempData["Interests"]" asp-for="Input.Interest">
                     </div>
                 </div>
                 <button class="btn btn-success mt-3" id="savechanges">Save Changes</button>

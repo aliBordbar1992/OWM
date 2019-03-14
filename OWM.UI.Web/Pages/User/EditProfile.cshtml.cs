@@ -1,3 +1,4 @@
+using ExpressiveAnnotations.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using System;
@@ -13,7 +15,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using OWM.Application.Services.EventHandlers;
 
 namespace OWM.UI.Web.Pages.User
 {
@@ -34,7 +35,6 @@ namespace OWM.UI.Web.Pages.User
         public List<SelectListItem> OccupationOptions;
 
         [BindProperty] public InputModel Input { get; set; }
-
         public const string MessageKey = nameof(MessageKey);
 
 
@@ -43,7 +43,7 @@ namespace OWM.UI.Web.Pages.User
             [Required(ErrorMessage = "City is Required")]
             public int? CityId { get; set; }
 
-            [Required(ErrorMessage = "Occupation is Required")]
+            [RequiredIf("OcpRequired == true", ErrorMessage = "Occupation is Required")]
             public int? OccupationId { get; set; }
 
             [Required(ErrorMessage = "Ethnicity is Required")]
@@ -75,6 +75,9 @@ namespace OWM.UI.Web.Pages.User
                 : Interest.Split(',').Select(x => new Interest { Name = x }).ToList();
 
             public string UserImage { get; set; }
+
+            public bool OcpRequired { get; set; }
+
         }
 
         public EditProfileModel(SignInManager<Domain.Entities.User> signInManager
@@ -154,6 +157,8 @@ namespace OWM.UI.Web.Pages.User
             Input.Gender = UserInformationDto.Gender;
             Input.EthnicityId = UserInformationDto.EthnicityId;
             Input.OccupationId = UserInformationDto.OccupationId;
+            Input.OcpRequired = false;
+            TempData["Interests"] = string.IsNullOrEmpty(Input.Interest) ? UserInformationDto.Interest : Input.Interest;
 
             EthnicityOptions = _ethnicityInformation.GetEthnicities().Select(x => new SelectListItem
             {
@@ -163,6 +168,7 @@ namespace OWM.UI.Web.Pages.User
 
             if (UserInformationDto.OccupationOrder != 1)
             {
+                Input.OcpRequired = true;
                 OccupationOptions = new List<SelectListItem>();
                 OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
                 {
