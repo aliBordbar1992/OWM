@@ -1463,8 +1463,8 @@ body {
         animation-timing-function: linear;
         -webkit-animation-name: ticker;
         animation-name: ticker;
-        -webkit-animation-duration: 15s;
-        animation-duration: 15s;
+        -webkit-animation-duration: 40s;
+        animation-duration: 40s;
     }
 
     #ticker .ticker-item {
@@ -1871,3 +1871,8 @@ input:-webkit-autofill:active {
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+.sidebar-logo-owm {
+    width: 80px;
+    height: auto;
+}

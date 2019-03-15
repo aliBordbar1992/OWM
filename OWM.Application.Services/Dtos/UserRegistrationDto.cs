@@ -62,5 +62,7 @@ namespace OWM.Application.Services.Dtos
 
         public string ProfileImageAddress { get; set; }
         public bool  VerifiedEmail { get; set; }
+
+        public string HowDidYouHearUs { get; set; }
     }
 }

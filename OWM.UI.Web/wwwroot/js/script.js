@@ -145,11 +145,16 @@ $(function () {
 });
 
 window.onresize = function() {
-    if ($(window).width() < 1060) {
+    if ($(window).width() <= 1060) {
         $('#LoginBtn').removeClass('owmbtn');
         $('#LoginBtn').css('background-color', 'transparent');
         $('#donateBtn').removeClass('owmbtn');
         $('#donateBtn').css('background-color', 'transparent');
+    }
+    if ($(window).width() > 1060) {
+        $('#LoginBtn').addClass('owmbtn');
+        $('#donateBtn').addClass('owmbtn');
+        $("#wrapper").removeClass("toggled");
     }
     RenderNavigation();
 }

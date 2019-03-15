@@ -99,6 +99,8 @@ namespace OWM.Application.Services
             profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
             profile.ProfileImageUrl = userRegistrationDto.ProfileImageAddress;
 
+            profile.HowDidYouHearUs = userRegistrationDto.HowDidYouHearUs;
+
             _profileService.Insert(profile);
 
             try

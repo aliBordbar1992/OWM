@@ -31,9 +31,9 @@
     <div id="wrapper">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand" closenavbar>
-                    <a href="#">
-                        <div style="font-size: 20pt;">&times;</div>
+                <li class="sidebar-brand pl-2">
+                    <a asp-page="/index" title="Home">
+                        <img alt="One World Strong" class="sidebar-logo-owm" src="~/img/logo-one-world-strong-2.svg">
                     </a>
                 </li>
                 @await Component.InvokeAsync("TopMenu")
@@ -135,11 +135,6 @@
 
     <partial name="_BottomTicker" />
     <script>
-        $('[closenavbar]').on('click', function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-
         $(document).click(function (event) {
             $target = $(event.target);
             if ($target.closest('#page-content-wrapper').length && $('#wrapper').hasClass("toggled")) {
