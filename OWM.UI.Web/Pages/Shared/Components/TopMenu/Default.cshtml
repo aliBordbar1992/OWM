@@ -1,45 +1,48 @@
 ﻿@model Dtos.TopMenuDto
 
-<div class="donate">
-    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="donateform">
-        <input type="hidden" name="cmd" value="_s-xclick" />
-        <input type="hidden" name="hosted_button_id" value="C9YKGHNPSQU8G" />
-        <input type="hidden" name="return" value="https://www.google.com" id="comp-j698gmttreturn"
-               class="ppb0return" />
-        <button class="owmbtn" name="submit" id="donateBtn"
-                title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
-            <i class="fab fa-paypal"></i> Donate
-        </button><br>
-    </form>
+<div id="UserPanelSideArea"></div>
+<div id="SideBarNavigation">
+    <div class="donate">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top" id="donateform">
+            <input type="hidden" name="cmd" value="_s-xclick" />
+            <input type="hidden" name="hosted_button_id" value="C9YKGHNPSQU8G" />
+            <input type="hidden" name="return" value="https://www.google.com" id="comp-j698gmttreturn"
+                   class="ppb0return" />
+            <button class="owmbtn" name="submit" id="donateBtn"
+                    title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
+                <i class="fab fa-paypal"></i> Donate
+            </button><br>
+        </form>
+    </div>
+    <ul class="desktop-menu">
+        <li>
+            <a href="/index" class="NavIndex">Home</a>
+        </li>
+        <li>
+            <a asp-page="/Explore" class="NavExplore">Explore</a>
+        </li>
+        <li>
+            <a href="#" class="NavHelpus">Help us</a>
+        </li>
+        <li>
+            <a href="#" class="NavGallery">Gallery</a>
+        </li>
+        @{
+            if (Model.IsSignedIn)
+            {
+                <li>
+                    <a asp-page="/User/NewsFeed" class="NavUser">Welcome @Model.Name</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a asp-page="/Register" class="NavRegister">Register</a>
+                </li>
+                <li>
+                    <button class="owmbtn btn-dark-green" id="LoginBtn" onclick="window.location.href = '/Login';">Login</button>
+                </li>
+            }
+        }
+    </ul>
 </div>
-<ul class="desktop-menu">
-    <li>
-        <a href="/index" class="NavIndex">Home</a>
-    </li>
-    <li>
-        <a asp-page="/Explore" class="NavExplore">Explore</a>
-    </li>
-    <li>
-        <a href="#" class="NavHelpus">Help us</a>
-    </li>
-    <li>
-        <a href="#" class="NavGallery">Gallery</a>
-    </li>
-    @{
-        if (Model.IsSignedIn)
-        {
-            <li>
-                <a asp-page="/User/NewsFeed" class="NavUser">Welcome @Model.Name</a>
-            </li>
-        }
-        else
-        {
-            <li>
-                <a asp-page="/Register" class="NavRegister">Register</a>
-            </li>
-            <li>
-                <button class="owmbtn btn-dark-green" id="LoginBtn" onclick="window.location.href = '/Login';">Login</button>
-            </li>
-        }
-    }
-</ul>

@@ -102,8 +102,11 @@ $(function () {
       $(this).fadeOut();
     });
 })
+
+
+var sideBarDonate;
 $(function () {
-  if ($(window).width() < 768) {
+  if ($(window).width() < 1060) {
     $('#LoginBtn').removeClass('owmbtn');
     $('#LoginBtn').css('background-color', 'transparent');
     $('#donateBtn').removeClass('owmbtn');
@@ -137,5 +140,37 @@ $(function () {
       $('.NavUser').addClass('active');
       break;
     }
+  sideBarDonate = $('#SideBarNavigation > div.donate')[0];
+  RenderNavigation();
 });
 
+window.onresize = function() {
+    if ($(window).width() < 1060) {
+        $('#LoginBtn').removeClass('owmbtn');
+        $('#LoginBtn').css('background-color', 'transparent');
+        $('#donateBtn').removeClass('owmbtn');
+        $('#donateBtn').css('background-color', 'transparent');
+    }
+    RenderNavigation();
+}
+
+function RenderNavigation() {
+    if ($(window).width() > 1060) {
+        $('#sideArea').show();
+        $('#UserPanelSideArea').empty();
+        $('#SideBarNavigation').show();
+        $('#UserPanelMainArea').removeClass('col-md-12');
+        $('#mainArea').removeClass('col-md-12');
+    }
+    if ($(window).width() <= 1060) {
+        if ($('#sideArea')[0] == undefined) {
+            $('#SideBarNavigation').show();
+            return;
+        }
+        $('#sideArea').hide();
+        $('#UserPanelMainArea').addClass('col-md-12');
+        $('#mainArea').addClass('col-md-12');
+        $('#UserPanelSideArea').empty().append(sideBarDonate).append($('#sideArea').html());
+        $('#SideBarNavigation').hide();
+    }
+}

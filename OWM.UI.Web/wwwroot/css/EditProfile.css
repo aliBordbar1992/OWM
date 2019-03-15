@@ -17,9 +17,9 @@
     #imageinputarea, .modal-footer, .modal-body {
         padding: 5px !important;
     }
-    #UploadUserImage {
+    #UploadUserImage, #CancelUpload {
         padding: 5px !important;
-        font-size: 10pt!important;
+        font-size: 10pt !important;
     }
     #cropbutton, #scalebutton, #rotatebutton, #hflipbutton, #vflipbutton {
         padding: 3px!important;

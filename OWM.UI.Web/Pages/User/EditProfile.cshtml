@@ -111,7 +111,7 @@
                     </form>
                 </div>
                 <div id="controls" style="display: none;">
-                    <div class="w-100">
+                    <div id="PreviewArea">
                         <div id="views" class="img-thumbnail d-inline-block">
                         </div>
                     </div>
@@ -125,8 +125,9 @@
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" id="CancelUpload" class="btn btn-danger" onclick="$('#controls').hide();$('#UserProfilePictureModal').modal('toggle');$('#upfile').val('');">Cancel</button>
                 <button type="button" class="btn btn-success" id="UploadUserImage">
-                    <img src="~/img/loading.gif" class="loading-sm" style="display: none;" /> Upload image
+                    <img src="~/img/loading.gif" class="loading-sm" style="display: none;"/> Upload image
                 </button>
             </div>
         </div>

@@ -24,6 +24,7 @@
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+    overflow-x: hidden;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -93,7 +94,7 @@
                 background: none;
             }
 
-@media(min-width:768px) {
+@media(min-width:1060px) {
     #wrapper {
         padding-right: 0;
     }
@@ -126,7 +127,7 @@
     }
 }
 
-@media(max-width: 768px) {
+@media(max-width: 1060px) {
     #donateBtn {
         margin: 15px 10px 15px 12px;
         color: #f7f8f9;
