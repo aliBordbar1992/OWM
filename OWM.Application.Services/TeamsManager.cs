@@ -190,7 +190,7 @@ namespace OWM.Application.Services
             try
             {
                 var team = await _teamService.Queryable()
-                    .Include(x => x.Members)
+                    //.Include(x => x.Members)
                     .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
 
                 if (team == null) return -1;
@@ -214,7 +214,7 @@ namespace OWM.Application.Services
             try
             {
                 var team = await _teamService.Queryable()
-                    .Include(x => x.Members)
+                    //.Include(x => x.Members)
                     .FirstOrDefaultAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId && m.IsCreator));
 
                 if (team == null) return -1;
@@ -245,11 +245,11 @@ namespace OWM.Application.Services
         public async Task<MyTeamsListDto> GetMyTeam(int teamId, int profileId)
         {
             var team = await _teamService.Queryable()
-                .Include(x => x.Members)
-                .Include(x => x.PledgedMiles)
-                .ThenInclude(x => x.Profile)
-                .Include(x => x.PledgedMiles)
-                .ThenInclude(x => x.CompletedMiles)
+                //.Include(x => x.Members)
+                //.Include(x => x.PledgedMiles)
+                //.ThenInclude(x => x.Profile)
+                //.Include(x => x.PledgedMiles)
+                //.ThenInclude(x => x.CompletedMiles)
                 .SingleAsync(x => x.Id == teamId && x.Members.Any(m => m.ProfileId == profileId));
 
             var teamPledgedMiles = await _teamService.GetTeamMilesPledged(team.Id);
@@ -277,10 +277,10 @@ namespace OWM.Application.Services
         public async Task<List<MyTeamsListDto>> GetListOfMyTeams(int profileId)
         {
             var teams = await _teamService.Queryable()
-                .Include(x => x.PledgedMiles)
-                .ThenInclude(x => x.CompletedMiles)
-                .Include(x => x.PledgedMiles)
-                .ThenInclude(m => m.Profile)
+                //.Include(x => x.PledgedMiles)
+                //.ThenInclude(x => x.CompletedMiles)
+                //.Include(x => x.PledgedMiles)
+                //.ThenInclude(m => m.Profile)
                 .Where(x => x.Members.Any(m => m.ProfileId == profileId))
                 .ToListAsync();
 
@@ -317,10 +317,10 @@ namespace OWM.Application.Services
         public async Task<TeamInformationDto> GetTeamInformation(int teamId, bool getKickedMembers)
         {
             var team = await _teamService.Queryable()
-                .Include(x => x.AllowedOccupations)
-                .ThenInclude(x => x.Occupation)
+                //.Include(x => x.AllowedOccupations)
+                //.ThenInclude(x => x.Occupation)
                 .SingleAsync(x => x.Id == teamId);
-            await _teamService.LoadRelatedEntities(team);
+            //await _teamService.LoadRelatedEntities(team);
 
             var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
             var teamCompletedMiles = _teamService.GetTeamMilesCompleted(teamId);
@@ -349,10 +349,10 @@ namespace OWM.Application.Services
         public async Task<TeamInformationDto> GetTeamInformation(Guid teamGuid, bool getKickedMembers)
         {
             var team = await _teamService.Queryable()
-                .Include(x => x.AllowedOccupations)
-                .ThenInclude(x => x.Occupation)
+                //.Include(x => x.AllowedOccupations)
+                //.ThenInclude(x => x.Occupation)
                 .SingleAsync(x => x.Identity == teamGuid);
-            await _teamService.LoadRelatedEntities(team);
+            //await _teamService.LoadRelatedEntities(team);
 
             var teamPledgedMiles = await _teamService.GetTeamMilesPledged(team.Id);
             var teamCompletedMiles = _teamService.GetTeamMilesCompleted(team.Id);
@@ -387,7 +387,7 @@ namespace OWM.Application.Services
             foreach (var member in teamMembers.ToList())
             {
                 var memberProfile = member.MemberProfile;
-                await _profileService.LoadRelatedEntities(memberProfile);
+                //await _profileService.LoadRelatedEntities(memberProfile);
                 teamMembersInformation.Add(new TeamMemberInformationDto
                 {
                     TeamId = teamId,
@@ -487,7 +487,7 @@ namespace OWM.Application.Services
             CanJoinTeamDto result = new CanJoinTeamDto();
 
             var team = await _teamService.Queryable()
-                .Include(x => x.AllowedOccupations)
+                //.Include(x => x.AllowedOccupations)
                 .SingleAsync(x => x.Id == teamId);
 
             result.TeamIsClosed = team.IsClosed;
