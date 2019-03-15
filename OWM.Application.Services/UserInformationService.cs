@@ -29,18 +29,18 @@ namespace OWM.Application.Services
                 if (includeRelations)
                 {
                     _user = await _profileService.Queryable()
-                        .Include(x => x.Identity)
-                        .Include(x => x.Interests)
-                        .Include(x => x.Teams)
-                        .ThenInclude(x => x.Team)
-                        .Include(x => x.MilesPledged)
-                        .ThenInclude(x => x.CompletedMiles)
+                        //.Include(x => x.Identity)
+                        //.Include(x => x.Interests)
+                        //.Include(x => x.Teams)
+                        //.ThenInclude(x => x.Team)
+                        //.Include(x => x.MilesPledged)
+                        //.ThenInclude(x => x.CompletedMiles)
                         .SingleAsync(x => x.Identity.Id == identityId);
-                    await _profileService.LoadRelatedEntities(_user);
+                    //await _profileService.LoadRelatedEntities(_user);
                 }
                 else
                     _user = await _profileService.Queryable()
-                        .Include(x => x.Identity)
+                        //.Include(x => x.Identity)
                         .SingleAsync(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
@@ -55,13 +55,13 @@ namespace OWM.Application.Services
                 if (includeRelations)
                 {
                     _user = await _profileService.Queryable()
-                        .Include(x => x.Interests)
-                        .Include(x => x.Teams)
-                        .ThenInclude(x => x.Team)
-                        .Include(x => x.MilesPledged)
-                        .ThenInclude(x => x.CompletedMiles)
+                        //.Include(x => x.Interests)
+                        //.Include(x => x.Teams)
+                        //.ThenInclude(x => x.Team)
+                        //.Include(x => x.MilesPledged)
+                        //.ThenInclude(x => x.CompletedMiles)
                         .SingleAsync(x => x.Id == userId);
-                    await _profileService.LoadRelatedEntities(_user);
+                    //await _profileService.LoadRelatedEntities(_user);
                 }
                 else
                     _user = await _profileService.FindAsync(userId);

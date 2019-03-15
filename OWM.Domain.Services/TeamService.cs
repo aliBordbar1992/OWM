@@ -29,7 +29,7 @@ namespace OWM.Domain.Services
         public async Task<IEnumerable<TeamMember>> GetUnKickedTeamMembersAsync(int teamId)
         {
             var members = await _teamMembers.Query()
-                .Include(x => x.MemberProfile)
+                //.Include(x => x.MemberProfile)
                 .Where(x => x.TeamId == teamId && !x.KickedOut)
                 .SelectAsync();
 
@@ -39,7 +39,7 @@ namespace OWM.Domain.Services
         public async Task<IEnumerable<TeamMember>> GetTeamMembers(int teamId)
         {
             var result = await _teamMembers.Query()
-                .Include(x => x.MemberProfile)
+                //.Include(x => x.MemberProfile)
                 .Where(x => x.TeamId == teamId)
                 .SelectAsync();
 
@@ -50,8 +50,8 @@ namespace OWM.Domain.Services
         {
             var profiles = _context.Set<Profile>()
                 .Where(x => x.Teams.Any(m => m.KickedOut != removeKickedMembers && m.TeamId == teamId))
-                .Include(x => x.MilesPledged)
-                .ThenInclude(x => x.Team)
+                //.Include(x => x.MilesPledged)
+                //.ThenInclude(x => x.Team)
                 .AsEnumerable();
 
             var res = profiles.SelectMany(x => x.MilesPledged.Where(m => m.Team.Id == teamId).AsEnumerable());
@@ -62,10 +62,10 @@ namespace OWM.Domain.Services
         {
             var profiles = _context.Set<Profile>()
                 .Where(x => x.Teams.Any(m => m.KickedOut != removeKickedMembers && m.TeamId == teamId))
-                .Include(x => x.MilesPledged)
-                .ThenInclude(x => x.CompletedMiles)
-                .Include(x => x.MilesPledged)
-                .ThenInclude(x => x.Team)
+                //.Include(x => x.MilesPledged)
+                //.ThenInclude(x => x.CompletedMiles)
+                //.Include(x => x.MilesPledged)
+                //.ThenInclude(x => x.Team)
                 .AsEnumerable();
 
             var pledgedMiles = profiles.SelectMany(x => x.MilesPledged.Where(m => m.Team.Id == teamId).AsEnumerable());
