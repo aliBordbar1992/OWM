@@ -12,31 +12,33 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using OWM.Application.Services.Email;
+using OWM.Application.Services.Interfaces;
 
 namespace OWM.UI.Web.Pages
 {
     public class VerificationModel : PageModel
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IUserInformationService _userInformation;
         private readonly UserManager<Domain.Entities.User> _userManager;
         private readonly SignInManager<Domain.Entities.User> _signInManager;
-        private readonly IProfileService _userService;
         private bool _notRegistered;
         private Domain.Entities.User _user;
 
         public bool DirectVisit;
-        public bool emailAlreadyConfirmed;
+        public bool EmailAlreadyConfirmed;
         public bool UserNotFound;
         public string Message;
 
-        public VerificationModel(IServiceProvider serviceProvider, UserManager<Domain.Entities.User> userManager,
-            SignInManager<Domain.Entities.User> signInManager)
+        public VerificationModel(IServiceProvider serviceProvider
+            , IUserInformationService userInformation
+            , UserManager<Domain.Entities.User> userManager
+            , SignInManager<Domain.Entities.User> signInManager)
         {
             _serviceProvider = serviceProvider;
+            _userInformation = userInformation;
             _userManager = userManager;
             _signInManager = signInManager;
-
-            _userService = serviceProvider.GetRequiredService<IProfileService>();
         }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
@@ -46,8 +48,8 @@ namespace OWM.UI.Web.Pages
             {
                 DirectVisit = true;
 
-                emailAlreadyConfirmed = IsEmailConfirmed(userId).Result;
-                if (emailAlreadyConfirmed)
+                EmailAlreadyConfirmed = IsEmailConfirmed(userId).Result;
+                if (EmailAlreadyConfirmed)
                 {
                     await _signInManager.SignInAsync(_user, true);
                     RedirectToPage("/User/NewsFeed");
@@ -69,8 +71,8 @@ namespace OWM.UI.Web.Pages
             UserNotFound = false;
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
-            emailAlreadyConfirmed = result.Succeeded;
-            Message = !emailAlreadyConfirmed
+            EmailAlreadyConfirmed = result.Succeeded;
+            Message = !EmailAlreadyConfirmed
                 ? "Error confirming email"
                 : "Your account has been successfully verified.";
 
@@ -79,8 +81,7 @@ namespace OWM.UI.Web.Pages
 
         public async Task<IActionResult> OnPostAsync([FromQuery] string userId)
         {
-            var user = _userService.Queryable().Include(x => x.Identity)
-                .FirstOrDefault(x => x.Identity.Id.Equals(userId));
+            var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 DirectVisit = false;
@@ -89,7 +90,8 @@ namespace OWM.UI.Web.Pages
                 return Page();
             }
 
-            SendVerificationEmail(user.Identity, user.Name);
+            var userFirstName = await _userInformation.GetUserFirstNameAsync(userId);
+            SendVerificationEmail(user, userFirstName);
             return LocalRedirect("/Verify");
         }
 
