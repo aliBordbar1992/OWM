@@ -10,6 +10,7 @@ namespace OWM.Domain.Entities
         private ICollection<MilesPledged> _pledgedMiles;
         private ICollection<TeamOccupations> _allowedOccupations;
         private ICollection<TeamMember> _members;
+        private MessageBoard _board;
         public ILazyLoader LazyLoader { get; }
 
         public Team()
@@ -31,18 +32,22 @@ namespace OWM.Domain.Entities
         public Guid Identity { get; set; }
         public AgeRange AgeRange { get; set; }
 
+        //public MessageBoard Board
+        //{
+        //    get => LazyLoader.Load(this, ref _board);
+        //    set => _board = value;
+        //}
+
         public ICollection<MilesPledged> PledgedMiles
         {
             get => LazyLoader.Load(this, ref _pledgedMiles);
             set => _pledgedMiles = value;
         }
-
         public ICollection<TeamOccupations> AllowedOccupations
         {
             get => LazyLoader.Load(this, ref _allowedOccupations);
             set => _allowedOccupations = value;
         }
-
         public ICollection<TeamMember> Members
         {
             get => LazyLoader.Load(this, ref _members);
