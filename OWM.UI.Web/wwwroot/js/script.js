@@ -151,6 +151,11 @@ window.onresize = function() {
         $('#donateBtn').removeClass('owmbtn');
         $('#donateBtn').css('background-color', 'transparent');
     }
+    if ($(window).width() > 1060) {
+        $('#LoginBtn').addClass('owmbtn');
+        $('#donateBtn').addClass('owmbtn');
+        $("#wrapper").removeClass("toggled");
+    }
     RenderNavigation();
 }
 

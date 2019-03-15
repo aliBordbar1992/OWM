@@ -1871,3 +1871,8 @@ input:-webkit-autofill:active {
     ::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+.sidebar-logo-owm {
+    width: 80px;
+    height: auto;
+}
