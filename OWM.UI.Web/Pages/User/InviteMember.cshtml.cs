@@ -98,7 +98,6 @@ namespace OWM.UI.Web.Pages.User
                     _invitations.InvitationAdded += SendInvitationEmail;
 
                     await _invitations.AddInvitation(await MapToDto(teamid, null));
-                    return await OnGetAsync(teamid);
                 }
                 else
                 {

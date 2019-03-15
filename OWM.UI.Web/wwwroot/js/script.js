@@ -145,7 +145,7 @@ $(function () {
 });
 
 window.onresize = function() {
-    if ($(window).width() < 1060) {
+    if ($(window).width() <= 1060) {
         $('#LoginBtn').removeClass('owmbtn');
         $('#LoginBtn').css('background-color', 'transparent');
         $('#donateBtn').removeClass('owmbtn');
