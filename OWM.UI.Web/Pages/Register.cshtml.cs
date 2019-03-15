@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using OWM.Domain.Entities.Enums;
 
 namespace OWM.UI.Web.Pages
 {
@@ -28,6 +29,7 @@ namespace OWM.UI.Web.Pages
         private readonly IEthnicityInformationService _ethnicityInformation;
         private readonly IOccupationInformationService _ocpInformation;
         private readonly ITeamInvitationsService _invitations;
+        private readonly IMailChimpService _chimpService;
         private string _uId;
         private bool _succeeded;
 
@@ -49,6 +51,7 @@ namespace OWM.UI.Web.Pages
             _ethnicityInformation = serviceProvider.GetRequiredService<IEthnicityInformationService>();
             _ocpInformation = serviceProvider.GetRequiredService<IOccupationInformationService>();
             _invitations = serviceProvider.GetRequiredService<ITeamInvitationsService>();
+            _chimpService = serviceProvider.GetRequiredService<IMailChimpService>();
 
             EthnicityOptions = new List<SelectListItem>();
             OccupationOptions = new List<SelectListItem>();
@@ -151,6 +154,7 @@ namespace OWM.UI.Web.Pages
             if (!RegistrationData.VerifiedEmail) _userRegistrationService.UserRegistered += SendVerificationEmail;
             _userRegistrationService.UserRegistered += SetUserId;
             _userRegistrationService.UserRegistered += SetInvitationsForThisEmail;
+            _userRegistrationService.UserRegistered += RegisterMailChimp;
 
             _userRegistrationService.RegisterFailed += RegisterFailed;
 
@@ -206,6 +210,26 @@ namespace OWM.UI.Web.Pages
 
             VerifyEmailEmailSender emailSender = new VerifyEmailEmailSender(hostingEnv, e.User.Name, e.Identity.Email, encodedUrl);
             emailSender.Send();
+        }
+        public void RegisterMailChimp(object sender, UserRegisteredArgs e)
+        {
+            MailChimpMemberDto newMember = new MailChimpMemberDto
+            {
+                FirstName = e.User.Name,
+                LastName = e.User.Surname,
+                Occupation = e.User.Occupation.Name,
+                Interests = string.Join(',', e.User.Interests.Select(x => x.Name).ToList()),
+                CityName = e.User.City.Name,
+                CountryName = e.User.Country.Name,
+                HowDidYouHearUs = e.User.HowDidYouHearUs,
+                Phone = e.Identity.PhoneNumber,
+                Email = e.Identity.Email,
+                Gender = e.User.Gender == GenderEnum.Male ? "Male" : "Female",
+                Ethnicity = e.User.Ethnicity.Name,
+                Birthday = e.User.DateOfBirth.ToString("MM/dd"),
+            };
+
+            _chimpService.AddMemberToList(newMember);
         }
         public void RegisterFailed(object sender, RegistrationFailedArgs e)
         {

@@ -96,10 +96,7 @@ namespace OWM.Domain.Services
 
         public int GetTotalMembers()
         {
-            return _teamMembers.Queryable()
-                .Select(x => x.ProfileId)
-                .Distinct()
-                .Count();
+            return _profiles.Queryable().Count();
         }
     }
 }

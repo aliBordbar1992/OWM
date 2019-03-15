@@ -44,6 +44,7 @@ namespace OWM.Application.Services.AppConfigs
             services.AddScoped<ITeamInvitationsService, TeamInvitationsService>();
             services.AddScoped<ITeamMilesService, TeamMilesService>();
             services.AddScoped<ITeamSearchService, TeamSearchService>();
+            services.AddScoped<IMailChimpService, MailChimpService>();
         }
     }
 }
