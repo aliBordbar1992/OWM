@@ -16,10 +16,10 @@
         <p class="alert alert-success mt-3 small" id="alertsuccess">@message</p>
     }
         <span class="small">Your friend email address:</span>
-    <input asp-for="@Model.Input.EmailAddress" required type="email" class="form-control" />
+    <input asp-for="@Model.Input.EmailAddress" required type="email" class="form-control" value="" />
 
     <span class="small">Your friend's name:</span>
-    <input asp-for="@Model.Input.RecipientName" required type="text" class="form-control" />
+    <input asp-for="@Model.Input.RecipientName" required type="text" class="form-control" value=""/>
 
     <span class="small">Your invite message:</span>
     <textarea asp-for="@Model.Input.Message" required class="form-control" id="description" rows="3" style="resize: none;"></textarea>

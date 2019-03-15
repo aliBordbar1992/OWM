@@ -25,11 +25,11 @@
         <div class="row">
             <div class="col-md-6">
                 <span for="teamname">Team Name</span>
-                <input asp-for="Input.TeamName" required class="form-control" type="text" id="teamname" />
+                <input asp-for="Input.TeamName" required class="form-control" type="text" id="teamname" value=""/>
             </div>
             <div class="col-md-6">
                 <span for="milesdpledge">Miles Pledge</span>
-                <input asp-for="Input.MilesPledged" required class="form-control" type="number" step="0.01" id="milesdpledge" />
+                <input asp-for="Input.MilesPledged" required class="form-control" type="number" step="0.01" id="milesdpledge" value=""/>
             </div>
         </div>
         @if (!Model.NoOccupation)
@@ -38,7 +38,7 @@
                 <div class="col-md-12">
                     <div class="checkbox mb-1">
                         <span>
-                            <input asp-for="Input.OccupationFilter" type="checkbox" onchange="occupationlist(this);" class="align-middle">
+                            <input asp-for="Input.OccupationFilter" type="checkbox" onchange="occupationlist(this);" class="align-middle" >
                             Only same occupations as mine can join this team
                         </span>
                     </div>
