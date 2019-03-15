@@ -2,17 +2,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using OWM.Application.Services;
-using OWM.Domain.Entities;
-using OWM.Domain.Services.Interfaces;
-using System;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using OWM.Application.Services.Email;
 using OWM.Application.Services.Interfaces;
+using System;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 
 namespace OWM.UI.Web.Pages
 {
@@ -23,7 +18,6 @@ namespace OWM.UI.Web.Pages
         private readonly UserManager<Domain.Entities.User> _userManager;
         private readonly SignInManager<Domain.Entities.User> _signInManager;
         private bool _notRegistered;
-        private Domain.Entities.User _user;
 
         public bool DirectVisit;
         public bool EmailAlreadyConfirmed;
@@ -43,7 +37,7 @@ namespace OWM.UI.Web.Pages
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-           DirectVisit = false;
+            DirectVisit = false;
             if (userId == null || code == null)
             {
                 DirectVisit = true;
@@ -51,7 +45,8 @@ namespace OWM.UI.Web.Pages
                 EmailAlreadyConfirmed = IsEmailConfirmed(userId).Result;
                 if (EmailAlreadyConfirmed)
                 {
-                    await _signInManager.SignInAsync(_user, true);
+                    var verifiedUser = await _userManager.FindByIdAsync(userId);
+                    await _signInManager.SignInAsync(verifiedUser, true);
                     RedirectToPage("/User/NewsFeed");
                 }
 
@@ -112,15 +107,15 @@ namespace OWM.UI.Web.Pages
 
         private async Task<bool> IsEmailConfirmed(string id)
         {
-            _user = await _userManager.FindByIdAsync(id);
-            if (_user == null)
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
             {
                 _notRegistered = true;
                 return false;
             }
 
             _notRegistered = false;
-            return await _userManager.IsEmailConfirmedAsync(_user);
+            return await _userManager.IsEmailConfirmedAsync(user);
         }
     }
 }
