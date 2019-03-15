@@ -133,7 +133,7 @@ function applyScale(scale) {
 }
 
 function fillCanvasByDisplaySize() {
-    var displayWidth = $('.modal-body').width() - 10;
+    var displayWidth = $('#PreviewArea').width() - 10;
     var scale = displayWidth / canvas.width;
     applyScale(scale);
 }

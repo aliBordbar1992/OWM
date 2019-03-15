@@ -1429,7 +1429,7 @@ body {
     height: 72px;
     overflow: hidden;
     background-color: #6FC3B7;
-    z-index: 2000;
+    z-index: 500;
     -webkit-transform-style: preserve-3d;
     -moz-transform-style: preserve-3d;
     -ms-transform-style: preserve-3d;

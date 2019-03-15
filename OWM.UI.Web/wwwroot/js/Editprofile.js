@@ -37,8 +37,9 @@
             case "success":
                 {
                     GreenAlert('n', e.message);
+                    $('#controls').hide();
                     $('#upfile').val('');
-                    $('#views').empty();
+                    $('#UserProfilePictureModal').modal('toggle');
                     loading.hide();
                     $("#imgProfile").prop("src", e.picAddress);
                     $("#imgProfileAddress").val(e.picAddress);

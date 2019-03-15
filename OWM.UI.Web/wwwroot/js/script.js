@@ -102,6 +102,9 @@ $(function () {
       $(this).fadeOut();
     });
 })
+
+
+var sideBarDonate;
 $(function () {
   if ($(window).width() < 1060) {
     $('#LoginBtn').removeClass('owmbtn');
@@ -137,6 +140,7 @@ $(function () {
       $('.NavUser').addClass('active');
       break;
     }
+  sideBarDonate = $('#SideBarNavigation > div.donate')[0];
   RenderNavigation();
 });
 
@@ -166,8 +170,7 @@ function RenderNavigation() {
         $('#sideArea').hide();
         $('#UserPanelMainArea').addClass('col-md-12');
         $('#mainArea').addClass('col-md-12');
+        $('#UserPanelSideArea').empty().append(sideBarDonate).append($('#sideArea').html());
         $('#SideBarNavigation').hide();
-        $('#UserPanelSideArea').empty().append($('#SideBarNavigation > div.donate')[0]);
-        $('#UserPanelSideArea').append($('#sideArea').html());
     }
 }
