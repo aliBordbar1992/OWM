@@ -87,6 +87,11 @@
                            data-placement="bottom" data-content="And here's some amazing content. It's very engaging. Right?" class="text-info">Why do i need to provide my<br>date of birth?</a>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <input class="form-control" type="text" placeholder="How did you hear about us?" value="@TempData["HowDidYouHearUs"]" asp-for="RegistrationData.HowDidYouHearUs" />
+                    </div>
+                </div>
                 <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register" />
             </form>
         </div>
