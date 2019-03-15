@@ -28,12 +28,15 @@
     </environment>
 </head>
 <body>
+<style>
+   
+</style>
 <div id="wrapper">
     <div id="sidebar-wrapper">
         <ul class="sidebar-nav">
-            <li class="sidebar-brand" closenavbar>
-                <a href="#">
-                    <div style="font-size: 20pt;">&times;</div>
+            <li class="sidebar-brand pl-2">
+                <a asp-page="/index" title="Home">
+                    <img alt="One World Strong" class="sidebar-logo-owm" src="~/img/logo-one-world-strong-2.svg">
                 </a>
             </li>
             @await Component.InvokeAsync("TopMenu")
@@ -43,7 +46,8 @@
         <header id="header" class="anim" style="margin-bottom: 100px;">
             <div class="wrap-logo">
                 <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
-            </div><nav class="">
+            </div>
+            <nav class="">
                 @await Component.InvokeAsync("TopMenu")
                 <div class="mobile-open">
                     <span class="mobile-icon"></span>
@@ -85,7 +89,7 @@
                         </a>
                     </li>
                 </ul>
-                <hr class="bg-white" />
+                <hr class="bg-white"/>
                 <div class="columns clearfix">
                     <div class="column column-1">
                         <h4>
@@ -112,7 +116,8 @@
                     <div class="column column-2">
                         <h4>
                             <a href="#">Impact</a>
-                        </h4><ul>
+                        </h4>
+                        <ul>
                             <li>
                                 <a href="#">In the US</a>
                             </li>
@@ -137,7 +142,7 @@
                         </h4>
                     </div>
                 </div>
-                <hr class="bg-white" />
+                <hr class="bg-white"/>
                 <div class="copyright"> © 2019 - One World Strong Foundation </div>
             </div>
         </footer>
@@ -145,14 +150,9 @@
 </div>
 
 <div id="mm-blocker" class="mm-slideout"></div>
-<partial name="_BottomTicker" />
+<partial name="_BottomTicker"/>
 <script>
-    $('[closenavbar]').on('click', function (e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
-
-    $(document).click(function (event) { 
+    $(document).click(function(event) {
         $target = $(event.target);
         if ($target.closest('#page-content-wrapper').length && $('#wrapper').hasClass("toggled")) {
             $("#wrapper").removeClass("toggled");
