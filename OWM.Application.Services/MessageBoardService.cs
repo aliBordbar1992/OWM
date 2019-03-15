@@ -16,29 +16,23 @@ namespace OWM.Application.Services
         public async Task<int> GetOrCreateTeamBoard(int teamId)
         {
             var team = await _teamService.Queryable()
-                .Include(x => x.Board)
                 .FirstOrDefaultAsync(x => x.Id == teamId);
             if (team == null)
                 throw new TeamNotFoundException<int>($"No team found for id {teamId}", null, teamId);
 
-            var board = team.Board;
+            //var board = null;//team.Board;
 
-            if (board == null)
-            {
-                var boardTeam = await _teamService.Queryable()
-                    .FirstOrDefaultAsync(x => x.Id == teamId);
-                
-
-
-                board = new MessageBoard
-                {
-                    ForTeam = team,
-                    Participants = CreateBoardParticipants(boardTeam.Members),
-                    TrackingState = TrackingState.Added
-                };
+            //if (board == null)
+            //{
+            //    board = new MessageBoard
+            //    {
+            //        ForTeam = team,
+            //        Participants = CreateBoardParticipants(team.Members),
+            //        TrackingState = TrackingState.Added
+            //    };
 
 
-            }
+            //}
 
             return -1;
         }

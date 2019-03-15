@@ -82,8 +82,6 @@ namespace OWM.Application.Services
         public async Task IncreasePledgedMilesBy(int teamId, int profileId, float miles)
         {
             var mp = await _milesPledgedService.Queryable()
-                //.Include(x => x.Team)
-                //.Include(x => x.Profile)
                 .FirstOrDefaultAsync(x => x.Team.Id == teamId
                                           && x.Profile.Id == profileId);
 
@@ -110,9 +108,6 @@ namespace OWM.Application.Services
         public async Task IncreaseMilesCompletedBy(int teamId, int profileId, float miles)
         {
             var mp = await _milesPledgedService.Queryable()
-                //.Include(x => x.Team)
-                //.Include(x => x.Profile)
-                //.Include(x => x.CompletedMiles)
                 .FirstOrDefaultAsync(x => x.Team.Id == teamId
                                           && x.Profile.Id == profileId);
 

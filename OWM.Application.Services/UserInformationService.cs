@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OWM.Application.Services.Dtos;
+using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
+using OWM.Application.Services.Utils;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using OWM.Application.Services.Exceptions;
-using OWM.Application.Services.Utils;
 
 namespace OWM.Application.Services
 {
@@ -22,49 +22,23 @@ namespace OWM.Application.Services
             _profileService = userService;
         }
 
-        private async Task SetLocalUser(string identityId, bool includeRelations = false)
+        private async Task SetLocalUser(string identityId)
         {
             try
             {
-                if (includeRelations)
-                {
-                    _user = await _profileService.Queryable()
-                        //.Include(x => x.Identity)
-                        //.Include(x => x.Interests)
-                        //.Include(x => x.Teams)
-                        //.ThenInclude(x => x.Team)
-                        //.Include(x => x.MilesPledged)
-                        //.ThenInclude(x => x.CompletedMiles)
-                        .SingleAsync(x => x.Identity.Id == identityId);
-                    //await _profileService.LoadRelatedEntities(_user);
-                }
-                else
-                    _user = await _profileService.Queryable()
-                        //.Include(x => x.Identity)
-                        .SingleAsync(x => x.Identity.Id == identityId);
+                _user = await _profileService.Queryable()
+                    .SingleAsync(x => x.Identity.Id == identityId);
             }
             catch (Exception e)
             {
                 throw new UserNotFoundException<string>($"No user found for {identityId}", e, identityId);
             }
         }
-        private async Task SetLocalUser(int userId, bool includeRelations = false)
+        private async Task SetLocalUser(int userId)
         {
             try
             {
-                if (includeRelations)
-                {
-                    _user = await _profileService.Queryable()
-                        //.Include(x => x.Interests)
-                        //.Include(x => x.Teams)
-                        //.ThenInclude(x => x.Team)
-                        //.Include(x => x.MilesPledged)
-                        //.ThenInclude(x => x.CompletedMiles)
-                        .SingleAsync(x => x.Id == userId);
-                    //await _profileService.LoadRelatedEntities(_user);
-                }
-                else
-                    _user = await _profileService.FindAsync(userId);
+                _user = await _profileService.FindAsync(userId);
             }
             catch (Exception e)
             {
@@ -76,7 +50,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(identityId, true);
+                await SetLocalUser(identityId);
                 var n = new UserInformationDto
                 {
                     ProfileId = _user.Id,
@@ -87,7 +61,7 @@ namespace OWM.Application.Services
                     Name = _user.Name,
                     CityName = _user.City.Name,
                     Phone = _user.Identity.PhoneNumber,
-                    Gender = (int) _user.Gender,
+                    Gender = (int)_user.Gender,
                     Birthday = _user.DateOfBirth.ToString(Utils.Constants.DateFormat),
                     CityId = _user.City.Id,
                     CountryName = _user.Country.Name,
@@ -132,7 +106,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(identityId, true);
+                await SetLocalUser(identityId);
                 return _user.City;
             });
         }
@@ -148,7 +122,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(identityId, true);
+                await SetLocalUser(identityId);
                 return _user.Occupation;
             });
         }
@@ -156,7 +130,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(identityId, true);
+                await SetLocalUser(identityId);
                 return _user.Ethnicity;
             });
         }
@@ -164,7 +138,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(identityId, true);
+                await SetLocalUser(identityId);
                 return _user.Interests.ToList();
             });
         }
@@ -173,7 +147,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(userId, true);
+                await SetLocalUser(userId);
                 return new UserInformationDto
                 {
                     ProfileId = _user.Id,
@@ -227,7 +201,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(userId, true);
+                await SetLocalUser(userId);
                 return _user.City;
             });
         }
@@ -243,7 +217,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(userId, true);
+                await SetLocalUser(userId);
                 return _user.Occupation;
             });
         }
@@ -251,7 +225,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(userId, true);
+                await SetLocalUser(userId);
                 return _user.Ethnicity;
             });
         }
@@ -259,7 +233,7 @@ namespace OWM.Application.Services
         {
             return await Task.Run(async () =>
             {
-                await SetLocalUser(userId, true);
+                await SetLocalUser(userId);
                 return _user.Interests.ToList();
             });
         }
