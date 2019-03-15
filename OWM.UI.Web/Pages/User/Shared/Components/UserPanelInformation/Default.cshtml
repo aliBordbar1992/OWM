@@ -1,6 +1,14 @@
 ﻿@model Application.Services.Dtos.UserInformationDto
 @if (Model.IsLoggedIn)
 {
+    <style>
+        #menu button:hover {
+            background-color: #f7f8f9 !important;
+        }
+        #menu a:hover {
+            background-color: #f7f8f9 !important;
+        }
+    </style>
     <link href="~/css/InviteNotifier.css" rel="stylesheet" />
     <div class="col-md-3" id="sideArea">
         <div class="list-group mb-4">
