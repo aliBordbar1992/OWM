@@ -9,7 +9,6 @@
     var summary = TeamManager.GetSummary();
 }
 
-<script src='https://www.google.com/recaptcha/api.js'></script>
 <section id="splash" class="anim">
     <div class="logo" style="transition-delay: 0s, 0s;">
         <img alt="One World Marathon" src="img/logo-one-world-marathon.svg"><span class="logo-strap">
@@ -19,6 +18,30 @@
     <div class="strap" style="transition-delay: 0.2s, 0.2s;">
         <p class="wrap-std">The inaugural OWM global marathon 12-15th April 2019 – join us, run a little, care a lot</p>
     </div>
+
+    <div class="wrap-std">
+        <div class="row text-center mt-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
+                <a href="https://www.facebook.com/OWMarathon/" target="_blank">
+                    <img alt="Facebook" src="img/icon-facebook.svg">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://twitter.com/1worldstronger" target="_blank">
+                    <img alt="Twitter" src="img/icon-twitter.svg">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.instagram.com/1wsfoundation" target="_blank">
+                    <img alt="Instagram" src="img/icon-instagram.svg">
+                </a>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+
     <div class="stats anim">
         <!----><ul class="clearfix wrap-std">
             <li class="stat stat-1">
@@ -158,43 +181,11 @@
             <div class="std-content">
                 <h2>Apply and pledge</h2>
             </div>
-            <!---->
             <div class="std-content">
-                <p class="use-email">Signup with an email below</p>
+                <button class="owmbtn" onclick="window.location.href = '/Login';">Login</button>
+                <button class="owmbtn" onclick="window.location.href = '/Register';">Register</button>
             </div>
-            <!---->
-            <p>
-                <!-----------FORM ERROR MSG-------------------------------->
-            </p>
-            <!-- ------------Get already typed field back on unseccessfull signup -->
-            <form class="signup-form ng-untouched ng-pristine ng-valid" method="POST">
-                <div class="form-group">
-
-                    <label class='mt-1'>Firstname</label>
-                    <input type="text" name="first" placeholder="Firstname" value=""
-                           class="text text-medium ng-pristine ng-valid ng-touched">
-
-                    <label class='mt-1'>Email Address</label>
-                    <input type="text" name="email" placeholder="Email" value=""
-                           class="text text-medium ng-pristine ng-valid ng-touched">
-
-                    <label class='mt-1'>City</label>
-                    <input type="text" name="city" placeholder="City" value=""
-                           class="text text-medium ng-pristine ng-valid ng-touched">
-
-                    <label class='mt-1'>Country</label>
-                    <select name="country" selected="" class="text text-medium ng-pristine ng-valid ng-touched"></select>
-
-                    <label class='mt-1'>Pledge Miles</label>
-                    <input type="number" name="miles" placeholder="Pledge Miles" value=""
-                           class="text text-medium ng-pristine ng-valid ng-touched">
-                </div>
-                <!-- -  -----------      RECAPTCHA ---------------------->
-                <div class="g-recaptcha" data-sitekey="6LfuCZgUAAAAAHyX4UvI35rWya_9iBY4T92cnl8m"></div>
-                <!-- -  -----------    End of RECAPTCHA ---------------------->
-                <button class="owmbtn mt-3" type="submit" name="submit">Sign Me Up</button>
-            </form>
-            <div class="std-content">
+            <div class="std-content mb-2">
                 <p>
                     By signing up you are agreeing to our <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a>.
                 </p>
