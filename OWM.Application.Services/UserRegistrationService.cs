@@ -146,7 +146,7 @@ namespace OWM.Application.Services
                     profile.Ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
 
                 if (profile.Occupation.Id != userRegistrationDto.OccupationId)
-                    profile.Occupation = GetOccupation(userRegistrationDto.EthnicityId.Value);
+                    profile.Occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
 
                 RemoveInterests(profile.Interests.ToList());
                 profile.Interests = GetInterests(userRegistrationDto.Interests);
