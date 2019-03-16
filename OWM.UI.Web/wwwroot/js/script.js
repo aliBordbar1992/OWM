@@ -179,3 +179,16 @@ function RenderNavigation() {
         $('#SideBarNavigation').hide();
     }
 }
+
+$(function () {
+    $(document).on('click', '.mobile-open',
+        function () {
+            $('.sidebar-fade').show();
+            $("#wrapper").addClass("toggled");
+        })
+    $(document).on('click', '.sidebar-fade',
+        function () {
+            $('.sidebar-fade').hide();
+            $("#wrapper").removeClass("toggled");
+        })
+})

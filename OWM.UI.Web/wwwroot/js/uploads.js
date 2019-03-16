@@ -6,16 +6,8 @@
         RedAlert('n','only jpg format accept');
         ele[0] = [];
     } else {
-        var fileSize = ele[0].files[0].size;
-        fileSize = fileSize / 1024;
-        if (fileSize > 1024) {
-            RedAlert('n','file size must be less than 1MB');
-            ele[0] = [];
-            return;
-        } else {
-            $('#' + cont).fadeIn();
-            loadImage(ele[0]);
-        }
+        $('#' + cont).fadeIn();
+        loadImage(ele[0]);
     }
 }
 
@@ -90,7 +82,8 @@ function restartJcrop() {
         onSelect: selectcanvas,
         onRelease: clearcanvas,
         boxWidth: crop_max_width,
-        boxHeight: crop_max_height
+        boxHeight: crop_max_height,
+        aspectRatio: 1
     },
     function() {
         jcrop_api = this;
