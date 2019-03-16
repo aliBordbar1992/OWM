@@ -128,7 +128,7 @@
 }
 
 @media(max-width: 1060px) {
-    #donateBtn {
+    #donateBtn ,#donateBtn1 {
         margin: 15px 10px 15px 12px;
         color: #f7f8f9;
     }

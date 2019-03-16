@@ -28,11 +28,9 @@
     </environment>
 </head>
 <body>
-<style>
-   
-</style>
+<div class="sidebar-fade" style="display: none;"></div>
 <div id="wrapper">
-    <div id="sidebar-wrapper">
+    <div id="sidebar-wrapper" style="z-index: 999;">
         <ul class="sidebar-nav">
             <li class="sidebar-brand pl-2">
                 <a asp-page="/index" title="Home">
@@ -151,16 +149,5 @@
 
 <div id="mm-blocker" class="mm-slideout"></div>
 <partial name="_BottomTicker"/>
-<script>
-    $(document).click(function(event) {
-        $target = $(event.target);
-        if ($target.closest('#page-content-wrapper').length && $('#wrapper').hasClass("toggled")) {
-            $("#wrapper").removeClass("toggled");
-        }
-        if ($target.closest('.mobile-open').length) {
-            $("#wrapper").addClass("toggled");
-        }
-    });
-</script>
 </body>
 </html>

@@ -8,9 +8,7 @@
 @{
     var summary = TeamManager.GetSummary();
 }
-<script>
-    !function (a, n) { "function" == typeof define && define.amd ? define(n) : "object" == typeof exports ? module.exports = n(require, exports, module) : a.CountUp = n() }(this, function (a, n, t) { return function (a, n, t, e, i, r) { var u = this; if (u.version = function () { return "1.9.3" }, u.options = { useEasing: !0, useGrouping: !0, separator: ",", decimal: ".", easingFn: function (a, n, t, e) { return t * (1 - Math.pow(2, -10 * a / e)) * 1024 / 1023 + n }, formattingFn: function (a) { var n, t, e, i, r, o, s = a < 0; if (a = Math.abs(a).toFixed(u.decimals), n = (a += "").split("."), t = n[0], e = 1 < n.length ? u.options.decimal + n[1] : "", u.options.useGrouping) { for (i = "", r = 0, o = t.length; r < o; ++r)0 !== r && r % 3 == 0 && (i = u.options.separator + i), i = t[o - r - 1] + i; t = i } return u.options.numerals.length && (t = t.replace(/[0-9]/g, function (a) { return u.options.numerals[+a] }), e = e.replace(/[0-9]/g, function (a) { return u.options.numerals[+a] })), (s ? "-" : "") + u.options.prefix + t + e + u.options.suffix }, prefix: "", suffix: "", numerals: [] }, r && "object" == typeof r) for (var o in u.options) r.hasOwnProperty(o) && null !== r[o] && (u.options[o] = r[o]); "" === u.options.separator ? u.options.useGrouping = !1 : u.options.separator = "" + u.options.separator; for (var s = 0, l = ["webkit", "moz", "ms", "o"], m = 0; m < l.length && !window.requestAnimationFrame; ++m)window.requestAnimationFrame = window[l[m] + "RequestAnimationFrame"], window.cancelAnimationFrame = window[l[m] + "CancelAnimationFrame"] || window[l[m] + "CancelRequestAnimationFrame"]; function d(a) { return "number" == typeof a && !isNaN(a) } window.requestAnimationFrame || (window.requestAnimationFrame = function (a, n) { var t = (new Date).getTime(), e = Math.max(0, 16 - (t - s)), i = window.setTimeout(function () { a(t + e) }, e); return s = t + e, i }), window.cancelAnimationFrame || (window.cancelAnimationFrame = function (a) { clearTimeout(a) }), u.initialize = function () { return !!u.initialized || (u.error = "", u.d = "string" == typeof a ? document.getElementById(a) : a, u.d ? (u.startVal = Number(n), u.endVal = Number(t), d(u.startVal) && d(u.endVal) ? (u.decimals = Math.max(0, e || 0), u.dec = Math.pow(10, u.decimals), u.duration = 1e3 * Number(i) || 2e3, u.countDown = u.startVal > u.endVal, u.frameVal = u.startVal, u.initialized = !0) : (u.error = "[CountUp] startVal (" + n + ") or endVal (" + t + ") is not a number", !1)) : !(u.error = "[CountUp] target is null or undefined")) }, u.printValue = function (a) { var n = u.options.formattingFn(a); "INPUT" === u.d.tagName ? this.d.value = n : "text" === u.d.tagName || "tspan" === u.d.tagName ? this.d.textContent = n : this.d.innerHTML = n }, u.count = function (a) { u.startTime || (u.startTime = a); var n = (u.timestamp = a) - u.startTime; u.remaining = u.duration - n, u.options.useEasing ? u.countDown ? u.frameVal = u.startVal - u.options.easingFn(n, 0, u.startVal - u.endVal, u.duration) : u.frameVal = u.options.easingFn(n, u.startVal, u.endVal - u.startVal, u.duration) : u.countDown ? u.frameVal = u.startVal - (u.startVal - u.endVal) * (n / u.duration) : u.frameVal = u.startVal + (u.endVal - u.startVal) * (n / u.duration), u.countDown ? u.frameVal = u.frameVal < u.endVal ? u.endVal : u.frameVal : u.frameVal = u.frameVal > u.endVal ? u.endVal : u.frameVal, u.frameVal = Math.round(u.frameVal * u.dec) / u.dec, u.printValue(u.frameVal), n < u.duration ? u.rAF = requestAnimationFrame(u.count) : u.callback && u.callback() }, u.start = function (a) { u.initialize() && (u.callback = a, u.rAF = requestAnimationFrame(u.count)) }, u.pauseResume = function () { u.paused ? (u.paused = !1, delete u.startTime, u.duration = u.remaining, u.startVal = u.frameVal, requestAnimationFrame(u.count)) : (u.paused = !0, cancelAnimationFrame(u.rAF)) }, u.reset = function () { u.paused = !1, delete u.startTime, u.initialized = !1, u.initialize() && (cancelAnimationFrame(u.rAF), u.printValue(u.startVal)) }, u.update = function (a) { u.initialize() && (d(a = Number(a)) ? (u.error = "", a !== u.frameVal && (cancelAnimationFrame(u.rAF), u.paused = !1, delete u.startTime, u.startVal = u.frameVal, u.endVal = a, u.countDown = u.startVal > u.endVal, u.rAF = requestAnimationFrame(u.count))) : u.error = "[CountUp] update() - new endVal is not a number: " + a) }, u.initialize() && u.printValue(u.startVal) } });
-</script>
+
 <section id="splash" class="anim">
     <div class="logo" style="transition-delay: 0s, 0s;">
         <img alt="One World Marathon" src="img/logo-one-world-marathon.svg"><span class="logo-strap">
@@ -20,6 +18,30 @@
     <div class="strap" style="transition-delay: 0.2s, 0.2s;">
         <p class="wrap-std">The inaugural OWM global marathon 12-15th April 2019 – join us, run a little, care a lot</p>
     </div>
+
+    <div class="wrap-std">
+        <div class="row text-center mt-4">
+            <div class="col-md-3"></div>
+            <div class="col-md-2">
+                <a href="https://www.facebook.com/OWMarathon/" target="_blank">
+                    <img alt="Facebook" src="img/icon-facebook.svg">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="https://twitter.com/1worldstronger" target="_blank">
+                    <img alt="Twitter" src="img/icon-twitter.svg">
+                </a>
+            </div>
+            <div class="col-md-2">
+                <a href="http://www.instagram.com/1wsfoundation" target="_blank">
+                    <img alt="Instagram" src="img/icon-instagram.svg">
+                </a>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+
+
     <div class="stats anim">
         <!----><ul class="clearfix wrap-std">
             <li class="stat stat-1">
@@ -74,12 +96,30 @@
         </div>
     </div>
 </section>
+
+<section class="wrap-std content mt-5">
+    <div class="row">
+        <div class="col-lg-7">
+            <video src="/videos/OWM_Promo.mp4" poster="img/video-picture-holder.jpg" controls style="width: 100%;"></video>
+        </div>
+    </div>
+</section>
+
 <section class="wrap-std content">
     <div class="std-content">
         <div class="block">
             <h2>What is the One World Marathon?</h2>
             <p>One World Strong Foundation embodies the core principles of connection and co-operation, supporting the belief that people around the world should work together toward common goals.</p>
             <p>To reinforce that message, we’ve proposed a marathon, where teams of participants from around the world will combine their efforts to achieve a total of 26.2 miles (or 42.195km) over a four-day event. Participants apply and sign-up for a distance they will contribute on the event dates.</p>
+        </div>
+        <div class="block owm-youtube">
+            <div class="row">
+                <div class="col-lg-7">
+                    <iframe src="https://www.youtube.com/embed/4BiF6bhHiZs?rel=0" frameborder="0" width="100%" height="275"
+                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
         <div class="block">
             <h2>Who can participate?</h2>
@@ -107,7 +147,7 @@
         </p>
     </div>
 </section>
-<section class="wrap-std content">
+<section class="wrap-std content pb-4">
     <div class="std-content">
         <div class="block">
             <h2>How can I participate</h2>
@@ -115,6 +155,22 @@
             <p>Simply fill in the form below to enter. How you achieve your distance is up to you!</p>
             <p>All participants will be part of a team.&nbsp;The minimum number needed to create a team is 2 participants, there is no maximum number. If your team goes over the 26.2 miles that is OK!</p>
             <p>Your distance can be achieved by any type of movement that you are capable of: walk, run, roll over the course of the 4-day event. Participants may be assisted or unassisted. If an individual is assisted, both participants may count their distances and register as separate teammates. A participant may also join multiple teams and contribute separate distances to each team.</p>
+            <div class="box ">
+                <div class="p-lg-5">
+                    <strong>
+                        We are busy developing the search engine which will enable you to select your teams but in the
+                        meantime please register your interest to enable us to let you know when team selection can take
+                        place.
+                    </strong>
+                </div>
+            </div>
+        </div>
+        <div class="block">
+            <div class="row">
+                <div class="col-lg-7">
+                    <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -125,31 +181,19 @@
             <div class="std-content">
                 <h2>Apply and pledge</h2>
             </div>
-            <!---->
             <div class="std-content">
-                <p>There’s two ways to sign up, one is to sign in using Google or Facebook, which means the form below will be filled in automatically, or you can do it the old fashioned way, and just type your details in by hand.</p>
+                <button class="owmbtn" onclick="window.location.href = '/Login';">Login</button>
+                <button class="owmbtn" onclick="window.location.href = '/Register';">Register</button>
             </div>
-            <div class="buttons clearfix">
-                <a class="btn-oauth btn-oauth-google" href="">Sign in using Google</a>
-            </div>
-            <div class="std-content">
-                <p class="use-email">...or sign in with an email below</p>
-            </div><!---->
-            <form novalidate="" class="ng-untouched ng-pristine ng-valid">
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input autocomplete="email" class="text text-medium ng-untouched ng-pristine ng-valid" formcontrolname="email" type="email"><!---->
-                </div>
-                <button class="owmbtn" type="submit">Sign In With Email</button>
-            </form>
-            <div class="std-content">
+            <div class="std-content mb-2">
                 <p>
-                    By signing up you are agreeing to our <a href="/terms">terms &amp; conditions</a> and <a href="/privacy">privacy policy</a>.
+                    By signing up you are agreeing to our <a href="#">terms &amp; conditions</a> and <a href="#">privacy policy</a>.
                 </p>
-            </div><!----><!---->
+            </div>
         </div>
     </div>
 </section>
+
 <section class="wrap-std content">
     <div class="std-content">
         <div class="block">
@@ -164,6 +208,14 @@
             <p>In the years to come, we aim to build a curriculum with the focus of cultural immersion, global citizenship and resiliency culminating in an annual One World Marathon each Spring, and to expand involvement by increasing the number of education networks and participants on a diverse global scale.</p>
         </div>
     </div>
+    <div class="block owm-youtube">
+        <div class="row">
+            <div class="col-lg-7">
+                <iframe width="100%" height="275" src="https://www.youtube.com/embed/VOxeP1CYgTg" frameborder="0"
+                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
 </section>
 <section class="wrap-std" id="donate">
     <div class="box">
@@ -175,7 +227,7 @@
                     <input type="hidden" name="hosted_button_id" value="C9YKGHNPSQU8G" />
                     <input type="hidden" name="return" value="https://www.google.com" id="comp-j698gmttreturn"
                            class="ppb0return" />
-                    <button class="owmbtn" name="submit" id="donateBtn"
+                    <button class="owmbtn" name="submit" id="donateBtn1"
                             title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button">
                         <i class="fab fa-paypal"></i> Donate
                     </button><br>
@@ -194,8 +246,18 @@
     <div class="partner-grid">
         <ul class="clearfix">
             <li>
+                <a href="https://www.newbalance.co.uk/" target="_blank">
+                    <img alt="New Balance" src="img/logo_new_balance.png" width="100">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.cranford.hounslow.sch.uk/" target="_blank">
+                    <img alt="Cranford Community College" src="img/logo-cranford.png" width="140">
+                </a>
+            </li>
+            <li>
                 <a href="https://www.airbnb.co.uk" target="_blank">
-                    <img alt="AirBNB" src="img/logo-abnb.png" width="48">
+                    <img alt="AirBNB" src="img/logo-abnb.png" width="65">
                 </a>
             </li>
             <li>
@@ -223,15 +285,11 @@
                     <img alt="Robin Zahler" src="img/logo-rz.png" width="164">
                 </a>
             </li>
+
             <li>
-                <a href="http://www.cranford.hounslow.sch.uk/" target="_blank">
-                    <img alt="Cranford Community College" src="img/logo-cranford.png" width="140">
-                </a>
-            </li>
-            <li>
-                <span>
+                <a href="https://www.menssana-ngo.com/" target="_blank">
                     <img alt="Mens Sana" src="img/logo-mens-sana.png" width="82">
-                </span>
+                </a>
             </li>
             <li>
                 <a href="https://www.morganlewis.com/" target="_blank">
@@ -251,6 +309,98 @@
             <li>
                 <a href="http://www.runjordan.com/" target="_blank">
                     <img alt="Run Jordan" src="img/logo-run-jordan.png" width="90">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.hoytrunningchairs.com" target="_blank">
+                    <img alt="Hot Chairs" src="img/logo-hot-chairs.png" width="90">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.hestonwest.org" target="_blank">
+                    <img alt="Heston West" src="img/logo-heston-west.jpg" width="90">
+                </a>
+            </li>
+            <li>
+                <a href="https://i-corenetworks.com" target="_blank">
+                    <img alt="icornetworks" src="img/corenetworks.com.png" width="190">
+                </a>
+            </li>
+            <li>
+                <a href="https://mosul-eye.org" target="_blank">
+                    <img alt="mosul-eye" src="img/logo-mosul-eye.jpg" width="100">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.morganlewis.com" target="_blank">
+                    <img alt="Morgan Lewis" src="img/logo-morgan-lewis-2.png" width="130">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.fcunity.com" target="_blank">
+                    <img alt="Unity" src="img/unity.png" width="120">
+                </a>
+            </li>
+
+            <li>
+                <a href="https://www.jesselewischooselove.org" target="_blank">
+                    <img alt="Love Movement" src="img/lovemovement.png" width="140">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.lingzifoundation.org" target="_blank">
+                    <img alt="Lingzi Foundation" src="img/logo_Lingzi_Foundation.png" width="100">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.bullhorn.com" target="_blank">
+                    <img alt="Bull Horn" src="img/logo_bullhorn.png" width="110">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.dylanswingsofchange.org" target="_blank">
+                    <img alt="Lingzi Foundation" src="img/logo_DWC.jpg" width="90">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.parisdescartes.fr/" target="_blank">
+                    <img alt="University of Paris" src="img/university_paris.jpg" width="190">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.unitequebec.com" target="_blank">
+                    <img alt="Unite Quebec" src="img/UQ_Logo_portrait_dark.png" width="150">
+                </a>
+            </li>
+            <li>
+                <a href="https://strongcitiesnetwork.org/en/" target="_blank">
+                    <img alt="SCN" src="img/SCN.png" width="100">
+                </a>
+
+            </li>
+            <li>
+                <a href="https://www.isdglobal.org/" target="_blank">
+                    <img alt="ISD" src="img/isd.png" width="140">
+                </a>
+            </li>
+            <li>
+                <a href="http://www.iut.parisdescartes.fr/" target="_blank">
+                    <img alt="Ville de Paris" src="img/VILLE_DE_PARIS_LOGO_VERTICAL_POS_RVB_TRANS.png" width="110">
+                </a>
+            </li>
+            <li>
+                <a href="https://runclon.ie/" target="_blank">
+                    <img alt="Runclon" src="img/runclon.jpg" width="90">
+                </a>
+            </li>
+            <li>
+                <a href="https://www.peace-foundation.org.uk" target="_blank">
+                    <img alt="Peace Foundation" src="img/Peace_Foundation.png" width="125">
+                </a>
+            </li>
+            <li>
+                <a href="https://us.vibram.com" target="_blank">
+                    <img alt="Vibram" src="img/vibram.png" width="110">
                 </a>
             </li>
         </ul>

@@ -178,14 +178,14 @@ namespace OWM.UI.Web.Pages
             {
                 Text = x.Name,
                 Value = x.Id + "",
-                Selected = x.Order == 0
+                //Selected = x.Order == 0
             }).ToList().Result;
 
             OccupationOptions = _ocpInformation.GetOccupations().Select(x => new SelectListItem
             {
                 Text = x.Name,
                 Value = x.Id + "",
-                Selected = x.Order == 0
+                //Selected = x.Order == 0
             }).ToList().Result;
         }
 
