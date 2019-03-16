@@ -139,21 +139,27 @@ namespace OWM.Application.Services
                 if (profile.Country.Name != userRegistrationDto.CountryName)
                     profile.Country = GetCountry(userRegistrationDto.CountryName);
 
-                if (profile.City.Id != userRegistrationDto.CityId.Value)
-                    profile.City = GetCity(profile.Country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
+                if (userRegistrationDto.CityId.HasValue && 
+                    profile.City.Id != userRegistrationDto.CityId.Value)
+                        profile.City = GetCity(profile.Country, userRegistrationDto.CityName, userRegistrationDto.CityId.Value);
 
-                if (profile.Ethnicity.Id != userRegistrationDto.EthnicityId)
-                    profile.Ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
+                if (userRegistrationDto.EthnicityId.HasValue && 
+                    profile.Ethnicity.Id != userRegistrationDto.EthnicityId.Value)
+                        profile.Ethnicity = GetEthnicity(userRegistrationDto.EthnicityId.Value);
 
-                if (profile.Occupation.Id != userRegistrationDto.OccupationId)
-                    profile.Occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
+                if (userRegistrationDto.OccupationId.HasValue && 
+                    profile.Occupation.Id != userRegistrationDto.OccupationId)
+                        profile.Occupation = GetOccupation(userRegistrationDto.OccupationId.Value);
 
                 RemoveInterests(profile.Interests.ToList());
                 profile.Interests = GetInterests(userRegistrationDto.Interests);
 
                 profile.Name = userRegistrationDto.Name;
                 profile.Surname = userRegistrationDto.Surname;
-                profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+
+                if (userRegistrationDto.Gender.HasValue)
+                    profile.Gender = (GenderEnum)userRegistrationDto.Gender.Value;
+
                 profile.ProfileImageUrl =
                     profile.ProfileImageUrl == userRegistrationDto.ProfileImageAddress ||
                     string.IsNullOrEmpty(userRegistrationDto.ProfileImageAddress)
