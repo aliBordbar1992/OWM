@@ -10,8 +10,8 @@
     <div class="row">
         @await Component.InvokeAsync("UserPanelInformation")
         <div class="col-md-9" id="mainArea">
-            <div class="card bg-white">
-                <div class="card-body bg-light">
+            <div class="card" style="background: rgba(193, 216, 196, 0.4);">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-9" id="namearea">
                             <h3 class="mb-0">@Model.TeamInformation.TeamName</h3>
@@ -131,10 +131,10 @@
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <div class="list-group">
-                                <div class="list-group-item active text-center">
+                                <div class="list-group-item bg-success text-white text-center">
                                     Members
                                 </div>
-                                <div style="overflow-y: auto; overflow-x: hidden; max-height: 250px;" id="search">
+                                <div id="search">
                                     @foreach (var member in Model.TeamInformation.TeamMembers)
                                     {
                                         <div class="list-group-item text-left list-group-item-action">

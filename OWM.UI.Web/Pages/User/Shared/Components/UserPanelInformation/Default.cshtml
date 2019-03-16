@@ -3,16 +3,16 @@
 {
     <style>
         #menu button:hover {
-            background-color: #f7f8f9 !important;
+            background-color: #eaf1ea !important;
         }
         #menu a:hover {
-            background-color: #f7f8f9 !important;
+            background-color: #eaf1ea !important;
         }
     </style>
     <link href="~/css/InviteNotifier.css" rel="stylesheet" />
     <div class="col-md-3" id="sideArea">
-        <div class="list-group mb-4">
-            <div class="list-group-item text-center bg-light">
+        <div class="list-group mb-4" style="background: rgba(193, 216, 196, 0.4);">
+            <div class="list-group-item text-center bg-lightgreen">
                 <div class="d-block mb-2">
                     <img class="user-image" src="@Model.ProfilePicture" />
                 </div>
@@ -22,14 +22,14 @@
                 <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
             </div>
         </div>
-        <div class="card mb-4 pr-3 pl-3 bg-light" id="menu">
-            <div class="list-group list-group-flush bg-light">
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Messages">Messages</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Invitations">
+        <div class="card mb-4 pr-3 pl-3" id="menu" style="background: rgba(193, 216, 196, 0.4);">
+            <div class="list-group list-group-flush bg-lightgreen">
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Messages">Messages</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Invitations">
                     @if (Model.HasInvitations)
                     {
                         <span class="notifier new pl-3">
@@ -38,13 +38,13 @@
                     }
                     Invitations
                 </a>
-                <a class="list-group-item bg-light" asp-area="" asp-page="/User/Help">Help</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Help">Help</a>
                 <form asp-page="/Logout" method="post">
-                    <button type="submit" class="list-group-item bg-light btn-block border-top" style="color: #535353;">Logout</button>
+                    <button type="submit" class="list-group-item bg-lightgreen btn-block border-top" style="color: #535353;">Logout</button>
                 </form>
             </div>
         </div>
-        <div class="card mb-4 p-2 text-center bg-light">
+        <div class="card mb-4 p-2 text-center" style="background: rgba(193, 216, 196, 0.4);">
             <p class="mb-1 small">Team Joined</p>
             <h2 class="mb-0">@Model.TeamJoined</h2>
             <hr class="bg-white mb-2 mt-2" />

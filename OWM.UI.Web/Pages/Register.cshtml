@@ -9,7 +9,8 @@
 <script src="~/js/index.js"></script>
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
             <form class="box" method="post">
                 <h2 class="greenheader">Register</h2>
                 <div asp-validation-summary="All" id="ValidationSummary"></div>
@@ -92,9 +93,10 @@
                         <input class="form-control" type="text" placeholder="How did you hear about us?" value="@TempData["HowDidYouHearUs"]" asp-for="RegistrationData.HowDidYouHearUs" />
                     </div>
                 </div>
-                <input type="submit" class="btn btn-success mt-2" id="btnRegister" value="Register" />
+                <input type="submit" class="btn btn-success mt-3" id="btnRegister" value="Register" />
             </form>
         </div>
+        <div class="col-lg-3"></div>
     </div>
 </div>
 

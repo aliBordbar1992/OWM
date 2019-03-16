@@ -8,7 +8,15 @@
 @{
     var summary = TeamManager.GetSummary();
 }
-
+<style>
+    .social > li {
+        display: inline-block;
+        zoom: 1;
+        *display: inline;
+        font-size: 20pt;
+        padding: 10px;
+    }
+</style>
 <section id="splash" class="anim">
     <div class="logo" style="transition-delay: 0s, 0s;">
         <img alt="One World Marathon" src="img/logo-one-world-marathon.svg"><span class="logo-strap">
@@ -18,27 +26,25 @@
     <div class="strap" style="transition-delay: 0.2s, 0.2s;">
         <p class="wrap-std">The inaugural OWM global marathon 12-15th April 2019 – join us, run a little, care a lot</p>
     </div>
-
-    <div class="wrap-std">
-        <div class="row text-center mt-4">
-            <div class="col-md-3"></div>
-            <div class="col-md-2">
+   
+    <div class="wrap-std text-center mt-3">
+        <ul class="social clearfix text-darkblue" >
+            <li>
                 <a href="https://www.facebook.com/OWMarathon/" target="_blank">
-                    <img alt="Facebook" src="img/icon-facebook.svg">
+                    <i class="fab fa-facebook-square"></i>
                 </a>
-            </div>
-            <div class="col-md-2">
+            </li>
+            <li>
                 <a href="https://twitter.com/1worldstronger" target="_blank">
-                    <img alt="Twitter" src="img/icon-twitter.svg">
+                    <i class="fab fa-twitter-square"></i>
                 </a>
-            </div>
-            <div class="col-md-2">
+            </li>
+            <li>
                 <a href="http://www.instagram.com/1wsfoundation" target="_blank">
-                    <img alt="Instagram" src="img/icon-instagram.svg">
+                    <i class="fab fa-instagram"></i>
                 </a>
-            </div>
-            <div class="col-md-3"></div>
-        </div>
+            </li>
+        </ul>
     </div>
 
 
