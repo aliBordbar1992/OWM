@@ -1890,4 +1890,5 @@ input:-webkit-autofill:active {
     position: fixed;
     opacity: .4;
     z-index: 800;
+    cursor: pointer;
 }
