@@ -3,3 +3,113 @@
 @{
     Layout = "Shared/UserLayout";
 }
+<style>
+    .chat
+    {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .chat li
+    {
+        margin-bottom: 10px;
+        padding-bottom: 5px;
+        border-bottom: 1px dotted #B3A9A9;
+    }
+
+    .chat li.left .chat-body
+    {
+        margin-left: 60px;
+    }
+
+    .chat li.right .chat-body
+    {
+        margin-right: 60px;
+    }
+
+
+    .chat li .chat-body p
+    {
+        margin: 0;
+        color: #777777;
+    }
+
+    .panel .slidedown .glyphicon, .chat .glyphicon
+    {
+        margin-right: 5px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="btn-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                        <span class="fa fa-arrow-circle-o-down"></span>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li>
+                            <a href="http://www.jquery2dotnet.com">
+                                <span class="fa fa-refresh">
+                                </span>Refresh
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.jquery2dotnet.com">
+                                <span class="glyphicon glyphicon-ok-sign">
+                                </span>Available
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.jquery2dotnet.com">
+                                <span class="glyphicon glyphicon-remove">
+                                </span>Busy
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.jquery2dotnet.com">
+                                <span class="glyphicon glyphicon-time"></span>
+                                Away
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="http://www.jquery2dotnet.com">
+                                <span class="glyphicon glyphicon-off"></span>
+                                Sign Out
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="chat">
+                    <li class="left clearfix">
+                        <span class="chat-img pull-left">
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="rounded-circle" />
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header">
+                                <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
+                                    <span class="glyphicon glyphicon-time"></span>12 mins ago
+                                </small>
+                            </div>
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                dolor, quis ullamcorper ligula sodales.
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer clearfix">
+                <textarea class="form-control" rows="3"></textarea>
+                <span class="col-lg-6  col-md-6" style="margin-top: 10px">
+                    <button class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
