@@ -1,0 +1,7 @@
+﻿ .social > li {
+     display: inline-block;
+     zoom: 1;
+     *display: inline;
+     font-size: 20pt;
+     padding: 10px;
+ }
