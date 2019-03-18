@@ -51,8 +51,8 @@ namespace OWM.UI.Web
                 .AddCookie()
                 .AddGoogle(o =>
                 {
-                    o.ClientId = "849404786729-rod1lcdt4v4d6ovn3h1373nipphcrk9i.apps.googleusercontent.com";
-                    o.ClientSecret = "udG-QwQLRxVbwfdiXj7jUkR6";
+                    o.ClientId = "146328746915-55qlukf71n4ah14103jjf1urro7lqtc0.apps.googleusercontent.com";
+                    o.ClientSecret = "GqA8efo2pbyrVawIGFAkckff";
                     o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
                     o.ClaimActions.Clear();
                     o.ClaimActions.MapAll();
@@ -69,8 +69,8 @@ namespace OWM.UI.Web
                 })
                 .AddFacebook(o =>
                 {
-                    o.AppId = "2283841911680137";
-                    o.AppSecret = "d58954985ba0f690d26abd41ef139a30";
+                    o.AppId = "650012525418496";
+                    o.AppSecret = "fb7d684f71efe6be017aa927c1a28f93";
                     o.Scope.Add("user_gender");
                     o.Scope.Add("user_birthday");
                     o.Scope.Add("email");
