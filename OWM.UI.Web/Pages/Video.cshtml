@@ -16,46 +16,15 @@
         </div>
         <div class="card-body">
             <div class="row pl-4 pr-4 pt-2 pb-2">
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
+                @foreach (var vid in Model.videos)
+                {
+                    <div class="col-sm-3 nopadding">
+                        <label>@vid.Title</label>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video src="@vid.Address" width="100%" controls></video>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
-                <div class="col-sm-3 nopadding">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <video src="videos/Promo_Argentina_clean.mp4" width="100%" controls></video>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>
