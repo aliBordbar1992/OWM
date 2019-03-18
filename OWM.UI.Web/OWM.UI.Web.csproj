@@ -33,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\funstuff\" />
     <Folder Include="wwwroot\user_images\" />
+    <Folder Include="wwwroot\video\gallery\" />
   </ItemGroup>
 
 </Project>
