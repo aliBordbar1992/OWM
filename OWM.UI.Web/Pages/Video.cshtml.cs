@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OWM.UI.Web.Pages
 {
-    public class Picture_galleryModel : PageModel
+    public class Video : PageModel
     {
         public void OnGet()
         {
