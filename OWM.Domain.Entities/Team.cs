@@ -32,12 +32,11 @@ namespace OWM.Domain.Entities
         public Guid Identity { get; set; }
         public AgeRange AgeRange { get; set; }
 
-        //public MessageBoard Board
-        //{
-        //    get => LazyLoader.Load(this, ref _board);
-        //    set => _board = value;
-        //}
-
+        public MessageBoard Board
+        {
+            get => LazyLoader.Load(this, ref _board);
+            set => _board = value;
+        }
         public ICollection<MilesPledged> PledgedMiles
         {
             get => LazyLoader.Load(this, ref _pledgedMiles);

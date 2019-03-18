@@ -1,11 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace OWM.Domain.Entities
 {
     public class Participant : BaseAuditClass
     {
-        public Profile Profile{ get; set; }
-        public MessageBoard Board { get; set; }
+        private Profile _profile;
+        private MessageBoard _board;
+        public ILazyLoader LazyLoader { get; }
+
+        public Participant()
+        {
+        }
+        public Participant(ILazyLoader lazyLoader)
+        {
+            LazyLoader = lazyLoader;
+        }
+
+        public Profile Profile
+        {
+            get => LazyLoader.Load(this, ref _profile);
+            set => _profile = value;
+        }
+        public MessageBoard Board
+        {
+            get => LazyLoader.Load(this, ref _board);
+            set => _board = value;
+        }
 
         [Timestamp]
         public byte[] LastReadTimeStamp { get; set; }
