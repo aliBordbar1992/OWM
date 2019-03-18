@@ -3,100 +3,55 @@
 @{
     Layout = "Shared/UserLayout";
 }
-<style>
-    .chat
-    {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .chat li
-    {
-        margin-bottom: 10px;
-        padding-bottom: 5px;
-        border-bottom: 1px dotted #B3A9A9;
-    }
-
-    .chat li.left .chat-body
-    {
-        margin-left: 60px;
-    }
-
-    .chat li.right .chat-body
-    {
-        margin-right: 60px;
-    }
-
-
-    .chat li .chat-body p
-    {
-        margin: 0;
-        color: #777777;
-    }
-
-    .panel .slidedown .glyphicon, .chat .glyphicon
-    {
-        margin-right: 5px;
-    }
-</style>
-
+<link href="~/css/Messages.css" rel="stylesheet" />
+<h4 class="font-weight-bold">Messages</h4>
+<hr class="mb-0 mb-3" />
 <div class="row">
     <div class="col-md-12">
         <div class="card">
-            <div class="card-header">
-                <div class="btn-group pull-right">
-                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
-                        <span class="fa fa-arrow-circle-o-down"></span>
+            <div class="card-header bg-success">
+                <div class="btn-group">
+                    <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        team's list
                     </button>
-                    <ul class="dropdown-menu slidedown">
-                        <li>
-                            <a href="http://www.jquery2dotnet.com">
-                                <span class="fa fa-refresh">
-                                </span>Refresh
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.jquery2dotnet.com">
-                                <span class="glyphicon glyphicon-ok-sign">
-                                </span>Available
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.jquery2dotnet.com">
-                                <span class="glyphicon glyphicon-remove">
-                                </span>Busy
-                            </a>
-                        </li>
-                        <li>
-                            <a href="http://www.jquery2dotnet.com">
-                                <span class="glyphicon glyphicon-time"></span>
-                                Away
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="http://www.jquery2dotnet.com">
-                                <span class="glyphicon glyphicon-off"></span>
-                                Sign Out
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">2</span></a>
+                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">1</span></a>
+                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">5</span></a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
                 <ul class="chat">
                     <li class="left clearfix">
-                        <span class="chat-img pull-left">
+                        <span class="float-left">
                             <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="rounded-circle" />
                         </span>
                         <div class="chat-body clearfix">
-                            <div class="header">
-                                <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                    <span class="glyphicon glyphicon-time"></span>12 mins ago
+                            <div class="header pb-1">
+                                <strong>Jack Sparrow</strong>
+                                <small class="float-right text-muted xx-small" id="time">
+                                    <i class="far fa-clock"></i> 15 Feb 2019 at 19:35
                                 </small>
                             </div>
-                            <p>
+                            <p class="small mt-1 mb-2">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
+                                dolor, quis ullamcorper ligula sodales.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="left clearfix">
+                        <span class="float-left">
+                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="rounded-circle" />
+                        </span>
+                        <div class="chat-body clearfix">
+                            <div class="header pb-1">
+                                <strong>Jack Sparrow</strong>
+                                <small class="float-right text-muted xx-small" id="time">
+                                    <i class="far fa-clock"></i> 12 mins ago
+                                </small>
+                            </div>
+                            <p class="small mt-1 mb-2">
                                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
                                 dolor, quis ullamcorper ligula sodales.
                             </p>
@@ -105,8 +60,8 @@
                 </ul>
             </div>
             <div class="card-footer clearfix">
-                <textarea class="form-control" rows="3"></textarea>
-                <span class="col-lg-6  col-md-6" style="margin-top: 10px">
+                <textarea class="form-control" rows="3" id="message" placeholder="Type message here ... "></textarea>
+                <span class="col-lg-6 col-md-6">
                     <button class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
                 </span>
             </div>

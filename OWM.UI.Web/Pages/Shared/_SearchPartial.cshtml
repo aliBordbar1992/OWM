@@ -17,59 +17,74 @@
             <input placeholder="Search Teams" autocomplete="off" id="searchteams" class="border-0 w-100" style="height: 40px;" />
             <img src="~/img/loading.gif" class="loading-md-exp" />
         </div>
-        <div class="list-group-item bg-gray pl-4 pr-4 pt-2 pb-2">
-            <div class="row mb-4">
-                <div class="col-md-3 text-left" style="line-height: 31px;">Team Members</div>
-                <div class="col-md-9 text-left">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-sm btn-outline-success active">
-                            <input type="radio" name="teammembers" id="option1" autocomplete="off" data-value="1"> Acending
-                        </label>
-                        <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="teammembers" id="option2" autocomplete="off" data-value="2"> Decending
-                        </label>
-                        <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="teammembers" id="option3" autocomplete="off" data-value="0" checked> Off
-                        </label>
+        <div id="accordion">
+            <div class="card rounded-0" style="background-color: #d2e8d5">
+                <div class="card-header border-bottom-0 rounded-0">
+                    <a class="card-link small" data-toggle="collapse" href="#collapseOne">
+                        Filters <i class="fas fa-caret-down"></i>
+                    </a>
+                </div>
+                <div id="collapseOne" class="collapse fade" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-3 text-left" style="line-height: 31px;">Team Members</div>
+                            <div class="col-md-9 text-left">
+                                <div class="btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-sm btn-outline-success active">
+                                        <input type="radio" name="teammembers" id="option1" autocomplete="off" data-value="1"> Acending
+                                    </label>
+                                    <label class="btn btn-sm btn-outline-success">
+                                        <input type="radio" name="teammembers" id="option2" autocomplete="off" data-value="2"> Decending
+                                    </label>
+                                    <label class="btn btn-sm btn-outline-success">
+                                        <input type="radio" name="teammembers" id="option3" autocomplete="off" data-value="0" checked> Off
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-md-3 text-left" style="line-height: 31px;">Miles Pledged</div>
+                            <div class="col-md-9 text-left">
+                                <div class="btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-sm btn-outline-success active">
+                                        <input type="radio" name="milespledged" id="option4" autocomplete="off" data-value="1"> Acending
+                                    </label>
+                                    <label class="btn btn-sm btn-outline-success">
+                                        <input type="radio" name="milespledged" id="option5" autocomplete="off" data-value="2"> Decending
+                                    </label>
+                                    <label class="btn btn-sm btn-outline-success">
+                                        <input type="radio" name="milespledged" id="option6" autocomplete="off" data-value="0" checked> Off
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 text-left" style="line-height: 37px;">Occupation</div>
+                            <div class="col-md-9 text-left">
+                                <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="occupationOptions">
+                                    <option value="-1">All</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-3 text-left" style="line-height: 37px;">Age range</div>
+                            <div class="col-md-9 text-left">
+                                <select class="chosen-select" data-placeholder="" id="Ages">
+                                    <option value="0">Below 14</option>
+                                    <option value="1">15 To 17</option>
+                                    <option value="2">17 Plus</option>
+                                    <option value="3" selected>All</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-3 text-left" style="line-height: 31px;">Miles Pledged</div>
-                <div class="col-md-9 text-left">
-                    <div class="btn-group-toggle" data-toggle="buttons">
-                        <label class="btn btn-sm btn-outline-success active">
-                            <input type="radio" name="milespledged" id="option4" autocomplete="off" data-value="1"> Acending
-                        </label>
-                        <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="milespledged" id="option5" autocomplete="off" data-value="2"> Decending
-                        </label>
-                        <label class="btn btn-sm btn-outline-success">
-                            <input type="radio" name="milespledged" id="option6" autocomplete="off" data-value="0" checked> Off
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 text-left" style="line-height: 37px;">Occupation</div>
-                <div class="col-md-9 text-left">
-                    <select class="chosen-select" data-placeholder="" id="Occupations" asp-items="occupationOptions">
-                        <option value="-1">All</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-3 text-left" style="line-height: 37px;">Age range</div>
-                <div class="col-md-9 text-left">
-                    <select class="chosen-select" data-placeholder="" id="Ages">
-                        <option value="0">Below 14</option>
-                        <option value="1">15 To 17</option>
-                        <option value="2">17 Plus</option>
-                        <option value="3" selected>All</option>
-                    </select>
                 </div>
             </div>
         </div>
+        @*<div class="list-group-item bg-lightgreen pl-4 pr-4 pt-2 pb-2">
+            
+            
+        </div>*@
     </div>
 </div>
 
