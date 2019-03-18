@@ -19,9 +19,15 @@
                 @foreach (var vid in Model.videos)
                 {
                     <div class="col-sm-3 nopadding">
-                        <label>@vid.Title</label>
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <video src="@vid.Address" width="100%" controls></video>
+                        <div class="card">
+                            <div class="card-header p-1">
+                                <span class="small d-block text-left text-muted">@vid.Title.Substring(0, 20) ...</span>
+                            </div>
+                            <div class="card-body p-1">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <video src="@vid.Address" width="100%" controls></video>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 }
