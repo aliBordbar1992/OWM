@@ -51,8 +51,8 @@ namespace OWM.UI.Web
                 .AddCookie()
                 .AddGoogle(o =>
                 {
-                    o.ClientId = Configuration["Authentication:Google:ClientId"];
-                    o.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                    o.ClientId = Environment.GetEnvironmentVariable("GoogleClientId"); //Configuration["Authentication:Google:ClientId"];
+                    o.ClientSecret = Environment.GetEnvironmentVariable("GoogleClientSecret");//Configuration["Authentication:Google:ClientSecret"];
                     o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
                     o.ClaimActions.Clear();
                     o.ClaimActions.MapAll();
@@ -69,8 +69,8 @@ namespace OWM.UI.Web
                 })
                 .AddFacebook(o =>
                 {
-                    o.AppId = Configuration["Authentication:Facebook:AppId"];
-                    o.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                    o.AppId = Environment.GetEnvironmentVariable("FacebookAppId"); //Configuration["Authentication:Facebook:AppId"];
+                    o.AppSecret = Environment.GetEnvironmentVariable("FacebookAppSecret"); //Configuration["Authentication:Facebook:AppSecret"];
                     o.Scope.Add("user_gender");
                     o.Scope.Add("user_birthday");
                     o.Scope.Add("email");

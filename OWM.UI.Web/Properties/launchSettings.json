@@ -13,6 +13,10 @@
       "launchBrowser": true,
       "launchUrl": "/Index",
       "environmentVariables": {
+        "FacebookAppId": "2283841911680137",
+        "GoogleClientId": "849404786729-rod1lcdt4v4d6ovn3h1373nipphcrk9i.apps.googleusercontent.com",
+        "FacebookAppSecret": "d58954985ba0f690d26abd41ef139a30",
+        "GoogleClientSecret": "udG-QwQLRxVbwfdiXj7jUkR6",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
