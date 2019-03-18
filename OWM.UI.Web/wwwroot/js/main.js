@@ -18,7 +18,7 @@
     };
 
     // GO TO PLEDGE
-    $('.go-to-pledge').click(function (e) {
+    $(document).on('click', '.go-to-pledge',function (e) {
         e.preventDefault();
 
         $('html, body').animate({
