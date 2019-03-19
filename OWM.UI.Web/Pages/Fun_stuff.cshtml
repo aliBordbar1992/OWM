@@ -3,67 +3,26 @@
 @{
     Layout = "Shared/_Layout";
 }
-<style>
-    #demo {
-        height:100%;
-        position:relative;
-        overflow:hidden;
-    }
-
-
-    .green{
-        background-color:#6fb936;
-    }
-    .thumb{
-        margin-bottom: 30px;
-    }
-        
-    .page-top{
-    }
-
-   
-    img.zoom {
-        width: 100%;
-        height: 200px;
-        border-radius:5px;
-        object-fit:cover;
-        -webkit-transition: all .3s ease-in-out;
-        -moz-transition: all .3s ease-in-out;
-        -o-transition: all .3s ease-in-out;
-        -ms-transition: all .3s ease-in-out;
-    }
-        
- 
-    .transition {
-        -webkit-transform: scale(1.2); 
-        -moz-transform: scale(1.2);
-        -o-transform: scale(1.2);
-        transform: scale(1.2);
-    }
-    .modal-header {
-   
-        border-bottom: none;
-    }
-    .modal-title {
-        color:#000;
-    }
-    .modal-footer{
-        display:none;  
-    }
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<link href="~/css/FunStuff.css" rel="stylesheet" />
 <div class="container text-center">
     <div class="card">
-        <div class="card-header text-left">
-            
+        <div class="card-header text-left p-4">
+            <div class="small amazing text-darkblue" style="line-height: 25px;">
+                Some drawings from children about what the <a asp-page="/index">OWM</a>. 
+                <br>Please feel free to submit more to us so we can put them up on our website.
+            </div>
         </div>
         <div class="card-body">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
             <div class="container page-top">
                 <div class="row mt-3">
                     @foreach (var pic in Model.pictures)
                     {
                         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <span class="small d-block text-left mb-1">
+                                @(pic.Title.Length > 20 ? pic.Title.Substring(0, 20) + " ..." : pic.Title)
+                            </span>
                             <a href="@pic.Address" class="fancybox" rel="ligthbox">
                                 <img src="@pic.Address" class="zoom img-fluid " alt="@pic.Title">
                             </a>
@@ -75,7 +34,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $(".fancybox").fancybox({
             openEffect: "none",
             closeEffect: "none"
