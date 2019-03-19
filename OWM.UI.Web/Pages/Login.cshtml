@@ -8,54 +8,64 @@
     input[type="checkbox"] {
         margin-bottom: 2px;
     }
+
     .divider-text {
         position: relative;
         text-align: center;
         margin-top: 15px;
         margin-bottom: 15px;
     }
-    .divider-text span {
-        padding: 7px;
-        font-size: 12px;
-        position: relative;   
-        z-index: 2;
-    }
-    .divider-text:after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        border-bottom: 1px solid #ddd;
-        top: 55%;
-        left: 0;
-        z-index: 1;
-    }
+
+        .divider-text span {
+            padding: 7px;
+            font-size: 12px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .divider-text:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            top: 55%;
+            left: 0;
+            z-index: 1;
+        }
+
     .btn-Facebook {
         background-color: #405D9D;
         color: #fff;
     }
-    .btn-Facebook:hover {
-        background-color: #29437e;
-        color: #fff;
-    }
+
+        .btn-Facebook:hover {
+            background-color: #29437e;
+            color: #fff;
+        }
+
     .btn-Google {
         background-color: #dc4b39;
         color: #fff;
     }
-    .btn-Google:hover {
-        background-color: #ca301d;
-        color: #fff;
-    }
+
+        .btn-Google:hover {
+            background-color: #ca301d;
+            color: #fff;
+        }
+
     .fa-facebook-f {
         margin-bottom: 3px;
         margin-right: 10px;
     }
+
     .fa-google {
         margin: 0 10px 2px 0;
     }
 </style>
-<div class="container">
+<div class="container pt-lg-5">
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
             <div class="box">
                 <h2 class="greenheader">Login</h2>
                 <hr>
@@ -80,7 +90,7 @@
                     <div class="form-group">
                         <div class="checkbox">
                             <label asp-for="Input.RememberMe" class="mb-0">
-                                <input asp-for="Input.RememberMe"/>
+                                <input asp-for="Input.RememberMe" />
                                 @Html.DisplayNameFor(m => m.Input.RememberMe)
                             </label>
                         </div>
@@ -113,7 +123,8 @@
                         }
                     </div>
                 </form>
-            </div>  
+            </div>
         </div>
+        <div class="col-lg-4"></div>
     </div>
 </div>

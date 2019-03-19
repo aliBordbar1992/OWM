@@ -8,20 +8,20 @@
 <h4 class="font-weight-bold">My teams</h4>
 <hr class="mb-0 mb-3" />
 <div class="row mb-3">
-    <div class="col-md-6 text-left">
-        <div class="alert alert-info small">
-            Create a team and send an invitation link to your friends.
-            <div class="d-block mt-2">
-                <a class="btn btn-primary" asp-page="/User/CreateTeam">
+    <div class="col-md-6 text-center">
+        <div class="d-flex flex-wrap align-content-around alert alert-light border" style="height: 108px;">
+            <div class="small w-100">Create a team and send an invitation link to your friends.</div>
+            <div class="w-100">
+                <a class="btn btn-warning" asp-page="/User/CreateTeam">
                     <span class="fa fa-plus"></span> Create new team
                 </a>
             </div>
         </div>
     </div>
-    <div class="col-md-6 text-left">
-        <div class="alert alert-info small text-left">
-            Or you can search teams and join a team.<br />&nbsp;
-            <div class="d-block mt-2">
+    <div class="col-md-6 text-center">
+        <div class="d-flex flex-wrap align-content-around alert alert-light border" style="height: 108px;">
+            <div class="small w-100">Or you can search teams and join a team.</div>
+            <div class="w-100">
                 <a class="btn btn-success" asp-page="/User/SearchTeams">Join a team</a>
             </div>
         </div>

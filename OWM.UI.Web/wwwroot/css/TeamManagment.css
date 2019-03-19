@@ -1,10 +1,11 @@
 ﻿
 table td, table th {
-    color: #2b686e;
+    color: #f7f7f7;
     padding: 10px;
 }
 table td {
     text-align: center;
+    color: #17a1b7!important;
     vertical-align: middle;
 }
 table td:last-child {
@@ -13,7 +14,7 @@ table td:last-child {
     text-align: left;
 }
 table th {
-    background-color: #daeff1;
+    background-color: #6bc2b6;
     font-weight: 300;
 }
 table tr:nth-child(2n) {

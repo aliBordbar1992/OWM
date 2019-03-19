@@ -9,7 +9,7 @@
     <div class="row">
         @await Component.InvokeAsync("UserPanelInformation")
         <div class="col-md-9" id="mainArea">
-            <div class="card bg-light">
+            <div class="card" style="background: rgba(193, 216, 196, 0.4);">
                 <form method="post" class="card-body">
                     <div class="row">
                         <div class="col-md-2 text-center">
@@ -111,7 +111,9 @@
 
 <script>
     $(function () {
-       
+        if (!document.querySelectorAll("#sideArea").length) {
+            $('#mainArea').addClass('col-md-12');
+        }
         var x = 0;
         $('span.badge').each(function () {
             $(this).addClass(getClass(x));

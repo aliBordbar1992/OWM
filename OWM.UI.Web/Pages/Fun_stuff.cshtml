@@ -1,0 +1,52 @@
+﻿@page "/Content/Fun"
+@model OWM.UI.Web.Pages.Fun_stuff
+@{
+    Layout = "Shared/_Layout";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<link href="~/css/FunStuff.css" rel="stylesheet" />
+<div class="container text-center">
+    <div class="card">
+        <div class="card-header text-left p-4">
+            <div class="small amazing text-darkblue" style="line-height: 25px;">
+                Some drawings from children about what the <a asp-page="/index">OWM</a>. 
+                <br>Please feel free to submit more to us so we can put them up on our website.
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="container page-top">
+                <div class="row mt-3">
+                    @foreach (var pic in Model.pictures)
+                    {
+                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <span class="small d-block text-left mb-1">
+                                @(pic.Title.Length > 20 ? pic.Title.Substring(0, 20) + " ..." : pic.Title)
+                            </span>
+                            <a href="@pic.Address" class="fancybox" rel="ligthbox">
+                                <img src="@pic.Address" class="zoom img-fluid " alt="@pic.Title">
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $(".fancybox").fancybox({
+            openEffect: "none",
+            closeEffect: "none"
+        });
+    
+        $(".zoom").hover(function(){
+		
+            $(this).addClass('transition');
+        }, function(){
+        
+            $(this).removeClass('transition');
+        });
+    });
+
+</script>

@@ -1,0 +1,42 @@
+﻿@media(max-width: 768px) {
+    #time {
+        line-height: 20px!important;
+    }
+} 
+#time {
+    line-height: 26px;
+}
+.chat {
+     list-style: none;
+     margin: 0;
+     padding: 0;
+ }
+li div.header {
+    border-bottom: 1px solid #b6b6b6;
+}
+ .chat li {
+     background-color: #d4e8c7;
+     margin-bottom: 10px;
+     padding-bottom: 5px;
+     border-radius: 5px;
+     padding: 8px;
+ }
+ .chat li:last-child {
+     border-bottom: none;
+     margin-bottom: 0;
+     padding-bottom: 0;
+ }
+
+ .chat li.left .chat-body {
+     margin-left: 60px;
+ }
+
+ .chat li.right .chat-body {
+     margin-right: 60px;
+ }
+
+
+ .chat li .chat-body p {
+     margin: 0;
+     color: #777777;
+ }

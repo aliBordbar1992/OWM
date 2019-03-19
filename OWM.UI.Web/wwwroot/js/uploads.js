@@ -177,16 +177,21 @@ $(function() {
 });
 
 function UploadFile(e) {
-    var formData = new FormData($('#' + e.form)[0]);
-    var blob = dataURLtoBlob(canvas.toDataURL('image/jpeg'));
-    formData.append("img", blob);
-    $.ajax({
-        url: e.url,
-        type: "POST",
-        data: formData,
-        contentType: false,
-        cache: false,
-        processData: false,
-        success: e.func
-    });   
+    if (canvas.width === canvas.height) {
+        var formData = new FormData($('#' + e.form)[0]);
+        var blob = dataURLtoBlob(canvas.toDataURL('image/jpeg'));
+        formData.append("img", blob);
+        $.ajax({
+            url: e.url,
+            type: "POST",
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: e.func
+        });
+    } else {
+        RedAlert('n', 'Please crop your image');
+        $('.loading-sm').hide();
+    }
 }

@@ -1,0 +1,39 @@
+﻿@page "/Content/Video"
+@model OWM.UI.Web.Pages.Video
+@{
+    Layout = "Shared/_Layout";
+}
+<style>
+    .nopadding {
+        padding: 2px !important;
+        margin: 0 !important;
+    }
+</style>
+<div class="container text-center">
+    <div class="card">
+        <div class="card-header text-left">
+           Videos
+        </div>
+        <div class="card-body">
+            <div class="row pl-4 pr-4 pt-2 pb-2">
+                @foreach (var vid in Model.videos)
+                {
+                    <div class="col-sm-3 nopadding">
+                        <div class="card">
+                            <div class="card-header p-1">
+                                <span class="small d-block text-left text-muted">
+                                    @(vid.Title.Length > 20 ? vid.Title.Substring(0, 20) + " ..." : vid.Title)
+                                </span>
+                            </div>
+                            <div class="card-body p-1">
+                                <div class="embed-responsive embed-responsive-16by9">
+                                    <video src="@vid.Address" width="100%" controls></video>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
