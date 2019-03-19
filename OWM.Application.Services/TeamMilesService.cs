@@ -179,7 +179,7 @@ namespace OWM.Application.Services
 
                 MilesUntilCanComplete = 26.2f - myTeam.TotalMilesPledged,
                 MilesUntilCanCompletePercentage =
-                    GetPercentage(26.2f, myTeam.TotalMilesPledged).ToString("0.0"),
+                    GetPercentage(myTeam.TotalMilesPledged, 26.2f).ToString("0.0"),
 
                 CanPledgeMiles = await CanPledgeMiles(teamId, profileId),
                 CanCompleteMiles = await CanCompleteMiles(teamId, profileId),

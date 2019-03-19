@@ -75,6 +75,18 @@
             </div>
         </div>
         <div class="row mt-3">
+            <div class="col-lg-9 col-sm-12 col-12">
+                <div class="@hidePledge pledgeprogress">
+                    <div class="xx-small mb-1">26.2 miles (<span id="MilesUntilCanComplete">@Model.MilesInformation.MilesUntilCanComplete</span> more needed)</div>
+                    <div class="progress" style="height: 15px">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="MilesUntilCanCompletePercentage" style="width: @Model.MilesInformation.MilesUntilCanCompletePercentage%">
+                            @Model.MilesInformation.TeamTotalMilesPledged miles
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
             <div class="col-12 text-center">
                 <button class="btn btn-success cancelc @hidePledge" type="button" id="pledged">
                     <span class="fa fa-plus"></span> Pledged miles
@@ -197,6 +209,7 @@
         if (e.data.canCompleteMiles) {
             $('#complete').removeClass('hidden');
             $('#pledged').addClass('hidden');
+            $('.pledgeprogress').addClass('hidden');
         }
         if (e.data.canPledgeMiles) {
             $('#complete').addClass('hidden');
@@ -211,7 +224,9 @@
     function updateProgressBar(e) {
         $('#myprogress').css('width', e.myCompletedMilesPercentage + '%').text(e.myCompletedMiles + ' miles');
         $('#teamprogress').css('width', e.teamCompletedMilesPercentage + '%').text(e.teamCompletedMiles + ' miles');
+        $('#MilesUntilCanCompletePercentage').css('width', e.milesUntilCanCompletePercentage + '%').text(e.teamTotalMilesPledged + ' miles');
         $('#MyPledgedMiles').text(e.myPledgedMiles + ' miles');
         $('#TeamTotalMilesPledged').text(e.teamTotalMilesPledged + ' miles');
+        $('#MilesUntilCanComplete').text(e.milesUntilCanComplete);
     }
 </script>
