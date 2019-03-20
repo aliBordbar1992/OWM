@@ -9,12 +9,17 @@ namespace OWM.Application.Services.Dtos
 {
     public class UserRegistrationDto
     {
+        [Required(ErrorMessage = "Occupation is Required")]
         public int? OccupationId { get; set; }
+
+        [Required(ErrorMessage = "Ethnicity is Required")]
+        public int? EthnicityId { get; set; }
+
+
 
         [Required(ErrorMessage = "City is Required")]
         public int? CityId { get; set; }
 
-        public int? EthnicityId { get; set; }
 
         [Required(ErrorMessage = "Gender is Required")]
         public int? Gender { get; set; }

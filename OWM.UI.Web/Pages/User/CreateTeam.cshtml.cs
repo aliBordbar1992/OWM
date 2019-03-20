@@ -87,12 +87,10 @@ namespace OWM.UI.Web.Pages.User
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
-            if (userInfo.OccupationOrder != 1)
-            {
-                var ocp = await _userInformation.GetUserOccupationAsync(identityId);
-                FillOccupationDropdown(ocp.Id);
-                NoOccupation = true;
-            }
+            if (userInfo.OccupationOrder != 1) NoOccupation = true;
+
+            var ocp = await _userInformation.GetUserOccupationAsync(identityId);
+            FillOccupationDropdown(ocp.Id);
 
             var aR = AgeRangeCalculator.GetAgeRange(userInfo.DateOfBirth.Value);
             AgeRange = AgeRangeCalculator.GetAgeRangeCaption(aR);
