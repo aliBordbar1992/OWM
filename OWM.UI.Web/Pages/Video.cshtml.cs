@@ -22,7 +22,7 @@ namespace OWM.UI.Web.Pages
         {
             videos = new List<VideoFiles>();
 
-            string path = Path.Combine(_hostingEnv.WebRootPath, "videos\\gallery\\");
+            string path = Path.Combine(_hostingEnv.WebRootPath, "videos\\");
             
             foreach (string file in Directory.EnumerateFiles(path, "*", SearchOption.TopDirectoryOnly))
             {
@@ -30,7 +30,7 @@ namespace OWM.UI.Web.Pages
                 videos.Add(new VideoFiles
                 {
                     Title = title,
-                    Address = $"/videos/gallery/{Path.GetFileName(file)}"
+                    Address = $"/videos/{Path.GetFileName(file)}"
                 });
             }
         }

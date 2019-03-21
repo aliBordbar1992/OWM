@@ -91,5 +91,5 @@ function updateProgressBar(e) {
     $('#MilesUntilCanCompletePercentage').css('width', e.milesUntilCanCompletePercentage + '%').text(e.teamTotalMilesPledged + ' miles');
     $('#MyPledgedMiles').text(e.myPledgedMiles + ' miles');
     $('#TeamTotalMilesPledged').text(e.teamTotalMilesPledged + ' miles');
-    $('#MilesUntilCanComplete').text(e.milesUntilCanComplete);
+    $('#MilesUntilCanComplete').text(parseFloat(e.milesUntilCanComplete.toFixed(1)));
 }
