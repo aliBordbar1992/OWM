@@ -17,16 +17,19 @@ namespace OWM.UI.Web.Pages
         private readonly IUserInformationService _userInformation;
         private readonly ITeamsManagerService _teamManager;
         private readonly ITeamMilesService _teamMiles;
+        private readonly ITeamMessageBoardService _msgBoardService;
 
         public TeamInfoModel(SignInManager<Domain.Entities.User> signInManager
             , IUserInformationService userInformation
             , ITeamsManagerService teamManager
-            , ITeamMilesService teamMiles)
+            , ITeamMilesService teamMiles
+            , ITeamMessageBoardService msgBoardService)
         {
             _signInManager = signInManager;
             _userInformation = userInformation;
             _teamManager = teamManager;
             _teamMiles = teamMiles;
+            _msgBoardService = msgBoardService;
         }
 
         public int TeamId { get; set; }
@@ -100,6 +103,7 @@ namespace OWM.UI.Web.Pages
                 if (CanJoinTeam.FinalResult)
                 {
                     _teamManager.JoinedTeamSuccessfully += JoinedTeamSuccessfully;
+                    _teamManager.JoinedTeamSuccessfully += AddToBoardParticipants;
                     _teamManager.JoinTeamFailed += JoinFailed;
 
                     await _teamManager.JoinTeam(TeamId, profileId);
@@ -122,6 +126,14 @@ namespace OWM.UI.Web.Pages
             _teamMiles.FailedToPledgeMiles += JoinFailed;
 
             _teamMiles.PledgeMiles(new PledgeMilesDto(args.Team.Id, profileId, Input.MilesPledged)).Wait();
+        }
+        public void AddToBoardParticipants(object sender, TeamCreatedArgs args)
+        {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            var profileId = _userInformation.GetUserProfileIdAsync(identityId).Result;
+
+            int boardId = _msgBoardService.GetOrCreateTeamBoard(args.Team.Id).Result;
+            _msgBoardService.AddParticipant(profileId, boardId).Wait();
         }
 
         public void MilesPledgedSuccess(object sender, MilesPledgedArgs args)

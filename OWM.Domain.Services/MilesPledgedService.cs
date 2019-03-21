@@ -22,10 +22,6 @@ namespace OWM.Domain.Services
         public IEnumerable<MilesPledged> GetRecentMilePledges(int take)
         {
             return Repository.Queryable()
-                .Include(x => x.Profile)
-                .ThenInclude(x => x.City)
-                .Include(x => x.Profile)
-                .ThenInclude(x => x.Country)
                 .OrderByDescending(x => x.Created)
                 .Take(take)
                 .AsEnumerable();

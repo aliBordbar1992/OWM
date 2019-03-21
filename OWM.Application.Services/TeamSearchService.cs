@@ -27,8 +27,7 @@ namespace OWM.Application.Services
             var query = _teamService.Queryable().Where(x => x.Name.Contains(searchExpression));
             query = occupation == -1
                 ? query
-                : query.Include(x => x.AllowedOccupations)
-                    .Where(x => x.AllowedOccupations.Any(o => o.OccupationId == occupation));
+                : query.Where(x => x.AllowedOccupations.Any(o => o.OccupationId == occupation));
             query = ageRange == AgeRange.All ? query : query.Where(x => x.AgeRange == ageRange);
 
             return await query.AsQueryable().CountAsync();
@@ -37,11 +36,6 @@ namespace OWM.Application.Services
         public async Task<List<TeamInformationDto>> Search(SearchTeamDto search, int skip, int take)
         {
             var query = _teamService.Queryable()
-                .Include(x => x.AllowedOccupations)
-                .ThenInclude(x => x.Occupation)
-                .Include(x => x.Members)
-                .Include(x => x.PledgedMiles)
-                .ThenInclude(x => x.CompletedMiles)
                 .Where(x => x.Name.Contains(search.SearchExpression));
 
             query = search.Occupation == -1

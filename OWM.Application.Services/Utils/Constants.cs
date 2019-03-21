@@ -4,6 +4,7 @@
     {
         public static string DateFormat => "yyyy/MM/dd";
         public static string DateFormat_LongMonth => "dd MMMM yyyy";
+        public static string DateTimeFormat_LongMonth => "dd MMMM yyyy at HH:mm";
 
         public static string GetProfilePictures(string url)
         {

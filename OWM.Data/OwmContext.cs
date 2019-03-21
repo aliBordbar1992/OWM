@@ -36,12 +36,17 @@ namespace OWM.Data
         public virtual DbSet<CompletedMiles> CompletedMiles { get; set; }
         public virtual DbSet<TeamInvitation> TeamInvitations { get; set; }
 
+        public virtual DbSet<MessageBoard> MessageBoards { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Participant> Participants { get; set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+                optionsBuilder.UseLazyLoadingProxies();
                 optionsBuilder.UseSqlServer(@"Server=.;Database=Owm;Trusted_Connection=True;");
                 optionsBuilder.EnableSensitiveDataLogging();
             }

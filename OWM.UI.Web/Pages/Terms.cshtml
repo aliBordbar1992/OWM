@@ -1,0 +1,11 @@
+﻿@page
+@model OWM.UI.Web.Pages.TermsModel
+@{
+    Layout = "Shared/_Layout";
+}
+<div id="terms-contents"></div>
+<script>
+    $(function () {
+        $('#terms-contents').load('/terms/terms.html');
+    })
+</script>

@@ -1,0 +1,11 @@
+﻿@page
+@model OWM.UI.Web.Pages.PrivacyModel
+@{
+    Layout = "Shared/_Layout";
+}
+<div id="privacy-contents"></div>
+<script>
+    $(function () {
+        $('#privacy-contents').load('/privacy/privacy.html');
+    })
+</script>
