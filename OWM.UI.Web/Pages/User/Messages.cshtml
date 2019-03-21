@@ -3,6 +3,7 @@
 @{
     Layout = "Shared/UserLayout";
 }
+<script src="https://timeago.yarp.com/jquery.timeago.js"></script>
 <link href="~/css/Messages.css" rel="stylesheet" />
 <h4 class="font-weight-bold">Messages</h4>
 <hr class="mb-0 mb-3" />
@@ -68,7 +69,7 @@
                                         <small class="float-right text-muted xx-small" id="time">
                                             <i class="far fa-clock"></i>
                                             <time class="timeago" datetime="@message.Date">
-                                                @message.Date.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)
+                                                
                                             </time>
                                         </small>
                                     </div>
@@ -92,3 +93,10 @@
         </div>
     </div>
 </div>
+@DateTime.Now
+<script>
+    $(function() {
+        jQuery("time.timeago").timeago();
+    })
+    document.addEventListener("DOMContentLoaded", function () { window.addEventListener("pagehide", function (a) { window.name += "\ue000" + window.pageXOffset + "\ue000" + window.pageYOffset }); if (window.name && -1 < window.name.indexOf("\ue000")) { var a = window.name.split("\ue000"); 3 <= a.length && (window.name = a[0], window.scrollTo(parseFloat(a[a.length - 2]), parseFloat(a[a.length - 1]))) } });
+</script>
