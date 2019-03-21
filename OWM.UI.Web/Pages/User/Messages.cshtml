@@ -12,7 +12,7 @@
             <div class="card-header bg-success">
                 <div class="btn-group">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        team's list
+                        @Model.TeamBoards.First(x => x.BoardId == Model.BoardId)
                     </button>
                     <div class="dropdown-menu">
                         @foreach (var board in Model.TeamBoards)
