@@ -56,6 +56,8 @@ namespace OWM.UI.Web.Pages.User
             int profileId = await _userInformation.GetUserProfileIdAsync(identityId);
 
             await _msgBoardService.PostMessage(profileId, BoardId, MessageText);
+            await InitializePage();
+            BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
         }
 
 
