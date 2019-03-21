@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}/{BoardId?}"
 @model MessagesModel
 @{
     Layout = "Shared/UserLayout";
@@ -15,55 +15,59 @@
                         team's list
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">2</span></a>
-                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">1</span></a>
-                        <a class="dropdown-item" href="#">London's Developers <span class="badge badge-primary">5</span></a>
+                        @foreach (var board in Model.TeamBoards)
+                        {
+                        <a class="dropdown-item" href="/User/Messages/Board/@board.BoardId">
+                            @board.TeamName
+                            @if (board.UnreadMessages != 0)
+                            {
+                                <span class="badge badge-primary">@board.UnreadMessages</span>
+                            }
+                        </a>
+                        }
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <ul class="chat">
-                    <li class="left clearfix">
-                        <span class="float-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="rounded-circle" />
-                        </span>
-                        <div class="chat-body clearfix">
-                            <div class="header pb-1">
-                                <strong>Jack Sparrow</strong>
-                                <small class="float-right text-muted xx-small" id="time">
-                                    <i class="far fa-clock"></i> 15 Feb 2019 at 19:35
-                                </small>
-                            </div>
-                            <p class="small mt-1 mb-2">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                dolor, quis ullamcorper ligula sodales.
-                            </p>
-                        </div>
-                    </li>
-                    <li class="left clearfix">
-                        <span class="float-left">
-                            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="rounded-circle" />
-                        </span>
-                        <div class="chat-body clearfix">
-                            <div class="header pb-1">
-                                <strong>Jack Sparrow</strong>
-                                <small class="float-right text-muted xx-small" id="time">
-                                    <i class="far fa-clock"></i> 12 mins ago
-                                </small>
-                            </div>
-                            <p class="small mt-1 mb-2">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                dolor, quis ullamcorper ligula sodales.
-                            </p>
-                        </div>
-                    </li>
-                </ul>
+                @if (Model.EmptyState)
+                {
+                    <div>select a team to see the message board</div>
+                }
+                else
+                {
+                    <ul class="chat">
+                        @foreach (var message in Model.BoardMessages)
+                        {
+                            <li class="left clearfix">
+                                <span class="float-left">
+                                    <img src="@message.Sender.ProfilePicture" alt="@message.Sender.FullName" class="rounded-circle" />
+                                </span>
+                                <div class="chat-body clearfix">
+                                    <div class="header pb-1">
+                                        <strong>@message.Sender.FullName</strong>
+                                        <small class="float-right text-muted xx-small" id="time">
+                                            <i class="far fa-clock"></i>
+                                            <time class="timeago" datetime="@message.Date">
+                                                @message.Date.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)
+                                            </time>
+                                        </small>
+                                    </div>
+                                    <p class="small mt-1 mb-2">
+                                        @message.Text
+                                    </p>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
             </div>
             <div class="card-footer clearfix">
-                <textarea class="form-control" rows="3" id="message" placeholder="Type message here ... "></textarea>
-                <span class="col-lg-6 col-md-6">
-                    <button class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
-                </span>
+                <form method="post">
+                    <textarea class="form-control" rows="3" id="message" placeholder="Type message here... " asp-for="MessageText"></textarea>
+                    <span class="col-lg-6 col-md-6">
+                        <button type="submit" asp-route-BoardId="@Model.BoardId" class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
+                    </span>
+                </form>
             </div>
         </div>
     </div>

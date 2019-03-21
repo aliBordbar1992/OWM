@@ -6,22 +6,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OWM.Application.Services.Dtos;
+using OWM.Application.Services.Interfaces;
 using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services
 {
-    public class TeamMessageBoardService
+    public class TeamMessageBoardService : ITeamMessageBoardService
     {
         private readonly ITeamService _teamService;
+        private readonly IProfileService _profileService;
+        private readonly IMessageBoardParticipantsService _participantsService;
         private readonly IMessageBoardService _msgBoardService;
         private readonly IUnitOfWork _unitOfWork;
 
         public TeamMessageBoardService(ITeamService teamService
+            , IProfileService profileService
+            , IMessageBoardParticipantsService participantsService
             , IMessageBoardService messageBoardService
             , IUnitOfWork unitOfWork)
         {
             _teamService = teamService;
+            _profileService = profileService;
+            _participantsService = participantsService;
             _msgBoardService = messageBoardService;
             _unitOfWork = unitOfWork;
         }
@@ -71,6 +79,89 @@ namespace OWM.Application.Services
             return participants;
         }
 
+        public async Task<List<MessageDto>> GetMessagesInBoard(int boardId)
+        {
+            var board = await _msgBoardService.Queryable()
+                .FirstOrDefaultAsync(x => x.Id == boardId);
+
+            if (board == null)
+                throw new ArgumentException("No board found for the given id");
+
+            var result = board.Messages.Select(x => new MessageDto
+            {
+                Sender = new ParticipantInforationDto()
+                {
+                    ProfilePicture = x.From.Profile.ProfileImageUrl,
+                    ProfileId = x.From.Profile.Id,
+                    FullName = x.From.Profile.Name + " " + x.From.Profile.Surname
+                },
+                Text = x.Text,
+                Date = x.Created
+            }).ToList();
+
+            return result;
+        }
+
+        public int GetUnreadBoards(int profileId)
+        {
+            return _participantsService.Queryable()
+                .Where(x => x.Profile.Id == profileId)
+                .Count(x => x.LastReadTimeStamp < x.Board.Modified);
+        }
+
+        public async Task PostMessage(int profileId, int boardId, string text)
+        {
+            var board = await _msgBoardService.Queryable().FirstOrDefaultAsync(x => x.Id == boardId);
+            if (board == null) throw new ArgumentException("No board found for the given id");
+
+            var participant = await _participantsService.Queryable().FirstOrDefaultAsync(x => x.Profile.Id == profileId);
+            if (participant == null) throw new ArgumentException("No participant found for the given id");
+
+            var newMsg = new Message
+            {
+                From = participant,
+                Board = board,
+                ReplyToMessage = null,
+                Text = text,
+                TrackingState = TrackingState.Added
+            };
+
+            participant.LastReadTimeStamp = DateTime.Now;
+
+            board.TrackingState = TrackingState.Modified;
+            board.Messages.Add(newMsg);
+
+            _msgBoardService.ApplyChanges(board);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public List<TeamBoardsDto> GetAllTeamBoards(int profileId)
+        {
+            if (!_teamService.Queryable().Any(x => x.Members.Any(m => m.ProfileId == profileId)))
+                return new List<TeamBoardsDto>();
+
+            return _msgBoardService.Queryable()
+                .Where(x => x.Participants.Any(m => m.Profile.Id == profileId))
+                .Select(x => new TeamBoardsDto
+                {
+                    TeamName = x.ForTeam.Name,
+                    BoardId = x.Id,
+                    Selected = false,
+                    UnreadMessages = x.Messages.Count(msg => msg.Created > x.Participants.First(p => p.Profile.Id == profileId).LastReadTimeStamp)
+                }).ToList();
+        }
+
+        public void EnsureTeamsHaveBoard()
+        {
+            var teams = _teamService.Queryable()
+                .Where(x => x.Board == null).ToList();
+
+            foreach (var team in teams)
+            {
+                int bId = GetOrCreateTeamBoard(team.Id).Result;
+            }
+        }
+
         private ICollection<Participant> CreateBoardParticipants(ICollection<TeamMember> teamMembers)
         {
             var result = new List<Participant>();
@@ -79,19 +170,12 @@ namespace OWM.Application.Services
                 result.Add(new Participant
                 {
                     Profile = member.MemberProfile,
-                    LastReadTimeStamp = null,
+                    LastReadTimeStamp = default(DateTime),
                     TrackingState = TrackingState.Added
                 });
             }
 
             return result;
         }
-    }
-
-    public class ParticipantInforationDto
-    {
-        public string ProfilePicture { get; set; }
-        public string FullName { get; set; }
-        public int ProfileId { get; set; }
     }
 }

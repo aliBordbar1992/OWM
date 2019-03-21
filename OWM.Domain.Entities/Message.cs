@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace OWM.Domain.Entities
@@ -10,6 +11,9 @@ namespace OWM.Domain.Entities
         private Participant _from;
         public ILazyLoader LazyLoader { get; }
 
+        public Message()
+        {
+        }
         public Message(ILazyLoader lazyLoader)
         {
             LazyLoader = lazyLoader;
@@ -34,8 +38,5 @@ namespace OWM.Domain.Entities
         }
 
         public string Text { get; set; }
-
-        [Timestamp]
-        public byte[] TimeStamp { get; set; }
     }
 }

@@ -41,7 +41,6 @@ namespace OWM.UI.Web
             services.AddDbContext<OwmContext>(options => options.UseSqlServer(connectionString));
             services.AddScoped<DbContext, OwmContext>();
             services.AddApplicationConfigs();
-
             //services.AddAuthentication(options =>
             //    {
             //        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -138,7 +137,9 @@ namespace OWM.UI.Web
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseMvc();
+
             CreateUserRoles(services).Wait();
+            app.EnsureTeamsHaveBoard(services);
         }
 
         private async Task CreateUserRoles(IServiceProvider serviceProvider)

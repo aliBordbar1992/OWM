@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace OWM.Domain.Entities
@@ -28,7 +28,6 @@ namespace OWM.Domain.Entities
             set => _board = value;
         }
 
-        [Timestamp]
-        public byte[] LastReadTimeStamp { get; set; }
+        public DateTime LastReadTimeStamp { get; set; }
     }
 }

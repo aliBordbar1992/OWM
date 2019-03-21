@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace OWM.Domain.Entities
@@ -20,7 +21,7 @@ namespace OWM.Domain.Entities
             LazyLoader = lazyLoader;
         }
 
-
+        public int TeamId { get; set; }
         public Team ForTeam
         {
             get => LazyLoader.Load(this, ref _forTeam);
