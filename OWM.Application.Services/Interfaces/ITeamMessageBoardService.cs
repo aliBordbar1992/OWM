@@ -13,5 +13,6 @@ namespace OWM.Application.Services.Interfaces
         Task PostMessage(int profileId, int boardId, string text);
         List<TeamBoardsDto> GetAllTeamBoards(int profileId);
         void EnsureTeamsHaveBoard();
+        Task UpdateParticipantReadCheck(int profileId);
     }
 }

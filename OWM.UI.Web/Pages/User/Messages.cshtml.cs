@@ -16,6 +16,7 @@ namespace OWM.UI.Web.Pages.User
         private readonly UserManager<Domain.Entities.User> _userManager;
         private readonly IUserInformationService _userInformation;
         private readonly ITeamMessageBoardService _msgBoardService;
+        private int _profileId;
 
         public MessagesModel(ITeamMessageBoardService msgBoardService
             , SignInManager<Domain.Entities.User> signInManager
@@ -27,6 +28,7 @@ namespace OWM.UI.Web.Pages.User
             _userManager = userManager;
             _userInformation = userInformation;
         }
+
 
         public bool EmptyState { get; set; }
         public List<MessageDto> BoardMessages { get; set; }
@@ -48,6 +50,7 @@ namespace OWM.UI.Web.Pages.User
             await InitializePage();
 
             BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
+            await _msgBoardService.UpdateParticipantReadCheck(_profileId);
         }
 
         public async Task OnPostBoardAsync()
@@ -64,9 +67,9 @@ namespace OWM.UI.Web.Pages.User
         private async Task InitializePage()
         {
             string identityId = _signInManager.UserManager.GetUserId(User);
-            int profileId = await _userInformation.GetUserProfileIdAsync(identityId);
+            _profileId = await _userInformation.GetUserProfileIdAsync(identityId);
 
-            TeamBoards = _msgBoardService.GetAllTeamBoards(profileId);
+            TeamBoards = _msgBoardService.GetAllTeamBoards(_profileId);
         }
     }
 }
