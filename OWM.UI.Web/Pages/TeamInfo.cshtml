@@ -2,6 +2,7 @@
 @model OWM.UI.Web.Pages.TeamInfoModel
 @{
     Layout = "Shared/_Layout";
+    ViewData["Title"] = "Team info - " + Model.TeamInformation.TeamName;
 }
 
 <link href="~/css/TeamInfo.css" rel="stylesheet" />

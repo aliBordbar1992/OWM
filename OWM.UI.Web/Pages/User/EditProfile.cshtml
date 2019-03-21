@@ -1,6 +1,7 @@
 ﻿@page "{handler?}/{email?}"
 @model OWM.UI.Web.Pages.User.EditProfileModel
 @{
+    ViewData["Title"] = "Edit profile";
     Layout = "Shared/UserLayout";
     @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 }
