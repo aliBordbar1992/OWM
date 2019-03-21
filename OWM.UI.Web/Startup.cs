@@ -69,7 +69,7 @@ namespace OWM.UI.Web
                 })
                 .AddFacebook(o =>
                 {
-                    o.AppId = "650012525418496";
+                    o.AppId = "407399053409412";
                     o.AppSecret = "fb7d684f71efe6be017aa927c1a28f93";
                     o.Scope.Add("user_gender");
                     o.Scope.Add("user_birthday");
