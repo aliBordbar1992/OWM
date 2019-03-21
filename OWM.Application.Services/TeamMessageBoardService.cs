@@ -126,8 +126,6 @@ namespace OWM.Application.Services
                 TrackingState = TrackingState.Added
             };
 
-            participant.LastReadTimeStamp = DateTime.Now;
-
             board.TrackingState = TrackingState.Modified;
             board.Messages.Add(newMsg);
 
@@ -177,6 +175,32 @@ namespace OWM.Application.Services
                 .AnyAsync(x => x.Profile.Id == profileId && x.Board.Modified > x.LastReadTimeStamp);
         }
 
+        public async Task AddParticipant(int profileId, int boardId)
+        {
+            var board = await _msgBoardService.Queryable().FirstOrDefaultAsync(x => x.Id == boardId);
+            if (board == null) throw new ArgumentException("No board found for the given id");
+
+            bool alreadyInBoard = board.Participants.Any(x => x.Profile.Id == profileId);
+            if (alreadyInBoard) return;
+
+
+            var profile = await _profileService.Queryable().FirstOrDefaultAsync(x => x.Id == profileId);
+            if (profile == null) throw new ArgumentException("No profile found for the given id");
+
+            var newParticipant = new Participant
+            {
+                Profile = profile,
+                LastReadTimeStamp = DateTime.Now,
+                TrackingState = TrackingState.Added
+            };
+
+            board.Participants.Add(newParticipant);
+            board.TrackingState = TrackingState.Modified;
+
+            _msgBoardService.ApplyChanges(board);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         private ICollection<Participant> CreateBoardParticipants(ICollection<TeamMember> teamMembers)
         {
             var result = new List<Participant>();
@@ -185,7 +209,7 @@ namespace OWM.Application.Services
                 result.Add(new Participant
                 {
                     Profile = member.MemberProfile,
-                    LastReadTimeStamp = default(DateTime),
+                    LastReadTimeStamp = DateTime.Now.AddSeconds(-1),
                     TrackingState = TrackingState.Added
                 });
             }

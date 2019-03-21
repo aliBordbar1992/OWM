@@ -15,5 +15,6 @@ namespace OWM.Application.Services.Interfaces
         void EnsureTeamsHaveBoard();
         Task UpdateParticipantReadCheck(int profileId, int boardId);
         Task<bool> HasUnreadMessage(int profileId);
+        Task AddParticipant(int profileId, int boardId);
     }
 }

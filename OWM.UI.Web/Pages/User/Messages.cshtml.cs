@@ -60,6 +60,8 @@ namespace OWM.UI.Web.Pages.User
 
             await _msgBoardService.PostMessage(profileId, BoardId, MessageText);
             await InitializePage();
+            await _msgBoardService.UpdateParticipantReadCheck(_profileId, BoardId);
+
             BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
         }
 

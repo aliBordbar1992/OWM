@@ -24,6 +24,7 @@ namespace OWM.UI.Web.Pages.User
         private readonly IUserInformationService _userInformation;
         private readonly ITeamsManagerService _teamManager;
         private readonly ITeamMilesService _teamMiles;
+        private readonly ITeamMessageBoardService _msgBoardService;
         private readonly IOccupationInformationService _ocpInformationService;
         public string AgeRange { get; set; }
         public List<SelectListItem> OccupationOptions;
@@ -73,12 +74,14 @@ namespace OWM.UI.Web.Pages.User
             , IUserInformationService userInformation
             , ITeamsManagerService teamManager
             , ITeamMilesService teamMiles
+            , ITeamMessageBoardService msgBoardService
             , IOccupationInformationService ocpInformationService)
         {
             _signInManager = signInManager;
             _userInformation = userInformation;
             _teamManager = teamManager;
             _teamMiles = teamMiles;
+            _msgBoardService = msgBoardService;
             _ocpInformationService = ocpInformationService;
             OccupationOptions = new List<SelectListItem>();
         }
@@ -147,6 +150,7 @@ namespace OWM.UI.Web.Pages.User
                 var createTeamDto = await MapToDto(Input);
 
                 _teamManager.TeamCreated += PledgeMilesToCreatedTeam;
+                _teamManager.TeamCreated += CreateTeamBoard;
                 _teamManager.CreationFailed += CreateTeamFailed;
 
                 await _teamManager.CreateTeam(createTeamDto);
@@ -179,6 +183,15 @@ namespace OWM.UI.Web.Pages.User
             _teamMiles.FailedToPledgeMiles += CreateTeamFailed;
 
             _teamMiles.PledgeMiles(new PledgeMilesDto(args.Team.Id, profileId, Input.MilesPledged)).Wait();
+        }
+        public void CreateTeamBoard(object sender, TeamCreatedArgs args)
+        {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            int profileId = _userInformation.GetUserProfileIdAsync(identityId).Result;
+            int teamId = args.Team.Id;
+
+            int boardId = _msgBoardService.GetOrCreateTeamBoard(teamId).Result;
+            _msgBoardService.AddParticipant(profileId, boardId);
         }
         public void MilesPledgedSuccessfully(object sender, MilesPledgedArgs args)
         {
