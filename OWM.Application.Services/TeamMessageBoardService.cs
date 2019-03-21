@@ -201,6 +201,12 @@ namespace OWM.Application.Services
             await _unitOfWork.SaveChangesAsync();
         }
 
+        public async Task<bool> CanAccessBoard(int profileId, int boardId)
+        {
+            return await _msgBoardService.Queryable()
+                .AnyAsync(x => x.Id == boardId && x.Participants.Any(p => p.Profile.Id == profileId));
+        }
+
         private ICollection<Participant> CreateBoardParticipants(ICollection<TeamMember> teamMembers)
         {
             var result = new List<Participant>();

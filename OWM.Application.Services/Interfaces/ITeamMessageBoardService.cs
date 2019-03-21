@@ -16,5 +16,6 @@ namespace OWM.Application.Services.Interfaces
         Task UpdateParticipantReadCheck(int profileId, int boardId);
         Task<bool> HasUnreadMessage(int profileId);
         Task AddParticipant(int profileId, int boardId);
+        Task<bool> CanAccessBoard(int profileId, int boardId);
     }
 }

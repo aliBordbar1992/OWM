@@ -17,6 +17,7 @@ namespace OWM.UI.Web.Pages.User
         private readonly IUserInformationService _userInformation;
         private readonly ITeamMessageBoardService _msgBoardService;
         private int _profileId;
+        private bool _canAccessBoard;
 
         public MessagesModel(ITeamMessageBoardService msgBoardService
             , SignInManager<Domain.Entities.User> signInManager
@@ -44,25 +45,32 @@ namespace OWM.UI.Web.Pages.User
             await InitializePage();
         }
 
-        public async Task OnGetBoardAsync()
+        public async Task<IActionResult> OnGetBoardAsync()
         {
             EmptyState = false;
             await InitializePage();
+            if (!_canAccessBoard) return NotFound();
 
             BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
             await _msgBoardService.UpdateParticipantReadCheck(_profileId, BoardId);
+            return Page();
         }
 
-        public async Task OnPostBoardAsync()
+        public async Task<IActionResult> OnPostBoardAsync()
         {
-            string identityId = _signInManager.UserManager.GetUserId(User);
-            int profileId = await _userInformation.GetUserProfileIdAsync(identityId);
-
-            await _msgBoardService.PostMessage(profileId, BoardId, MessageText);
             await InitializePage();
-            await _msgBoardService.UpdateParticipantReadCheck(_profileId, BoardId);
+            if (!_canAccessBoard) return NotFound();
+            if (!string.IsNullOrEmpty(MessageText) && BoardId != default(int))
+            {
+                string identityId = _signInManager.UserManager.GetUserId(User);
+                int profileId = await _userInformation.GetUserProfileIdAsync(identityId);
+
+                await _msgBoardService.PostMessage(profileId, BoardId, MessageText);
+                await _msgBoardService.UpdateParticipantReadCheck(_profileId, BoardId);
+            }
 
             BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
+            return Page();
         }
 
 
@@ -72,6 +80,8 @@ namespace OWM.UI.Web.Pages.User
             _profileId = await _userInformation.GetUserProfileIdAsync(identityId);
 
             TeamBoards = _msgBoardService.GetAllTeamBoards(_profileId);
+            if (BoardId != default(int))
+                _canAccessBoard = await _msgBoardService.CanAccessBoard(_profileId, BoardId);
         }
     }
 }
