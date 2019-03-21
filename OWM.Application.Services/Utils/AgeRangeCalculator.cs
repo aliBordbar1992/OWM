@@ -13,7 +13,7 @@ namespace OWM.Application.Services.Utils
             if (years >= 15 && years <= 17) return AgeRange._15To17;
             if (years > 17) return AgeRange._17Plus;
 
-            throw new InvalidEnumArgumentException("no age range found");
+            throw new InvalidEnumArgumentException("no age group found");
         }
 
         private static int GetYears(DateTime dateOfBirth)
@@ -36,7 +36,7 @@ namespace OWM.Application.Services.Utils
                     return "below 14 years old";
             }
 
-            throw new ArgumentException("Age range is undefined.");
+            throw new ArgumentException("Age group is undefined.");
         }
     }
 }
