@@ -1,6 +1,7 @@
 ﻿@page "/User/Teams/Miles/{teamId?}"
 @model OWM.UI.Web.Pages.User.TeamMilesModel
 @{
+    ViewData["Title"] = "Miles";
     Layout = "Shared/UserLayout";
     string hideComplete = Model.MilesInformation.CanCompleteMiles ? "" : "hidden";
     string hidePledge = Model.MilesInformation.CanPledgeMiles ? "" : "hidden";

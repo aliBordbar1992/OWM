@@ -1,6 +1,7 @@
 ﻿@page "/Profile/{profileid?}"
 @model OWM.UI.Web.Pages.UserProfileModel
 @{
+    ViewData["Title"] = "Profile - " + Model.MemberInformation.FirstName + " " + Model.MemberInformation.Surname;
     Layout = "Shared/_Layout";
 }
 <link href="~/css/UserProfile.css" rel="stylesheet" />
