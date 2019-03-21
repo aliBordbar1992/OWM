@@ -29,7 +29,7 @@
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Messages">
                     @if (Model.HasMessages)
                     {
-                        <span class="notifier new pl-3">
+                        <span class="notifier new pl-3" id="messagenotifier">
                             <span class="notify-badge"><i class="fa fa-bell"></i></span>
                         </span>
                     }

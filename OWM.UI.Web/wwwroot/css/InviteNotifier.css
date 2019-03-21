@@ -3,7 +3,13 @@
         position: absolute;
         right: 100px!important;
         top: 10px;
-    }   
+    }
+    #messagenotifier .fa-bell {
+        margin-bottom: 1px !important;
+    }
+    #messagenotifier {
+        padding-left: 0 !important;
+    }
 }
 .notifier {
     position: absolute;
