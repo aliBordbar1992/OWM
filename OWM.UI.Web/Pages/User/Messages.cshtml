@@ -12,7 +12,14 @@
             <div class="card-header bg-success">
                 <div class="btn-group">
                     <button class="btn btn-light btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @Model.TeamBoards.First(x => x.BoardId == Model.BoardId).TeamName
+                        @if (Model.TeamBoards.Any(x => x.BoardId == Model.BoardId))
+                        {
+                            <span>@Model.TeamBoards.First(x => x.BoardId == Model.BoardId).TeamName</span>
+                        }
+                        else
+                        {
+                            <span>Select a team</span>
+                        }
                     </button>
                     <div class="dropdown-menu">
                         @foreach (var board in Model.TeamBoards)
@@ -53,7 +60,7 @@
                         {
                             <li class="left clearfix">
                                 <span class="float-left">
-                                    <img src="@message.Sender.ProfilePicture" alt="@message.Sender.FullName" class="rounded-circle" style="width: 40px; height: 40px;"/>
+                                    <img src="@message.Sender.ProfilePicture" alt="@message.Sender.FullName" class="rounded-circle" style="width: 40px; height: 40px;" />
                                 </span>
                                 <div class="chat-body clearfix">
                                     <div class="header pb-1">
