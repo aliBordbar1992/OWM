@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body" style="min-height: 400px;">
                 @if (Model.EmptyState)
                 {
                     <div>select a team to see the message board</div>
@@ -53,7 +53,7 @@
                         {
                             <li class="left clearfix">
                                 <span class="float-left">
-                                    <img src="@message.Sender.ProfilePicture" alt="@message.Sender.FullName" class="rounded-circle" />
+                                    <img src="@message.Sender.ProfilePicture" alt="@message.Sender.FullName" class="rounded-circle" style="width: 40px; height: 40px;"/>
                                 </span>
                                 <div class="chat-body clearfix">
                                     <div class="header pb-1">
