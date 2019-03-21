@@ -162,13 +162,19 @@ namespace OWM.Application.Services
             }
         }
 
-        public async Task UpdateParticipantReadCheck(int profileId)
+        public async Task UpdateParticipantReadCheck(int profileId, int boardId)
         {
-            var participant = await _participantsService.Queryable().FirstOrDefaultAsync(x => x.Profile.Id == profileId);
+            var participant = await _participantsService.Queryable().FirstOrDefaultAsync(x => x.Profile.Id == profileId && x.Board.Id == boardId);
             if (participant == null) throw new ArgumentException("No participant found for the given id");
 
             participant.LastReadTimeStamp = DateTime.Now;
             await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasUnreadMessage(int profileId)
+        {
+            return await _participantsService.Queryable()
+                .AnyAsync(x => x.Profile.Id == profileId && x.Board.Modified > x.LastReadTimeStamp);
         }
 
         private ICollection<Participant> CreateBoardParticipants(ICollection<TeamMember> teamMembers)

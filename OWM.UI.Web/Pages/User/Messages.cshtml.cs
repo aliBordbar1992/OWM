@@ -50,7 +50,7 @@ namespace OWM.UI.Web.Pages.User
             await InitializePage();
 
             BoardMessages = await _msgBoardService.GetMessagesInBoard(BoardId);
-            await _msgBoardService.UpdateParticipantReadCheck(_profileId);
+            await _msgBoardService.UpdateParticipantReadCheck(_profileId, BoardId);
         }
 
         public async Task OnPostBoardAsync()

@@ -13,7 +13,7 @@ namespace OWM.Data.Extensions
             {
                 if (!(entry.Entity is BaseAuditClass baseAudit)) continue;
 
-                var now = DateTime.UtcNow;
+                var now = DateTime.Now;
                 switch (entry.State)
                 {
                     case EntityState.Added:

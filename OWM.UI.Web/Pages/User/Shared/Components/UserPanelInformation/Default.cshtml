@@ -26,7 +26,15 @@
             <div class="list-group list-group-flush bg-lightgreen">
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/NewsFeed">News Feed</a>
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/TeamManagement">My Teams</a>
-                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Messages">Messages</a>
+                <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Messages">
+                    @if (Model.HasMessages)
+                    {
+                        <span class="notifier new pl-3">
+                            <span class="notify-badge"><i class="fa fa-bell"></i></span>
+                        </span>
+                    }
+                    Messages
+                </a>
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/SearchTeams">Search Teams</a>
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/CreateTeam">Create a Team</a>
                 <a class="list-group-item bg-lightgreen" asp-area="" asp-page="/User/Invitations">
