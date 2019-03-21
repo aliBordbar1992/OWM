@@ -31,7 +31,7 @@
                                     @board.TeamName
                                     @if (board.UnreadMessages != 0)
                                     {
-                                        <span class="badge badge-primary">@board.UnreadMessages</span>
+                                        <span class="badge badge-success">@board.UnreadMessages</span>
                                     }
                                 </a>
                             }
@@ -41,7 +41,7 @@
                                     @board.TeamName
                                     @if (board.UnreadMessages != 0)
                                     {
-                                        <span class="badge badge-primary">@board.UnreadMessages</span>
+                                        <span class="badge badge-success">@board.UnreadMessages</span>
                                     }
                                 </a>
                             }
@@ -49,10 +49,17 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body" style="min-height: 400px;">
+            <div class="card-body" style="height: 400px; overflow-x: auto;" id="boardbody">
                 @if (Model.EmptyState)
                 {
-                    <div>select a team to see the message board</div>
+                    <div class="container h-100">
+                        <div class="row h-100 justify-content-center align-items-center x-small">
+                            <div class="d-block p-1 rounded bg-light">
+                                <span class="fa fa-envelope-open d-block text-center mb-1"></span>
+                                Select a team to see the message board
+                            </div>
+                        </div>  
+                    </div>
                 }
                 else
                 {
@@ -68,9 +75,7 @@
                                         <strong>@message.Sender.FullName</strong>
                                         <small class="float-right text-muted xx-small" id="time">
                                             <i class="far fa-clock"></i>
-                                            <time class="timeago" datetime="@message.Date">
-                                                
-                                            </time>
+                                            <time class="timeago" datetime="@message.Date"></time>
                                         </small>
                                     </div>
                                     <p class="small mt-1 mb-2">
@@ -82,21 +87,25 @@
                     </ul>
                 }
             </div>
-            <div class="card-footer clearfix">
-                <form method="post">
-                    <textarea class="form-control" rows="3" id="message" placeholder="Type message here... " asp-for="MessageText"></textarea>
-                    <span class="col-lg-6 col-md-6">
-                        <button type="submit" asp-route-BoardId="@Model.BoardId" class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
-                    </span>
-                </form>
-            </div>
+            @if (!Model.EmptyState)
+            {
+                <div class="card-footer clearfix">
+                    <form method="post">
+                        <textarea class="form-control" rows="3" id="message" placeholder="Type message here... " style="resize: none;" asp-for="MessageText"></textarea>
+                        <span class="col-lg-6 col-md-6">
+                            <button type="submit" asp-route-BoardId="@Model.BoardId" class="btn btn-warning btn-lg btn-block" id="btn-chat">Send</button>
+                        </span>
+                    </form>
+                </div>
+            }
         </div>
     </div>
 </div>
-@DateTime.Now
 <script>
-    $(function() {
+    $(function () {
         jQuery("time.timeago").timeago();
+        var objDiv = document.getElementById("boardbody");
+        objDiv.scrollTop = objDiv.scrollHeight;
     })
     document.addEventListener("DOMContentLoaded", function () { window.addEventListener("pagehide", function (a) { window.name += "\ue000" + window.pageXOffset + "\ue000" + window.pageYOffset }); if (window.name && -1 < window.name.indexOf("\ue000")) { var a = window.name.split("\ue000"); 3 <= a.length && (window.name = a[0], window.scrollTo(parseFloat(a[a.length - 2]), parseFloat(a[a.length - 1]))) } });
 </script>
