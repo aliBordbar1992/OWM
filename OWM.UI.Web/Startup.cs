@@ -51,8 +51,8 @@ namespace OWM.UI.Web
                 .AddCookie()
                 .AddGoogle(o =>
                 {
-                    o.ClientId = "146328746915-55qlukf71n4ah14103jjf1urro7lqtc0.apps.googleusercontent.com";
-                    o.ClientSecret = "GqA8efo2pbyrVawIGFAkckff";
+                    o.ClientId = "849404786729-ce0kf2c3061n273pno8l42q2pbieq087.apps.googleusercontent.com";
+                    o.ClientSecret = "53GdvZuihY4tI3ryB2fOCFoQ";
                     o.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
                     o.ClaimActions.Clear();
                     o.ClaimActions.MapAll();
