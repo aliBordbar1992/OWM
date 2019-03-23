@@ -23,15 +23,15 @@ namespace OWM.UI.Web.Pages
         {
             MailChimpMemberDto newMember = new MailChimpMemberDto
             {
-                FirstName = "batin",
-                LastName = "click",
+                FirstName = "test",
+                LastName = "api",
                 Occupation = "I prefer not to say",
                 Interests = "something",
                 CityName = "london",
                 CountryName = "United kingdom",
                 HowDidYouHearUs = "friend invitation",
                 Phone = "+989372346281",
-                Email = "witch_king2011@yahoo.com",
+                Email = "cokege@myfavorite.info",
                 Gender = "Male",
                 Ethnicity = "African",
                 Birthday = new DateTime(1985,10,10).ToString("MM/dd"),

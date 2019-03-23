@@ -31,12 +31,12 @@ namespace OWM.Application.Services
                             { "OCCUPTN", member.Occupation },
                             { "ETHNIC", member.Ethnicity },
                             { "MINTERESTS", member.Interests },
-                            { "CITY", member.CityName },
                             { "COUNTRY", member.CountryName },
                             { "GENDER", member.Gender },
-                            { "HOWDIDKNOW", member.HowDidYouHearUs }
+                            { "HOWDIDKNOW", member.HowDidYouHearUs },
+                            { "CITY", member.CityName }
                         }
-                    }).ConfigureAwait(false);
+                    }).ConfigureAwait(true);
 
             var updateMergeField =
                 await
@@ -50,10 +50,10 @@ namespace OWM.Application.Services
     public abstract class MailChimpInit
     {
         protected IMailChimpManager MailChimpManager;
-        protected string ListId => "7ef7097f53";
+        protected string ListId => "d3b0291dff";
         protected MailChimpInit()
         {
-            this.MailChimpManager = new MailChimpManager("13e03828b4163c4d65680d0a09d68275-us20");
+            this.MailChimpManager = new MailChimpManager("3116ed530a8f14dc21d4536268564f76-us20");
         }
     }
 }
