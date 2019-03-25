@@ -320,6 +320,8 @@ namespace OWM.Application.Services
 
             var result = new TeamInformationDto
             {
+                TeamId = team.Id,
+                BoardId = team.Board.Id,
                 TeamName = team.Name,
                 DateCreated = team.Created,
                 Description = team.ShortDescription,
@@ -327,6 +329,9 @@ namespace OWM.Application.Services
                 Occupations = occupations,
                 TotalMilesCompleted = totalMilesCompleted,
                 TotalMilesPledged = totalMilesPledged,
+                str_TotalMilesCompleted = totalMilesCompleted.ToString("0.0"),
+                str_TotalMilesPledged = totalMilesPledged.ToString("0.0"),
+                TeamCompletedMilesPercentage = Helper.GetPercentage(totalMilesCompleted, totalMilesPledged).ToString("0.0"),
                 TeamMembers = await GetTeamMembers(teamId, getKickedMembers)
             };
 
@@ -492,7 +497,7 @@ namespace OWM.Application.Services
             //3. team does not have occupation filter, if it have, user occupation must match with team,
             //4. age ranges match
             result.FinalResult = (!result.TeamIsClosed) && !result.IsAlreadyMember &&
-                                 (!result.OccupationFilter || (result.OccupationFilter && result.OccupationsMatch)) &&
+                                 //(!result.OccupationFilter || (result.OccupationFilter && result.OccupationsMatch)) &&
                                  result.AgeRangeMatch;
 
             return result;

@@ -164,17 +164,14 @@ namespace OWM.Application.Services
 
                 MyCompletedMiles = myTeam.MyCompletedMiles,
                 MyPledgedMiles = myTeam.MyPledgedMiles,
-                MyCompletedMilesPercentage =
-                    GetPercentage(myTeam.MyCompletedMiles, myTeam.MyPledgedMiles).ToString("0.0"),
+                MyCompletedMilesPercentage = Helper.GetPercentage(myTeam.MyCompletedMiles, myTeam.MyPledgedMiles).ToString("0.0"),
 
                 TeamCompletedMiles = myTeam.TotalMilesCompleted,
                 TeamTotalMilesPledged = myTeam.TotalMilesPledged,
-                TeamCompletedMilesPercentage =
-                    GetPercentage(myTeam.TotalMilesCompleted, myTeam.TotalMilesPledged).ToString("0.0"),
+                TeamCompletedMilesPercentage = Helper.GetPercentage(myTeam.TotalMilesCompleted, myTeam.TotalMilesPledged).ToString("0.0"),
 
                 MilesUntilCanComplete = 26.2f - myTeam.TotalMilesPledged,
-                MilesUntilCanCompletePercentage =
-                    GetPercentage(myTeam.TotalMilesPledged, 26.2f).ToString("0.0"),
+                MilesUntilCanCompletePercentage = Helper.GetPercentage(myTeam.TotalMilesPledged, 26.2f).ToString("0.0"),
 
                 CanPledgeMiles = await CanPledgeMiles(teamId, profileId),
                 CanCompleteMiles = await CanCompleteMiles(teamId, profileId),
@@ -239,11 +236,6 @@ namespace OWM.Application.Services
             if (isOver26Miles && notCompleted) return true;
 
             return false;
-        }
-
-        private float GetPercentage(float a, float b)
-        {
-            return (a / b) * 100;
         }
 
 
