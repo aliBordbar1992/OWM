@@ -31,7 +31,7 @@ namespace OWM.UI.Web.Pages
                 CountryName = "United kingdom",
                 HowDidYouHearUs = "friend invitation",
                 Phone = "+989372346281",
-                Email = "cokege@myfavorite.info",
+                Email = "votigihocu@net-solution.info",
                 Gender = "Male",
                 Ethnicity = "African",
                 Birthday = new DateTime(1985,10,10).ToString("MM/dd"),

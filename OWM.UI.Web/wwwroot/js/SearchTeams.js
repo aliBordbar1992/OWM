@@ -83,8 +83,8 @@
         for (var i = 0; i < e.length; i++) {
             elements.push(html
                 .replace("#m#", e[i].teamMembersCount)
-                .replace("#mp#", e[i].totalMilesPledged)
-                .replace('#mc#', e[i].totalMilesCompleted)
+                .replace("#mp#", e[i].str_TotalMilesPledged)
+                .replace('#mc#', e[i].str_TotalMilesCompleted)
                 .replace('#teamname#', e[i].teamName)
                 .replace('#datecreated#', e[i].str_DateCreated)
                 .replace("#desc#", e[i].description.substring(0, 150) + ' ...')

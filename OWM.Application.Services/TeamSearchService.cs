@@ -73,6 +73,12 @@ namespace OWM.Application.Services
                 TeamMembersCount = team.Members.Count,
             }).Skip(skip).Take(take).ToListAsync();
 
+            foreach (var item in result)
+            {
+                item.str_TotalMilesCompleted = item.TotalMilesCompleted.ToString("0.0");
+                item.str_TotalMilesPledged = item.TotalMilesPledged.ToString("0.0");
+            }
+
             return result;
         }
     }

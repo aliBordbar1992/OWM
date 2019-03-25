@@ -14,6 +14,8 @@ namespace OWM.Application.Services.Dtos
         public bool IsClosed { get; set; }
         public float TotalMilesPledged { get; set; }
         public float TotalMilesCompleted { get; set; }
+        public string str_TotalMilesPledged { get; set; }
+        public string str_TotalMilesCompleted { get; set; }
         public List<TeamMemberInformationDto> TeamMembers { get; set; }
         public int TeamMembersCount { get; set; }
         public string Description { get; set; }
