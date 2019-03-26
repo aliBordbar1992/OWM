@@ -17,6 +17,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Properties\PublishProfiles\musicnmerch.com - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\oneworldmarathon.org - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\owm.bornatek.ir - Web Deploy.pubxml" />
+    <None Remove="Properties\PublishProfiles\test.oneworldmarathon.org - Web Deploy.pubxml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ExpressiveAnnotations" Version="2.9.6" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
