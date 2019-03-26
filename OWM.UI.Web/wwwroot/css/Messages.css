@@ -24,7 +24,6 @@ li div.header {
  .chat li:last-child {
      border-bottom: none;
      margin-bottom: 0;
-     padding-bottom: 0;
  }
 
  .chat li.left .chat-body {
