@@ -224,13 +224,28 @@ namespace OWM.UI.Web.Pages
                 HowDidYouHearUs = e.User.HowDidYouHearUs,
                 Phone = e.Identity.PhoneNumber,
                 Email = e.Identity.Email,
-                Gender = e.User.Gender == GenderEnum.Male ? "Male" : "Female",
+                Gender = GetGenderCaption(e.User.Gender),
                 Ethnicity = e.User.Ethnicity.Name,
                 Birthday = e.User.DateOfBirth.ToString("MM/dd"),
             };
 
             _chimpService.AddMemberToList(newMember);
         }
+
+        private string GetGenderCaption(GenderEnum userGender)
+        {
+            switch (userGender)
+            {
+                case GenderEnum.Male:
+                    return "Male";
+                case GenderEnum.Female:
+                    return "Female";
+                case GenderEnum.NonBinary:
+                    return "Non-binary";
+                default: return "";
+            }
+        }
+
         public void RegisterFailed(object sender, RegistrationFailedArgs e)
         {
             _succeeded = false;
