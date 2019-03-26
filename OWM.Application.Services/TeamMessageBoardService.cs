@@ -172,7 +172,7 @@ namespace OWM.Application.Services
         public async Task<bool> HasUnreadMessage(int profileId)
         {
             return await _participantsService.Queryable()
-                .AnyAsync(x => x.Profile.Id == profileId && x.Board.Modified > x.LastReadTimeStamp);
+                .AnyAsync(x => x.Profile.Id == profileId && x.Board.Messages.Any(m => m.Created > x.LastReadTimeStamp));
         }
 
         public async Task AddParticipant(int profileId, int boardId)
