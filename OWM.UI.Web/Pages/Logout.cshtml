@@ -5,5 +5,14 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h2>Logout</h2>
+<div class="container text-center">
+    <div class="alert alert-success">You are logged out.</div>
+</div>
+<script>
+    $(function() {
+        setTimeout(function() {
+            window.location.replace('/index');
+        }, 2000)
+    })
+</script>
 
