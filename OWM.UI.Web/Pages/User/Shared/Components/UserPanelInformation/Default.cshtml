@@ -18,8 +18,11 @@
                 </div>
                 <a class="border-bottom mb-2 text-info" asp-area="" asp-page="/User/EditProfile">Edit profile</a>
                 <h4 class="font-weight-bold mb-1">@Model.Name @Model.Surname</h4>
-                <hr class="mb-2 mt-2" />
-                <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
+                @if (Model.OccupationOrder == 1)
+                {
+                    <hr class="mb-2 mt-2" />
+                    <h6 class="mb-0 font-weight-bold">@Model.Occupation</h6>
+                }
             </div>
         </div>
         <div class="card mb-4 pr-3 pl-3" id="menu" style="background: rgba(193, 216, 196, 0.4);">

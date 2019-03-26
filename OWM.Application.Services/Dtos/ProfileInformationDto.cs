@@ -4,6 +4,7 @@ namespace OWM.Application.Services.Dtos
 {
     public class ProfileInformationDto
     {
+        public int OccupationOrder { get; set; }
         public string FirstName { get; set; }
         public string Surname { get; set; }
         public string ProfilePicture { get; set; }

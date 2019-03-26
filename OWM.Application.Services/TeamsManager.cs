@@ -413,6 +413,7 @@ namespace OWM.Application.Services
                 Surname = profileInfo.Surname,
                 FirstName = profileInfo.Name,
                 Occupation = profileInfo.Occupation,
+                OccupationOrder = profileInfo.OccupationOrder,
                 Interests = profileInfo.Interests.Select(x => x.Name).ToList(),
                 MilesCompleted = profileInfo.MilesCompleted,
                 MilesPledged = profileInfo.MilesPledged,
