@@ -14,27 +14,32 @@
                 <form method="post" class="card-body">
                     <div class="row">
                         <div class="col-md-2 text-center">
-                            <img class="img-thumbnail rounded-circle" id="mainUserImage" src="@Model.MemberInformation.ProfilePicture" alt=""/>
-                            <div class="profile-work text-left">
-                                <p class="mt-4 mb-1">Interests</p>
-                                <hr class="mt-1 mb-1"/>
-                                @foreach (string interest in Model.MemberInformation.Interests)
-                                {
-                                    <span class="badge" href="">@interest</span>
-                                }
-                            </div>
+                            <img class="img-thumbnail rounded-circle" id="mainUserImage" src="@Model.MemberInformation.ProfilePicture" alt="" />
                         </div>
                         <div class="col-md-10">
-                            <h3 class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
-                            <hr class="mt-1 mb-3"/>
-                            <div class="badge badge-secondary small mt-1 mb-1">
-                                <span class="fas fa-user-md text-light"></span>&nbsp; @Model.MemberInformation.Occupation
+                            <h3 id="username" class="text-dark font-weight-bold">@Model.MemberInformation.FirstName @Model.MemberInformation.Surname</h3>
+                            <hr class="mt-1 mb-3" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="badge badge-secondary small mt-1 mb-1">
+                                        <span class="fas fa-user-md text-light"></span>&nbsp; @Model.MemberInformation.Occupation
+                                    </div>
+                                    <br />
+                                    <div class="badge badge-secondary small mt-1 mb-1">
+                                        <span class="fas fa-map-marker-alt text-light"></span>&nbsp; @Model.MemberInformation.City, @Model.MemberInformation.Country
+                                    </div>  
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="profile-work text-left" id="interests">
+                                        <p class="mb-1 mt-2">Interests</p>
+                                        @foreach (string interest in Model.MemberInformation.Interests)
+                                        {
+                                            <span class="badge" href="">@interest</span>
+                                        }
+                                    </div>  
+                                </div>
                             </div>
-                            <br/>
-                            <div class="badge badge-secondary small mt-1 mb-1">
-                                <span class="fas fa-map-marker-alt text-light"></span>&nbsp; @Model.MemberInformation.City, @Model.MemberInformation.Country
-                            </div>
-                            <hr/>
+                            <hr />
                             <div class="row" id="userstatistic">
                                 <div class="col-sm-6 col-xl-6">
                                     <div class="card mb-4">

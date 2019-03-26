@@ -17,6 +17,13 @@
         width: 50%!important;
         height: auto!important;
     }
+    #mainArea #username {
+        text-align: center!important;
+    }
+    #interests {
+        border-top: #d4dcd5 1px solid!important;
+        margin-top: 1rem;
+    }
 } 
 .profile-work{}
  .profile-work p{

@@ -39,6 +39,9 @@
     #AlertArea {
         margin-top: 10px;
     }
+    .alert {
+        margin-bottom: 0 !important;
+    }
 } 
 .list-group-item a {
      font-size: 11pt;

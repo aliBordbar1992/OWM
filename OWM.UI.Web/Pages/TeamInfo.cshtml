@@ -85,9 +85,31 @@
                                     </a>
                                 </div>
                             }
+                            @if (Model.CanJoinTeam.IsAlreadyMember)
+                            {
+                                <a class="btn-sm btn-block btn-primary text-center mt-2" href="/User/Messages/Board/@Model.TeamInformation.BoardId">Message board</a>
+                            }
                         </div>
                     </div>
                     <hr />
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-9">
+                                    <span class="x-small mb-1">Team progress</span>
+                                    <div class="progress" style="height: 25px">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="teamprogress" style="width: @Model.TeamInformation.TeamCompletedMilesPercentage%">
+                                            @Model.TeamInformation.TotalMilesCompleted miles
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 pl-0">
+                                    <div>&nbsp;</div>
+                                    <div class="x-small" style="line-height: 25px;" id="TeamTotalMilesPledged">@Model.TeamInformation.TotalMilesPledged miles</div>
+                                </div>
+                            </div>      
+                        </div>
+                    </div>
                     <div class="row mt-4 mb-4" id="teamstatistics">
                         <div class="col-sm-4 col-xl-4">
                             <div class="card">
@@ -167,30 +189,10 @@
         </div>
     </div>
 
-
-    <div class="row mt-3">
-        <div class="col-9">
-            <span class="x-small mb-1">Team progress</span>
-            <div class="progress" style="height: 25px">
-                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" id="teamprogress" style="width: @Model.TeamInformation.TeamCompletedMilesPercentage%">
-                    @Model.TeamInformation.TotalMilesCompleted miles
-                </div>
-            </div>
-        </div>
-        <div class="col-3 pl-0">
-            <div>&nbsp;</div>
-            <div class="x-small" style="line-height: 25px;" id="TeamTotalMilesPledged">@Model.TeamInformation.TotalMilesPledged miles</div>
-        </div>
-    </div>
-    @if (Model.CanJoinTeam.IsAlreadyMember)
-    {
-        <a href="/User/Messages/Board/@Model.TeamInformation.BoardId">Message board</a>
-    }
-
 </div>
 <script>
     $(function () {
-        if (!document.querySelectorAll("#sideArea").length) {
+        if (!$('#sideArea').length) {
             $('#mainArea').addClass('col-md-12');
         }
         var x = 0;
