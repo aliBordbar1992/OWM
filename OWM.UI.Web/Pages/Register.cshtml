@@ -88,15 +88,23 @@
                         <input required class="form-control" placeholder="Confirm password" asp-for="RegistrationData.ConfirmPassword" />
                     </div>
                 </div>
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <input required class="form-control" type="date" asp-for="RegistrationData.Birthday" />
-                    </div>
-                    <div class="col-md-6">
+                <div class="row mt-2">
+                    <div class="col-md-12">
                         <a id="birthdaycm" style="cursor: pointer; margin-top: 3px;" tabindex="0" role="button" data-toggle="popover" data-trigger="focus"
-                           data-placement="bottom" data-content="We require a date of birth for all Oneworldmarathon.org accounts to automatically assign users to their age group. 
-our age groups are below 14, 15-17 and 17+.
-you can only team up with users in your age group." class="text-info">Why do i need to provide my<br>date of birth?</a>
+                           data-placement="bottom" data-content="
+                           We require a date of birth for all Oneworldmarathon.org accounts to automatically assign users to their age group.our age groups are below 14, 15-17 and 17+.you can only team up with users in your age group." class="text-info x-small">
+                            Why do i need to provide my date of birth?
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">date of birth</span>
+                            </div>
+                            <input required class="form-control" type="date" asp-for="RegistrationData.Birthday" />
+                        </div>
                     </div>
                 </div>
                 <div class="row mt-3">
