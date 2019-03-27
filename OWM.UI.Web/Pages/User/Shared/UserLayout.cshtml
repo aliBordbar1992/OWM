@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - One World Marathon</title>
     <environment include="Development">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135021537-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-135021537-1');
+        </script>
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"
                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
                 crossorigin="anonymous"></script>
@@ -13,18 +22,18 @@
         <script src="~/js/Detector.js"></script>
         <script src="~/js/three.min.js"></script>
         <script src="~/js/globe.js"></script>
-        <link href="~/css/styles.css" rel="stylesheet" />
-        <link href="~/css/bootst.css" rel="stylesheet" />
+        <link href="~/css/styles.css" rel="stylesheet"/>
+        <link href="~/css/bootst.css" rel="stylesheet"/>
         <script src="~/js/notify.js"></script>
         <script src="~/js/script.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
               integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link href="~/css/user.css" rel="stylesheet" />
-        <link href="~/css/chosen.css" rel="stylesheet" />
+        <link href="~/css/user.css" rel="stylesheet"/>
+        <link href="~/css/chosen.css" rel="stylesheet"/>
         <script src="~/js/chosen.jquery.js"></script>
         <script src="~/js/PreventScroll.js"></script>
-        <link href="~/css/SidebarNav.css" rel="stylesheet" />
+        <link href="~/css/SidebarNav.css" rel="stylesheet"/>
     </environment>
 </head>
 <body>
