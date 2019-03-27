@@ -43,7 +43,7 @@
     $('#header, #splash').addClass('anim');
 
     // READ MORE
-    $('.block p').on('click', function () {
+    $(document).on('click','.block p' ,function () {
         var block = $(this).closest('.block');
 
         if (!block.hasClass('.anim')) {
