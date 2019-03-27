@@ -1892,3 +1892,6 @@ input:-webkit-autofill:active {
     z-index: 800;
     cursor: pointer;
 }
+.btn-Facebook {
+    display: none !important;
+}

@@ -5,3 +5,6 @@
      font-size: 20pt;
      padding: 10px;
  }
+.block p {
+    cursor: pointer !important;
+}
