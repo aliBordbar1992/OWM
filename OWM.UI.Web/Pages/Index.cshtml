@@ -7,10 +7,12 @@
 }
 @{
     var summary = TeamManager.GetSummary();
+    var days = Convert.ToInt32((DateTime.Parse("04/12/2019") - DateTime.Now).Days);
 }
 <input type="hidden" id="mp-counter" value="@summary.MilesPledged" />
 <input type="hidden" id="c-counter" value="@summary.Countries" />
 <input type="hidden" id="p-counter" value="@summary.Participants" />
+<input type="hidden" id="days-until-the-event" value="@days"/>
 <div id="home-contents"></div>
 <script>
     $(function () {
