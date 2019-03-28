@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
 using URF.Core.Abstractions.Trackable;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OWM.Domain.Entities;
-using OWM.Domain.Entities.Enums;
+﻿using OWM.Domain.Entities.Enums;
 
 namespace OWM.Application.Services.Dtos
 {

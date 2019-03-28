@@ -5,7 +5,6 @@ using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 
 namespace OWM.UI.Web.ViewComponents
 {

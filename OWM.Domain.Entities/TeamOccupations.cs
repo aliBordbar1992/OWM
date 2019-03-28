@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using URF.Core.EF.Trackable;
 
 namespace OWM.Domain.Entities
 {

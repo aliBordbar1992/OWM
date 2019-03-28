@@ -1,12 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MailChimp.Net;
-using MailChimp.Net.Core;
 using MailChimp.Net.Interfaces;
 using MailChimp.Net.Models;
-using Microsoft.Extensions.Configuration;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
 

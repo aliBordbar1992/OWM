@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Interfaces;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
-using TrackableEntities.Common.Core;
 using URF.Core.Abstractions;
 
 namespace OWM.Application.Services

@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace OWM.UI.Web.Controllers
 {

@@ -1,5 +1,4 @@
-﻿using System;
-using OWM.Application.Services.Enums;
+﻿using OWM.Application.Services.Enums;
 using OWM.Domain.Entities.Enums;
 
 namespace OWM.Application.Services.Dtos

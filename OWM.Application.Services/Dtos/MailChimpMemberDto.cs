@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OWM.Application.Services.Dtos
+﻿namespace OWM.Application.Services.Dtos
 {
     public class MailChimpMemberDto
     {

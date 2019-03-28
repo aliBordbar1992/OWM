@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using OWM.Application.Services.Dtos;
-using OWM.Domain.Entities;
 using System.Threading.Tasks;
 using OWM.Application.Services.EventHandlers;
 

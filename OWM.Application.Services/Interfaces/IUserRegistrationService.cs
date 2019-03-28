@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.EventHandlers;
-using OWM.Domain.Entities;
 
 namespace OWM.Application.Services.Interfaces
 {

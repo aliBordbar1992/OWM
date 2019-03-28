@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using OWM.Application.Services.Dtos;
 
 namespace OWM.Application.Services.Exceptions
 {

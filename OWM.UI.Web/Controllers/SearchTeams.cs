@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OWM.Application.Services.Dtos;
 using OWM.Application.Services.Interfaces;
-using OWM.Domain.Entities.Enums;
-using OWM.UI.Web.Enums;
-using EnumOrderBy = OWM.Application.Services.Enums.EnumOrderBy;
 
 namespace OWM.UI.Web.Controllers
 {
