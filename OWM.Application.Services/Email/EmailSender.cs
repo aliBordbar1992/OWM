@@ -25,12 +25,12 @@ namespace OWM.Application.Services.Email
             using (var client = new SmtpClient())
             {
                 // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
-                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+                client.ServerCertificateValidationCallback = (s, c, h, e) => false;
 
-                client.Connect("smtp.gmail.com", 587, false);
+                client.Connect(EmailSenderConfigs.Host, EmailSenderConfigs.Port, false);
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("owm.assistance@gmail.com", "Owm@2019");
+                client.Authenticate(EmailSenderConfigs.AuthenticateUsername, EmailSenderConfigs.AuthenticatePassword);
 
                 client.Send(Message);
                 client.Disconnect(true);

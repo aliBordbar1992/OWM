@@ -21,7 +21,7 @@ namespace OWM.Application.Services.Email
         protected sealed override void Config()
         {
             Message = new MimeMessage();
-            Message.From.Add(new MailboxAddress($"{_senderName} | Invitation", "owm.assistance@gmail.com"));
+            Message.From.Add(new MailboxAddress($"{_senderName} | Invitation", EmailSenderConfigs.SendingEmailAddress));
             Message.To.Add(new MailboxAddress(_recipientName, EmailAddress));
             Message.Subject = $"{_senderName} | Join {_teamName}";
 

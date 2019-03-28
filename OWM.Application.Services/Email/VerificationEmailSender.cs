@@ -16,7 +16,7 @@ namespace OWM.Application.Services.Email
         protected sealed override void Config()
         {
             Message = new MimeMessage();
-            Message.From.Add(new MailboxAddress("OneWorldMarathon", "owm.assistance@gmail.com"));
+            Message.From.Add(new MailboxAddress("OneWorldMarathon", EmailSenderConfigs.SendingEmailAddress));
             Message.To.Add(new MailboxAddress(_name, EmailAddress));
             Message.Subject = "Email verification";
 
