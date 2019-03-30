@@ -65,8 +65,23 @@ namespace OWM.Application.Services.Dtos
             ? new List<Interest>()
             : Interest.Split(',').Select(x => new Interest { Name = x }).ToList();
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Birthday is required")]
-        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?)null : DateTime.ParseExact(Birthday.Replace("-", "/"), Utils.Constants.DateFormat, null);
+        //[Required(AllowEmptyStrings = false, ErrorMessage = "Birthday is required")]
+        public DateTime? DateOfBirth
+        {
+            get
+            {
+                try
+                {
+                   return  string.IsNullOrEmpty(Birthday)
+                        ? (DateTime?) null
+                        : DateTime.ParseExact(Birthday.Replace("-", "/"), Utils.Constants.DateFormat, null);
+                }
+                catch (Exception e)
+                {
+                    return DateTime.Now;
+                }
+            }
+        } 
 
         [Required(ErrorMessage = "Birthday is required")]
         public string Birthday
