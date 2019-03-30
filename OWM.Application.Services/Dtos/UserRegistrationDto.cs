@@ -8,6 +8,13 @@ namespace OWM.Application.Services.Dtos
 {
     public class UserRegistrationDto
     {
+        [Required(ErrorMessage = "Enter your day of birth")]
+        public int? DayOfBirth { get; set; }
+        [Required(ErrorMessage = "Enter your month of birth")]
+        public int? MonthOfBirth { get; set; }
+        [Required(ErrorMessage = "Enter your year of birth")]
+        public int? YearOfBirth { get; set; }
+
         [Required(ErrorMessage = "Occupation is Required")]
         public int? OccupationId { get; set; }
 
@@ -56,16 +63,25 @@ namespace OWM.Application.Services.Dtos
 
         public List<Interest> Interests => string.IsNullOrEmpty(Interest)
             ? new List<Interest>()
-            : Interest.Split(',').Select(x => new Interest {Name = x}).ToList();
+            : Interest.Split(',').Select(x => new Interest { Name = x }).ToList();
 
-        [Required(AllowEmptyStrings = false,ErrorMessage = "Birthday is required")]
-        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?) null : DateTime.ParseExact(Birthday.Replace("-", "/"), Utils.Constants.DateFormat, null);
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Birthday is required")]
+        public DateTime? DateOfBirth => string.IsNullOrEmpty(Birthday) ? (DateTime?)null : DateTime.ParseExact(Birthday.Replace("-", "/"), Utils.Constants.DateFormat, null);
 
         [Required(ErrorMessage = "Birthday is required")]
-        public string Birthday { get; set; }
+        public string Birthday
+        {
+            get
+            {
+                string dayString = DayOfBirth < 10 ? $"0{DayOfBirth}" : DayOfBirth + "";
+                string monthString = MonthOfBirth < 10 ? $"0{MonthOfBirth}" : MonthOfBirth + "";
+
+                return $"{YearOfBirth}/{monthString}/{dayString}";
+            }
+        }
 
         public string ProfileImageAddress { get; set; }
-        public bool  VerifiedEmail { get; set; }
+        public bool VerifiedEmail { get; set; }
 
         public string HowDidYouHearUs { get; set; }
     }

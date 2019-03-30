@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using OWM.Application.Services.Utils;
 using OWM.Domain.Entities.Enums;
 
 namespace OWM.UI.Web.Pages
@@ -36,6 +37,9 @@ namespace OWM.UI.Web.Pages
         [BindProperty] public UserRegistrationDto RegistrationData { get; set; }
         public List<SelectListItem> EthnicityOptions;
         public List<SelectListItem> OccupationOptions;
+        public List<SelectListItem> Days { get; set; }
+        public List<SelectListItem> Months { get; set; }
+        public List<SelectListItem> Years { get; set; }
         [TempData] public string ErrorMessage { get; set; }
         public string ReturnUrl { get; set; }
 
@@ -187,6 +191,10 @@ namespace OWM.UI.Web.Pages
                 Value = x.Id + "",
                 //Selected = x.Order == 0
             }).ToList().Result;
+
+            Days = Constants.GetDays();
+            Months = Constants.GetMonths();
+            Years = Constants.GetYears();
         }
 
         public void SetUserId(object sender, UserRegisteredArgs e)
