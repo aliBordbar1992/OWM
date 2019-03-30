@@ -26,7 +26,7 @@ namespace OWM.Application.Services.Email
             {
                 Message.Priority = MessagePriority.Normal;
                 // For demo-purposes, accept all SSL certificates (in case the server supports STARTTLS)
-                client.ServerCertificateValidationCallback = (s, c, h, e) => false;
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                 client.Connect(EmailSenderConfigs.Host, EmailSenderConfigs.Port, false);
 
