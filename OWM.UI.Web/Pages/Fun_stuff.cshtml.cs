@@ -28,9 +28,23 @@ namespace OWM.UI.Web.Pages
                     Address = $"/funstuff/{Path.GetFileName(file)}"
                 });
             }
+
+            pics = new List<PictureFiles>();
+            var picPath = Path.Combine(_hostingEnv.WebRootPath, "pictures");
+            foreach (string file in Directory.EnumerateFiles(picPath, "*", SearchOption.TopDirectoryOnly))
+            {
+                string picTilte = Path.GetFileNameWithoutExtension(file);
+                pics.Add(new PictureFiles()
+                {
+                    Address = $"/pictures/{Path.GetFileName(file)}",
+                    Title = picTilte
+                });
+            }
+
         }
 
         public List<PictureFiles> pictures { get; set; }
+        public List<PictureFiles> pics { get; set; }
 
         public class PictureFiles
         {

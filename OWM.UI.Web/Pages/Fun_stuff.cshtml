@@ -13,12 +13,37 @@
             <div class="small amazing text-darkblue" style="line-height: 25px;">
                 Some drawings from children about what the <a asp-page="/index">OWM</a> is about. 
                 <br>Please feel free to submit more to us so we can put them up on our website.
+                <div>
+                    <a class="text-info" href="mailto:info@oneworldmarathon.org" target="_top">info@oneworldmarathon.org</a>
+                </div>
             </div>
         </div>
         <div class="card-body">
             <div class="container page-top">
                 <div class="row mt-3">
                     @foreach (var pic in Model.pictures)
+                    {
+                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                            <span class="small d-block text-left mb-1">
+                                @(pic.Title.Length > 20 ? pic.Title.Substring(0, 20) + " ..." : pic.Title)
+                            </span>
+                            <a href="@pic.Address" class="fancybox" rel="ligthbox">
+                                <img src="@pic.Address" class="zoom img-fluid " alt="@pic.Title">
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-5">
+        <div class="card-header text-left">
+            Pictures
+        </div>
+        <div class="card-body">
+            <div class="container page-top">
+                <div class="row mt-3">
+                    @foreach (var pic in Model.pics)
                     {
                         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
                             <span class="small d-block text-left mb-1">
