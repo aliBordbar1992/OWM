@@ -9,6 +9,8 @@ namespace OWM.Application.Services.Utils
 {
     public static class Constants
     {
+        public static float MarathonMiles => 26.2f;
+
         public static string DateFormat => "yyyy/MM/dd";
         public static string DateFormat_LongMonth => "dd MMMM yyyy";
         public static string DateTimeFormat_LongMonth => "dd MMMM yyyy at HH:mm";

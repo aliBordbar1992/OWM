@@ -7,6 +7,7 @@ using OWM.Application.Services.Dtos;
 using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
+using OWM.Application.Services.Utils;
 using OWM.Domain.Entities;
 using OWM.Domain.Services.Interfaces;
 using TrackableEntities.Common.Core;
@@ -170,8 +171,8 @@ namespace OWM.Application.Services
                 TeamTotalMilesPledged = myTeam.TotalMilesPledged,
                 TeamCompletedMilesPercentage = Helper.GetPercentage(myTeam.TotalMilesCompleted, myTeam.TotalMilesPledged).ToString("0.0"),
 
-                MilesUntilCanComplete = 26.2f - myTeam.TotalMilesPledged,
-                MilesUntilCanCompletePercentage = Helper.GetPercentage(myTeam.TotalMilesPledged, 26.2f).ToString("0.0"),
+                MilesUntilCanComplete = Constants.MarathonMiles - myTeam.TotalMilesPledged,
+                MilesUntilCanCompletePercentage = Helper.GetPercentage(myTeam.TotalMilesPledged, Constants.MarathonMiles).ToString("0.0"),
 
                 CanPledgeMiles = await CanPledgeMiles(teamId, profileId),
                 CanCompleteMiles = await CanCompleteMiles(teamId, profileId),
@@ -205,7 +206,7 @@ namespace OWM.Application.Services
 
             //1
             var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
-            bool notOver26Miles = teamPledgedMiles.Sum(x => x.Miles) <= 26.22;
+            bool notOver26Miles = teamPledgedMiles.Sum(x => x.Miles) < Constants.MarathonMiles;
             if (notOver26Miles) return true;
 
             //2
@@ -226,7 +227,7 @@ namespace OWM.Application.Services
 
             //1
             var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
-            bool isOver26Miles = teamPledgedMiles.Sum(x => x.Miles) >= 26.22;
+            bool isOver26Miles = teamPledgedMiles.Sum(x => x.Miles) >= Constants.MarathonMiles;
 
             //2
             var pledgedMiles = await _teamService.GetMemberPledgedMiles(teamId, profileId);
