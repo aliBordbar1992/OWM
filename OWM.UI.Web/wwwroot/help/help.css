@@ -1,8 +1,18 @@
-﻿ul li {
-   list-style-type: circle!important;
+﻿.card ul li {
+    list-style-type: circle !important;
+    line-height: 1.5;
+    padding: 10px;
+    font-size: 14px;
 }
 
-ul {
-    list-style: circle;
-    padding: 15px;
+.card li li {
+    list-style-type: square !important;
+}
+
+.card p {
+    font-size: 16px;
+}
+
+.card ul {
+    padding: 20px;
 }
