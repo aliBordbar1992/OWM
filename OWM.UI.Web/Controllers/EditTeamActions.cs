@@ -146,6 +146,17 @@ namespace OWM.UI.Web.Controllers
         {
             try
             {
+                if (miles < 0)
+                {
+                    return Json(new ApiResponse
+                    {
+                        Success = false,
+                        ErrorCode = -2,
+                        DisplayMessage = "Miles pledged must be greater than 0.",
+                        Data = null
+                    });
+                }
+
                 _teamMiles.PledgedMilesUpdated += PledgeMilesUpdated;
                 _teamMiles.FailedToPledgeMiles += PledgeMilesUpdateFailed;
 
@@ -191,6 +202,17 @@ namespace OWM.UI.Web.Controllers
             _profileId = pId;
             try
             {
+                if (miles < 0)
+                {
+                    return Json(new ApiResponse
+                    {
+                        Success = false,
+                        ErrorCode = -2,
+                        DisplayMessage = "completed miles must be greater than 0.",
+                        Data = null
+                    });
+                }
+
                 if (await _teamMiles.CanCompleteMiles(tId, pId))
                 {
                     _teamMiles.PledgedMilesUpdated += CompleteMilesUpdated;
