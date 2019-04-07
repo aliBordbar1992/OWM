@@ -24,9 +24,6 @@
                     @foreach (var pic in Model.pictures)
                     {
                         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                            <span class="small d-block text-left mb-1">
-                                @(pic.Title.Length > 20 ? pic.Title.Substring(0, 20) + " ..." : pic.Title)
-                            </span>
                             <a href="@pic.Address" class="fancybox" rel="ligthbox">
                                 <img src="@pic.Address" class="zoom img-fluid " alt="@pic.Title">
                             </a>
@@ -46,9 +43,6 @@
                     @foreach (var pic in Model.pics)
                     {
                         <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                            <span class="small d-block text-left mb-1">
-                                @(pic.Title.Length > 20 ? pic.Title.Substring(0, 20) + " ..." : pic.Title)
-                            </span>
                             <a href="@pic.Address" class="fancybox" rel="ligthbox">
                                 <img src="@pic.Address" class="zoom img-fluid " alt="@pic.Title">
                             </a>
