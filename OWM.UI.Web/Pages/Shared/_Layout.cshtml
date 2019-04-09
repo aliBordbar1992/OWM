@@ -38,6 +38,7 @@
 <body>
     <div class="sidebar-fade" style="display: none;"></div>
     <div id="wrapper">
+        
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand pl-2">
@@ -49,6 +50,7 @@
             </ul>
         </div>
         <div id="page-content-wrapper">
+            <partial name="_CookieConsentPartial" />
             <header id="header" class="anim" style="margin-bottom: 100px;">
                 <div class="wrap-logo">
                     <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
@@ -96,7 +98,7 @@
                         © 2019 - <a href="https://www.oneworldstrong.org/copy-of-our-impact">One World Strong Foundation</a>
                     </div>
                     <div class="text-left xx-small text-muted mt-3">
-                        <a asp-page="/Terms">Terms & conditions</a> - 
+                        <a asp-page="/Terms">Terms & conditions</a> -
                         <a asp-page="/Privacy">Privacy policy</a>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-135021537-1"></script>
         <script>
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+            function gtag() { dataLayer.push(arguments); }
             gtag('js', new Date());
 
             gtag('config', 'UA-135021537-1');
@@ -21,102 +21,103 @@
         <script src="~/js/Detector.js"></script>
         <script src="~/js/three.min.js"></script>
         <script src="~/js/globe.js"></script>
-        <link href="~/css/styles.css" rel="stylesheet"/>
-        <link href="~/css/bootst.css" rel="stylesheet"/>
+        <link href="~/css/styles.css" rel="stylesheet" />
+        <link href="~/css/bootst.css" rel="stylesheet" />
         <script src="~/js/notify.js"></script>
         <script src="~/js/script.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
               integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link href="~/css/user.css" rel="stylesheet"/>
-        <link href="~/css/chosen.css" rel="stylesheet"/>
+        <link href="~/css/user.css" rel="stylesheet" />
+        <link href="~/css/chosen.css" rel="stylesheet" />
         <script src="~/js/chosen.jquery.js"></script>
         <script src="~/js/PreventScroll.js"></script>
-        <link href="~/css/SidebarNav.css" rel="stylesheet"/>
+        <link href="~/css/SidebarNav.css" rel="stylesheet" />
     </environment>
 </head>
 <body>
-<div class="sidebar-fade" style="display: none;"></div>
-<div id="wrapper">
-    <div id="sidebar-wrapper" style="z-index: 999;">
-        <ul class="sidebar-nav">
-            <li class="sidebar-brand pl-2">
-                <a asp-page="/index" title="Home">
-                    <img alt="One World Strong" class="sidebar-logo-owm" src="~/img/logo-one-world-strong-2.svg">
-                </a>
-            </li>
-            @await Component.InvokeAsync("TopMenu")
-        </ul>
-    </div>
-    <div id="page-content-wrapper">
-        <header id="header" class="anim" style="margin-bottom: 100px;">
-            <div class="wrap-logo">
-                <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
-            </div>
-            <nav class="">
+    <div class="sidebar-fade" style="display: none;"></div>
+    <div id="wrapper">
+        <partial name="_CookieConsentPartial" />
+        <div id="sidebar-wrapper" style="z-index: 999;">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand pl-2">
+                    <a asp-page="/index" title="Home">
+                        <img alt="One World Strong" class="sidebar-logo-owm" src="~/img/logo-one-world-strong-2.svg">
+                    </a>
+                </li>
                 @await Component.InvokeAsync("TopMenu")
-                <div class="mobile-open">
-                    <span class="mobile-icon"></span>
+            </ul>
+        </div>
+        <div id="page-content-wrapper">
+            <header id="header" class="anim" style="margin-bottom: 100px;">
+                <div class="wrap-logo">
+                    <img alt="One World Strong" class="logo-one-world-strong" src="~/img/logo-one-world-strong-2.svg">
                 </div>
-            </nav>
-        </header>
-        <div>
-            <div class="container">
-                <div class="w-100 m-auto">
-                    <div class="row">
-                        @await Component.InvokeAsync("UserPanelInformation")
-                        <div class="col-md-9" id="UserPanelMainArea">
-                            <div class="card" style="background: rgba(193, 216, 196, 0.4);">
-                                <div class="card-body">
-                                    @RenderBody()
+                <nav class="">
+                    @await Component.InvokeAsync("TopMenu")
+                    <div class="mobile-open">
+                        <span class="mobile-icon"></span>
+                    </div>
+                </nav>
+            </header>
+            <div>
+                <div class="container">
+                    <div class="w-100 m-auto">
+                        <div class="row">
+                            @await Component.InvokeAsync("UserPanelInformation")
+                            <div class="col-md-9" id="UserPanelMainArea">
+                                <div class="card" style="background: rgba(193, 216, 196, 0.4);">
+                                    <div class="card-body">
+                                        @RenderBody()
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <footer id="footer">
+                <div class="wrap-std">
+                    <ul class="social clearfix">
+                        <li>
+                            <a href="https://www.facebook.com/OWMarathon/" target="_blank">
+                                <img alt="Facebook" src="/img/icon-facebook.svg">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/1worldstronger" target="_blank">
+                                <img alt="Twitter" src="/img/icon-twitter.svg">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="http://www.instagram.com/1wsfoundation" target="_blank">
+                                <img alt="Instagram" src="/img/icon-instagram.svg">
+                            </a>
+                        </li>
+                    </ul>
+                    <hr class="bg-white" />
+                    <div class="row clearfix text-white text-center small">
+                        <div class="col"><a asp-page="/index">Home</a></div>
+                        <div class="col"><a asp-page="/explore">Teams</a></div>
+                        <div class="col"><a asp-page="/Help">Help</a></div>
+                        <div class="col"><a asp-page="/Video">Video</a></div>
+                        <div class="col"><a asp-page="/Fun_stuff">Fun stuff</a></div>
+                    </div>
+                    <hr class="bg-white" />
+                    <div class="copyright">
+                        © 2019 - <a href="https://www.oneworldstrong.org/copy-of-our-impact">One World Strong Foundation</a>
+                    </div>
+                    <div class="text-left xx-small text-muted mt-3">
+                        <a asp-page="/Terms">Terms & conditions</a> -
+                        <a asp-page="/Privacy">Privacy policy</a>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <footer id="footer">
-            <div class="wrap-std">
-                <ul class="social clearfix">
-                    <li>
-                        <a href="https://www.facebook.com/OWMarathon/" target="_blank">
-                            <img alt="Facebook" src="/img/icon-facebook.svg">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://twitter.com/1worldstronger" target="_blank">
-                            <img alt="Twitter" src="/img/icon-twitter.svg">
-                        </a>
-                    </li>
-                    <li>
-                        <a href="http://www.instagram.com/1wsfoundation" target="_blank">
-                            <img alt="Instagram" src="/img/icon-instagram.svg">
-                        </a>
-                    </li>
-                </ul>
-                <hr class="bg-white" />
-                <div class="row clearfix text-white text-center small">
-                    <div class="col"><a asp-page="/index">Home</a></div>
-                    <div class="col"><a asp-page="/explore">Teams</a></div>
-                    <div class="col"><a asp-page="/Help">Help</a></div>
-                    <div class="col"><a asp-page="/Video">Video</a></div>
-                    <div class="col"><a asp-page="/Fun_stuff">Fun stuff</a></div>
-                </div>
-                <hr class="bg-white" />
-                <div class="copyright">
-                    © 2019 - <a href="https://www.oneworldstrong.org/copy-of-our-impact">One World Strong Foundation</a>
-                </div>
-                <div class="text-left xx-small text-muted mt-3">
-                    <a asp-page="/Terms">Terms & conditions</a> - 
-                    <a asp-page="/Privacy">Privacy policy</a>
-                </div>
-            </div>
-        </footer>
     </div>
-</div>
 
-<div id="mm-blocker" class="mm-slideout"></div>
-<partial name="_BottomTicker"/>
+    <div id="mm-blocker" class="mm-slideout"></div>
+    <partial name="_BottomTicker" />
 </body>
 </html>
