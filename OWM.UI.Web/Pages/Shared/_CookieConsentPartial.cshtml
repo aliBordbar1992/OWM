@@ -26,12 +26,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $(function () {
-            document.querySelector("button[data-cookie-string]").addEventListener("click", function (el) {
-                document.cookie = el.target.dataset.cookieString;
-                $('.cookie').fadeOut();
-            }, false);
-        });
-    </script>
 }
