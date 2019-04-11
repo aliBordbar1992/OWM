@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using OWM.Application.Services.EventHandlers;
 using OWM.Application.Services.Exceptions;
 using OWM.Application.Services.Interfaces;
+using OWM.Application.Services.Utils;
 using OWM.UI.Web.Dtos;
 
 namespace OWM.UI.Web.Controllers
@@ -146,7 +147,7 @@ namespace OWM.UI.Web.Controllers
         {
             try
             {
-                if (miles < 0)
+                if (miles <= 0)
                 {
                     return Json(new ApiResponse
                     {
@@ -157,12 +158,29 @@ namespace OWM.UI.Web.Controllers
                     });
                 }
 
-                _teamMiles.PledgedMilesUpdated += PledgeMilesUpdated;
-                _teamMiles.FailedToPledgeMiles += PledgeMilesUpdateFailed;
+                var canEditMiles = await _teamMiles.CanEditMiles(tId, pId, miles);
+                if (canEditMiles.CanEditMiles)
+                {
+                    _teamMiles.PledgedMilesUpdated += PledgeMilesUpdated;
+                    _teamMiles.FailedToPledgeMiles += PledgeMilesUpdateFailed;
 
-                await _teamMiles.IncreasePledgedMilesBy(tId, pId, miles);
+                    await _teamMiles.EditPledgedMiles(tId, pId, miles);
 
-                return Json(_pledgedMilesResponse);
+                    return Json(_pledgedMilesResponse);
+                }
+                else
+                {
+                    string message = canEditMiles.IsUnder26Miles
+                        ? $"Cannot edit pledged miles, because the team total miles goes below {Constants.MarathonMiles} miles."
+                        : "Pledged miles cannot be lesser than completed miles.";
+                    return Json(new ApiResponse
+                    {
+                        Success = false,
+                        ErrorCode = -3,
+                        DisplayMessage = message,
+                        Data = null
+                    });
+                }
             }
             catch (Exception e)
             {
@@ -202,7 +220,7 @@ namespace OWM.UI.Web.Controllers
             _profileId = pId;
             try
             {
-                if (miles < 0)
+                if (miles <= 0)
                 {
                     return Json(new ApiResponse
                     {

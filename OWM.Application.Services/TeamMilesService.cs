@@ -80,7 +80,7 @@ namespace OWM.Application.Services
             return false;
         }
 
-        public async Task IncreasePledgedMilesBy(int teamId, int profileId, float miles)
+        public async Task EditPledgedMiles(int teamId, int profileId, float miles)
         {
             var mp = await _milesPledgedService.Queryable()
                 .FirstOrDefaultAsync(x => x.Team.Id == teamId
@@ -91,7 +91,7 @@ namespace OWM.Application.Services
             float originalMiles = mp.Miles;
             try
             {   
-                mp.Miles += miles;
+                mp.Miles = miles;
                 await _unitOfWork.SaveChangesAsync();
 
                 OnPledgedMileUpdated(new MilesPledgedArgs(mp));
@@ -119,8 +119,9 @@ namespace OWM.Application.Services
 
             if (completedMiles + miles > pledgedMiles)
             {
+                var completeLimit = pledgedMiles - completedMiles;
                 var failedException = new CompleteMilesFailedException(
-                    $"Cannot complete miles more than {pledgedMiles - completedMiles}.",
+                    $"Cannot complete miles more than {completeLimit.ToString("0.0")}.",
                     new InvalidEnumArgumentException(), null);
 
                 OnFailedToPledgeMiles(failedException);
@@ -196,6 +197,39 @@ namespace OWM.Application.Services
 
             return t.Select(x => $"{x.Name} from {x.CityName}, {x.CountryName} just pledged {x.Miles} miles")
                 .ToArray();
+        }
+
+        public async Task<CanEditMilesDto> CanEditMiles(int teamId, int profileId, float miles)
+        {
+            CanEditMilesDto result = new CanEditMilesDto();
+
+            //1. Pledged miles should not go below completed miles of member
+            //2. Pledged miles should not make team total miles go below 26.2
+
+            var pledgedMiles = await _teamService.GetMemberPledgedMiles(teamId, profileId);
+
+            if (pledgedMiles < miles || Math.Abs(pledgedMiles - miles) <= 0.001f)
+            {
+                result.CanEditMiles = true;
+                result.IsUnder26Miles = false;
+                result.IsUnderCompletedMiles = false;
+                return result;
+            }
+
+            var completedMiles = await _teamService.GetMemberCompletedMiles(teamId, profileId);
+            var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
+
+            //1
+            result.IsUnderCompletedMiles = completedMiles > miles;
+
+            //2
+            var difference = (pledgedMiles - miles);
+            var teamTotalMiles = teamPledgedMiles.Sum(x => x.Miles);
+            result.IsUnder26Miles = teamTotalMiles >= Constants.MarathonMiles && teamTotalMiles - difference < Constants.MarathonMiles;
+
+            result.CanEditMiles = !result.IsUnder26Miles && !result.IsUnderCompletedMiles;
+
+            return result;
         }
 
         public async Task<bool> CanPledgeMiles(int teamId, int profileId)

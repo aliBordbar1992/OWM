@@ -92,7 +92,7 @@
         <div class="row mt-3">
             <div class="col-12 text-center">
                 <button class="btn btn-success cancelc @hidePledge" type="button" id="pledged">
-                    <span class="fa fa-plus"></span> Pledged miles
+                    <span class="fa fa-edit"></span> Edit miles pledged
                 </button>
             </div>
             <div class="col-12 text-center">
@@ -106,7 +106,7 @@
 
 <div style="display: none" class="alert_list pledgeElements">
     <div class="x-small mb-1">Miles : </div>
-    <input class="form-control miles-pledged" type="number" step="0.1" />
+    <input class="form-control miles-pledged" type="number" step="0.1" value="@Model.MilesInformation.MyPledgedMiles"/>
     <div class="row mt-2">
         <div class="col-6">
             <button type="button" class="btn btn-sm btn-success btn-block" onclick="pledgeMiles()">

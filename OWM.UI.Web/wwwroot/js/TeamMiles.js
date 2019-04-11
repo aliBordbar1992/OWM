@@ -11,7 +11,7 @@ $(document).on('click', '.cancelp', function () {
 });
 
 $("#pledged").popover({
-    'title': 'Increase your miles pledged',
+    'title': 'Edit your pledged miles',
     'html': true,
     'placement': 'bottom',
     'content': $(".pledgeElements").html()
@@ -90,6 +90,7 @@ function updateProgressBar(e) {
     $('#teamprogress').css('width', e.teamCompletedMilesPercentage + '%').text(e.teamCompletedMiles + ' miles');
     $('#MilesUntilCanCompletePercentage').css('width', e.milesUntilCanCompletePercentage + '%').text(e.teamTotalMilesPledged + ' miles');
     $('#MyPledgedMiles').text(e.myPledgedMiles + ' miles');
+    $($('.miles-pledged')[1]).val(1);
     $('#TeamTotalMilesPledged').text(e.teamTotalMilesPledged + ' miles');
     $('#MilesUntilCanComplete').text(parseFloat(e.milesUntilCanComplete.toFixed(1)));
 }
