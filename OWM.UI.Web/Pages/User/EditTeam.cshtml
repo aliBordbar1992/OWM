@@ -15,9 +15,16 @@
         <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
     </div>
     <div class="col-md-5 text-right">
-        <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn btn-sm btn-success mt-3">
-            <span class="fa fa-envelope"></span> Invite a friend
-        </a>
+        <div>
+            <button class="btn-sm btn-danger" data-toggle="modal" data-target="#RemoveTeamModal" id="removeteam">
+                <span class="fa fa-trash"></span> Delete team
+            </button>
+        </div>
+        <div>
+            <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn btn-sm btn-success mt-1">
+                <span class="fa fa-envelope"></span> Invite a friend
+            </a>
+        </div>
     </div>
 </div>
 <hr class="mt-1" />
@@ -191,5 +198,22 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="RemoveTeamModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body small bg-light rounded-top">
+                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to delete your team?</p>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form method="post">
+                    <button type="submit" blockuser class="btn btn-danger">Delete team</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <input type="hidden" id="TeamId" value="@Model.TeamId" />
 <script src="~/js/EditTeam.js"></script>

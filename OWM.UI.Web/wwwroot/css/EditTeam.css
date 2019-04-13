@@ -49,6 +49,9 @@
     .col-md-5.text-right a {
         margin-top: 0 !important;
     }
+    #removeteam {
+        margin-bottom: 5px;
+    }
 }
 
 .switch {
