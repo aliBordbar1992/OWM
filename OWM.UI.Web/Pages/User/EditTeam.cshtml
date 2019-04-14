@@ -10,18 +10,18 @@
 <link href="~/css/EditTeam.css" rel="stylesheet" />
 
 <div class="row">
-    <div class="col-md-7">
+    <div class="col-sm-7">
         <h4 class="font-weight-bold">@Model.TeamInformation.TeamName</h4>
         <h6 class="x-small text-muted">Created on: @Model.TeamInformation.DateCreated.ToString(Application.Services.Utils.Constants.DateFormat_LongMonth)</h6>
     </div>
-    <div class="col-md-5 text-right">
-        <div>
-            <button class="btn-sm btn-danger" data-toggle="modal" data-target="#RemoveTeamModal" id="removeteam">
+    <div class="col-sm-5 text-right">
+        <div class="float-right">
+            <button class="btn-sm btn-danger mt-3 ml-2" data-toggle="modal" data-target="#RemoveTeamModal" id="removeteam">
                 <span class="fa fa-trash"></span> Delete team
             </button>
         </div>
-        <div>
-            <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn btn-sm btn-success mt-1">
+        <div class="float-right">
+            <a asp-page="/User/InviteMember" asp-route-teamid="@Model.TeamId" class="btn-sm btn-success mt-3" id="invitemember">
                 <span class="fa fa-envelope"></span> Invite a friend
             </a>
         </div>
@@ -203,14 +203,22 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body small bg-light rounded-top">
-                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to delete '@Model.TeamInformation.TeamName'?</p>
-                <p class="p-lg-5 font-weight-bold mb-0">You will permanently lose all the members and their progress.</p>
+                <p class="p-lg-4 font-weight-bold mb-0">
+                    Are you sure you want to delete '@Model.TeamInformation.TeamName'? <br><br>
+                    You will permanently lose all the members and their progress.
+                </p>
             </div>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-success" data-dismiss="modal">No, keep the team</button>
-                <form method="post">
-                    <button type="submit" asp-route-TeamId="@Model.TeamId" blockuser class="btn btn-primary">Yes, delete @Model.TeamInformation.TeamName</button>
-                </form>
+            <div class="bg-white p-3 border-top text-center">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-success btn-block" data-dismiss="modal" id="keeptheteam">No, keep the team</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <form method="post">
+                            <button type="submit" id="deleteteam" asp-route-TeamId="@Model.TeamId" blockuser class="btn btn-default btn-block">Yes, delete @Model.TeamInformation.TeamName</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

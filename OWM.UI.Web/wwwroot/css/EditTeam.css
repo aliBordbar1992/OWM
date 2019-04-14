@@ -49,8 +49,8 @@
     .col-md-5.text-right a {
         margin-top: 0 !important;
     }
-    #removeteam {
-        margin-bottom: 5px;
+    #removeteam, #invitemember, #deleteteam, #keeptheteam {
+        margin-top: 5px !important;
     }
 }
 
