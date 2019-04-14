@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace OWM.UI.Web.Pages.User
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class NewsFeedModel : PageModel
     {
         public void OnGet()

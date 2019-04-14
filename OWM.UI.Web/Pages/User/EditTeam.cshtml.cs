@@ -24,18 +24,12 @@ namespace OWM.UI.Web.Pages.User
             _teamManager = teamManager;
         }
 
-        public int TeamId { get; set; }
         public int ProfileId { get; set; }
+        [BindProperty(SupportsGet = true)] public int TeamId { get; set; }
         [BindProperty] public TeamInformationDto TeamInformation { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? teamid)
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (!teamid.HasValue)
-            {
-                return LocalRedirect("/User/Teams/List");
-            }
-
-            TeamId = teamid.Value;
             string identityId = _signInManager.UserManager.GetUserId(User);
             var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
 
@@ -46,6 +40,18 @@ namespace OWM.UI.Web.Pages.User
 
             TeamInformation = await _teamManager.GetTeamInformation(TeamId, true);
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            string identityId = _signInManager.UserManager.GetUserId(User);
+            var userInfo = await _userInformation.GetUserProfileInformationAsync(identityId);
+
+            if (!await CanEditTeam(userInfo.ProfileId))
+                return LocalRedirect("/Index");
+
+            await _teamManager.DeleteTeam(TeamId);
+            return LocalRedirect("/User/Teams/List");
         }
 
         private async Task<bool> CanEditTeam(int profileId)

@@ -38,5 +38,6 @@ namespace OWM.Application.Services.Interfaces
         Task<bool> TeamExists(int teamId);
         Task<bool> TeamExists(Guid teamGuid);
         Task<bool> IsBlockedMember(int teamId, int profileId);
+        Task DeleteTeam(int teamId);
     }
 }

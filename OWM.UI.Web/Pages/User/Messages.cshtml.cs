@@ -9,7 +9,7 @@ using OWM.Application.Services.Interfaces;
 
 namespace OWM.UI.Web.Pages.User
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class MessagesModel : PageModel
     {
         private readonly SignInManager<Domain.Entities.User> _signInManager;

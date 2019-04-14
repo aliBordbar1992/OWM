@@ -1,4 +1,4 @@
-﻿@page "/User/Teams/Edit/{teamid?}"
+﻿@page "/User/Teams/Edit/{Teamid?}"
 @model OWM.UI.Web.Pages.User.EditTeamModel
 @{
     ViewData["Title"] = "Edit team";
@@ -203,12 +203,13 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body small bg-light rounded-top">
-                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to delete your team?</p>
+                <p class="p-lg-5 font-weight-bold mb-0">Are you sure you want to delete '@Model.TeamInformation.TeamName'?</p>
+                <p class="p-lg-5 font-weight-bold mb-0">You will permanently lose all the members and their progress.</p>
             </div>
             <div class="modal-footer text-center">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal">No, keep the team</button>
                 <form method="post">
-                    <button type="submit" blockuser class="btn btn-danger">Delete team</button>
+                    <button type="submit" asp-route-TeamId="@Model.TeamId" blockuser class="btn btn-primary">Yes, delete @Model.TeamInformation.TeamName</button>
                 </form>
             </div>
         </div>

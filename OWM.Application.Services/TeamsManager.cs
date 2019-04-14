@@ -464,7 +464,6 @@ namespace OWM.Application.Services
             };
         }
 
-
         public async Task<bool> IsMemberOfTeam(int teamId, int profileId)
         {
             return await _teamService.Queryable()
@@ -527,6 +526,69 @@ namespace OWM.Application.Services
         }
 
 
+        public async Task DeleteTeam(int teamId)
+        {
+            var team = await _teamService.Queryable()
+                .FirstOrDefaultAsync(x => x.Id == teamId);
+
+            RemoveTeamOccupations(team.AllowedOccupations);
+            RemoveTeamPledgedMiles(team.PledgedMiles);
+            RemoveTeamMembers(team.Members);
+
+            RemoveMessages(team.Board.Messages);
+            _teamService.ApplyChanges(team);
+
+            RemoveBoardParticipants(team.Board.Participants);
+            _teamService.ApplyChanges(team);
+
+            team.Board.TrackingState = TrackingState.Deleted;
+            team.TrackingState = TrackingState.Deleted;
+
+            _teamService.ApplyChanges(team);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        private void RemoveBoardParticipants(ICollection<Participant> participants)
+        {
+            foreach (var participant in participants)
+            {
+                participant.TrackingState = TrackingState.Deleted;
+            }
+        }
+        private void RemoveMessages(ICollection<Message> boardMessages)
+        {
+            foreach (var message in boardMessages)
+            {
+                message.TrackingState = TrackingState.Deleted;
+            }
+        }
+        private void RemoveTeamMembers(ICollection<TeamMember> teamMembers)
+        {
+            foreach (var member in teamMembers)
+            {
+                member.TrackingState = TrackingState.Deleted;
+            }
+        }
+        private void RemoveTeamPledgedMiles(ICollection<MilesPledged> teamMiles)
+        {
+            foreach (var mile in teamMiles)
+            {
+                foreach (var completedMile in mile.CompletedMiles)
+                {
+                    completedMile.TrackingState = TrackingState.Deleted;
+                }
+
+                mile.TrackingState = TrackingState.Deleted;
+                _milesPledgedService.ApplyChanges(mile);
+            }
+        }
+        private void RemoveTeamOccupations(ICollection<TeamOccupations> occupations)
+        {
+            foreach (var occupation in occupations)
+            {
+                occupation.TrackingState = TrackingState.Deleted;
+            }
+        }
 
         #region Events
         protected virtual void OnTeamCreated(TeamCreatedArgs e) => TeamCreated?.Invoke(this, e);
