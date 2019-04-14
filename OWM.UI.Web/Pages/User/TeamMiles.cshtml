@@ -5,7 +5,6 @@
     ViewData["Title"] = "Miles";
     Layout = "Shared/UserLayout";
     string hideComplete = Model.MilesInformation.CanCompleteMiles ? "" : "hidden";
-    string hidePledge = Model.MilesInformation.CanPledgeMiles ? "" : "hidden";
     string hidePledgeToCompleteProgress = Model.MilesInformation.TeamTotalMilesPledged < Constants.MarathonMiles ? "" : "hidden";
 }
 

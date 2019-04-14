@@ -20,7 +20,7 @@ namespace OWM.Application.Services.Interfaces
         string[] GetRecentMilePledges(int take);
 
         Task<CanEditMilesDto> CanEditMiles(int teamId, int profileId, float miles);
-        Task<bool> CanPledgeMiles(int teamId, int profileId);
+        //Task<bool> CanPledgeMiles(int teamId, int profileId);
         Task<bool> CanCompleteMiles(int teamId, int profileId);
     }
 }

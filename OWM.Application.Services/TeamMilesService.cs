@@ -175,7 +175,6 @@ namespace OWM.Application.Services
                 MilesUntilCanComplete = Constants.MarathonMiles - myTeam.TotalMilesPledged,
                 MilesUntilCanCompletePercentage = Helper.GetPercentage(myTeam.TotalMilesPledged, Constants.MarathonMiles).ToString("0.0"),
 
-                CanPledgeMiles = await CanPledgeMiles(teamId, profileId),
                 CanCompleteMiles = await CanCompleteMiles(teamId, profileId),
             };
 
@@ -238,33 +237,6 @@ namespace OWM.Application.Services
                                    (!result.NoOtherMemberHaveCompletedMiles && !result.IsUnder26Miles));
 
             return result;
-        }
-
-        public async Task<bool> CanPledgeMiles(int teamId, int profileId)
-        {
-            ////can pledge miles if:
-            ////1. total miles pledged in team is under 26.22 miles
-            ////2. member completed miles are greater than or equals to his/her pledged miles
-            ////3. No completed miles added by any team member
-
-            ////1
-            //var teamPledgedMiles = await _teamService.GetTeamMilesPledged(teamId);
-            //bool notOver26Miles = teamPledgedMiles.Sum(x => x.Miles) < Constants.MarathonMiles;
-            //if (notOver26Miles) return true;
-            //else
-            //{
-            //    var teamCompletedMiles = _teamService.GetTeamMilesCompleted(teamId);
-            //    if (teamCompletedMiles.Sum(x => x.Miles) < 0.01f) return true;
-            //}
-
-            ////2
-            //var pledgedMiles = await _teamService.GetMemberPledgedMiles(teamId, profileId);
-            //var completedMiles = await _teamService.GetMemberCompletedMiles(teamId, profileId);
-            //var completed = completedMiles >= pledgedMiles;
-
-            //if (completed) return true;
-
-            return true;
         }
 
         public async Task<bool> CanCompleteMiles(int teamId, int profileId)
