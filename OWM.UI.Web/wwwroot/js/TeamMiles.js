@@ -72,12 +72,12 @@ function preventCompleteOrPledge(e) {
     }
     if (e.data.canCompleteMiles) {
         $('#complete').removeClass('hidden');
-        $('#pledged').addClass('hidden');
         $('.pledgeprogress').addClass('hidden');
-    }
-    if (e.data.canPledgeMiles) {
+    } else {
         $('#complete').addClass('hidden');
-        $('#pledged').removeClass('hidden');
+    }
+    if (!e.data.canCompleteMiles) {
+        $('.pledgeprogress').removeClass('hidden');
     }
     $('#complete').popover('hide');
     $('#pledged').popover('hide');

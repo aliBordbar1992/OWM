@@ -171,7 +171,7 @@ namespace OWM.UI.Web.Controllers
                 else
                 {
                     string message = canEditMiles.IsUnder26Miles
-                        ? $"Cannot edit pledged miles, because the team total miles goes below {Constants.MarathonMiles} miles."
+                        ? $"Cannot edit pledged miles, because the \n team total miles goes below {Constants.MarathonMiles} miles."
                         : "Pledged miles cannot be lesser than completed miles.";
                     return Json(new ApiResponse
                     {
